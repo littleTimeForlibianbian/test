@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.lixc.mapper.CodeMapper">
+    <resultMap id="BaseResultMap" type="com.example.lixc.entity.Code">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectCountByCode" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select used_num from sw_code sc
+        <where>
+            <if test="code !=null and code != ''">
+                and sc.code= #{code}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,12 @@
+2020-06-02 23:01:50.321 [INFO ] org.springframework.boot.StartupInfoLogger.logStarting[55 line] [] - Starting ModuleUserApplication on LAPTOP-V59QVVU2 with PID 13712 (D:\IdeaProjects\lixc\slowWarm\swparent\module_user\target\classes started by liyuan in D:\IdeaProjects\lixc\slowWarm\swparent)
+2020-06-02 23:01:50.331 [INFO ] org.springframework.boot.SpringApplication.logStartupProfileInfo[651 line] [] - No active profile set, falling back to default profiles: default
+2020-06-02 23:01:51.675 [INFO ] org.apache.juli.logging.DirectJDKLog.log[173 line] [] - Initializing ProtocolHandler ["http-nio-8080"]
+2020-06-02 23:01:51.675 [INFO ] org.apache.juli.logging.DirectJDKLog.log[173 line] [] - Starting service [Tomcat]
+2020-06-02 23:01:51.676 [INFO ] org.apache.juli.logging.DirectJDKLog.log[173 line] [] - Starting Servlet engine: [Apache Tomcat/9.0.35]
+2020-06-02 23:01:51.771 [INFO ] org.apache.juli.logging.DirectJDKLog.log[173 line] [] - Initializing Spring embedded WebApplicationContext
+2020-06-02 23:01:52.825 [INFO ] tk.mybatis.mapper.autoconfigure.MapperCacheDisabler.removeStaticCache[60 line] [] - Clear tk.mybatis.mapper.util.MsUtil CLASS_CACHE cache.
+2020-06-02 23:01:52.826 [INFO ] tk.mybatis.mapper.autoconfigure.MapperCacheDisabler.removeStaticCache[60 line] [] - Clear tk.mybatis.mapper.genid.GenIdUtil CACHE cache.
+2020-06-02 23:01:52.826 [INFO ] tk.mybatis.mapper.autoconfigure.MapperCacheDisabler.removeStaticCache[60 line] [] - Clear tk.mybatis.mapper.version.VersionUtil CACHE cache.
+2020-06-02 23:01:52.827 [INFO ] tk.mybatis.mapper.autoconfigure.MapperCacheDisabler.removeEntityHelperCache[83 line] [] - Clear EntityHelper entityTableMap cache.
+2020-06-02 23:01:53.035 [INFO ] org.apache.juli.logging.DirectJDKLog.log[173 line] [] - Starting ProtocolHandler ["http-nio-8080"]
+2020-06-02 23:01:53.065 [INFO ] org.springframework.boot.StartupInfoLogger.logStarted[61 line] [] - Started ModuleUserApplication in 3.449 seconds (JVM running for 4.946)

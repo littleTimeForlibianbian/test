@@ -1,0 +1,40 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: user
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    timeout: 6000
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/sw?useUnicode=true&characterEncoding=UTF-8&useSSL=false&nullNamePatternMatchesAll=true&autoReconnect=true&serverTimezone=GMT%2B8
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    default-enum-type-handler: com.example.lixc.enums.BaseEnumTypeHandler
+  mapper-locations: classpath*:mybatis/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  type-aliases-package: com.example.lixc.entity  # 注意：重点这是对应实体类的路径
+
+#pagehelper分页插件配置
+pagehelper:
+  helperDialect: mysql #分页数据源
+  reasonable: true #是否开启分页limit 默认不开启
+  #  rowBoundsWithCount: true
+  supportMethodsArguments: false #是否从多方数据源获取分页，有一个坑，当前端传入页数超过查询总页数，开启式会默认当前前端总页数为查询总页数到时发生异常，不建议开启
+  params: count=countSql #supportMethodsArguments 开启式手动配置的分页参数
+
+logging:
+  config: classpath:log4j2-spring.xml
+  level:
+    cn.jay.repository: trace
+
+sw:
+  code:
+    length: 9
+  redis:
+    expireTime: 10000

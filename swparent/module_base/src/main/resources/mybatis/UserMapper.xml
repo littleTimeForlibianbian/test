@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lixc.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.example.lixc.entity.User">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="position" jdbcType="VARCHAR" property="position"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="administrator" jdbcType="VARCHAR" property="administrator"/>
+        <result column="invitation_code" jdbcType="VARCHAR" property="invitationCode"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+    </resultMap>
+
+    <select id="existsWithPhone" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from sw_user su
+        <where>
+            <if test="phone != null and phone != ''">
+                and su.phone = #{phone}
+            </if>
+        </where>
+    </select>
+    <select id="existsWithEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from sw_user su
+        <where>
+            <if test="email != null and email != ''">
+                and su.phone = #{email}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByUserName" parameterType="com.example.lixc.entity.User" resultMap="BaseResultMap">
+        select * from sw_user su
+        <where>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="userName != null and userName != ''">
+                and (nickName = #{userName} or email = #{userName})
+            </if>
+        </where>
+    </select>
+</mapper>

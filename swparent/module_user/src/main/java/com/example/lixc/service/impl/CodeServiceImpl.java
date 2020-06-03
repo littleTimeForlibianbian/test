@@ -1,0 +1,52 @@
+package com.example.lixc.service.impl;
+
+import com.example.lixc.entity.Code;
+import com.example.lixc.mapper.CodeMapper;
+import com.example.lixc.service.ICodeService;
+import com.example.lixc.util.RedisContents;
+import com.example.lixc.util.RedisPoolUtil;
+import com.example.lixc.util.SysConfigUtil;
+import com.example.lixc.util.ToolsUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+
+/**
+ * @author lixc
+ * @Description
+ * @createTime 2020/6/1 14:53
+ */
+@Service
+public class CodeServiceImpl implements ICodeService {
+
+    @Autowired
+    private CodeMapper codeMapper;
+
+
+    @Value("${sw.code.length}")
+    private int length;
+
+    /**
+     * 生成邀请码
+     * 暂时不加缓存，以后有需要再加
+     *
+     * @return
+     */
+    public String genInvitationCode() {
+        String word = ToolsUtil.generateWord(0, length);
+        Code code = new Code();
+        code.setCode(word);
+        code.setUsedNum(0);
+        code.setCreateBy(SysConfigUtil.getLoginUserId());
+        code.setCreateTime(new Date());
+        //写库
+        codeMapper.insertSelective(code);
+        return word;
+    }
+
+    public int selectCountByCode(String code) {
+        return codeMapper.selectCountByCode(code);
+    }
+}

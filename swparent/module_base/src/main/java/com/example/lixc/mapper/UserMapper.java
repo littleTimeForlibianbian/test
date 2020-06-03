@@ -3,6 +3,8 @@ package com.example.lixc.mapper;
 import com.example.lixc.basemapper.SwBaseMapper;
 import com.example.lixc.entity.User;
 
+import java.util.List;
+
 /**
  * @author lixc
  * @Description
@@ -15,4 +17,6 @@ public interface UserMapper extends SwBaseMapper<User> {
     int existsWithEmail(String email);
 
     User selectByUserName(User user);
+
+    List<User> getAllUser();
 }

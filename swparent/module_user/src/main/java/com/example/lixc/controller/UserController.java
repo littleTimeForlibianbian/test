@@ -36,11 +36,18 @@ public class UserController {
 
     /**
      * 用戶登录接口
-     * @param user  登录对象
+     *
+     * @param user 登录对象
      * @return
      */
     @PostMapping("/Logon")
     public ResultJson Logon(User user) {
         return userService.Logon(user);
+    }
+
+
+    @RequestMapping("/getAllUser")
+    public ResultJson getAllUser() {
+        return userService.getAllUsers();
     }
 }

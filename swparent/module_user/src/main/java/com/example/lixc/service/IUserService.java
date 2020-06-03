@@ -17,4 +17,6 @@ public interface IUserService {
 //    ResultJson selectAllAdminUsers();
 
     ResultJson Logon(User user);
+
+    ResultJson getAllUsers();
 }

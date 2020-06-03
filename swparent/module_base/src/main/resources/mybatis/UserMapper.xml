@@ -50,4 +50,8 @@
             </if>
         </where>
     </select>
+
+    <select id="getAllUser" resultMap="BaseResultMap">
+        select * from sw_user
+    </select>
 </mapper>

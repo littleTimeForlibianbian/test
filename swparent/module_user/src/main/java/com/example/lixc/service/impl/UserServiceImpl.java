@@ -101,9 +101,14 @@ public class UserServiceImpl implements IUserService {
         if (userFormDB != null) {
             log.info("登录成功");
             //存 redis
-            RedisPoolUtil.set(RedisContents.USER_TOKEN+userFormDB.getUserName(), JSONObject.toJSONString(user),expireTime);
+            RedisPoolUtil.set(RedisContents.USER_TOKEN + userFormDB.getUserName(), JSONObject.toJSONString(user), expireTime);
         }
         return ResultJson.buildSuccess();
+    }
+
+    @Override
+    public ResultJson getAllUsers() {
+        return ResultJson.buildSuccess(userMapper.getAllUser());
     }
 
 }

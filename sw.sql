@@ -1,6 +1,6 @@
 -- 用户表
-drop table if EXISTS  `sw_user`;
-CREATE TABLE `sw_user` (
+drop table if EXISTS  `sys_user`;
+CREATE TABLE `sys_user` (
   `id` int(10) NOT NULL COMMENT '主键id',
   `role_id` int(10) NOT NULL COMMENT '角色id',
   `nick_name` varchar(255) NOT NULL COMMENT '昵称',
@@ -22,10 +22,12 @@ CREATE TABLE `sw_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- 初始化超级管理员
+INSERT INTO `sw`.`sys_user`(`id`, `role_id`, `nick_name`, `real_name`, `location`, `position`, `password`, `email`, `phone`, `status`, `city`, `administrator`, `invitation_code`, `last_login_time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1, 1, 'admin', 'admin', 'bj', 'bj', 'password', '11@11.com', '13292692986', 4, 'bj', 'Y', NULL, NULL, 0, '2020-06-03 21:59:06', NULL, NULL);
 
 -- 登录记录表
-drop table if EXISTS  `sw_login_record`;
-CREATE TABLE `sw_login_record` (
+drop table if EXISTS  `sys_login_record`;
+CREATE TABLE `sys_login_record` (
   `id` int(11) NOT NULL DEFAULT '0',
   `user_id` int(10) NOT NULL COMMENT '主键id',
   `nick_name`  varchar(255) NOT NULL COMMENT '昵称',
@@ -36,11 +38,9 @@ CREATE TABLE `sw_login_record` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
--- 初始化超级管理员
-insert into sw_user values (0,1,'admin','admin','11@11.com','13292692986',4,'北京',null,0,now(),null,null);
 -- 角色表
-drop table if EXISTS  `sw_role`;
-CREATE TABLE `sw_role` (
+drop table if EXISTS  `sys_role`;
+CREATE TABLE `sys_role` (
   `id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '角色名称',
   `role_description` varchar(255) DEFAULT NULL COMMENT '角色描述',
@@ -51,12 +51,12 @@ CREATE TABLE `sw_role` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-insert into sw_role values (1,'超级管理员','Y','系统初始化超级管理员',0,now(),null,null);
+insert into sys_role values (1,'超级管理员','系统初始化超级管理员',0,now(),null,null);
 
 
 -- 条款表
-drop table if EXISTS  `sw_policy`;
-CREATE TABLE `sw_policy` (
+drop table if EXISTS  `sys_policy`;
+CREATE TABLE `sys_policy` (
   `id` int(10) NOT NULL COMMENT '主键id',
   `type` varchar(10) NOT NULL COMMENT '条款类型 use:使用条款，private:隐私条款',
   `content` longtext NOT NULL COMMENT '条款内容',
@@ -68,8 +68,8 @@ CREATE TABLE `sw_policy` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 标签表
-drop table if EXISTS  `sw_tag`;
-CREATE TABLE `sw_tag` (
+drop table if EXISTS  `sys_tag`;
+CREATE TABLE `sys_tag` (
   `id` int(10) NOT NULL COMMENT '主键id',
   `type` varchar(10) NOT NULL COMMENT '标签分类：1,身份;2:年代，3：画风；4：品类',
   `content` longtext NOT NULL COMMENT '条款内容',
@@ -77,8 +77,8 @@ CREATE TABLE `sw_tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 邀请码表
-drop table if EXISTS  `sw_code`;
-CREATE TABLE `sw_code` (
+drop table if EXISTS  `sys_code`;
+CREATE TABLE `sys_code` (
   `id` int(10) NOT NULL COMMENT '主键id',
   `code` varchar(20) NOT NULL COMMENT '邀请码',
   `used_num` varchar(20) NOT NULL COMMENT '使用次数',
@@ -88,8 +88,8 @@ CREATE TABLE `sw_code` (
 
 
 -- 系统设置表
-drop table if EXISTS  `sw_sys_config`;
-CREATE TABLE `sw_sys_config` (
+drop table if EXISTS  `sys_config`;
+CREATE TABLE `sys_config` (
   `id` int(10) NOT NULL COMMENT '主键id',
   `invitation_code_open` varchar(20) NOT NULL COMMENT '是否开启邀请码',
   `invitation_code_expire` int(10)  NULL COMMENT '邀请码过期时间',
@@ -97,5 +97,5 @@ CREATE TABLE `sw_sys_config` (
   `update_time` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-insert into sw_sys_config values (0,'N',0,null,null);
+insert into sys_config values (0,'N',0,null,null);
 

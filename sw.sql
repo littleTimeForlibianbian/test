@@ -99,3 +99,30 @@ CREATE TABLE `sys_config` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 insert into sys_config values (0,'N',0,null,null);
 
+
+--  用户角色表
+drop table if EXISTS  `sys_user_role`;
+CREATE TABLE `sys_user_role` (
+  `id` int(10) NOT NULL COMMENT '主键id',
+  `user_id`  int(10)  NOT NULL COMMENT '用户id',
+  `role_id` int(10)  NOT NULL COMMENT '角色id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--  权限表
+drop table if EXISTS  `sys_privledge`;
+CREATE TABLE `sys_privledge` (
+  `id` int(10) NOT NULL COMMENT '主键id',
+  `name`  int(10)  NOT NULL COMMENT '权限名称',
+  `parent` int(10)  NOT NULL COMMENT '父级权限id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 角色权限表
+drop table if EXISTS  `sys_role_privledge`;
+CREATE TABLE `sys_role_privledge` (
+  `id` int(10) NOT NULL COMMENT '主键id',
+  `role_id`  int(10)  NOT NULL COMMENT '角色id',
+  `p_id` int(10)  NOT NULL COMMENT '权限id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -75,6 +75,8 @@ public class User {
 
     private Date updateTime;
 
+    private String role;
+
     /**
      * 上次登录时间
      */

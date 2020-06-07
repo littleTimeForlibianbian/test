@@ -7,11 +7,14 @@ import com.example.lixc.entity.User;
 import com.example.lixc.mapper.CodeMapper;
 import com.example.lixc.mapper.SysConfigMapper;
 import com.example.lixc.mapper.UserMapper;
+import com.example.lixc.service.IAsyncService;
+import com.example.lixc.service.IMailService;
 import com.example.lixc.service.IUserService;
 import com.example.lixc.util.RedisContents;
 import com.example.lixc.util.RedisPoolUtil;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.util.ToolsUtil;
+import io.netty.handler.codec.base64.Base64Encoder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Base64;
 import java.util.Date;
 
 /**
@@ -39,8 +43,15 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private SysConfigMapper sysConfigMapper;
 
+    @Autowired
+    private IAsyncService asyncService;
+
     @Value("${sw.redis.expireTime}")
     private long expireTime;
+    @Value("${sw.mail.subject}")
+    private String subject;
+    @Value("${sw.mail.content}")
+    private String content;
 
     /**
      * 注册用户
@@ -82,6 +93,10 @@ public class UserServiceImpl implements IUserService {
         }
         //添加用户
         userMapper.insertSelective(user);
+        //根据用户的id的base64值发送邮件，增加一个邮件记录表
+        String params = Base64.getEncoder().encodeToString(user.getNickName().getBytes());
+        String email_content = "";
+        asyncService.sendEmailAsync(user.getEmail(), subject, content);
         return ResultJson.buildSuccess();
     }
 

@@ -2,10 +2,13 @@ package com.example.lixc.vo.query;
 
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.util.ToolsUtil;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.persistence.Id;
 import java.util.Date;
 
 /**
@@ -15,28 +18,35 @@ import java.util.Date;
  */
 @Data
 @ToString
+@ApiModel(value = "用户参数类", description = "用户请求参数描述")
 public class UserQuery {
+    @Id
     private Integer id;
-
+    
+    @ApiModelProperty("用户名（邮箱）")
     private String userName;
     /**
      * 昵称 由最多8位中文、英文、下划线、数字组成
      */
+    @ApiModelProperty("昵称 由最多8位中文、英文、下划线、数字组成")
     private String nickName;
 
     /**
      * 由至少8位英文和数字组成
      */
+    @ApiModelProperty("密码 由至少8位英文和数字组成")
     private String password;
 
     /**
      * 验证邮箱格式、验证此邮箱是否注册过。
      */
+    @ApiModelProperty("邮箱")
     private String email;
 
     /**
      * 验证手机号格式
      */
+    @ApiModelProperty("手机号")
     private String phone;
 
     /**
@@ -66,8 +76,10 @@ public class UserQuery {
     /**
      * 用户注册所选城市
      */
+    @ApiModelProperty("用户注册所选城市")
     private String city;
 
+    @ApiModelProperty("邀请码")
     private String invitationCode;
 
     private Integer createBy;

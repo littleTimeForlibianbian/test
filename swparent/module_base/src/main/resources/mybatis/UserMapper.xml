@@ -12,9 +12,9 @@
         <result column="administrator" jdbcType="CHAR" property="administrator"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <association property="role" javaType="com.example.lixc.entity.Role">
-            <result property="id" column="id" />
-            <result property="name" column="name" />
-            <result property="roleDescription" column="role_description" />
+            <result property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="roleDescription" column="role_description"/>
         </association>
     </resultMap>
     <sql id="Base_Column_List">
@@ -80,4 +80,8 @@
             #{id}
         </foreach>
     </delete>
+
+    <select id="selectCountByRoleId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(1) from sys_user where role_id = #{roleId}
+     </select>
 </mapper>

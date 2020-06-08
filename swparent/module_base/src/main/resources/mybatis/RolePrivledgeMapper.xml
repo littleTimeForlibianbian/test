@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.lixc.mapper.RolePrivledgeMapper">
-    <resultMap id="BaseResultMap" type="com.example.lixc.entity.RolePrivledge">
+    <resultMap id="BaseResultMap" type="com.example.lixc.entity.RolePrivilege">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="role_id" jdbcType="INTEGER" property="roleId"/>
         <result column="p_id" jdbcType="INTEGER" property="pId"/>
@@ -11,7 +11,7 @@
     </sql>
     <delete id="deleteByRoleId" parameterType="java.lang.Integer">
         delete
-        from sys_role_privledge srp
-        where srp.role_id = #{roleId}
+        from sys_role_privledge
+        where role_id = #{roleId}
     </delete>
 </mapper>

@@ -3,6 +3,8 @@ package com.example.lixc.entity;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
@@ -10,7 +12,9 @@ import java.util.Date;
  */
 @Data
 @ToString
+@Table(name = "sys_login_record")
 public class LoginRecord {
+    @Id
     private int id;
     private int userId;
     private String nickName;

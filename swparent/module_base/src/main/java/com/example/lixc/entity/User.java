@@ -6,15 +6,17 @@ import lombok.Data;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Data
 @ToString
+@Table(name = "sys_user")
 public class User {
 
+    @Id
     private Integer id;
-
-    private String userName;
 
     private Integer roleId;
 
@@ -93,8 +95,6 @@ public class User {
     private Integer updateBy;
 
     private Date updateTime;
-
-    private String role;
 
     /**
      * 上次登录时间

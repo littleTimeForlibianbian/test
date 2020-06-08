@@ -26,4 +26,8 @@ public interface UserMapper extends SwBaseMapper<User> {
     List<AdminUserBack> selectAllAdminUsers(AdminUserQuery adminUserQuery);
 
     int delByIds(String[] ids);
+
+    int selectCountByRoleId(int roleId);
+
+
 }

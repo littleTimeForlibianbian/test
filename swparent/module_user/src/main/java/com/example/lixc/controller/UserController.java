@@ -3,6 +3,8 @@ package com.example.lixc.controller;
 import com.example.lixc.service.UserService;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.query.UserQuery;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Description 用户处理类
  * @createTime 2020/6/1 12:43
  */
+@Api("用户管理类")
 @RestController
 @RequestMapping("/user/normal")
 @Slf4j
@@ -30,6 +33,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/registerUser")
+    @ApiOperation("用户注册")
     public ResultJson registerUser(UserQuery user) {
         return userService.registerUser(user);
     }
@@ -40,7 +44,8 @@ public class UserController {
      * @param param 昵称base64
      * @return
      */
-    @RequestMapping("/activeRegister")
+    @PostMapping("/activeRegister")
+    @ApiOperation("用户注册-激活")
     public ResultJson activeRegister(String param) {
         return userService.activeRegister(param);
     }
@@ -52,6 +57,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/Logon")
+    @ApiOperation("用户登录")
     public ResultJson Logon(UserQuery userQuery) {
         return userService.Logon(userQuery);
     }

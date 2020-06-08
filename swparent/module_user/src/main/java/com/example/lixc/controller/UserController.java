@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api("用户管理类")
 @RestController
-@RequestMapping("/user/normal")
+@RequestMapping("/portal/user")
 @Slf4j
 public class UserController {
 

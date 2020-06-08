@@ -1,4 +1,4 @@
-package com.example.lixc.controller;
+package com.example.lixc.controller.web.adminManage;
 
 import com.example.lixc.service.UserService;
 import com.example.lixc.util.ResultJson;
@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api("后台管理员管理类")
 @RestController
-@RequestMapping("/user/manager/admin")
+@RequestMapping("/web/manager/admin")
 public class AdminController {
 
     @Autowired

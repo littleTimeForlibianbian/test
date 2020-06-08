@@ -13,6 +13,7 @@ import com.github.pagehelper.Page;
  * @createTime 2020/6/1 13:51
  */
 public interface UserService {
+    /*************portal start***********************/
 
     /**
      * 用户注册接口
@@ -38,8 +39,17 @@ public interface UserService {
      * @return ResultJson
      */
     ResultJson activeRegister(String param);
+    /*************portal end***********************/
 
-
+    /**
+     *
+     *
+     *
+     *
+     *
+     *
+     */
+    /*************web start***********************/
     /**
      * 获取所有的管理员用户
      *
@@ -90,4 +100,9 @@ public interface UserService {
     ResultJson delAdminUserBatch(String ids);
 
 
+
+
+
+
+    /*************web end***********************/
 }

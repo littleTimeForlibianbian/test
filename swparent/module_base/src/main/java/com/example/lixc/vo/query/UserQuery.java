@@ -1,5 +1,6 @@
 package com.example.lixc.vo.query;
 
+import com.example.lixc.common.PageParam;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.util.ToolsUtil;
 import io.swagger.annotations.ApiModel;
@@ -19,10 +20,10 @@ import java.util.Date;
 @Data
 @ToString
 @ApiModel(value = "用户参数类", description = "用户请求参数描述")
-public class UserQuery {
+public class UserQuery extends PageParam {
     @Id
     private Integer id;
-    
+
     @ApiModelProperty("用户名（邮箱）")
     private String userName;
     /**

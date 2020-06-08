@@ -1,6 +1,6 @@
 package com.example.lixc.controller;
 
-import com.example.lixc.service.ISysConfigService;
+import com.example.lixc.service.SysConfigService;
 import com.example.lixc.util.ResultJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SystemController {
 
     @Autowired
-    private ISysConfigService configService;
+    private SysConfigService configService;
 
     @RequestMapping("/getSysConfig")
     public ResultJson getSysConfig() {

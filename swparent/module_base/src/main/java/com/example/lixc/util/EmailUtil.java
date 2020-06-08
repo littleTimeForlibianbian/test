@@ -36,7 +36,7 @@ public class EmailUtil implements Serializable {
     /**
      * 默认不使用 html
      */
-    private boolean html = false;
+    private boolean html = true;
 
     /**
      * 发送地址，数组格式
@@ -98,9 +98,10 @@ public class EmailUtil implements Serializable {
     public void send() throws MessagingException {
         //加认证机制
         Properties javaMailProperties = new Properties();
+
         javaMailProperties.put("mail.smtp.auth", "true");
-        javaMailProperties.put("mail.smtp.starttls.enable", true);
-        javaMailProperties.put("mail.smtp.timeout", 20000);
+        javaMailProperties.put("mail.smtp.ssl.enable", "false");
+        javaMailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         mailSender.setJavaMailProperties(javaMailProperties);
         final MimeMessage mimeMessage = mailSender.createMimeMessage();
         final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true,
@@ -119,15 +120,31 @@ public class EmailUtil implements Serializable {
      * @throws MessagingException
      */
     public static void main(String[] args) throws MessagingException {
-
+        System.out.println("start sending email");
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setUsername("1193096107@qq.com");
-        mailSender.setPassword("chunge229813");
-        mailSender.setPort(587);
-        mailSender.setHost("mail.qq.com");
+        mailSender.setUsername("lixianchun2016x@163.com");
+        mailSender.setPassword("WWFMZSBCAKTIEIES");
+        mailSender.setPort(465);
+//        mailSender.setPort(994);
+//        mailSender.setPort(587);
+        mailSender.setHost("smtp.163.com");
 
-        String[] toEmail = new String[]{"li_xianchun@itrus.com.cn"};
-        EmailUtil emailUtil = new EmailUtil(mailSender, toEmail, "test", "test");
+        String[] toEmail = new String[]{"1193096107@qq.com"};
+        String content="<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "\t<body>\n" +
+                "\t\n" +
+                "\t\t\t\n" +
+                "\t\t\t\t<p class=\"text-center\">\n" +
+                "\t\t\t\t\t验证地址：<a href=\"\">w.jfiejhfienjvnrjne nfjeifjeiwdjwie.com/fjeidjwijeifjefsdwdwdmsd<</a>\n" +
+                "\t\t\t\t</p>\n" +
+                "\t\t\t\n" +
+                "\t\n" +
+                "\t</body>\n" +
+                "\n" +
+                "</html>\n";
+        EmailUtil emailUtil = new EmailUtil(mailSender, toEmail, "test", content);
         emailUtil.send();
+        System.out.println("end sending email");
     }
 }

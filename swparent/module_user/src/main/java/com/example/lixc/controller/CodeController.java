@@ -1,10 +1,8 @@
 package com.example.lixc.controller;
 
-import com.example.lixc.service.ICodeService;
-import com.example.lixc.util.ToolsUtil;
+import com.example.lixc.service.CodeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @createTime 2020/6/1 14:49
  */
 @RestController
-@RequestMapping("/code")
+@RequestMapping("/user/code")
 @Slf4j
 public class CodeController {
 
 
     @Autowired
-    private ICodeService codeService;
+    private CodeService codeService;
 
     /**
      * 生成邀请码

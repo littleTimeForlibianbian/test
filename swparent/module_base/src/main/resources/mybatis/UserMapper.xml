@@ -1,46 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.lixc.mapper.UserMapper">
-    <resultMap id="BaseResultMap" type="com.example.lixc.entity.User">
+    <resultMap id="AdminUserBackMap" type="com.example.lixc.vo.back.AdminUserBack">
         <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="role_id" jdbcType="INTEGER" property="roleId"/>
-        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
         <result column="real_name" jdbcType="VARCHAR" property="realName"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
         <result column="position" jdbcType="VARCHAR" property="position"/>
-        <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
-        <result column="city" jdbcType="VARCHAR" property="city"/>
-        <result column="administrator" jdbcType="VARCHAR" property="administrator"/>
-        <result column="invitation_code" jdbcType="VARCHAR" property="invitationCode"/>
-        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="administrator" jdbcType="CHAR" property="administrator"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
-        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+        <association property="role" javaType="com.example.lixc.entity.Role">
+            <result property="id" column="id" />
+            <result property="name" column="name" />
+            <result property="roleDescription" column="role_description" />
+        </association>
     </resultMap>
-
+    <sql id="Base_Column_List">
+        id, role_id, nick_name, real_name, location, position, password, email, phone, status,
+    enable, city, administrator, painter, invitation_code, create_by, create_time, update_by,
+    update_time, pwd_update_date, last_login_time, last_login_ip
+    </sql>
     <select id="existsWithPhone" parameterType="java.lang.String" resultType="java.lang.Integer">
-        select count(1) from sw_user su
+        select count(1) from sys_user su
         <where>
             <if test="phone != null and phone != ''">
                 and su.phone = #{phone}
             </if>
+            <if test="isManager != null and isManager != ''">
+                and su.administrator = #{isManager}
+            </if>
         </where>
     </select>
     <select id="existsWithEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
-        select count(1) from sw_user su
+        select count(1) from sys_user su
         <where>
             <if test="email != null and email != ''">
                 and su.phone = #{email}
             </if>
+            <if test="isManager != null and isManager != ''">
+                and su.administrator = #{isManager}
+            </if>
         </where>
     </select>
 
-    <select id="selectByUserName" parameterType="com.example.lixc.entity.User" resultMap="BaseResultMap">
-        select * from sw_user su
+    <select id="selectByUserName" parameterType="com.example.lixc.vo.query.UserQuery" resultType="java.lang.Integer">
+        select count(1) from sys_user su
         <where>
             <if test="password != null and password != ''">
                 and password = #{password}
@@ -50,8 +56,28 @@
             </if>
         </where>
     </select>
-
-    <select id="getAllUser" resultMap="BaseResultMap">
-        select * from sw_user
+    <select id="selectAllAdminUsers" parameterType="com.example.lixc.vo.query.AdminUserQuery"
+            resultMap="AdminUserBackMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user su where su.administrator = 'Y'
+        <where>
+            <if test="startTime != null  and startTime != ''">
+                and su.create_time >= #{startTime}
+            </if>
+            <if test="endTime != null  and endTime != ''">
+                and su.create_time >= #{endTime}
+            </if>
+            <if test="email != null  and email != ''">
+                and su.email = #{email}
+            </if>
+        </where>
     </select>
+    <delete id="delByIds">
+        delete
+        from sys_user where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

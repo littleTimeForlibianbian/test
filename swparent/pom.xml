@@ -18,8 +18,6 @@
 
     <modules>
         <module>module_base</module>
-        <module>module_user</module>
-        <module>module_sso</module>
         <module>zuul</module>
     </modules>
     <properties>
@@ -46,13 +44,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <!-- 切换log4j2日志读取 -->
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

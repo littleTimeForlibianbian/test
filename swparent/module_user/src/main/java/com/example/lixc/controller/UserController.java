@@ -1,8 +1,8 @@
 package com.example.lixc.controller;
 
-import com.example.lixc.entity.User;
-import com.example.lixc.service.IUserService;
+import com.example.lixc.service.UserService;
 import com.example.lixc.util.ResultJson;
+import com.example.lixc.vo.query.UserQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @createTime 2020/6/1 12:43
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/normal")
 @Slf4j
 public class UserController {
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
 
     /**
@@ -30,24 +30,31 @@ public class UserController {
      * @return
      */
     @PostMapping("/registerUser")
-    public ResultJson registerUser(User user) {
+    public ResultJson registerUser(UserQuery user) {
         return userService.registerUser(user);
+    }
+
+    /**
+     * 注册激活接口
+     *
+     * @param param 昵称base64
+     * @return
+     */
+    @RequestMapping("/activeRegister")
+    public ResultJson activeRegister(String param) {
+        return userService.activeRegister(param);
     }
 
     /**
      * 用戶登录接口
      *
-     * @param user 登录对象
+     * @param userQuery 登录对象
      * @return
      */
     @PostMapping("/Logon")
-    public ResultJson Logon(User user) {
-        return userService.Logon(user);
+    public ResultJson Logon(UserQuery userQuery) {
+        return userService.Logon(userQuery);
     }
 
 
-    @RequestMapping("/getAllUser")
-    public ResultJson getAllUser() {
-        return userService.getAllUsers();
-    }
 }

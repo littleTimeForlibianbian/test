@@ -4,14 +4,25 @@
     <resultMap id="BaseResultMap" type="com.example.lixc.entity.Role">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="is_super" jdbcType="CHAR" property="isSuper"/>
+        <result column="enable" jdbcType="CHAR" property="enable"/>
         <result column="role_description" jdbcType="VARCHAR" property="roleDescription"/>
         <result column="create_by" jdbcType="INTEGER" property="createBy"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
+    <resultMap id="roleBackMap" type="com.example.lixc.vo.back.RoleBack">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="enable" jdbcType="CHAR" property="enable"/>
+        <result column="role_description" jdbcType="VARCHAR" property="roleDescription"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <collection property="privilegeList" ofType="com.example.lixc.entity.Privilege">
+        </collection>
+    </resultMap>
     <sql id="Base_Column_List">
-    id, name, is_super, role_description, create_by, create_time, update_by, update_time
-  </sql>
+        id, `name`, `enable`, `role_description`, `create_by`, `create_time`, `update_by`, `update_time`
+    </sql>
+    <select id="selectForList" parameterType="com.example.lixc.vo.query.RoleQuery" resultMap="roleBackMap">
+    </select>
 </mapper>

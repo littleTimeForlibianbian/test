@@ -5,7 +5,7 @@ package com.example.lixc.service;
  * @Description
  * @createTime 2020/6/1 14:52
  */
-public interface ICodeService {
+public interface CodeService {
 
     /**
      * 生成邀请码

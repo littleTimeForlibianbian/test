@@ -2,15 +2,14 @@ package com.example.lixc.service.impl;
 
 import com.example.lixc.entity.Code;
 import com.example.lixc.mapper.CodeMapper;
-import com.example.lixc.service.ICodeService;
-import com.example.lixc.util.RedisContents;
-import com.example.lixc.util.RedisPoolUtil;
+import com.example.lixc.service.CodeService;
 import com.example.lixc.util.SysConfigUtil;
 import com.example.lixc.util.ToolsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -19,7 +18,7 @@ import java.util.Date;
  * @createTime 2020/6/1 14:53
  */
 @Service
-public class CodeServiceImpl implements ICodeService {
+public class CodeServiceImpl implements CodeService {
 
     @Autowired
     private CodeMapper codeMapper;

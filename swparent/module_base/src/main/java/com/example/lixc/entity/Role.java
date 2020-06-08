@@ -12,9 +12,9 @@ public class Role {
 
     private String name;
 
-    private String isSuper;
-
     private String roleDescription;
+
+    private String enable;
 
     private Integer createBy;
 

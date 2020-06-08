@@ -3,6 +3,7 @@ package com.example.lixc.service.impl;
 import com.example.lixc.entity.Code;
 import com.example.lixc.mapper.CodeMapper;
 import com.example.lixc.service.CodeService;
+import com.example.lixc.util.ResultJson;
 import com.example.lixc.util.SysConfigUtil;
 import com.example.lixc.util.ToolsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class CodeServiceImpl implements CodeService {
      *
      * @return
      */
-    public String genInvitationCode() {
+    public ResultJson genInvitationCode() {
         String word = ToolsUtil.generateWord(0, length);
         Code code = new Code();
         code.setCode(word);
@@ -42,7 +43,7 @@ public class CodeServiceImpl implements CodeService {
         code.setCreateTime(new Date());
         //写库
         codeMapper.insertSelective(code);
-        return word;
+        return ResultJson.buildSuccess(word);
     }
 
     public int selectCountByCode(String code) {

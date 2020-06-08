@@ -212,7 +212,7 @@ public class UserServiceImpl implements UserService {
             user.setPassword(adminUserQuery.getPassword());
             user.setEnable("Y");
             user.setRealName(adminUserQuery.getRealName());
-            user.setLastLoginIp(adminUserQuery.getLocation());
+            user.setLocation(adminUserQuery.getLocation());
             user.setPosition(adminUserQuery.getPosition());
             user.setCreateTime(new Date());
             user.setRoleId(adminUserQuery.getRoleId());

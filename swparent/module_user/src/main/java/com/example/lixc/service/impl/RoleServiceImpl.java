@@ -3,9 +3,7 @@ package com.example.lixc.service.impl;
 import com.example.lixc.entity.Role;
 import com.example.lixc.entity.RolePrivilege;
 import com.example.lixc.enums.BaseStatusEnum;
-import com.example.lixc.mapper.PrivilegeMapper;
-import com.example.lixc.mapper.RoleMapper;
-import com.example.lixc.mapper.RolePrivledgeMapper;
+import com.example.lixc.mapper.*;
 import com.example.lixc.service.RoleService;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.util.ToolsUtil;
@@ -31,6 +29,10 @@ import java.util.List;
 @Slf4j
 public class RoleServiceImpl implements RoleService {
 
+
+    @Autowired
+    private UserMapper userMapper;
+
     @Autowired
     private RoleMapper roleMapper;
 
@@ -52,23 +54,17 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultJson insert(RoleQuery roleQuery) {
-        try {
-            ResultJson verifyParams = roleQuery.checkParams();
-            if (!ToolsUtil.verifyParams(verifyParams)) {
-                return verifyParams;
-            }
-            Role role = new Role();
-            role.setCreateTime(new Date());
-            role.setEnable(BaseStatusEnum.STATUS_ENABLE.getCode());
-            role.setName(roleQuery.getName());
-            role.setRoleDescription(roleQuery.getRoleDescription());
-            roleMapper.insertUseGeneratedKeys(role);
-            handleRolePrivilege(roleQuery, role.getId());
-        } catch (Exception e) {
-            log.error("role  insert  exception：{}", e.getMessage());
-            e.printStackTrace();
-            return ResultJson.buildError("添加角色失败");
+        ResultJson verifyParams = roleQuery.checkParams();
+        if (!ToolsUtil.verifyParams(verifyParams)) {
+            return verifyParams;
         }
+        Role role = new Role();
+        role.setCreateTime(new Date());
+        role.setEnable(BaseStatusEnum.STATUS_ENABLE.getCode());
+        role.setName(roleQuery.getName());
+        role.setRoleDescription(roleQuery.getRoleDescription());
+        roleMapper.insertUseGeneratedKeys(role);
+        handleRolePrivilege(roleQuery, role.getId());
         return ResultJson.buildSuccess();
     }
 
@@ -91,26 +87,21 @@ public class RoleServiceImpl implements RoleService {
         if (!ToolsUtil.verifyParams(verifyParams)) {
             return verifyParams;
         }
-        try {
-            Role role = roleMapper.selectByPrimaryKey(roleQuery.getId());
-            if (role == null) {
-                return ResultJson.buildError("根据id查询到对象为空");
-            }
-            role.setRoleDescription(roleQuery.getRoleDescription());
-            role.setName(roleQuery.getName());
-            role.setUpdateTime(new Date());
-            roleMapper.updateByPrimaryKeySelective(role);
-            rolePrivledgeMapper.deleteByRoleId(roleQuery.getId());
-            handleRolePrivilege(roleQuery, role.getId());
-        } catch (Exception e) {
-            log.error("role  insert  exception：{}", e.getMessage());
-            e.printStackTrace();
-            return ResultJson.buildError("更新角色失败");
+        Role role = roleMapper.selectByPrimaryKey(roleQuery.getId());
+        if (role == null) {
+            return ResultJson.buildError("根据id查询到对象为空");
         }
-        return null;
+        role.setRoleDescription(roleQuery.getRoleDescription());
+        role.setName(roleQuery.getName());
+        role.setUpdateTime(new Date());
+        roleMapper.updateByPrimaryKeySelective(role);
+        rolePrivledgeMapper.deleteByRoleId(roleQuery.getId());
+        handleRolePrivilege(roleQuery, role.getId());
+        return ResultJson.buildSuccess();
     }
 
-    private void handleRolePrivilege(RoleQuery roleQuery, int role_id) {
+    @Transactional(rollbackFor = Exception.class)
+    public void handleRolePrivilege(RoleQuery roleQuery, int role_id) {
         String privilegeIds = roleQuery.getPrivilegeIds();
         String[] split = privilegeIds.split(",");
         List<RolePrivilege> rolePrivilegeList = new ArrayList<>();
@@ -129,13 +120,16 @@ public class RoleServiceImpl implements RoleService {
         if (roleQuery.getId() <= 0) {
             return ResultJson.buildError("传入对象id为空");
         }
-        try {
-            roleMapper.deleteByPrimaryKey(roleQuery.getId());
-        } catch (Exception e) {
-            log.error("删除角色异常:{}", e.getMessage());
-            e.printStackTrace();
-            return ResultJson.buildError("删除角色失败");
+        //删除角色
+        roleMapper.deleteByPrimaryKey(roleQuery.getId());
+        //查询角色是否正在被使用
+        if (userMapper.selectCountByRoleId(roleQuery.getId()) > 0) {
+            return ResultJson.buildError("该角色正在被使用，不能删除");
         }
+        //删除角色关联
+        RolePrivilege rolePrivilege = new RolePrivilege();
+        rolePrivilege.setRoleId(roleQuery.getId());
+        rolePrivledgeMapper.delete(rolePrivilege);
         return ResultJson.buildSuccess();
     }
 

@@ -1,5 +1,7 @@
 package com.example.lixc.service;
 
+import com.example.lixc.util.ResultJson;
+
 /**
  * @author lixc
  * @Description
@@ -12,7 +14,7 @@ public interface CodeService {
      *
      * @return 邀请码
      */
-    String genInvitationCode();
+    ResultJson genInvitationCode();
 
 
     /**

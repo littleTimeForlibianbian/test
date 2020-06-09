@@ -100,7 +100,7 @@ public class EmailUtil implements Serializable {
         Properties javaMailProperties = new Properties();
 
         javaMailProperties.put("mail.smtp.auth", "true");
-        javaMailProperties.put("mail.smtp.ssl.enable", "false");
+        javaMailProperties.put("mail.smtp.ssl.enable", "true");
         javaMailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         mailSender.setJavaMailProperties(javaMailProperties);
         final MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -125,24 +125,23 @@ public class EmailUtil implements Serializable {
         mailSender.setUsername("lixianchun2016x@163.com");
         mailSender.setPassword("WWFMZSBCAKTIEIES");
         mailSender.setPort(465);
-//        mailSender.setPort(994);
-//        mailSender.setPort(587);
         mailSender.setHost("smtp.163.com");
 
         String[] toEmail = new String[]{"1193096107@qq.com"};
-        String content="<!DOCTYPE html>\n" +
-                "<html>\n" +
-                "\t<body>\n" +
-                "\t\n" +
-                "\t\t\t\n" +
-                "\t\t\t\t<p class=\"text-center\">\n" +
-                "\t\t\t\t\t验证地址：<a href=\"\">w.jfiejhfienjvnrjne nfjeifjeiwdjwie.com/fjeidjwijeifjefsdwdwdmsd<</a>\n" +
-                "\t\t\t\t</p>\n" +
-                "\t\t\t\n" +
-                "\t\n" +
-                "\t</body>\n" +
-                "\n" +
-                "</html>\n";
+//        String content="<!DOCTYPE html>\n" +
+//                "<html>\n" +
+//                "\t<body>\n" +
+//                "\t\n" +
+//                "\t\t\t\n" +
+//                "\t\t\t\t<p class=\"text-center\">\n" +
+//                "\t\t\t\t\t验证地址：<a href=\"\">asdf<</a>\n" +
+//                "\t\t\t\t</p>\n" +
+//                "\t\t\t\n" +
+//                "\t\n" +
+//                "\t</body>\n" +
+//                "\n" +
+//                "</html>\n";
+        String content = "123";
         EmailUtil emailUtil = new EmailUtil(mailSender, toEmail, "test", content);
         emailUtil.send();
         System.out.println("end sending email");

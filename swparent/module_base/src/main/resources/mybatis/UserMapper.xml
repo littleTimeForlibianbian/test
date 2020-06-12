@@ -45,8 +45,11 @@
         </where>
     </select>
 
-    <select id="selectByUserName" parameterType="com.example.lixc.vo.query.UserQuery" resultType="java.lang.Integer">
-        select count(1) from sys_user su
+    <select id="selectByUserName" parameterType="com.example.lixc.vo.query.UserQuery"
+            resultType="com.example.lixc.entity.User">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user su
         <where>
             <if test="password != null and password != ''">
                 and password = #{password}
@@ -82,6 +85,8 @@
     </delete>
 
     <select id="selectCountByRoleId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        select count(1) from sys_user where role_id = #{roleId}
-     </select>
+        select count(1)
+        from sys_user
+        where role_id = #{roleId}
+    </select>
 </mapper>

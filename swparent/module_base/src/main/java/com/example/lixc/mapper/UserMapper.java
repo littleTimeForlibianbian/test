@@ -20,7 +20,7 @@ public interface UserMapper extends SwBaseMapper<User> {
     int existsWithEmail(String email, String isManager);
 
     //登录
-    int selectByUserName(UserQuery user);
+    User selectByUserName(UserQuery user);
 
 
     List<AdminUserBack> selectAllAdminUsers(AdminUserQuery adminUserQuery);

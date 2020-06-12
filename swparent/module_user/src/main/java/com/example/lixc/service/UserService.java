@@ -7,6 +7,8 @@ import com.example.lixc.vo.query.AdminUserQuery;
 import com.example.lixc.vo.query.UserQuery;
 import com.github.pagehelper.Page;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author lixc
  * @Description
@@ -29,7 +31,7 @@ public interface UserService {
      * @param userQuery 用户对象
      * @return ResultJson
      */
-    ResultJson Logon(UserQuery userQuery);
+    ResultJson Logon(UserQuery userQuery, HttpServletRequest request);
 
 
     /**
@@ -39,6 +41,17 @@ public interface UserService {
      * @return ResultJson
      */
     ResultJson activeRegister(String param);
+
+
+    /**
+     * 忘记密码
+     *
+     * @param userQuery
+     * @return
+     */
+    ResultJson resetPassword(UserQuery userQuery);
+
+
     /*************portal end***********************/
 
     /**
@@ -98,10 +111,6 @@ public interface UserService {
      * @return
      */
     ResultJson delAdminUserBatch(String ids);
-
-
-
-
 
 
     /*************web end***********************/

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api("后台管理员管理类")
 @RestController
-@RequestMapping("/web/manager/admin")
+@RequestMapping("/web/admin")
 public class AdminController {
 
     @Autowired

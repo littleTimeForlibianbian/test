@@ -1,20 +1,16 @@
 package com.example.lixc.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.lixc.entity.Code;
+import com.example.lixc.entity.LoginRecord;
 import com.example.lixc.entity.User;
 import com.example.lixc.entity.UserRole;
 import com.example.lixc.enums.UserStatusEnum;
-import com.example.lixc.mapper.CodeMapper;
-import com.example.lixc.mapper.SysConfigMapper;
-import com.example.lixc.mapper.UserMapper;
-import com.example.lixc.mapper.UserRoleMapper;
+import com.example.lixc.mapper.*;
 import com.example.lixc.service.IAsyncService;
 import com.example.lixc.service.UserService;
-import com.example.lixc.util.RedisContents;
-import com.example.lixc.util.RedisPoolUtil;
-import com.example.lixc.util.ResultJson;
-import com.example.lixc.util.ToolsUtil;
+import com.example.lixc.util.*;
 import com.example.lixc.vo.back.AdminUserBack;
 import com.example.lixc.vo.query.AdminUserQuery;
 import com.example.lixc.vo.query.UserQuery;
@@ -22,11 +18,13 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +40,10 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserMapper userMapper;
+
+
+    @Autowired
+    private LoginRecordMapper loginRecordMapper;
 
     @Resource
     private CodeMapper codeMapper;
@@ -128,21 +130,28 @@ public class UserServiceImpl implements UserService {
     /**
      * 用户登录
      *
-     * @param user 用户对象
+     * @param userQuery 用户对象
      * @return
      */
-    public ResultJson Logon(UserQuery user) {
-        if (StringUtils.isEmpty(user.getUserName())) {
+    public ResultJson Logon(UserQuery userQuery, HttpServletRequest request) {
+        if (StringUtils.isEmpty(userQuery.getUserName())) {
             return ResultJson.buildError("用户名为空");
         }
         //使用用户名和密码进行登录
-        int count = userMapper.selectByUserName(user);
-        if (count > 0) {
+        User user = userMapper.selectByUserName(userQuery);
+        if (user != null && user.getId() > 0) {
             log.info("登录成功");
-            RedisPoolUtil.set(RedisContents.USER_TOKEN + user.getUserName(), "login", expireTime);
+            RedisPoolUtil.set(RedisContents.USER_TOKEN + user.getId(), JSONObject.toJSONString(user), expireTime);
         } else {
             return ResultJson.buildError("用户名或者密码错误");
         }
+        //插入登录记录表
+        LoginRecord loginRecord = new LoginRecord();
+        loginRecord.setCreateTime(new Date());
+        loginRecord.setLoginIp(NetWorkUtil.getIpAddr(request));
+        loginRecord.setUserId(user.getId());
+        loginRecord.setUserName(StringUtils.isEmpty(user.getNickName()) ? user.getEmail() : user.getNickName());
+        loginRecordMapper.insertSelective(loginRecord);
         return ResultJson.buildSuccess();
     }
 
@@ -173,6 +182,28 @@ public class UserServiceImpl implements UserService {
             return ResultJson.buildError(e.getMessage());
         }
         return ResultJson.buildSuccess();
+    }
+
+
+    /**
+     * 重置密码
+     *
+     * @param userQuery
+     * @return
+     */
+    @Override
+    public ResultJson resetPassword(UserQuery userQuery) {
+        if (StringUtils.isEmpty(userQuery.getUserName())) {
+            return ResultJson.buildError("用户名为空");
+        }
+        User user = userMapper.selectByUserName(userQuery);
+        if (user == null) {
+            return ResultJson.buildError("用户【" + userQuery.getUserName() + "】不存在");
+        }
+        user.setPassword(userQuery.getPassword());
+        user.setUpdateTime(new Date());
+        userMapper.updateByPrimaryKeySelective(user);
+        return ResultJson.buildSuccess("重置密码成功");
     }
 
 
@@ -217,7 +248,7 @@ public class UserServiceImpl implements UserService {
             user.setCreateTime(new Date());
             user.setRoleId(adminUserQuery.getRoleId());
             userMapper.insertUseGeneratedKeys(user);
-            //增加记录表
+            //添加用户角色关联表
             UserRole userRole = new UserRole();
             userRole.setRoleId(adminUserQuery.getRoleId());
             userRole.setUserId(user.getId());
@@ -248,7 +279,12 @@ public class UserServiceImpl implements UserService {
         return ResultJson.buildSuccess(user);
     }
 
-
+    /**
+     * 更新管理员
+     *
+     * @param adminUserQuery
+     * @return
+     */
     @Override
     public ResultJson updateAdminUser(AdminUserQuery adminUserQuery) {
         try {

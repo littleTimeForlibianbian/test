@@ -17,7 +17,7 @@ public class LoginRecord {
     @Id
     private int id;
     private int userId;
-    private String nickName;
+    private String userName;
     private String loginIp;
     private String loginAreaCode;
     private Date createTime;

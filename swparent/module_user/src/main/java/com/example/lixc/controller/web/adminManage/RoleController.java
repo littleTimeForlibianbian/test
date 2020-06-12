@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @Api("角色管理类")
 @RestController
-@RequestMapping("/web/manager/role")
+@RequestMapping("/web/role")
 public class RoleController {
 
     @Autowired

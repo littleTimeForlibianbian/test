@@ -27,7 +27,7 @@ CREATE TABLE `sys_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 初始化超级管理员
-INSERT INTO `sw`.`sys_user`(`id`, `role_id`, `nick_name`, `real_name`, `location`, `position`, `password`, `email`, `phone`, `status`, `city`, `administrator`, `invitation_code`, `last_login_time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1, 1, 'admin', 'admin', 'bj', 'bj', 'password', '11@11.com', '13292692986', 4, 'bj', 'Y', NULL, NULL, 0, '2020-06-03 21:59:06', NULL, NULL);
+INSERT INTO `sys_user`(`id`, `role_id`, `nick_name`, `real_name`, `location`, `position`, `password`, `email`, `phone`, `status`, `city`, `administrator`, `invitation_code`, `last_login_time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1, 1, 'admin', 'admin', 'bj', 'bj', 'password', '11@11.com', '13292692986', 4, 'bj', 'Y', NULL, NULL, 0, '2020-06-03 21:59:06', NULL, NULL);
 
 -- 登录记录表
 drop table if EXISTS  `sys_login_record`;

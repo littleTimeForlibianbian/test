@@ -3,6 +3,7 @@ package com.example.lixc.mapper;
 import com.example.lixc.basemapper.SwBaseMapper;
 import com.example.lixc.entity.User;
 import com.example.lixc.vo.back.AdminUserBack;
+import com.example.lixc.vo.back.UserBack;
 import com.example.lixc.vo.query.AdminUserQuery;
 import com.example.lixc.vo.query.UserQuery;
 
@@ -20,7 +21,7 @@ public interface UserMapper extends SwBaseMapper<User> {
     int existsWithEmail(String email, String isManager);
 
     //登录
-    User selectByUserName(UserQuery user);
+    UserBack selectByUserName(UserQuery user);
 
 
     List<AdminUserBack> selectAllAdminUsers(AdminUserQuery adminUserQuery);

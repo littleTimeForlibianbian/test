@@ -46,7 +46,7 @@
     </select>
 
     <select id="selectByUserName" parameterType="com.example.lixc.vo.query.UserQuery"
-            resultType="com.example.lixc.entity.User">
+            resultType="com.example.lixc.vo.back.UserBack">
         select
         <include refid="Base_Column_List"/>
         from sys_user su

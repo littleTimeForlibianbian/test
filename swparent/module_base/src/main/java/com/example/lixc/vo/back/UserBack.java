@@ -1,10 +1,12 @@
 package com.example.lixc.vo.back;
 
+import com.example.lixc.entity.Role;
 import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author lixc
@@ -14,6 +16,7 @@ import java.util.Date;
 @Data
 @ToString
 public class UserBack implements Serializable {
+    private static final long serialVersionUID = -6810545859574328877L;
     private int id;
     private String nickName;
     private String email;
@@ -22,4 +25,7 @@ public class UserBack implements Serializable {
     private Date createTime;
     private Date lastLoginTime;
     private int enable;
+    private String password;
+    //role list
+    private List<Role> roleList;
 }

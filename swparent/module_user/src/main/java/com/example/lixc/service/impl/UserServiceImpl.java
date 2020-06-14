@@ -12,6 +12,7 @@ import com.example.lixc.service.IAsyncService;
 import com.example.lixc.service.UserService;
 import com.example.lixc.util.*;
 import com.example.lixc.vo.back.AdminUserBack;
+import com.example.lixc.vo.back.UserBack;
 import com.example.lixc.vo.query.AdminUserQuery;
 import com.example.lixc.vo.query.UserQuery;
 import com.github.pagehelper.Page;
@@ -137,8 +138,11 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isEmpty(userQuery.getUserName())) {
             return ResultJson.buildError("用户名为空");
         }
+        if (StringUtils.isEmpty(userQuery.getPassword())) {
+            return ResultJson.buildError("密码为空");
+        }
         //使用用户名和密码进行登录
-        User user = userMapper.selectByUserName(userQuery);
+        UserBack user = userMapper.selectByUserName(userQuery);
         if (user != null && user.getId() > 0) {
             log.info("登录成功");
             RedisPoolUtil.set(RedisContents.USER_TOKEN + user.getId(), JSONObject.toJSONString(user), expireTime);
@@ -192,14 +196,17 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
+    //TODO  先发送邮件 带有一个随机验证码的链接，点击链接跳转到页面，然后提交时将验证码和密码一起提交，后台校验 然后重置密码
     public ResultJson resetPassword(UserQuery userQuery) {
         if (StringUtils.isEmpty(userQuery.getUserName())) {
             return ResultJson.buildError("用户名为空");
         }
-        User user = userMapper.selectByUserName(userQuery);
-        if (user == null) {
+        UserBack userBack = userMapper.selectByUserName(userQuery);
+        if (userBack == null) {
             return ResultJson.buildError("用户【" + userQuery.getUserName() + "】不存在");
         }
+        User user = new User();
+        user.setId(userBack.getId());
         user.setPassword(userQuery.getPassword());
         user.setUpdateTime(new Date());
         userMapper.updateByPrimaryKeySelective(user);

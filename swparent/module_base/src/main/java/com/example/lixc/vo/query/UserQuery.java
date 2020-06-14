@@ -91,6 +91,8 @@ public class UserQuery extends PageParam {
 
     private Date updateTime;
 
+    private Integer rememberMe;
+
     /**
      * 上次登录时间
      */

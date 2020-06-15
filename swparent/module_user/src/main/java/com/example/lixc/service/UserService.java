@@ -42,9 +42,16 @@ public interface UserService {
      */
     ResultJson activeRegister(String param);
 
-
     /**
      * 忘记密码
+     *
+     * @return
+     */
+    ResultJson forgetPassword(String email);
+
+
+    /**
+     * 重置密码
      *
      * @param userQuery
      * @return

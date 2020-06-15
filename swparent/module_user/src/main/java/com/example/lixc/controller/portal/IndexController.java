@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api("首页管理类")
 @RestController
-@RequestMapping("/portal/user")
+@RequestMapping("/portal/index")
 @Slf4j
 public class IndexController {
 
@@ -18,7 +18,7 @@ public class IndexController {
     @ApiOperation("查询作品列表")
     @PostMapping("/workList")
     public ResultJson workList() {
-        //头部  根据是否登录 判断是否需要显示myWorld
+        //头部  根据是否登录 以及当前用户的是否画师审核成功  判断是否需要显示myWorld
 
 
         //列表  查询所有的作品列表
@@ -34,9 +34,11 @@ public class IndexController {
     }
 
 
-    /**
-     *  登录以后才会有以下功能
-     */
+    @ApiOperation("上传图片")
+    @PostMapping("/uploadImage")
+    public ResultJson uploadImage() {
+        return ResultJson.buildSuccess();
+    }
 
     //点赞功能
 
@@ -45,7 +47,5 @@ public class IndexController {
     //分享
 
     //评论
-
-    //编辑
 
 }

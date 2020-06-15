@@ -7,6 +7,9 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * 水印工具类
+ */
 public class ThumbUtil {
 
     public static File fromPicture = new File("C:\\Users\\86180\\Desktop\\test.png");

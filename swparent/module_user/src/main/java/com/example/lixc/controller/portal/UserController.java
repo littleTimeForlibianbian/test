@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api("用户管理类")
 @RestController
-@RequestMapping("/portal/user")
+@RequestMapping("/public/user")
 @Slf4j
 public class UserController {
 
@@ -46,6 +46,12 @@ public class UserController {
         }
 
     }
+
+    @PostMapping("/test")
+    public ResultJson test() {
+        return ResultJson.buildSuccess();
+    }
+
 
     /**
      * 注册激活接口
@@ -80,6 +86,24 @@ public class UserController {
             log.error("用户登录发生异常:{}", e.getMessage());
             e.printStackTrace();
             return ResultJson.buildError("用户登录发生异常");
+        }
+    }
+
+
+    /**
+     * 忘记密码接口
+     *
+     * @return
+     */
+    @PostMapping("/forgetPassword")
+    @ApiOperation("用户登录")
+    public ResultJson forgetPassword(String email) {
+        try {
+            return userService.forgetPassword(email);
+        } catch (Exception e) {
+            log.error("忘记密码发送邮件异常:{}", e.getMessage());
+            e.printStackTrace();
+            return ResultJson.buildError("忘记密码发送邮件异常");
         }
     }
 

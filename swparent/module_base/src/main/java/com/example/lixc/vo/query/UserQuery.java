@@ -93,6 +93,12 @@ public class UserQuery extends PageParam {
 
     private Integer rememberMe;
 
+    private Integer roleId;
+
+    //重置密码token
+    private String resetPasswordToken;
+
+
     /**
      * 上次登录时间
      */

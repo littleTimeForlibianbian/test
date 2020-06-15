@@ -33,7 +33,7 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         //获取请求的url
-        String requestUrl = ((FilterInvocation) object).getRequestUrl();
+            String requestUrl = ((FilterInvocation) object).getRequestUrl();
         System.out.println(requestUrl);
         //查询所有的权限
         List<PrivilegeBack> list = privilegeMapper.findAllPrivilege();

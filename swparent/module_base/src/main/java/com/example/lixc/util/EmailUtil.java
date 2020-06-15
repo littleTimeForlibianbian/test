@@ -36,7 +36,7 @@ public class EmailUtil implements Serializable {
     /**
      * 默认不使用 html
      */
-    private boolean html = true;
+    private boolean html = false;
 
     /**
      * 发送地址，数组格式
@@ -98,7 +98,6 @@ public class EmailUtil implements Serializable {
     public void send() throws MessagingException {
         //加认证机制
         Properties javaMailProperties = new Properties();
-
         javaMailProperties.put("mail.smtp.auth", "true");
         javaMailProperties.put("mail.smtp.ssl.enable", "true");
         javaMailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
@@ -127,7 +126,7 @@ public class EmailUtil implements Serializable {
         mailSender.setPort(465);
         mailSender.setHost("smtp.163.com");
 
-        String[] toEmail = new String[]{"1193096107@qq.com"};
+        String[] toEmail = new String[]{"liyuan2016x@163.com"};
 //        String content="<!DOCTYPE html>\n" +
 //                "<html>\n" +
 //                "\t<body>\n" +
@@ -141,7 +140,7 @@ public class EmailUtil implements Serializable {
 //                "\t</body>\n" +
 //                "\n" +
 //                "</html>\n";
-        String content = "123";
+        String content = "i  love  you  baby";
         EmailUtil emailUtil = new EmailUtil(mailSender, toEmail, "test", content);
         emailUtil.send();
         System.out.println("end sending email");

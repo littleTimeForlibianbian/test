@@ -2,6 +2,7 @@ package com.example.lixc.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.example.lixc.constants.RedisTimeConstant;
 import com.example.lixc.entity.Code;
 import com.example.lixc.entity.LoginRecord;
 import com.example.lixc.entity.User;
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author lixc
@@ -74,7 +76,7 @@ public class UserServiceImpl implements UserService {
     public ResultJson registerUser(UserQuery userQuery) {
         log.info("registerUser>>>输入参数：" + userQuery.toString());
         if (!ToolsUtil.verifyParams(userQuery.checkParams())) {
-            log.info("用户注册】输入参数错误", JSON.toJSONString(userQuery));
+            log.info("用户注册输入参数错误,参数为：{}", JSON.toJSONString(userQuery));
             return ResultJson.buildError("输入参数错误");
         }
         String isOpen = sysConfigMapper.selectAll().get(0).getInvitationCodeOpen();
@@ -83,7 +85,7 @@ public class UserServiceImpl implements UserService {
             code.setCode(userQuery.getInvitationCode());
             Code codeFromDB = codeMapper.selectByPrimaryKey(code);
             if (codeFromDB == null) {
-                log.info("根据【{}】查询到的数据为空");
+                log.info("根据{}查询到的数据为空", code);
                 return ResultJson.buildError("邀请码错误");
             }
             if (codeFromDB.getUsedNum() >= 10) {
@@ -104,7 +106,13 @@ public class UserServiceImpl implements UserService {
             return ResultJson.buildError("邮箱已经被注册");
         }
         //添加用户
-        userMapper.insertSelective(changeQueryToUser(userQuery));
+        User user = changeQueryToUser(userQuery);
+        userMapper.insertUseGeneratedKeys(user);
+        //添加用户角色表
+        UserRole userRole = new UserRole();
+        userRole.setUserId(user.getId());
+        userRole.setRoleId(userQuery.getRoleId());
+        userRoleMapper.insertSelective(userRole);
         //根据用户的id的base64值发送邮件，增加一个邮件记录表
         String params = Base64.getEncoder().encodeToString(userQuery.getNickName().getBytes());
         //TODO  创建邮件记录表 记录发送邮件具体信息
@@ -188,6 +196,31 @@ public class UserServiceImpl implements UserService {
         return ResultJson.buildSuccess();
     }
 
+    /**
+     * 忘记密码
+     *
+     * @param email 邮箱
+     * @return
+     */
+    public ResultJson forgetPassword(String email) {
+        if (StringUtils.isEmpty(email)) {
+            return ResultJson.buildError("邮箱参数为空");
+        }
+        UserQuery userQuery = new UserQuery();
+        userQuery.setUserName(email);
+        UserBack userBack = userMapper.selectByUserName(userQuery);
+        if (userBack == null) {
+            return ResultJson.buildError("用户不存在");
+        }
+        //发送邮件
+        //产生一个token
+        String token = "";
+        String suffix = "?email=" + email + "&reset_password_token=" + token;
+        //TODO 补充发送邮件参数或者  从DB获取邮件模板，进行填充
+        asyncService.sendEmailAsync(email, "忘记密码", "");
+        RedisPoolUtil.set(RedisTimeConstant.EMAIL_CODE_RANDOM + email, token, RedisTimeConstant.CACHE_5_MINUTE);
+        return ResultJson.buildSuccess();
+    }
 
     /**
      * 重置密码
@@ -196,14 +229,17 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    //TODO  先发送邮件 带有一个随机验证码的链接，点击链接跳转到页面，然后提交时将验证码和密码一起提交，后台校验 然后重置密码
     public ResultJson resetPassword(UserQuery userQuery) {
-        if (StringUtils.isEmpty(userQuery.getUserName())) {
-            return ResultJson.buildError("用户名为空");
+        if (StringUtils.isEmpty(userQuery.getEmail())) {
+            return ResultJson.buildError("邮箱为空");
+        }
+        String token = RedisPoolUtil.get(RedisTimeConstant.EMAIL_CODE_RANDOM + userQuery.getEmail());
+        if (StringUtils.isEmpty(token) || token.equals(userQuery.getResetPasswordToken())) {
+            return ResultJson.buildError("该链接已经失效,请尝试重新发送密码重置邮件");
         }
         UserBack userBack = userMapper.selectByUserName(userQuery);
         if (userBack == null) {
-            return ResultJson.buildError("用户【" + userQuery.getUserName() + "】不存在");
+            return ResultJson.buildError("用户【" + userQuery.getEmail() + "】不存在");
         }
         User user = new User();
         user.setId(userBack.getId());

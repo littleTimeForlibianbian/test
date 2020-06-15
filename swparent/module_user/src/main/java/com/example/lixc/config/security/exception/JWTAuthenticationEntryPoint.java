@@ -19,8 +19,8 @@ import java.util.Map;
  */
 public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
-    public void commence(HttpServletRequest req,
-                         HttpServletResponse rep,
+    public void commence(HttpServletRequest request,
+                         HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
 
 //        response.setCharacterEncoding("UTF-8");
@@ -28,8 +28,8 @@ public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
 //        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 //        String reason = "统一处理，原因：" + authException.getMessage();
 //        response.getWriter().write(new ObjectMapper().writeValueAsString(reason));
-        rep.setContentType("application/json;charset=UTF-8");
-        PrintWriter out = rep.getWriter();
+        response.setContentType("application/json;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         Map<String, String> result = new HashMap<>();
         result.put("status", "403");
         result.put("message", "权限不足");

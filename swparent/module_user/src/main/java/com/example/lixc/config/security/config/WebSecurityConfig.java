@@ -51,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .authorizeRequests()
+                .authorizeRequests()//所有请求 必须登录的开关
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O object) {
@@ -60,9 +60,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         return object;
                     }
                 })
-                .antMatchers(HttpMethod.DELETE, "/tasks/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/public1/**").hasRole("ADMIN")
                 // 测试用资源，需要验证了的用户才能访问
                 .antMatchers("/tasks/**").authenticated()
+                .antMatchers("/public/**").permitAll()
                 .anyRequest().permitAll()//其余放行
                 .and()
 //                .rememberMe()

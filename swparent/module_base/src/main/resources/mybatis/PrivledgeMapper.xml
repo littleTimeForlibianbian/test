@@ -18,6 +18,5 @@
         from sys_privledge sp left join sys_role_privledge srp on sp.id = srp.p_id
         left join sys_role sr on srp.role_id = sr.id
         where   sp.type = '2' and sr.enable='Y'
-
     </select>
 </mapper>

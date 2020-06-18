@@ -60,10 +60,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         return object;
                     }
                 })
-                .antMatchers(HttpMethod.DELETE, "/public1/**").hasRole("ADMIN")
-                // 测试用资源，需要验证了的用户才能访问
-                .antMatchers("/tasks/**").authenticated()
+                //增加路径匹配
                 .antMatchers("/public/**").permitAll()
+//                .antMatchers(HttpMethod.DELETE, "/public1/**").hasRole("ADMIN")
                 .anyRequest().permitAll()//其余放行
                 .and()
 //                .rememberMe()

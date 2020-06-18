@@ -48,6 +48,6 @@ sw:
     length: 9
   redis:
     expireTime: 10000
-  mail:
-    subject: 慢蜗社区注册认证邮件
-    content: <html> <body> <p class="text-center"> 验证地址：<a href="{}">{}<</a></p> </body></html>
+  work:
+    url:
+    thumbRatio: 0.2

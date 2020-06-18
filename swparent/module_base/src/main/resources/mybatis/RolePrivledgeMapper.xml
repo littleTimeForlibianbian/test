@@ -14,4 +14,11 @@
         from sys_role_privledge
         where role_id = #{roleId}
     </delete>
+    <select id="getRolesByPrivilegeId" resultType="com.example.lixc.entity.Role">
+        select * from sys_role sr ,sys_role_privledge srp where sr.id = srp.role_id
+        and sr.enable='Y'
+        <if test="privilegeId >0 ">
+            and srp.p_id = #{privilegeId}
+        </if>
+    </select>
 </mapper>

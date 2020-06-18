@@ -17,8 +17,6 @@ create table `sys_work`
     `status`        int(10)      NOT NULL COMMENT '审核状态',
     `is_delete`     char(1)      not null default 'N' comment '是否删除',
     `name`          varchar(255) not null comment '作品名称',
-    `url`           varchar(255) not null comment '作品存储路径',
-    `thumb_url`     varchar(255) not null comment '缩略图路径',
     `content`       varchar(255) null comment '作品内容/作品描述',
     `work_style`    varchar(255) not null comment '画风',
     `work_category` varchar(255) not null comment '品类',
@@ -32,6 +30,33 @@ create table `sys_work`
     PRIMARY KEY (`id`)
 ) engine = InnoDB
   default charset = utf8;
+-- 上传图片表
+drop table if exists `sys_image`;
+create table `sys_image`
+(
+    `id`          int(11)      not null auto_increment comment '主键id',
+    `name`        varchar(255) null comment '图片名称',
+    `url`         varchar(255) not null comment '图片存储路径',
+    `thumb_url`   varchar(255) not null comment '缩略图存储路径',
+    `create_time` datetime     NULL COMMENT '创建时间',
+    primary key (`id`)
+) Engine = InnoDB
+  default charset = utf8;
+
+-- 作品图片关联表
+drop table if exists `sys_work_image`;
+create table `sys_work_image`
+(
+    id         int(11) not null auto_increment comment '主键id',
+    `work_id`  int(11) not null comment '作品id',
+    `image_id` int(11) not null comment '图片id',
+    primary key (`id`)
+) Engine = InnoDB
+  default charset = utf8;
+
+
+
+
 
 --  点赞记录表/喜欢的作品
 drop table if exists `w_favorite`;
@@ -117,9 +142,9 @@ insert into sys_dict (`dict_key`, `dict_value`, `p_id`) value ('C_11', '速写',
 drop table if exists `sys_focus`;
 create table `sys_focus`
 (
-    id         int(11) AUTO_INCREMENT not null comment '主键id',
-    focus_id   int(11)                not null comment '关注人id',
-    focused_id int(11)                not null comment '被关注人id',
+    `id`       int(11) AUTO_INCREMENT not null comment '主键id',
+    `user_id`  int(11)                not null comment '关注人id',
+    `focus_id` int(11)                not null comment '被关注人id',
     primary key ('id')
 ) Engine = InnoDB
   DEFAULT CHARSET = utf8;

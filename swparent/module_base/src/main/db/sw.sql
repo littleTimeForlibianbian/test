@@ -142,8 +142,8 @@ CREATE TABLE `sys_privledge`
     `id`     int(10)      NOT NULL COMMENT '主键id',
     `name`   varchar(100) NOT NULL COMMENT '权限名称',
     `url`    varchar(100) NOT NULL COMMENT '权限路径',
-    `type`   int(1)       NOT NULL COMMENT '权限类型：1前台，2后台',
-    `parent` int(10)      NOT NULL COMMENT '父级权限id',
+    `type`   int(1)       NOT NULL default 2 COMMENT '权限类型：1前台，2后台',
+    `parent` int(10)      NULL COMMENT '父级权限id',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -173,26 +173,4 @@ create table `sys_user_attr`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
--- 上传图片表
-drop table if exists `sys_image`;
-create table `sys_image`
-(
-    `id`          int(11)      not null auto_increment comment '主键id',
-    `url`         varchar(255) not null comment '图片存储路径',
-    `thumb_url`   varchar(255) not null comment '缩略图存储路径',
-    `create_time` datetime     NULL COMMENT '创建时间',
-    primary key (`id`)
-) Engine = InnoDB
-  default charset = utf8;
-
--- 作品图片关联表
-drop table if exists `sys_work_image`;
-create table `sys_work_image`
-(
-    id         int(11) not null auto_increment comment '主键id',
-    `work_id`  int(11) not null comment '作品id',
-    `image_id` int(11) not null comment '图片id',
-    primary key (`id`)
-) Engine = InnoDB
-  default charset = utf8;
 

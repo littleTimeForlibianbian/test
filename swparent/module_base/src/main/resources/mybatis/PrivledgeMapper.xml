@@ -8,15 +8,24 @@
         <result column="type" jdbcType="INTEGER" property="type"/>
         <result column="parent" jdbcType="INTEGER" property="parent"/>
     </resultMap>
+    <resultMap id="backResultMap" type="com.example.lixc.vo.back.PrivilegeBack">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="parent" jdbcType="INTEGER" property="parent"/>
+        <!--{p_id = id}意味根据pid去查询关联表，后者为当前表id，前者为查询条件，不可颠倒-->
+        <collection property="roles" column="{p_id = id}"
+                    select="com.example.lixc.mapper.RolePrivledgeMapper.getRolesByPrivilegeId" fetchType="lazy"/>
+    </resultMap>
     <sql id="Base_Column_List">
         id, name, parent
     </sql>
 
     <!--查询权限表 以及权限所属角色-->
-    <select id="findAllPrivilege" resultType="com.example.lixc.vo.back.PrivilegeBack">
-        select sp.id, sp.name, sp.parent,sp.url,sr.id,sr.name
-        from sys_privledge sp left join sys_role_privledge srp on sp.id = srp.p_id
-        left join sys_role sr on srp.role_id = sr.id
-        where   sp.type = '2' and sr.enable='Y'
+    <!--    <select id="findAllPrivilege" resultType="com.example.lixc.vo.back.PrivilegeBack">-->
+    <select id="findAllPrivilege" resultMap="backResultMap">
+        select sp.id, sp.name, sp.parent, sp.url
+        from sys_privledge sp
     </select>
 </mapper>

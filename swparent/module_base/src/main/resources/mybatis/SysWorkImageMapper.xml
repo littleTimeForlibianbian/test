@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lixc.mapper.SysWorkImageMapper">
+    <resultMap id="BaseResultMap" type="com.example.lixc.entity.SysWorkImage">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="work_id" jdbcType="INTEGER" property="workId"/>
+        <result column="image_id" jdbcType="INTEGER" property="imageId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, work_id, image_id
+    </sql>
+
+    <select id="selectImagesByWorkId" parameterType="java.lang.Integer"
+            resultType="com.example.lixc.entity.SysImage">
+        select *
+        from sys_image si
+                 left join sys_work_image swi on si.id = swi.image_id
+        where swi.work_id = #{workId}
+    </select>
+</mapper>

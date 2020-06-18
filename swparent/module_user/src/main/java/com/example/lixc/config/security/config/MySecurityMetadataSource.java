@@ -33,12 +33,10 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         //获取请求的url
-            String requestUrl = ((FilterInvocation) object).getRequestUrl();
-        System.out.println(requestUrl);
+        String requestUrl = ((FilterInvocation) object).getRequestUrl();
         //查询所有的权限
         List<PrivilegeBack> list = privilegeMapper.findAllPrivilege();
         for (PrivilegeBack p : list) {
-            //TODO  调整sql编写
             if (antPathMatcher.match(p.getUrl(), requestUrl) && p.getRoles().size() > 0) {
                 int size = p.getRoles().size();
                 //定义一个数组，来接收能访问该资源的角色

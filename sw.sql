@@ -134,4 +134,13 @@ CREATE TABLE `sys_role_privledge` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- 用户属性表 用来存储用户选择的标签
 
+-- 字典表
+drop table if EXISTS  `sys_dict`;
+CREATE TABLE `sys_dict` (
+  `id` int(10) NOT NULL  AUTO_INCREMENT  COMMENT '主键id',
+  `role_id`  int(10)  NOT NULL COMMENT '角色id',
+  `p_id` int(10)  NOT NULL COMMENT '父级id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

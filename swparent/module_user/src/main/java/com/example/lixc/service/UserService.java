@@ -1,6 +1,5 @@
 package com.example.lixc.service;
 
-import com.example.lixc.entity.User;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.back.AdminUserBack;
 import com.example.lixc.vo.query.AdminUserQuery;

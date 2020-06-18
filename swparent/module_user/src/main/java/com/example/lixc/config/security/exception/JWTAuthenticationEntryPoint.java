@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  * @author lixc
- * @Description 没有携带token或者token无效 超时
+ * @Description 这里是认证权限入口 -> 即在未登录的情况下访问所有接口都会拦截到此（除了放行忽略接口
  * @createTime 2020/6/14 16:58
  */
 public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {

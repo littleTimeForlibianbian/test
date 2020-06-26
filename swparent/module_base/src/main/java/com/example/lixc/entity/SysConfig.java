@@ -22,4 +22,10 @@ public class SysConfig {
 
     private Date updateTime;
 
+
+    //作品上传（画风）最大允许标签数量
+    private Integer maxWorkStyleLabelCount;
+    //作品上传（品类）最大允许标签数量
+    private Integer maxWorkCategoryLabelCount;
+
 }

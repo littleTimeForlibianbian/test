@@ -65,6 +65,9 @@
         <include refid="Base_Column_List"/>
         from sys_user su where su.administrator = 'Y'
         <where>
+            <if test="id > 0 ">
+                and id = #{id}
+            </if>
             <if test="startTime != null  and startTime != ''">
                 and su.create_time >= #{startTime}
             </if>

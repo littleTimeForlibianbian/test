@@ -11,7 +11,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: root
+    password: lixc
     url: jdbc:mysql://localhost:3306/sw?useUnicode=true&characterEncoding=UTF-8&useSSL=false&nullNamePatternMatchesAll=true&autoReconnect=true&serverTimezone=GMT%2B8
   mail:
     host: smtp.163.com #发送邮件服务器
@@ -48,6 +48,9 @@ sw:
     length: 9
   redis:
     expireTime: 10000
+  mail:
+    subject: 慢蜗社区注册认证邮件
+    content: <html> <body> <p class="text-center"> 验证地址：<a href="{}">{}<</a></p> </body></html>
   work:
     url:
     thumbRatio: 0.2

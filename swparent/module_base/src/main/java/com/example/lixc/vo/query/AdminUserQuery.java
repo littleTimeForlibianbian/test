@@ -6,6 +6,7 @@ import com.example.lixc.util.ToolsUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
@@ -17,8 +18,10 @@ import java.util.Date;
  * @Description
  * @createTime 2020/6/7 15:56
  */
-@Data()
+
+@Data
 @ToString
+@EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "管理员参数类", description = "管理员请求参数描述")
 public class AdminUserQuery extends PageParam {
     private static final long serialVersionUID = 631833414854826192L;

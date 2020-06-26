@@ -58,6 +58,9 @@ public interface UserService {
     ResultJson resetPassword(UserQuery userQuery);
 
 
+    ResultJson isPainter();
+
+
     /*************portal end***********************/
 
     /**

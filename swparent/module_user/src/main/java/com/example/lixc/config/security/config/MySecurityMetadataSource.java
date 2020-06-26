@@ -1,7 +1,5 @@
 package com.example.lixc.config.security.config;
 
-import com.example.lixc.entity.Privilege;
-import com.example.lixc.entity.Role;
 import com.example.lixc.mapper.PrivilegeMapper;
 import com.example.lixc.vo.back.PrivilegeBack;
 import org.apache.shiro.util.AntPathMatcher;
@@ -49,6 +47,7 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
         }
         //如果遍历完menu之后没有匹配上，说名访问该资源不需要权限信息，设置一个登陆就能访问的角色
         return SecurityConfig.createList("ROLE_login");
+//        return null;
     }
 
     @Override

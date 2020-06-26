@@ -5,6 +5,7 @@ import com.example.lixc.util.ResultJson;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
  * @createTime 2020/6/7 22:55
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @ToString
 @ApiModel(value = "角色请求参数类", description = "角色请求参数描述")
 public class RoleQuery extends PageParam {

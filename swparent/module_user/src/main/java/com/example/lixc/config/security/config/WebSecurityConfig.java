@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -44,14 +45,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers("/public/**");
+    }
+
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .authorizeRequests()//所有请求 必须登录的开关
+        http.cors().and()
+                .csrf().disable()//禁用csrf
+                .antMatcher("/aa/**").authorizeRequests()//针对于此处请求的路径  匹配的采用下面的规则（withObjectPostProcessor）进行权限校验
+//                .antMatchers("/security/user/**").hasRole("ADMIN") //需要ADMIN角色才可以访问
+//                .antMatchers("/connect").hasIpAddress("127.0.0.1") //只有ip[127.0.0.1]可以访问'/connect'接口
+                //增加路径匹配
+//                .anyRequest().authenticated()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O object) {
@@ -60,14 +71,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         return object;
                     }
                 })
-                //增加路径匹配
-                .antMatchers("/public/**").permitAll()
 //                .antMatchers(HttpMethod.DELETE, "/public1/**").hasRole("ADMIN")
                 .anyRequest().permitAll()//其余放行
                 .and()
 //                .rememberMe()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+//                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+//                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 // 不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

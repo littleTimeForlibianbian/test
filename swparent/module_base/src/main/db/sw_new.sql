@@ -12,24 +12,47 @@ create table `sys_user_tag`
 drop table if exists `sys_work`;
 create table `sys_work`
 (
-    `id`            int(10)      NOT NULL AUTO_INCREMENT COMMENT '主键id',
-    `user_id`       int(10)      NOT NULL COMMENT '用户id',
-    `status`        int(10)      NOT NULL COMMENT '审核状态',
-    `is_delete`     char(1)      not null default 'N' comment '是否删除',
-    `name`          varchar(255) not null comment '作品名称',
-    `content`       varchar(255) null comment '作品内容/作品描述',
-    `work_style`    varchar(255) not null comment '画风',
-    `work_category` varchar(255) not null comment '品类',
-    `praise_num`    int(11)      NOT NULL DEFAULT 0 COMMENT '点赞数',
-    `comment_num`   int(11)      NOT NULL DEFAULT 0 COMMENT '评论数',
-    `create_by`     int(11)      NULL COMMENT '创建人',
-    `create_time`   datetime     NOT NULL DEFAULT now() COMMENT '创建时间',
-    `update_by`     int(11)               DEFAULT NULL COMMENT '更新人',
-    `update_time`   datetime              DEFAULT NULL COMMENT '更新时间',
+    `id`          int(11)      NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `user_id`     int(11)      NOT NULL COMMENT '作者id',
+    `status`      int(1)       NOT NULL COMMENT '审核状态',
+    `is_delete`   char(1)      not null default 'N' comment '是否删除',
+    `name`        varchar(255) not null comment '作品名称',
+    `content`     varchar(255) null comment '作品内容/作品描述',
+#     `work_style`    varchar(255) not null comment '画风',
+#     `work_category` varchar(255) not null comment '品类',
+    `praise_num`  int(11)      NOT NULL DEFAULT 0 COMMENT '点赞数',
+    `comment_num` int(11)      NOT NULL DEFAULT 0 COMMENT '评论数',
+    `create_by`   int(11)      NULL COMMENT '创建人',
+    `create_time` datetime     NOT NULL DEFAULT now() COMMENT '创建时间',
+    `update_by`   int(11)               DEFAULT NULL COMMENT '更新人',
+    `update_time` datetime              DEFAULT NULL COMMENT '更新时间',
 
     PRIMARY KEY (`id`)
 ) engine = InnoDB
   default charset = utf8;
+# 作品字典表
+drop table if exists `sys_work_dict`;
+create table `sys_work_dict`
+(
+    `id`      int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `work_id` int(11) NOT NULL COMMENT '作品id',
+    `dict_id` int(11) not null comment '字典id',
+    PRIMARY KEY (`id`)
+) engine = InnoDB comment '作品字典关联表'
+  default charset = utf8;
+
+
+# # 作品品类表
+# drop table if exists `sys_work_category`;
+# create table `sys_work_category`
+# (
+#     `id`      int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+#     `work_id` int(11) NOT NULL COMMENT '作品id',
+#     `dict_id` int(11) not null comment '画风品类的字典id'
+# ) engine = InnoDB
+#   default charset = utf8;
+
+
 -- 上传图片表
 drop table if exists `sys_image`;
 create table `sys_image`
@@ -53,9 +76,6 @@ create table `sys_work_image`
     primary key (`id`)
 ) Engine = InnoDB
   default charset = utf8;
-
-
-
 
 
 --  点赞记录表/喜欢的作品

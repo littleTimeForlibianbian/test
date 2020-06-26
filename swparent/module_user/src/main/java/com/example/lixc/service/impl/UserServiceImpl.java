@@ -2,6 +2,7 @@ package com.example.lixc.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.example.lixc.config.security.utils.SysConfigUtil;
 import com.example.lixc.constants.RedisTimeConstant;
 import com.example.lixc.entity.Code;
 import com.example.lixc.entity.LoginRecord;
@@ -247,6 +248,25 @@ public class UserServiceImpl implements UserService {
         user.setUpdateTime(new Date());
         userMapper.updateByPrimaryKeySelective(user);
         return ResultJson.buildSuccess("重置密码成功");
+    }
+
+    //TODO  userId 或者登录权限到底是维护再这里控制的还是说控制再security中？
+    @Override
+    public ResultJson isPainter() {
+        int loginUserId = -1;
+        try {
+            loginUserId = SysConfigUtil.getLoginUserId();
+        } catch (Exception e) {
+            log.error("获取当前用户异常：{}", e.getMessage());
+        }
+        if (loginUserId <= 0) {
+            return ResultJson.buildSuccess(false, "尚未认证画师");
+        }
+        User user = userMapper.selectByPrimaryKey(loginUserId);
+        if ("Y".equals(user.getPainter())) {
+            return ResultJson.buildSuccess(true, "已认证画师");
+        }
+        return ResultJson.buildSuccess(false, "尚未认证画师");
     }
 
 

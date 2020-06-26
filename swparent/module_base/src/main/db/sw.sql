@@ -115,13 +115,15 @@ CREATE TABLE `sys_config`
     `id`                     int(10)     NOT NULL COMMENT '主键id',
     `invitation_code_open`   varchar(20) NOT NULL COMMENT '是否开启邀请码',
     `invitation_code_expire` int(10)     NULL COMMENT '邀请码过期时间',
+    `max_work_style_label_count` int(10) NULL COMMENT '作品上传（画风）最大允许标签数量',
+    `max_work_category_label_count` int(10) NULL COMMENT '作品上传（品类）最大允许标签数量',
     `update_by`              int(11)  DEFAULT NULL COMMENT '最后更新人',
     `update_time`            datetime DEFAULT NULL COMMENT '最后更新时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 insert into sys_config
-values (0, 'N', 0, null, null);
+values (0, 'N', 0,3,2, null, null);
 
 
 --  用户角色表

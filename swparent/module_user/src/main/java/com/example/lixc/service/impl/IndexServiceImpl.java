@@ -1,11 +1,17 @@
 package com.example.lixc.service.impl;
 
+import com.example.lixc.config.security.utils.SysConfigUtil;
 import com.example.lixc.entity.SysImage;
-import com.example.lixc.mapper.SysImageMapper;
+import com.example.lixc.entity.SysWork;
+import com.example.lixc.entity.SysWorkDict;
+import com.example.lixc.entity.SysWorkImage;
+import com.example.lixc.enums.WorkStatusEnum;
+import com.example.lixc.mapper.*;
 import com.example.lixc.service.IndexService;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.util.ThumbUtil;
 import com.example.lixc.util.ToolsUtil;
+import com.example.lixc.vo.query.WorkQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.SimpleFormatter;
 
 @Service
 public class IndexServiceImpl implements IndexService {
@@ -25,6 +30,17 @@ public class IndexServiceImpl implements IndexService {
 
     @Autowired
     private SysImageMapper imageMapper;
+    @Autowired
+    private SysWorkMapper workMapper;
+
+    @Autowired
+    private SysWorkImageMapper workImageMapper;
+
+    @Autowired
+    private SysDictMapper dictMapper;
+
+    @Autowired
+    private SysWorkDictMapper workDictMapper;
 
     @Value("${sw.work.url}")
     private String url;
@@ -71,6 +87,80 @@ public class IndexServiceImpl implements IndexService {
             }
         }
         return ResultJson.buildSuccess(imageList, "图片上传成功");
+    }
+
+
+    @Override
+    public ResultJson uploadWork(WorkQuery workQuery) {
+        ResultJson resultJson = workQuery.checkBasicParams();
+        if (!ToolsUtil.verifyParams(resultJson)) {
+            return resultJson;
+        }
+        String styleLabelForAdd = workQuery.getStyleLabelForAdd();
+        String categoryLabelForAdd = workQuery.getCategoryLabelForAdd();
+        String[] split = styleLabelForAdd.split("-");
+        if (split.length > SysConfigUtil.selectMaxWorkStyleLabelCount()) {
+            return ResultJson.buildError("画风标签数量过多");
+        }
+        String[] split1 = categoryLabelForAdd.split("-");
+        if (split1.length > SysConfigUtil.selectMaxWorkCategoryLabelCount()) {
+            return ResultJson.buildError("品类标签数量过多");
+        }
+        SysWork work = new SysWork();
+        work.setContent(workQuery.getContent());
+        work.setIsDelete("N");
+        work.setName(workQuery.getName());
+        work.setUserId(SysConfigUtil.getLoginUserId());
+        work.setStatus(WorkStatusEnum.WORK_STATUS_WAIT.getCode());
+        work.setCreateBy(SysConfigUtil.getLoginUserId());
+        work.setCreateTime(new Date());
+        workMapper.insertUseGeneratedKeys(work);
+        int workId = work.getId();
+        //添加作品图片关联
+        String ids = workQuery.getImageIds();
+        List<SysWorkImage> list = new ArrayList<>();
+        for (String id : ids.split("-")) {
+            SysWorkImage workImage = new SysWorkImage();
+            workImage.setImageId(Integer.valueOf(id));
+            workImage.setWorkId(workId);
+            list.add(workImage);
+        }
+        workImageMapper.insertList(list);
+        //添加作品标签关联表
+        List<String> strings = Arrays.asList(split);
+        List<String> strings1 = Arrays.asList(split1);
+        strings.addAll(strings1);
+        List<SysWorkDict> workDicts = new ArrayList<>();
+        for (String str : strings) {
+            SysWorkDict workDict = new SysWorkDict();
+            workDict.setDictId(Integer.valueOf(str));
+            workDict.setWorkId(workId);
+            workDicts.add(workDict);
+        }
+        workDictMapper.insertList(workDicts);
+        return ResultJson.buildSuccess("上传作品成功");
+    }
+
+    @Override
+    public ResultJson selectAllWorkLabels() {
+        return ResultJson.buildSuccess(dictMapper.selectAll());
+    }
+
+    /**
+     * 查询首页的作品列表
+     * @param workQuery
+     * @param more
+     * @return
+     */
+    @Override
+    public ResultJson workList(WorkQuery workQuery, boolean more) {
+
+        return null;
+    }
+
+    @Override
+    public ResultJson workDetail(WorkQuery workQuery) {
+        return null;
     }
 
     /**

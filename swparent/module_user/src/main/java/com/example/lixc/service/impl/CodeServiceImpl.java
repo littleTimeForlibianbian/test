@@ -4,13 +4,12 @@ import com.example.lixc.entity.Code;
 import com.example.lixc.mapper.CodeMapper;
 import com.example.lixc.service.CodeService;
 import com.example.lixc.util.ResultJson;
-import com.example.lixc.util.SysConfigUtil;
+import com.example.lixc.config.security.utils.SysConfigUtil;
 import com.example.lixc.util.ToolsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Date;
 
 /**

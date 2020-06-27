@@ -1,24 +1,20 @@
 package com.example.lixc.vo.query;
 
-import com.example.lixc.entity.User;
+import com.example.lixc.common.PageData;
+import com.example.lixc.common.PageParam;
 import com.example.lixc.util.ResultJson;
-import com.example.lixc.vo.back.UserBack;
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-
-import java.util.List;
 
 @Data
 @ToString
-public class WorkQuery {
+public class WorkQuery extends PageParam {
 
     private int id;
 
+    //z作品所属用户id
     private int userId;
-
-    private UserBack userDetailBack;
     //图片id集合
     private String imageIds;
     //作品名称
@@ -27,6 +23,9 @@ public class WorkQuery {
     private String content;
     //要查询的标签
     private String label;
+
+    //作品上傳  true   身份認證 false
+    private Boolean isNormal;
 
     //画风标签列表  多个之间以-分割
     private String styleLabelForAdd;

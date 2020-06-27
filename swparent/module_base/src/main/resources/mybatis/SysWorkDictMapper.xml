@@ -9,4 +9,13 @@
     <sql id="Base_Column_List">
         id, work_id, dict_id
     </sql>
+    <select id="selectTagsByWork" resultType="com.example.lixc.entity.SysDict">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict sd ,sys_work_dict swd
+        where sd.id = swd.dict_id
+        <if test="workId >0 ">
+            and swd.work_id = #{workId}
+        </if>
+    </select>
 </mapper>

@@ -9,5 +9,13 @@
     <sql id="Base_Column_List">
         id, user_id, role_id
     </sql>
+    <select id="selectListByUserId" resultType="com.example.lixc.entity.Role">
+        select * from sys_role sr,sys_user_role sur where sr.id = sur.role_id
+        <where>
+            <if test="userId > 0">
+                and sur.user_id= #{userId}
+            </if>
+        </where>
+    </select>
 
 </mapper>

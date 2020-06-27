@@ -1,24 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.lixc.mapper.SysWorkMapper">
-  <resultMap id="BaseResultMap" type="com.example.lixc.entity.SysWork">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="is_delete" jdbcType="CHAR" property="isDelete" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="work_style" jdbcType="VARCHAR" property="workStyle" />
-    <result column="work_category" jdbcType="VARCHAR" property="workCategory" />
-    <result column="praise_num" jdbcType="INTEGER" property="praiseNum" />
-    <result column="comment_num" jdbcType="INTEGER" property="commentNum" />
-    <result column="create_by" jdbcType="INTEGER" property="createBy" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_by" jdbcType="INTEGER" property="updateBy" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, user_id, status, is_delete, name, content, work_style, work_category, praise_num, 
+    <resultMap id="BaseResultMap" type="com.example.lixc.entity.SysWork">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="is_delete" jdbcType="CHAR" property="isDelete"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="work_style" jdbcType="VARCHAR" property="workStyle"/>
+        <result column="work_category" jdbcType="VARCHAR" property="workCategory"/>
+        <result column="praise_num" jdbcType="INTEGER" property="praiseNum"/>
+        <result column="comment_num" jdbcType="INTEGER" property="commentNum"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="workBackMap" type="com.example.lixc.vo.back.WorkBack">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="is_delete" jdbcType="CHAR" property="isDelete"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="work_style" jdbcType="VARCHAR" property="workStyle"/>
+        <result column="work_category" jdbcType="VARCHAR" property="workCategory"/>
+        <result column="praise_num" jdbcType="INTEGER" property="praiseNum"/>
+        <result column="comment_num" jdbcType="INTEGER" property="commentNum"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <collection property="imageList" select="com.example.lixc.mapper.SysWorkImageMapper.selectImagesByWorkId"
+                    column="${work_id = id}" fetchType="lazy"/>
+        <collection property="tags" select="com.example.lixc.mapper.SysWorkDictMapper.selectTagsByWork"
+                    column="${work_id = id}" fetchType="lazy"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, status, is_delete, name, content, work_style, work_category, praise_num,
     comment_num, create_by, create_time, update_by, update_time
-  </sql>
+    </sql>
+    <select id="selectForList" resultMap="workBackMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_work
+        <where>
+            <if test="workQuery.userId > 0">
+                and user_id = #{workQuery.userId}
+            </if>
+            <if test="more == null or  more =='' or more == 'N'">
+                limit 10
+            </if>
+        </where>
+    </select>
+    <select id="selectById" resultMap="workBackMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_work sw
+        <where>
+            <if test="workId> 0">
+                and sw.id = #{workId}
+            </if>
+        </where>
+    </select>
 </mapper>

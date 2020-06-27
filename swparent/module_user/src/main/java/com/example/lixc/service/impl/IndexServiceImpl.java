@@ -1,17 +1,19 @@
 package com.example.lixc.service.impl;
 
 import com.example.lixc.config.security.utils.SysConfigUtil;
-import com.example.lixc.entity.SysImage;
-import com.example.lixc.entity.SysWork;
-import com.example.lixc.entity.SysWorkDict;
-import com.example.lixc.entity.SysWorkImage;
+import com.example.lixc.entity.*;
+import com.example.lixc.enums.UserStatusEnum;
 import com.example.lixc.enums.WorkStatusEnum;
 import com.example.lixc.mapper.*;
 import com.example.lixc.service.IndexService;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.util.ThumbUtil;
 import com.example.lixc.util.ToolsUtil;
+import com.example.lixc.vo.back.WorkBack;
 import com.example.lixc.vo.query.WorkQuery;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,8 +27,13 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
+@Slf4j
 public class IndexServiceImpl implements IndexService {
+    @Autowired
+    private UserMapper userMapper;
 
+    @Autowired
+    private UserAttrMapper userAttrMapper;
 
     @Autowired
     private SysImageMapper imageMapper;
@@ -35,6 +42,9 @@ public class IndexServiceImpl implements IndexService {
 
     @Autowired
     private SysWorkImageMapper workImageMapper;
+
+    @Autowired
+    private WFavoriteMapper wFavoriteMapper;
 
     @Autowired
     private SysDictMapper dictMapper;
@@ -92,6 +102,13 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public ResultJson uploadWork(WorkQuery workQuery) {
+        int loginUserId = SysConfigUtil.getLoginUserId();
+        User user = userMapper.selectByPrimaryKey(loginUserId);
+        if (user == null) {
+            log.error("用戶{}不存在", loginUserId);
+            return ResultJson.buildError("用戶不存在");
+        }
+
         ResultJson resultJson = workQuery.checkBasicParams();
         if (!ToolsUtil.verifyParams(resultJson)) {
             return resultJson;
@@ -128,6 +145,7 @@ public class IndexServiceImpl implements IndexService {
             list.add(workImage);
         }
         workImageMapper.insertList(list);
+        //处理标签
         //添加作品标签关联表
         List<String> strings = Arrays.asList(split);
         List<String> strings1 = Arrays.asList(split1);
@@ -140,6 +158,10 @@ public class IndexServiceImpl implements IndexService {
             workDicts.add(workDict);
         }
         workDictMapper.insertList(workDicts);
+        if (!workQuery.getIsNormal()) {
+            user.setStatus(UserStatusEnum.USER_STATUS_STEP1.getCode());
+            userMapper.updateByPrimaryKeySelective(user);
+        }
         return ResultJson.buildSuccess("上传作品成功");
     }
 
@@ -156,14 +178,85 @@ public class IndexServiceImpl implements IndexService {
      * @return
      */
     @Override
-    public ResultJson workList(WorkQuery workQuery, boolean more) {
-
-        return null;
+    public Page<WorkBack> workList(WorkQuery workQuery, String more) {
+        PageHelper.startPage(workQuery.getPageNo(), workQuery.getPageSize());
+        List<WorkBack> sysWorks = workMapper.selectForList(workQuery, more);
+        return (Page<WorkBack>) sysWorks;
     }
 
     @Override
     public ResultJson workDetail(WorkQuery workQuery) {
-        return null;
+        Map<String, Object> map = new HashMap<>();
+        int workId = workQuery.getId();
+        if (workId <= 0) {
+            return ResultJson.buildError("传入id为空");
+        }
+        WorkBack sysWorkBack = workMapper.selectById(workId);
+        if (sysWorkBack == null) {
+            return ResultJson.buildError("查询作品详情失败，查询结果为空");
+        }
+        int userId = SysConfigUtil.getLoginUserId();
+        //查询是否是喜欢此作品
+        int count = wFavoriteMapper.selectCountByWorkId(userId, workId);
+        sysWorkBack.setIsLike(count > 0);
+        map.put("workBack", sysWorkBack);
+        //查询该作者的其余作品
+        Integer authorId = sysWorkBack.getUserId();
+        WorkQuery query = new WorkQuery();
+        query.setUserId(authorId);
+        List<WorkBack> others = workMapper.selectForList(query, "Y");
+        map.put("other", others);
+        return ResultJson.buildSuccess(map);
+    }
+
+    @Override
+    public ResultJson createHistory(String content) {
+        //获取当前登录的用户
+        int loginUserId = SysConfigUtil.getLoginUserId();
+        User user = userMapper.selectByPrimaryKey(loginUserId);
+        if (user == null) {
+            log.error("用戶{}不存在", loginUserId);
+            return ResultJson.buildError("用戶不存在");
+        }
+        UserAttr userAttr = userAttrMapper.selectByUserId(loginUserId);
+        if (userAttr == null) {
+            UserAttr attr = new UserAttr();
+            attr.setUserId(loginUserId);
+            attr.setCreateTime(new Date());
+            attr.setUHistory(content);
+            userAttrMapper.insertSelective(attr);
+        } else {
+            userAttr.setUHistory(content);
+            userAttrMapper.updateByPrimaryKey(userAttr);
+        }
+        user.setStatus(UserStatusEnum.USER_STATUS_STEP2.getCode());
+        userMapper.updateByPrimaryKey(user);
+        return ResultJson.buildSuccess("创作过往填写成功");
+    }
+
+    @Override
+    public ResultJson addWebsite(String website) {
+        //获取当前登录的用户
+        int loginUserId = SysConfigUtil.getLoginUserId();
+        User user = userMapper.selectByPrimaryKey(loginUserId);
+        if (user == null) {
+            log.error("用戶{}不存在", loginUserId);
+            return ResultJson.buildError("用戶不存在");
+        }
+        UserAttr userAttr = userAttrMapper.selectByUserId(loginUserId);
+        if (userAttr == null) {
+            UserAttr attr = new UserAttr();
+            attr.setUserId(loginUserId);
+            attr.setCreateTime(new Date());
+            attr.setWebsite(website);
+            userAttrMapper.insertSelective(attr);
+        } else {
+            userAttr.setWebsite(website);
+            userAttrMapper.updateByPrimaryKey(userAttr);
+        }
+        user.setStatus(UserStatusEnum.USER_STATUS_STEP3.getCode());
+        userMapper.updateByPrimaryKey(user);
+        return ResultJson.buildSuccess("常用网站填写成功");
     }
 
     /**

@@ -2,7 +2,9 @@ package com.example.lixc.controller.portal;
 
 import com.example.lixc.service.IndexService;
 import com.example.lixc.util.ResultJson;
+import com.example.lixc.vo.back.WorkBack;
 import com.example.lixc.vo.query.WorkQuery;
+import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -19,15 +21,15 @@ public class IndexController {
     @Autowired
     private IndexService indexService;
 
-    //查询作品列表
+    //查询作品列表  按照时间进行倒叙排序
     @ApiOperation("查询作品列表")
-    @PostMapping("/workList/")
-    public ResultJson workList(@RequestBody WorkQuery query, @RequestParam("more") boolean more) {
+    @PostMapping("/workList/{more}")
+    public Page<WorkBack> workList(@RequestBody WorkQuery query, @PathVariable("more") String more) {
         try {
             return indexService.workList(query, more);
         } catch (Exception e) {
             log.error("workList exception:{}", e.getMessage());
-            return ResultJson.buildError("获取作品标签发生异常");
+            return new Page<>();
         }
     }
 
@@ -68,6 +70,18 @@ public class IndexController {
     @PostMapping("/uploadWork")
     public ResultJson uploadWork(WorkQuery workQuery) {
         return indexService.uploadWork(workQuery);
+    }
+
+    @ApiOperation("创作过往")
+    @PostMapping("/createHistory")
+    public ResultJson createHistory(String content) {
+        return indexService.createHistory(content);
+    }
+
+    @ApiOperation("常用网站")
+    @PostMapping("/createHistory")
+    public ResultJson addWebsite(String website) {
+        return indexService.addWebsite(website);
     }
 
 

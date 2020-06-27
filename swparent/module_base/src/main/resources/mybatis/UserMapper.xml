@@ -17,6 +17,15 @@
             <result property="roleDescription" column="role_description"/>
         </association>
     </resultMap>
+    <resultMap id="UserBackMap" type="com.example.lixc.vo.back.UserBack">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <collection property="roleList" select="com.example.lixc.mapper.UserRoleMapper.selectListByUserId"
+                    column="${user_id = id}" fetchType="lazy"/>
+    </resultMap>
     <sql id="Base_Column_List">
         id, role_id, nick_name, real_name, location, position, password, email, phone, status,
     enable, city, administrator, painter, invitation_code, create_by, create_time, update_by,
@@ -46,7 +55,7 @@
     </select>
 
     <select id="selectByUserName" parameterType="com.example.lixc.vo.query.UserQuery"
-            resultType="com.example.lixc.vo.back.UserBack">
+            resultMap="UserBackMap">
         select
         <include refid="Base_Column_List"/>
         from sys_user su

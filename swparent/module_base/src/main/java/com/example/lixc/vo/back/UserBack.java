@@ -26,6 +26,5 @@ public class UserBack implements Serializable {
     private Date lastLoginTime;
     private int enable;
     private String password;
-    //role list
-    private List<Role> roleList;
+
 }

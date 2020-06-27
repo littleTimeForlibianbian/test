@@ -21,4 +21,11 @@
             and srp.p_id = #{privilegeId}
         </if>
     </select>
+
+    <select id="getPrivilegesByRoleId" resultType="com.example.lixc.entity.Privilege">
+        select * from sys_privledge sp ,sys_role_privledge srp where sp.id = srp.p_id
+        <if test="roleId >0 ">
+            and srp.p_id = #{roleId}
+        </if>
+    </select>
 </mapper>

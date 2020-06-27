@@ -5,17 +5,13 @@ import lombok.ToString;
 
 import javax.persistence.Table;
 
-
 @Data
 @ToString
-@Table(name = "sys_dict")
-public class SysDict {
+@Table(name = "sys_work_dict")
+public class SysWorkDict {
     private Integer id;
 
-    private String dictKey;
+    private Integer workId;
 
-    private String dictValue;
-
-    private Integer pId;
-
+    private Integer dictId;
 }

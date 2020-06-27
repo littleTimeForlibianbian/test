@@ -7,9 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,9 +45,9 @@ public class UserController {
 
     }
 
-    @PostMapping("/test")
+    @GetMapping("/test")
     public ResultJson test() {
-        return ResultJson.buildSuccess();
+        return ResultJson.buildSuccess("1234");
     }
 
 
@@ -79,7 +77,7 @@ public class UserController {
      */
     @PostMapping("/Logon")
     @ApiOperation("用户登录")
-    public ResultJson Logon(UserQuery userQuery, HttpServletRequest request) {
+    public ResultJson Logon(@RequestBody UserQuery userQuery, HttpServletRequest request) {
         try {
             return userService.Logon(userQuery, request);
         } catch (Exception e) {
@@ -120,8 +118,22 @@ public class UserController {
         }
     }
 
-
-
+    /**
+     * 查询当前用户是否是画师，只有画师才能看到myWorld
+     *
+     * @return
+     */
+    @PostMapping("/isPainter")
+    @ApiOperation("是否是画师")
+    public ResultJson isPainter() {
+        try {
+            return userService.isPainter();
+        } catch (Exception e) {
+            log.error("重置密码发生异常:{}", e.getMessage());
+            e.printStackTrace();
+            return ResultJson.buildError("重置密码发生异常");
+        }
+    }
 
 
 }

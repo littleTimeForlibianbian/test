@@ -16,5 +16,4 @@ public class Privilege {
     private String url;
     private Integer type;
     private Integer parent;
-    //存储所属角色
 }

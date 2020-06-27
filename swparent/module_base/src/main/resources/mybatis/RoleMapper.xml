@@ -17,12 +17,24 @@
         <result column="enable" jdbcType="CHAR" property="enable"/>
         <result column="role_description" jdbcType="VARCHAR" property="roleDescription"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <collection property="privilegeList" ofType="com.example.lixc.entity.Privilege">
+        <collection property="privilegeList" select="com.example.lixc.mapper.RolePrivledgeMapper.getPrivilegesByRoleId"
+                    column="{role_id = id}" fetchType="lazy">
         </collection>
     </resultMap>
     <sql id="Base_Column_List">
         id, `name`, `enable`, `role_description`, `create_by`, `create_time`, `update_by`, `update_time`
     </sql>
+    <!--    查询所有的角色列表，其中包含每个角色对应的权限集合-->
     <select id="selectForList" parameterType="com.example.lixc.vo.query.RoleQuery" resultMap="roleBackMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role sr where sr.enable='Y'
+        <if test="startTime != null and startTime != ''">
+            and sr.create_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and sr.create_time &lt;= #{endTime}
+        </if>
+
     </select>
 </mapper>

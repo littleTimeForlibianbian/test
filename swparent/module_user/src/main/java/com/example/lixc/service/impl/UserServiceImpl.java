@@ -250,7 +250,6 @@ public class UserServiceImpl implements UserService {
         return ResultJson.buildSuccess("重置密码成功");
     }
 
-    //TODO  userId 或者登录权限到底是维护再这里控制的还是说控制再security中？
     @Override
     public ResultJson isPainter() {
         int loginUserId = -1;

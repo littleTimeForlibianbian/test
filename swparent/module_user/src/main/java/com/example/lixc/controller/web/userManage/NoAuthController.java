@@ -26,18 +26,4 @@ public class NoAuthController {
         return null;
     }
 
-
-    @ApiOperation("删除用户")
-    @RequestMapping("/delete")
-    Page<UserBack> delete(UserQuery userQuery) {
-        return null;
-    }
-
-    @ApiOperation("批量删除")
-    @RequestMapping("/deleteBatch")
-    Page<UserBack> deleteBatch(String ids) {
-        return null;
-    }
-
-
 }

@@ -101,8 +101,8 @@ CREATE TABLE `sys_code`
 (
     `id`          int(10)     NOT NULL AUTO_INCREMENT COMMENT '主键id',
     `code`        varchar(20) NOT NULL COMMENT '邀请码',
-    `used_num`    varchar(20) NOT NULL COMMENT '使用次数',
-    `create_time` varchar(20) NOT NULL COMMENT '创建时间',
+    `used_num`    int(2) COMMENT '使用次数',
+    `create_time` datetime COMMENT '创建时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -112,18 +112,18 @@ CREATE TABLE `sys_code`
 drop table if EXISTS `sys_config`;
 CREATE TABLE `sys_config`
 (
-    `id`                     int(10)     NOT NULL COMMENT '主键id',
-    `invitation_code_open`   varchar(20) NOT NULL COMMENT '是否开启邀请码',
-    `invitation_code_expire` int(10)     NULL COMMENT '邀请码过期时间',
-    `max_work_style_label_count` int(10) NULL COMMENT '作品上传（画风）最大允许标签数量',
-    `max_work_category_label_count` int(10) NULL COMMENT '作品上传（品类）最大允许标签数量',
-    `update_by`              int(11)  DEFAULT NULL COMMENT '最后更新人',
-    `update_time`            datetime DEFAULT NULL COMMENT '最后更新时间',
+    `id`                            int(10)     NOT NULL COMMENT '主键id',
+    `invitation_code_open`          varchar(20) NOT NULL COMMENT '是否开启邀请码',
+    `invitation_code_expire`        int(10)     NULL COMMENT '邀请码过期时间',
+    `max_work_style_label_count`    int(10)     NULL COMMENT '作品上传（画风）最大允许标签数量',
+    `max_work_category_label_count` int(10)     NULL COMMENT '作品上传（品类）最大允许标签数量',
+    `update_by`                     int(11)  DEFAULT NULL COMMENT '最后更新人',
+    `update_time`                   datetime DEFAULT NULL COMMENT '最后更新时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 insert into sys_config
-values (0, 'N', 0,3,2, null, null);
+values (0, 'N', 0, 3, 2, null, null);
 
 
 --  用户角色表

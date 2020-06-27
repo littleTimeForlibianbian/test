@@ -1,4 +1,4 @@
-//package com.example.lixc.config.security.exception;
+package com.example.lixc.config.security.exception;//package com.example.lixc.config.security.exception;
 //
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //import org.springframework.security.access.AccessDeniedException;

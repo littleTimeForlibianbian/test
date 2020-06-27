@@ -110,9 +110,11 @@ public class IndexServiceImpl implements IndexService {
         work.setContent(workQuery.getContent());
         work.setIsDelete("N");
         work.setName(workQuery.getName());
-        work.setUserId(SysConfigUtil.getLoginUserId());
         work.setStatus(WorkStatusEnum.WORK_STATUS_WAIT.getCode());
+        work.setUserId(SysConfigUtil.getLoginUserId());
         work.setCreateBy(SysConfigUtil.getLoginUserId());
+//        work.setUserId(0);
+//        work.setCreateBy(0);
         work.setCreateTime(new Date());
         workMapper.insertUseGeneratedKeys(work);
         int workId = work.getId();
@@ -148,6 +150,7 @@ public class IndexServiceImpl implements IndexService {
 
     /**
      * 查询首页的作品列表
+     *
      * @param workQuery
      * @param more
      * @return

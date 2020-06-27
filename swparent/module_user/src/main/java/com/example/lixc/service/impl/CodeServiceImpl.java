@@ -42,7 +42,7 @@ public class CodeServiceImpl implements CodeService {
         code.setCreateTime(new Date());
         //写库
         codeMapper.insertSelective(code);
-        return ResultJson.buildSuccess(word);
+        return ResultJson.buildSuccess(code, "生成邀请码成功");
     }
 
     public int selectCountByCode(String code) {

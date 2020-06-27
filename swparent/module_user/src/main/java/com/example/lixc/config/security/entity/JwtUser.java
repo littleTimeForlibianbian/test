@@ -30,7 +30,7 @@ public class JwtUser implements UserDetails {
         id = user.getId();
         username = user.getNickName();
         password = user.getPassword();
-        Set<SimpleGrantedAuthority> singleton = new java.util.HashSet<>(Collections.singleton(new SimpleGrantedAuthority("default")));
+        Set<SimpleGrantedAuthority> singleton = new HashSet<>(Collections.singleton(new SimpleGrantedAuthority("default")));
         singleton.remove(singleton.stream().findFirst().get());//去掉默认的，重新从角色中添加
         for (Role role : user.getRoleList()) {
             singleton.add(new SimpleGrantedAuthority(role.getName()));

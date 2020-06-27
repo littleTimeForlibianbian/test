@@ -1,6 +1,8 @@
 package com.example.lixc.vo.query;
 
+import com.example.lixc.entity.User;
 import com.example.lixc.util.ResultJson;
+import com.example.lixc.vo.back.UserBack;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.util.CollectionUtils;
@@ -15,6 +17,8 @@ public class WorkQuery {
     private int id;
 
     private int userId;
+
+    private UserBack userDetailBack;
     //图片id集合
     private String imageIds;
     //作品名称

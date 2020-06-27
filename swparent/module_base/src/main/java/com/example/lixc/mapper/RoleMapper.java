@@ -10,9 +10,6 @@ import com.example.lixc.vo.query.RoleQuery;
 import java.util.List;
 
 public interface RoleMapper extends SwBaseMapper<Role> {
-    //TODO  sql编写
     List<RoleBack> selectForList(RoleQuery roleQuery);
-
-
 //    int deleteBatch(String[] ids);
 }

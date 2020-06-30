@@ -17,7 +17,6 @@
         <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
-
     <resultMap id="workBackMap" type="com.example.lixc.vo.back.WorkBack">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
@@ -36,7 +35,7 @@
         <collection property="imageList" select="com.example.lixc.mapper.SysWorkImageMapper.selectImagesByWorkId"
                     column="${work_id = id}" fetchType="lazy"/>
         <collection property="tags" select="com.example.lixc.mapper.SysWorkDictMapper.selectTagsByWork"
-                    column="${work_id = id}" fetchType="lazy"/>
+                    column="${work_id = id}" fetchType="lazy" ofType="collection"/>
     </resultMap>
     <sql id="Base_Column_List">
         id, user_id, status, is_delete, name, content, work_style, work_category, praise_num,

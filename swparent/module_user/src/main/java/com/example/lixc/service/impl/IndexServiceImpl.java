@@ -10,6 +10,7 @@ import com.example.lixc.util.ResultJson;
 import com.example.lixc.util.ThumbUtil;
 import com.example.lixc.util.ToolsUtil;
 import com.example.lixc.vo.back.WorkBack;
+import com.example.lixc.vo.query.WCommentQuery;
 import com.example.lixc.vo.query.WorkQuery;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -51,6 +52,12 @@ public class IndexServiceImpl implements IndexService {
 
     @Autowired
     private SysWorkDictMapper workDictMapper;
+
+
+    @Autowired
+    private WCommentMapper commentMapper;
+    @Autowired
+    private UFocusMapper uFocusMapper;
 
     @Value("${sw.work.url}")
     private String url;
@@ -101,6 +108,7 @@ public class IndexServiceImpl implements IndexService {
 
 
     @Override
+    @Transactional
     public ResultJson uploadWork(WorkQuery workQuery) {
         int loginUserId = SysConfigUtil.getLoginUserId();
         User user = userMapper.selectByPrimaryKey(loginUserId);
@@ -206,10 +214,12 @@ public class IndexServiceImpl implements IndexService {
         query.setUserId(authorId);
         List<WorkBack> others = workMapper.selectForList(query, "Y");
         map.put("other", others);
+        //TODO  查询所有的评论以及点赞
         return ResultJson.buildSuccess(map);
     }
 
     @Override
+    @Transactional
     public ResultJson createHistory(String content) {
         //获取当前登录的用户
         int loginUserId = SysConfigUtil.getLoginUserId();
@@ -257,6 +267,102 @@ public class IndexServiceImpl implements IndexService {
         user.setStatus(UserStatusEnum.USER_STATUS_STEP3.getCode());
         userMapper.updateByPrimaryKey(user);
         return ResultJson.buildSuccess("常用网站填写成功");
+    }
+
+
+    @Override
+    @Transactional
+    public ResultJson focus(String toUserId) {
+        if (StringUtils.isEmpty(toUserId)) {
+            return ResultJson.buildError("传入的参数为空");
+        }
+        User user = userMapper.selectByPrimaryKey(toUserId);
+        if (user == null) {
+            return ResultJson.buildError("用户不存在");
+        }
+        //校验关注的人是否是画师
+        UFocus uFocus = new UFocus();
+        uFocus.setAuthorId(Integer.valueOf(toUserId));
+        uFocus.setCreateTime(new Date());
+        uFocus.setUserId(SysConfigUtil.getLoginUserId());
+        uFocusMapper.insertSelective(uFocus);
+        return ResultJson.buildSuccess("关注成功");
+    }
+
+
+    @Override
+    @Transactional
+    public ResultJson like(String workId) {
+        if (StringUtils.isEmpty(workId)) {
+            return ResultJson.buildError("传入的参数为空");
+        }
+        SysWork work = workMapper.selectByPrimaryKey(workId);
+        if (work == null) {
+            return ResultJson.buildError("作品不存在");
+        }
+        WFavorite wFavorite = new WFavorite();
+        wFavorite.setCreateTime(new Date());
+        wFavorite.setUserId(SysConfigUtil.getLoginUserId());
+        wFavorite.setWorkId(Integer.parseInt(workId));
+        wFavorite.setType("work");
+        wFavoriteMapper.insertSelective(wFavorite);
+        //更新作品的点赞数量
+        work.setPraiseNum(work.getPraiseNum() + 1);
+        return ResultJson.buildSuccess("喜欢成功");
+    }
+
+    @Override
+    @Transactional
+    public ResultJson comment(WCommentQuery commentQuery) {
+        ResultJson resultJson = commentQuery.checkParams();
+        if (!ToolsUtil.verifyParams(resultJson)) {
+            return resultJson;
+        }
+        int loginUserId = SysConfigUtil.getLoginUserId();
+        User user = userMapper.selectByPrimaryKey(loginUserId);
+        WComment comment = new WComment();
+        comment.setWorkId(commentQuery.getWorkId());
+        comment.setContent(commentQuery.getContent());
+        comment.setCreateTime(new Date());
+        comment.setPraiseNum(0);
+        comment.setUserId(loginUserId);
+        comment.setUserName(user.getNickName());
+        comment.setTopStatus(0);
+        comment.setCommentLevel(commentQuery.getCommentLevel());
+        comment.setParentId(commentQuery.getParentId());
+        commentMapper.insertSelective(comment);
+        //TODO 生成一条消息
+        SysWork work = workMapper.selectByPrimaryKey(commentQuery.getWorkId());
+        Integer toUserId = work.getUserId();
+        return ResultJson.buildSuccess("评论成功");
+    }
+
+    @Override
+    public ResultJson commentLike(int id) {
+        if (id < 0) {
+            return ResultJson.buildError("传入参数为空");
+        }
+        WComment comment = commentMapper.selectByPrimaryKey(id);
+        if (comment == null) {
+            return ResultJson.buildError("对象不存在");
+        }
+        comment.setPraiseNum(comment.getPraiseNum() + 1);
+        commentMapper.updateByPrimaryKeySelective(comment);
+        return ResultJson.buildSuccess("点赞成功");
+    }
+
+
+    @Override
+    public ResultJson commentDel(int id) {
+        if (id < 0) {
+            return ResultJson.buildError("传入参数为空");
+        }
+        WComment comment = commentMapper.selectByPrimaryKey(id);
+        if (comment == null) {
+            return ResultJson.buildError("对象不存在");
+        }
+        commentMapper.deleteByPrimaryKey(id);
+        return ResultJson.buildSuccess("删除成功");
     }
 
     /**

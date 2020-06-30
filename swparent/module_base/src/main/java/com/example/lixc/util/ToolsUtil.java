@@ -2,6 +2,7 @@ package com.example.lixc.util;
 
 import com.example.lixc.enums.ResultJsonEnum;
 import com.example.lixc.exception.URLException;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import java.net.URLDecoder;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
@@ -367,5 +369,31 @@ public class ToolsUtil {
         return pattern.matcher(str).matches();
     }
 
+    /**
+     * 替换模板中的占位符
+     *
+     * @param template
+     * @param map
+     * @return
+     */
+    public static String replaceTemplate(String template, Map<String, String> map) {
+        if (StringUtils.isNotBlank(template) && map != null && map.keySet().size() > 0) {
+            String regex = "\\{(.*?)\\}";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(template);
+            StringBuilder builder = new StringBuilder(template);
+            while (matcher.find()) {
+                String key = matcher.group(1);
+                if (!key.contains("\\{") && !key.contains("\\}")) {
+                    String value = map.get(key);
+                    int start = builder.lastIndexOf("{" + key + "}");
+                    int end = start + key.length() + 2;
+                    builder.replace(start, end, value);
+                }
+            }
+            return builder.toString();
+        }
+        return null;
+    }
 
 }

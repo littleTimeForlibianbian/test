@@ -82,9 +82,22 @@ create table `sys_work_image`
 drop table if exists `w_favorite`;
 create table `w_favorite`
 (
+    `id`          int(10)     NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `user_id`     int(10)     NOT NULL COMMENT '用户id',
+    `work_id`     int(10)     NOT NULL COMMENT '作品id/评论id',
+    `type`        varchar(10) null comment '点赞的类型，作品为work，评论为comment',
+    `create_time` datetime    NOT NULL DEFAULT now() COMMENT '创建时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+--  我的关注表
+drop table if exists `u_focus`;
+create table `u_focus`
+(
     `id`          int(10)  NOT NULL AUTO_INCREMENT COMMENT '主键id',
     `user_id`     int(10)  NOT NULL COMMENT '用户id',
-    `work_id`     int(10)  NOT NULL COMMENT '作品id',
+    `author_id`   int(10)  NOT NULL COMMENT '被关注者id',
     `create_time` datetime NOT NULL DEFAULT now() COMMENT '创建时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
@@ -101,11 +114,24 @@ create table `w_comment`
     `user_name`     varchar(255) null comment '评论人昵称',
     `content`       varchar(255) null comment '评论内容',
 #  `answer_id` int(10)  NULL    COMMENT '答复人id',
-    `comment_level` tinyint(4)   NOT NULL DEFAULT '1' COMMENT '评论等级[ 1 一级评论 默认 ，2 二级评论]',
+    `comment_level` tinyint(4)   NULL DEFAULT '1' COMMENT '评论等级[ 1 一级评论 默认 ，2 二级评论]',
     `parent_id`     int(11)      NULL COMMENT '父级id',
-    `top_status`    tinyint(4)   NOT NULL DEFAULT 0 COMMENT '置顶状态[ 1 置顶，0 不置顶 默认 ]',
-    `praise_num`    int(11)      NOT NULL DEFAULT '0' COMMENT '点赞数',
-    `create_time`   datetime     NOT NULL DEFAULT now() COMMENT '创建时间',
+    `top_status`    tinyint(4)   NULL DEFAULT 0 COMMENT '置顶状态[ 1 置顶，0 不置顶 默认 ]',
+    `praise_num`    int(11)      NULL DEFAULT '0' COMMENT '点赞数',
+    `create_time`   datetime     NULL DEFAULT now() COMMENT '创建时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+-- 回复表  暂时不用
+drop table if exists `w_reply`;
+create table `w_reply`
+(
+    `id`         int(11)       NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `comment_id` int(11)       not null comment '评论id',
+    `reply_id`   int(11)       not null comment '回复id，当回复为评论时此处为评论id',
+    `content`    varchar(2000) null comment '回复内容',
+    `from_uid`   int(11)       null comment '回复用户id',
+    `to_uid`     int(11)       null comment '目标用户id',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -168,6 +194,33 @@ create table `sys_focus`
     primary key ('id')
 ) Engine = InnoDB
   DEFAULT CHARSET = utf8;
+-- 消息内容表
+drop table if exists `sys_message`;
+create table `sys_message`
+(
+    `id`          int(11)      not null auto_increment comment '主键id',
+    `content`     longtext     not null comment '消息内容',
+    `type`        varchar(4)   null comment '消息类型:announcement公告/remind提醒/message私信',
+    `action`      varchar(10)  null comment '用户动作触发的消息 comment评论，praise点赞，reply回复，recommend推荐',
+    `title`       varchar(255) null comment '消息标题',
+    `source_id`   int(11)      null comment '来源id  作品id或者评论id',
+    `source_type` varchar(10)  null comment '来源类型',
+    `create_time` datetime     NULL DEFAULT now() COMMENT '创建时间',
+    primary key (`id`)
+) engine = InnoDB
+  default charset = utf8;
 
-
+-- 消息发送记录表  查询我的未读的消息，从这个表中查
+drop table if exists `sys_user_message`;
+create table `sys_user_message`
+(
+    `id`          int(11)  not null auto_increment comment '主键id',
+    `message_id`  int(11)  not null comment '消息id',
+    `send_time`   datetime NULL DEFAULT now() COMMENT '发送时间/创建时间',
+    `from_userId` int(11) comment '发送者id',
+    `to_userId`   int(11) comment '接受者id',
+    `is_read`     char(1)  null default 'N' comment '是否已读',
+    primary key (`id`)
+) engine = InnoDB
+  default charset = utf8;
 

@@ -11,5 +11,6 @@ public class WFavorite {
     private int id;
     private int userId;
     private int workId;
+    private String type;
     private Date createTime;
 }

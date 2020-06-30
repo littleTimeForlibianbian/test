@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/web/admin/report/")
 public class ReportConditionController {
 
-
     @ApiOperation("查询列表")
     @PostMapping("/selectForList")
     public ResultJson selectForList() {

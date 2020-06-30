@@ -1,8 +1,11 @@
 package com.example.lixc.controller.portal;
 
+import com.example.lixc.entity.WComment;
 import com.example.lixc.service.IndexService;
+import com.example.lixc.util.QRCodeUtil;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.back.WorkBack;
+import com.example.lixc.vo.query.WCommentQuery;
 import com.example.lixc.vo.query.WorkQuery;
 import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
@@ -11,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Api("首页管理类")
 @RestController
@@ -79,32 +84,44 @@ public class IndexController {
     }
 
     @ApiOperation("常用网站")
-    @PostMapping("/createHistory")
+    @PostMapping("/addWebsite")
     public ResultJson addWebsite(String website) {
-        return indexService.addWebsite(website);
+        try {
+            return indexService.addWebsite(website);
+        } catch (Exception e) {
+            log.error("addWebsite exception:{}", e.getMessage());
+            return ResultJson.buildError("添加常用网站发生异常");
+        }
     }
 
 
-    //点赞功能
+    //关注  对人进行关注
     @ApiOperation("关注")
     @PostMapping("/focus")
     public ResultJson focus(String toUserId) {
-        //插入到我喜欢的作品表
-        //更新该作品的
-        return null;
+        try {
+            return indexService.focus(toUserId);
+        } catch (Exception e) {
+            log.error("addWebsite exception:{}", e.getMessage());
+            return ResultJson.buildError("添加常用网站发生异常");
+        }
     }
 
 
-    //点赞功能
+    //点赞功能 对作品点赞
     @ApiOperation("点赞")
     @PostMapping("/like")
-    public ResultJson like(WorkQuery workQuery) {
-        //插入到我喜欢的作品表
-        //更新作品的点赞数量
-        return null;
+    public ResultJson like(String workId) {
+        try {
+            return indexService.like(workId);
+        } catch (Exception e) {
+            log.error("addWebsite exception:{}", e.getMessage());
+            return ResultJson.buildError("添加常用网站发生异常");
+        }
     }
 
     //推荐给所有关注我的人
+    //TODO 向所有关注我的人发送一条消息
     @ApiOperation("推荐")
     @PostMapping("/recommend")
     public ResultJson recommend() {
@@ -112,18 +129,54 @@ public class IndexController {
     }
 
     //分享 ---生成一个分享的二维码就ok
+    //TODO 用户点击或者扫描生成的二维码 首先会跳转到登录页面，登录以后直接跳转到作品详情页
     @ApiOperation("分享")
     @PostMapping("/share")
-    public ResultJson share() {
-        return null;
+    public ResultJson share(HttpServletRequest request) {
+        try {
+            StringBuffer requestURL = request.getRequestURL();
+            String text = requestURL.toString().substring(0, requestURL.lastIndexOf("/")) + "workDetail";
+            byte[] qrCodeImage = QRCodeUtil.getQRCodeImage(text, 300, 300);
+            return ResultJson.buildSuccess(qrCodeImage);
+        } catch (Exception e) {
+            return ResultJson.buildError("生成二维码异常");
+        }
     }
 
     //评论
     @ApiOperation("评论")
     @PostMapping("/comment")
-    public ResultJson comment() {
-        return null;
+    public ResultJson comment(WCommentQuery commentQuery) {
+        try {
+            return indexService.comment(commentQuery);
+        } catch (Exception e) {
+            log.error("addWebsite exception:{}", e.getMessage());
+            return ResultJson.buildError("添加常用网站发生异常");
+        }
     }
+
+    @ApiOperation("评论点赞")
+    @PostMapping("/commentLike")
+    public ResultJson commentLike(int id) {
+        try {
+            return indexService.commentLike(id);
+        } catch (Exception e) {
+            log.error("addWebsite exception:{}", e.getMessage());
+            return ResultJson.buildError("添加常用网站发生异常");
+        }
+    }
+
+    @ApiOperation("评论删除")
+    @PostMapping("/commentDel")
+    public ResultJson commentDel(int id) {
+        try {
+            return indexService.commentDel(id);
+        } catch (Exception e) {
+            log.error("addWebsite exception:{}", e.getMessage());
+            return ResultJson.buildError("添加常用网站发生异常");
+        }
+    }
+
 
     //举报
     @ApiOperation("举报")

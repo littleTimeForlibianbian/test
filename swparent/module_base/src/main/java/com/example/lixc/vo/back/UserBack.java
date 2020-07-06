@@ -1,6 +1,8 @@
 package com.example.lixc.vo.back;
 
 import com.example.lixc.entity.Role;
+import com.example.lixc.entity.Tag;
+import com.example.lixc.entity.UserAttr;
 import lombok.Data;
 import lombok.ToString;
 
@@ -19,6 +21,7 @@ public class UserBack implements Serializable {
     private static final long serialVersionUID = -6810545859574328877L;
     private int id;
     private String nickName;
+    private String realName;
     private String email;
     private String location;
     private String phone;
@@ -26,6 +29,9 @@ public class UserBack implements Serializable {
     private Date lastLoginTime;
     private int enable;
     private String password;
+    private String painter;
     private List<Role> roleList;
+    private List<Tag> tagList;
+    private UserAttr userAttr;
 
 }

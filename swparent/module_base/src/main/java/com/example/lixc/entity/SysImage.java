@@ -4,6 +4,7 @@ import java.util.Date;
 
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
 
 import javax.persistence.Table;
 
@@ -11,6 +12,7 @@ import javax.persistence.Table;
 @ToString
 @Table(name = "sys_image")
 public class SysImage {
+    @Id
     private Integer id;
 
     private String name;

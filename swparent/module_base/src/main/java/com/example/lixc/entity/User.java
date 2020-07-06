@@ -70,7 +70,7 @@ public class User {
     /**
      * 是否开启
      */
-    private String enable;
+    private Integer enable;
 
     /**
      * 是否是画师

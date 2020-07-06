@@ -4,14 +4,14 @@
     <resultMap id="BaseResultMap" type="com.example.lixc.entity.WFavorite">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="user_id" property="userId" jdbcType="INTEGER"/>
-        <result column="work_id" property="workId" jdbcType="INTEGER"/>
+        <result column="target_id" property="targetId" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
     </resultMap>
     <select id="selectCountByWorkId" resultType="java.lang.Integer">
-        select count(1) from w_favorite wf
+        select count(1) from w_favorite wf where type='work'
         <where>
             <if test="workId > 0">
-                and wf.work_id = #{workId}
+                and wf.target_id = #{workId}
             </if>
             <if test="userId > 0">
                 and wf.user_id = #{userId}

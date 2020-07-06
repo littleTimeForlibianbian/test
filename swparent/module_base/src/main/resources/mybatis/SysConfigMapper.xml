@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.lixc.mapper.SysConfigMapper" >
-  <resultMap id="BaseResultMap" type="com.example.lixc.entity.SysConfig" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="invitation_code_open" property="invitationCodeOpen" jdbcType="VARCHAR" />
-    <result column="invitation_code_expire" property="invitationCodeExpire" jdbcType="INTEGER" />
-    <result column="update_by" property="updateBy" jdbcType="INTEGER" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, invitation_code_open, invitation_code_xpire, update_by, update_time
-  </sql>
+<mapper namespace="com.example.lixc.mapper.SysConfigMapper">
+    <resultMap id="BaseResultMap" type="com.example.lixc.entity.SysConfig">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="active_num" property="activeNum" jdbcType="INTEGER"/>
+        <result column="invitation_code_open" property="invitationCodeOpen" jdbcType="VARCHAR"/>
+        <result column="invitation_code_expire" property="invitationCodeExpire" jdbcType="INTEGER"/>
+        <result column="default_image_url" property="defaultImageUrl" jdbcType="VARCHAR"/>
+        <result column="update_by" property="updateBy" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, invitation_code_open, invitation_code_xpire,active_num, default_image_url,update_by, update_time
+    </sql>
 </mapper>

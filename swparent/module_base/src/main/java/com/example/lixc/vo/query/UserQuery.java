@@ -25,7 +25,7 @@ import java.util.Date;
 public class UserQuery extends PageParam {
     private static final long serialVersionUID = -8825117023632700730L;
     @Id
-    private Integer id;
+    private Integer userId;
 
     @ApiModelProperty("用户名（邮箱）")
     private String userName;
@@ -66,7 +66,7 @@ public class UserQuery extends PageParam {
     /**
      * 是否开启
      */
-    private String enable;
+    private Integer enable;
 
     /**
      * 是否是画师

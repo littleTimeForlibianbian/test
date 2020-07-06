@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.lixc.mapper.UserMapper">
     <resultMap id="AdminUserBackMap" type="com.example.lixc.vo.back.AdminUserBack">
+        <!-- 定义结果集，column表示sql查询列,property表示映射到实体的属性 -->
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="real_name" jdbcType="VARCHAR" property="realName"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
@@ -19,12 +20,24 @@
     </resultMap>
     <resultMap id="UserBackMap" type="com.example.lixc.vo.back.UserBack">
         <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="enable" jdbcType="INTEGER" property="enable"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="painter" jdbcType="VARCHAR" property="painter"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+        <association property="userAttr" select="com.example.lixc.mapper.UserAttrMapper.selectByUserId"
+                     column="id" fetchType="lazy"/>
+        <!--        <association property="userAttr" select="com.example.lixc.mapper.UserAttrMapper.selectByUserId"-->
+        <!--                     column="{id=user_id}" fetchType="lazy"/>-->
         <collection property="roleList" select="com.example.lixc.mapper.UserRoleMapper.selectListByUserId"
-                    column="${user_id = id}" fetchType="lazy"/>
+                    column="${user_id=id}" fetchType="lazy"/>
+        <collection property="tagList" select="com.example.lixc.mapper.SysUserTagMapper.selectTagsByUserId"
+                    column="{user_id=id}" fetchType="lazy"/>
     </resultMap>
     <sql id="Base_Column_List">
         id, role_id, nick_name, real_name, location, position, password, email, phone, status,
@@ -66,6 +79,9 @@
             <if test="userName != null and userName != ''">
                 and (nickName = #{userName} or email = #{userName})
             </if>
+            <if test="id > 0">
+                and su.id = #{id}
+            </if>
         </where>
     </select>
     <select id="selectAllAdminUsers" parameterType="com.example.lixc.vo.query.AdminUserQuery"
@@ -87,6 +103,7 @@
                 and su.email = #{email}
             </if>
         </where>
+        order by create_time,id desc
     </select>
     <delete id="delByIds">
         delete
@@ -100,5 +117,39 @@
         select count(1)
         from sys_user
         where role_id = #{roleId}
+    </select>
+    <select id="selectAllUser" resultMap="UserBackMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        <where>
+            <if test="painter != null and painter != '' and painter == 'Y'">
+                and painter = #{painter}
+            </if>
+            <if test="phone != null and phone != '' ">
+                and phone = #{phone}
+            </if>
+            <if test="email != null and email != '' ">
+                and email = #{email}
+            </if>
+            /*前台输入查询参数 可能是邮箱 也可能是用户户名*/
+            <if test="userName != null and userName != '' ">
+                and(nickName like concat('%',#{userName},'%') or email = #{userName} )
+            </if>
+            <if test="nickName != null and nickName != '' ">
+                and nickName like concat('%',#{nickName},'%')
+            </if>
+            <if test="userId >0 ">
+                and id = #{userId}
+            </if>
+            # 用户状态
+            <if test=" status > 0">
+                and status = #{status}
+            </if>
+            <if test=" enable > 0">
+                and enable = #{enable}
+            </if>
+        </where>
+        order by create_time,id desc
     </select>
 </mapper>

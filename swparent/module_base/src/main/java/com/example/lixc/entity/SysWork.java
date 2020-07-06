@@ -2,6 +2,7 @@ package com.example.lixc.entity;
 
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 
 import javax.persistence.Table;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Date;
 @Table(name = "sys_work")
 @Data
 public class SysWork {
+    @Id
     private Integer id;
 
     private Integer userId;

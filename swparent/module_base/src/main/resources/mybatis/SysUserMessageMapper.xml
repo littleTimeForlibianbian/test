@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lixc.mapper.SysUserMessageMapper">
+    <resultMap id="BaseResultMap" type="com.example.lixc.entity.SysUserMessage">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="message_id" jdbcType="INTEGER" property="messageId"/>
+        <result column="send_time" jdbcType="TIMESTAMP" property="sendTime"/>
+        <result column="from_user_id" jdbcType="INTEGER" property="fromUserId"/>
+        <result column="to_user_id" jdbcType="INTEGER" property="toUserId"/>
+        <result column="is_read" jdbcType="CHAR" property="isRead"/>
+    </resultMap>
+    <select id="selectList" resultType="com.example.lixc.entity.SysUserMessage"
+            parameterType="com.example.lixc.vo.query.MessageQuery">
+        select id,message_id,send_time,from_user_id,to_user_id,is_read from sys_user_message sum
+        <where>
+            <if test="toUserId > 0">
+                and sum.to_user_id = #{toUserId}
+            </if>
+            <if test="isRead != null and isRead != ''">
+                and sum.is_read=#{isRead}
+            </if>
+        </where>
+    </select>
+</mapper>

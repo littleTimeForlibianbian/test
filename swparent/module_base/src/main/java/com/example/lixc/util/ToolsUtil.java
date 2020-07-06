@@ -2,6 +2,7 @@ package com.example.lixc.util;
 
 import com.example.lixc.enums.ResultJsonEnum;
 import com.example.lixc.exception.URLException;
+import com.example.lixc.template.SimpleMessageTemplate;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cglib.beans.BeanMap;
@@ -394,6 +395,16 @@ public class ToolsUtil {
             return builder.toString();
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        Map<String, String> map = new HashMap<>();
+        map.put("from", "张三");
+        map.put("action", "评论");
+        map.put("source", "文章《我唾弃你的坟墓》");
+        String s = replaceTemplate(SimpleMessageTemplate.content_simple, map);
+        System.out.println(s);
+
     }
 
 }

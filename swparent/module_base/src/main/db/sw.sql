@@ -88,9 +88,10 @@ CREATE TABLE `sys_policy`
 drop table if EXISTS `sys_tag`;
 CREATE TABLE `sys_tag`
 (
-    `id`      int(10)     NOT NULL AUTO_INCREMENT COMMENT '主键id',
-    `type`    varchar(10) NOT NULL COMMENT '标签分类：1,身份;2:年代，3：画风；4：品类',
-    `content` longtext    NOT NULL COMMENT '标签内容',
+    `id`        int(10)     NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `type`      varchar(10) NOT NULL COMMENT '标签分类：1,身份;2:年代，3：画风；4：品类',
+    `content`   longtext    NOT NULL COMMENT '标签内容',
+    `parent_id` int(11)     null default 0 comment '标签所属分类id',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -112,18 +113,21 @@ CREATE TABLE `sys_code`
 drop table if EXISTS `sys_config`;
 CREATE TABLE `sys_config`
 (
-    `id`                            int(10)     NOT NULL COMMENT '主键id',
-    `invitation_code_open`          varchar(20) NOT NULL COMMENT '是否开启邀请码',
-    `invitation_code_expire`        int(10)     NULL COMMENT '邀请码过期时间',
-    `max_work_style_label_count`    int(10)     NULL COMMENT '作品上传（画风）最大允许标签数量',
-    `max_work_category_label_count` int(10)     NULL COMMENT '作品上传（品类）最大允许标签数量',
+    `id`                            int(10)      NOT NULL COMMENT '主键id',
+    `invitation_code_open`          varchar(20)  NOT NULL COMMENT '是否开启邀请码',
+    `invitation_code_expire`        int(10)      NULL COMMENT '邀请码过期时间',
+    `max_work_style_label_count`    int(10)      NULL COMMENT '作品上传（画风）最大允许标签数量',
+    `max_work_category_label_count` int(10)      NULL COMMENT '作品上传（品类）最大允许标签数量',
+    `version`                       int(4)       null comment '版本号',
+    `active_num`                    int(4)       null comment '用户最低活跃数量',
     `update_by`                     int(11)  DEFAULT NULL COMMENT '最后更新人',
     `update_time`                   datetime DEFAULT NULL COMMENT '最后更新时间',
+    `default_image_url`             varchar(255) null comment '系统默认图像路径',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 insert into sys_config
-values (0, 'N', 0, 3, 2, null, null);
+values (0, 'N', 0, 3, 2, 0.1,2, null, null, null);
 
 
 --  用户角色表
@@ -170,9 +174,9 @@ create table `sys_user_attr`
     `user_id`     int(11)      not null comment '用户id',
     `u_history`   varchar(255) null comment '创作历史',
     `website`     varchar(255) null comment '常用网站',
+    `head_image`  varchar(255) null comment '用户头像',
     `create_time` datetime     NULL COMMENT '创建时间',
     primary key (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
-
 

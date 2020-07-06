@@ -2,7 +2,9 @@
 drop table if exists `sys_user_tag`;
 create table `sys_user_tag`
 (
-    `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `id`      int(10) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `user_id` int(10) NULL COMMENT '主键id',
+    `tag_id`  int(10) NULL COMMENT '主键id',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -84,7 +86,7 @@ create table `w_favorite`
 (
     `id`          int(10)     NOT NULL AUTO_INCREMENT COMMENT '主键id',
     `user_id`     int(10)     NOT NULL COMMENT '用户id',
-    `work_id`     int(10)     NOT NULL COMMENT '作品id/评论id',
+    `target_id`   int(10)     NOT NULL COMMENT '目标id作品id/评论id',
     `type`        varchar(10) null comment '点赞的类型，作品为work，评论为comment',
     `create_time` datetime    NOT NULL DEFAULT now() COMMENT '创建时间',
     PRIMARY KEY (`id`)
@@ -214,12 +216,27 @@ create table `sys_message`
 drop table if exists `sys_user_message`;
 create table `sys_user_message`
 (
-    `id`          int(11)  not null auto_increment comment '主键id',
-    `message_id`  int(11)  not null comment '消息id',
-    `send_time`   datetime NULL DEFAULT now() COMMENT '发送时间/创建时间',
-    `from_userId` int(11) comment '发送者id',
-    `to_userId`   int(11) comment '接受者id',
-    `is_read`     char(1)  null default 'N' comment '是否已读',
+    `id`           int(11)  not null auto_increment comment '主键id',
+    `message_id`   int(11)  not null comment '消息id',
+    `send_time`    datetime NULL DEFAULT now() COMMENT '发送时间/创建时间',
+    `from_user_id` int(11) comment '发送者id',
+    `to_user_id`   int(11) comment '接受者id',
+    `is_read`      char(1)  null default 'N' comment '是否已读',
+    primary key (`id`)
+) engine = InnoDB
+  default charset = utf8;
+
+-- 建议反馈表
+drop table if exists `sys_suggest`;
+create table `sys_suggest`
+(
+    `id`          int(11) not null auto_increment comment '主键id',
+    `user_id`     int(11) comment '用户id',
+    `content`     varchar(2000) comment '建议内容',
+    `create_time` datetime comment '创建时间',
+    `version`     int(5) comment '当前版本',
+    `url`         varchar(255) comment '用户头像路径',
+    `praise_num`  int(5) comment '点赞数量',
     primary key (`id`)
 ) engine = InnoDB
   default charset = utf8;

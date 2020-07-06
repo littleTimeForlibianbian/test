@@ -5,7 +5,7 @@
         <id column="id" property="id" jdbcType="INTEGER"/>
     </resultMap>
     <select id="selectByUserId" resultType="com.example.lixc.entity.UserAttr">
-        select `id`,`user_id`,`website`,`u_history`,`create_time` from sys_user_attr sua
+        select `id`,`user_id`,`website`,`u_history`,`head_image`,`create_time` from sys_user_attr sua
         <where>
             <if test="userId > 0">
                 and user_id = #{userId}

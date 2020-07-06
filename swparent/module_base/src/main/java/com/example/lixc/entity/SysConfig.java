@@ -19,9 +19,14 @@ public class SysConfig {
     private int invitationCodeExpire;
 
     private Integer updateBy;
+    private Integer activeNum;
 
     private Date updateTime;
 
+    private Integer version;
+
+    //系统用户默认图像
+    private String defaultImageUrl;
 
     //作品上传（画风）最大允许标签数量
     private Integer maxWorkStyleLabelCount;

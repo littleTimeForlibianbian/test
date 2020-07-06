@@ -2,6 +2,7 @@ package com.example.lixc.entity;
 
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
 
 import javax.persistence.Table;
 
@@ -9,6 +10,7 @@ import javax.persistence.Table;
 @ToString
 @Table(name = "sys_user_role")
 public class UserRole {
+    @Id
     private Integer id;
 
     private Integer userId;

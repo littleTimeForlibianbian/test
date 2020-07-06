@@ -10,8 +10,9 @@ public enum UserStatusEnum {
     USER_STATUS_ACTIVE(2, "激活"),
     USER_STATUS_STEP1(3, "已完成作品上传"),
     USER_STATUS_STEP2(4, "已填写创作过往"),
-    USER_STATUS_STEP3(5, "已填写常用网站");
-
+    USER_STATUS_STEP3(5, "已填写常用网站"),
+    USER_STATUS_PASS(6, "审核通过"),
+    USER_STATUS_FAIL(7, "审核拒绝");
 
     private int code;
     private String message;

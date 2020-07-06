@@ -17,8 +17,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class WorkBack extends SysWork {
-    //作品id
-    private Integer id;
     //作品包含的图片集合
     private List<SysImage> imageList;
     //作品对应的画风

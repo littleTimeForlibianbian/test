@@ -1,6 +1,7 @@
 package com.example.lixc.mapper;
 
 import com.example.lixc.basemapper.SwBaseMapper;
+import com.example.lixc.entity.LoginRecord;
 import com.example.lixc.entity.User;
 import com.example.lixc.vo.back.AdminUserBack;
 import com.example.lixc.vo.back.UserBack;
@@ -30,5 +31,7 @@ public interface UserMapper extends SwBaseMapper<User> {
 
     int selectCountByRoleId(int roleId);
 
+    //查询普通用户
+    List<UserBack> selectAllUser(UserQuery user);
 
 }

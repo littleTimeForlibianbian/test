@@ -20,7 +20,7 @@
     </resultMap>
     <resultMap id="UserBackMap" type="com.example.lixc.vo.back.UserBack">
         <id column="id" jdbcType="INTEGER" property="id"/>
-        <id column="enable" jdbcType="INTEGER" property="enable"/>
+        <id column="enable" jdbcType="VARCHAR" property="enable"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
@@ -30,19 +30,69 @@
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
-        <association property="userAttr" select="com.example.lixc.mapper.UserAttrMapper.selectByUserId"
-                     column="id" fetchType="lazy"/>
-        <!--        <association property="userAttr" select="com.example.lixc.mapper.UserAttrMapper.selectByUserId"-->
-        <!--                     column="{id=user_id}" fetchType="lazy"/>-->
-        <collection property="roleList" select="com.example.lixc.mapper.UserRoleMapper.selectListByUserId"
-                    column="${user_id=id}" fetchType="lazy"/>
-        <collection property="tagList" select="com.example.lixc.mapper.SysUserTagMapper.selectTagsByUserId"
-                    column="{user_id=id}" fetchType="lazy"/>
+        <association property="userAttr" javaType="userAttr">
+            <result property="id" column="id"/>
+            <result property="userId" column="user_id"/>
+            <result property="uHistory" column="u_history"/>
+            <result property="website" column="website"/>
+            <result property="headImage" column="head_image"/>
+            <result property="createTime" column="create_time"/>
+        </association>
+        <!--        <collection property="roleList"-->
+        <!--                    select="com.example.lixc.mapper.UserRoleMapper.selectListByUserId"-->
+        <!--                    javaType="java.util.ArrayList"-->
+        <!--                    column="${userId=id}"-->
+        <!--                    ofType="com.example.lixc.entity.Role"-->
+        <!--                   />-->
+        <collection property="tagList"
+                    select="com.example.lixc.mapper.SysUserTagMapper.selectTagsByUserId"
+                    javaType="java.util.ArrayList"
+                    ofType="com.example.lixc.entity.Tag"
+                    column="{userId=id}"/>
     </resultMap>
+    <resultMap id="UserBaseMap" type="com.example.lixc.entity.User">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="enable" jdbcType="VARCHAR" property="enable"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="painter" jdbcType="VARCHAR" property="painter"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+    </resultMap>
+    <sql id="userAttrSql">
+        sua.`id` userAttrId,
+        sua.`user_id` userId,
+        sua.`website` website,
+        sua.`u_history` uHistory,
+        sua.`head_image` headImage,
+        sua.`create_time` createTime
+    </sql>
     <sql id="Base_Column_List">
-        id, role_id, nick_name, real_name, location, position, password, email, phone, status,
-    enable, city, administrator, painter, invitation_code, create_by, create_time, update_by,
-    update_time, pwd_update_date, last_login_time, last_login_ip
+        su.id,
+        su.nick_name,
+        su.real_name,
+        su.location,
+        su.position,
+        su.password,
+        su.email,
+        su.phone,
+        su.status,
+        su.enable,
+        su.city,
+        su.administrator,
+        su.painter,
+        su.invitation_code,
+        su.create_by,
+        su.create_time,
+        su.update_by,
+        su.update_time,
+        su.pwd_update_date,
+        su.last_login_time,
+        su.last_login_ip
     </sql>
     <select id="existsWithPhone" parameterType="java.lang.String" resultType="java.lang.Integer">
         select count(1) from sys_user su
@@ -59,7 +109,7 @@
         select count(1) from sys_user su
         <where>
             <if test="email != null and email != ''">
-                and su.phone = #{email}
+                and su.email = #{email}
             </if>
             <if test="isManager != null and isManager != ''">
                 and su.administrator = #{isManager}
@@ -67,23 +117,52 @@
         </where>
     </select>
 
-    <select id="selectByUserName" parameterType="com.example.lixc.vo.query.UserQuery"
-            resultMap="UserBackMap">
+    <select id="existsWithNickName" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from sys_user su
+        <where>
+            <if test="nickName != null and nickName != ''">
+                and su.nick_name = #{nickName}
+            </if>
+            <if test="isManager != null and isManager != ''">
+                and su.administrator = #{isManager}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectBaseByUserName" parameterType="com.example.lixc.vo.query.UserQuery"
+            resultMap="UserBaseMap">
         select
         <include refid="Base_Column_List"/>
         from sys_user su
         <where>
             <if test="password != null and password != ''">
-                and password = #{password}
+                and su.password = #{password}
             </if>
             <if test="userName != null and userName != ''">
-                and (nickName = #{userName} or email = #{userName})
-            </if>
-            <if test="id > 0">
-                and su.id = #{id}
+                and (su.nick_name = #{userName} or su.email = #{userName})
             </if>
         </where>
     </select>
+    <select id="selectByUserName" parameterType="com.example.lixc.vo.query.UserQuery"
+            resultMap="UserBackMap">
+        select
+        <include refid="Base_Column_List"/>,
+        <include refid="userAttrSql"/>
+        from sys_user su
+        left join sys_user_attr sua on su.id = sua.user_id
+        <where>
+            <if test="password != null and password != ''">
+                and su.password = #{password}
+            </if>
+            <if test="userName != null and userName != ''">
+                and (su.nick_name = #{userName} or su.email = #{userName})
+            </if>
+            <if test="userID > 0">
+                and su.id = #{userID}
+            </if>
+        </where>
+    </select>
+
     <select id="selectAllAdminUsers" parameterType="com.example.lixc.vo.query.AdminUserQuery"
             resultMap="AdminUserBackMap">
         select
@@ -115,8 +194,9 @@
 
     <select id="selectCountByRoleId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         select count(1)
-        from sys_user
-        where role_id = #{roleId}
+        from sys_user_role sur
+                 left join sys_user u on sur.user_id = u.id
+        where sur.role_id = #{roleId}
     </select>
     <select id="selectAllUser" resultMap="UserBackMap">
         select

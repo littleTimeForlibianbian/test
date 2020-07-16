@@ -14,4 +14,8 @@ public interface SysWorkMapper extends SwBaseMapper<SysWork> {
 
     //查询作品详情
     WorkBack selectById(@Param("workId") int workId);
+
+
+    List<WorkBack> selectOther(@Param("authorId") Integer authorId,
+                               @Param("workId") Integer workId);
 }

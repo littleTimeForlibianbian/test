@@ -21,14 +21,13 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author lixc
@@ -42,6 +41,9 @@ public class UserPortalServiceImpl implements UserPortalService {
     @Resource
     private UserMapper userMapper;
 
+
+    @Autowired
+    private UserAttrMapper userAttrMapper;
 
     @Autowired
     private LoginRecordMapper loginRecordMapper;
@@ -77,11 +79,13 @@ public class UserPortalServiceImpl implements UserPortalService {
      * @param userQuery
      * @return
      */
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public ResultJson registerUser(UserQuery userQuery) {
         log.info("registerUser>>>输入参数：" + userQuery.toString());
-        if (!ToolsUtil.verifyParams(userQuery.checkParams())) {
+        ResultJson verifyParams = userQuery.checkParams();
+        if (!ToolsUtil.verifyParams(verifyParams)) {
             log.info("用户注册输入参数错误,参数为：{}", JSON.toJSONString(userQuery));
-            return ResultJson.buildError("输入参数错误");
+            return verifyParams;
         }
         String isOpen = sysConfigMapper.selectAll().get(0).getInvitationCodeOpen();
         if ("Y".equals(isOpen)) {//校验邀请码
@@ -109,21 +113,40 @@ public class UserPortalServiceImpl implements UserPortalService {
         if (userMapper.existsWithEmail(userQuery.getEmail(), "N") > 0) {
             return ResultJson.buildError("邮箱已经被注册");
         }
+        //校验昵称是否注册
+        if (userMapper.existsWithNickName(userQuery.getNickName(), "N") > 0) {
+            return ResultJson.buildError("昵称已经被注册");
+        }
         //添加用户
         User user = changeQueryToUser(userQuery);
+        user.setEnable("Y");
         userMapper.insertUseGeneratedKeys(user);
         //添加用户角色表
         UserRole userRole = new UserRole();
         userRole.setUserId(user.getId());
-        userRole.setRoleId(userQuery.getRoleId());
+        userRole.setRoleId(userQuery.getRoleId() == null ? 1 : userQuery.getRoleId());
         userRoleMapper.insertSelective(userRole);
         //添加用户附加属性
         UserAttr userAttr = new UserAttr();
         userAttr.setUserId(user.getId());
         userAttr.setHeadImage(SysConfigUtil.selectDefaultImageUrl());
+        userAttr.setCreateTime(new Date());
+        userAttrMapper.insertSelective(userAttr);
+        //更新邀请码使用次数
+        int i = codeMapper.selectCountByCode(userQuery.getInvitationCode());
+        Code code = new Code();
+        code.setCode(userQuery.getInvitationCode());
+        code.setUsedNum(++i);
+        codeMapper.updateCount(code);
         //根据用户的id的base64值发送邮件，增加一个邮件记录表
-        String params = Base64.getEncoder().encodeToString(userQuery.getNickName().getBytes());
-        asyncService.sendEmailAsync(userQuery.getEmail(), subject, String.format(content, "123", "234"));
+//        String params = Base64.getEncoder().encodeToString(userQuery.getNickName().getBytes());
+//        String content = "http://localhost:8080/public/user/activeRegister?param=" + params;
+        //TODO  填充登录页面的路径
+        String content = "";
+        Map<String, String> map = new HashMap<>();
+        map.put("content", content);
+        map.put("content1", content);
+        asyncService.sendHtmlEmailAsync(userQuery.getEmail(), subject, ToolsUtil.replaceTemplate(this.content, map));
         return ResultJson.buildSuccess();
     }
 
@@ -149,7 +172,8 @@ public class UserPortalServiceImpl implements UserPortalService {
      * @param userQuery 用户对象
      * @return
      */
-    public ResultJson Logon(UserQuery userQuery, HttpServletRequest request) {
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public ResultJson logon(UserQuery userQuery, HttpServletRequest request) {
         if (StringUtils.isEmpty(userQuery.getUserName())) {
             return ResultJson.buildError("用户名为空");
         }
@@ -157,7 +181,7 @@ public class UserPortalServiceImpl implements UserPortalService {
             return ResultJson.buildError("密码为空");
         }
         //使用用户名和密码进行登录
-        UserBack user = userMapper.selectByUserName(userQuery);
+        User user = userMapper.selectBaseByUserName(userQuery);
         if (user != null && user.getId() > 0) {
             log.info("登录成功");
             RedisPoolUtil.set(RedisContents.USER_TOKEN + user.getId(), JSONObject.toJSONString(user), expireTime);
@@ -171,7 +195,12 @@ public class UserPortalServiceImpl implements UserPortalService {
         loginRecord.setUserId(user.getId());
         loginRecord.setUserName(StringUtils.isEmpty(user.getNickName()) ? user.getEmail() : user.getNickName());
         loginRecordMapper.insertSelective(loginRecord);
-        return ResultJson.buildSuccess();
+        UserAttr userAttr = userAttrMapper.selectByUserId(user.getId());
+        Map<String, Object> map = new HashMap<>();
+        map.put("user", user);
+        map.put("userAttr", userAttr);
+        map.put("isPainter", "Y".equalsIgnoreCase(user.getPainter()));
+        return ResultJson.buildSuccess(map);
     }
 
     /**
@@ -181,6 +210,7 @@ public class UserPortalServiceImpl implements UserPortalService {
      * @return
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public ResultJson activeRegister(String param) {
         byte[] decode = Base64.getDecoder().decode(param.getBytes());
         String nickName = new String(decode);
@@ -215,7 +245,7 @@ public class UserPortalServiceImpl implements UserPortalService {
         }
         UserQuery userQuery = new UserQuery();
         userQuery.setUserName(email);
-        UserBack userBack = userMapper.selectByUserName(userQuery);
+        User userBack = userMapper.selectBaseByUserName(userQuery);
         if (userBack == null) {
             return ResultJson.buildError("用户不存在");
         }
@@ -224,7 +254,7 @@ public class UserPortalServiceImpl implements UserPortalService {
         String token = "";
         String suffix = "?email=" + email + "&reset_password_token=" + token;
         //TODO 补充发送邮件参数或者  从DB获取邮件模板，进行填充
-        asyncService.sendEmailAsync(email, "忘记密码", "");
+        asyncService.sendHtmlEmailAsync(email, "忘记密码", "");
         RedisPoolUtil.set(RedisTimeConstant.EMAIL_CODE_RANDOM + email, token, RedisTimeConstant.CACHE_5_MINUTE);
         return ResultJson.buildSuccess();
     }
@@ -236,6 +266,7 @@ public class UserPortalServiceImpl implements UserPortalService {
      * @return
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public ResultJson resetPassword(UserQuery userQuery) {
         if (StringUtils.isEmpty(userQuery.getEmail())) {
             return ResultJson.buildError("邮箱为空");

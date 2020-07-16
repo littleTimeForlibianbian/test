@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <!--<meta name="viewport" content="width=width-device,initial-scale=1.0">-->
+    <title>发布作品</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="uploadworks/webuploader/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="uploadworks/webuploader/demo.css">
+    <link rel="stylesheet" type="text/css" href="uploadworks/webuploader/webuploader.css">
+</head>
+<body>
+<div class="PublishingWorks">
+    <div class="ES-Registration-logo">
+        <a href=""><img src="img/ES-logo.png"></a>
+    </div>
+    <div class="lanrenzhijia">
+        <div class="product PW-show">
+            <div class="PublishingWorkspage">
+                <div class="page-container">
+                    <div id="uploader" class="wu-example">
+                        <div class="queueList">
+                            <div id="dndArea" class="placeholder">
+                                <div id="filePicker"></div>
+                                <p>或将照片拖到这里</p>
+                            </div>
+                        </div>
+                        <div class="statusBar" style="display:none">
+                            <div class="progress">
+                                <span class="text">0%</span>
+                                <span class="percentage"></span>
+                            </div>
+                            <div class="btns">
+                                <div class="uploadBtn">开始上传</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="workscontent">
+                    <div class="worksname">
+                        <span>作品名称：</span><input type="text" placeholder="（必填）14字以内"/>
+                        <span class="spancontent">作品内容：</span><input class="es-input" type="text"
+                                                                     placeholder="（选填）50字以内"/>
+                    </div>
+                </div>
+                <div class="workslabel">
+                    <div class="labelpage-list" id="labelchecked">
+                        <label class="pull-left">画风</label>
+                        <ul class="pull-left pw-ullist">
+                            <li>中国风</li>
+                            <li>古风</li>
+                            <li>水墨风</li>
+                            <li>日系</li>
+                            <li>欧美系</li>
+                            <li>韩系</li>
+                            <li>写实风</li>
+                            <li>萌系</li>
+                            <li>童趣</li>
+                            <li>像素风</li>
+                            <li>科幻风</li>
+                            <li>简约风</li>
+                            <li>唯美风</li>
+                            <li>水彩</li>
+                            <li>白描</li>
+                            <li>厚涂</li>
+                            <li>平涂</li>
+                            <li>少女漫画</li>
+                            <li>美式卡通</li>
+                            <li>硬派</li>
+                            <li>野兽派</li>
+                            <li>未来风</li>
+                        </ul>
+                    </div>
+                    <div class="labelpage-list" id="labelcheckedpin">
+                        <label class="pull-left">品类</label>
+                        <ul class="pull-left pw-ullist">
+                            <li>角色设计</li>
+                            <li>立绘</li>
+                            <li>3D</li>
+                            <li>场景</li>
+                            <li>条漫</li>
+                            <li>动漫</li>
+                            <li>特效</li>
+                            <li>分镜</li>
+                            <li>插画</li>
+                            <li>游戏原画</li>
+                            <li>二次元原创</li>
+                            <li>国画</li>
+                            <li>版画</li>
+                            <li>木刻</li>
+                            <li>壁画</li>
+                            <li>手绘</li>
+                            <li>简笔画</li>
+                            <li>儿童插画</li>
+                            <li>水粉</li>
+                            <li>彩铅</li>
+                            <li>钢笔画</li>
+                            <li>油画</li>
+                            <li>速写</li>
+                            <li>像素画</li>
+                            <li>素描</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="usethings">
+                    <div><input type="checkbox" onclick="return false;"
+                                checked="checked"><span>禁止匿名转载，禁止商用，禁止个人使用；</span></div>
+                    <div><input type="checkbox" onclick="return false;"
+                                checked="checked"><span>慢蜗社区水印，对上传原创作品进行版权保护；</span></div>
+                </div>
+                <div class="labelpage-list">
+                    <div class="text-center labelin uppicture">
+                        <a href="" class="btn btn-default btn-disabled">预&nbsp;&nbsp;览</a>
+                        <a href="" class="btn btn-default btn-disabled">发&nbsp;&nbsp;布</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+<script src="js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="js/jq22.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="uploadworks/webuploader/extend-webuploader.js"></script>
+<script src="uploadworks/webuploader/webuploader.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    //画风标签点选
+    //$(function(){
+    var myCont = [];
+    var xx = 0;
+    var lis = document.getElementById("labelchecked").getElementsByTagName("li");
+    for (var i = 0; i < lis.length; i++) {
+        lis[i].onclick = function () {
+            if ($(this).hasClass("otherBrowserChecked")) {
+                xx = xx - 1;
+                $(this).removeClass("otherBrowserChecked");
+                if (xx != 3) {
+                    $("#labelchecked li").removeClass("forbid");
+                }
+                $(this).attr("name", "");
+                for (var i = 0; i < lis.length; i++) {
+                    if (myCont[i] == this.innerHTML) {
+                        myCont.splice(i, 1);
+                    }
+                }
+            } else {
+                if (xx == 3) {
+                    $("#labelchecked li").addClass("forbid");
+
+                    $("li[name=actions]").removeClass("forbid");
+                } else {
+                    var cont = this.innerHTML;
+                    myCont.push(cont);
+                    console.log(myCont);
+                    $(this).addClass("otherBrowserChecked");
+                    $(this).attr("name", "actions");
+                    xx++;
+
+                }
+            }
+        }
+    }
+    //})
+    //品类点选
+    var myContpin = [];
+    var xxpin = 0;
+    var lispin = document.getElementById("labelcheckedpin").getElementsByTagName("li");
+    for (var i = 0; i < lispin.length; i++) {
+        lispin[i].onclick = function () {
+            if ($(this).hasClass("otherBrowserChecked")) {
+                xxpin = xxpin - 1;
+                $(this).removeClass("otherBrowserChecked");
+                if (xxpin != 2) {
+                    $("#labelcheckedpin li").removeClass("forbid");
+                }
+                $(this).attr("name", "");
+                for (var i = 0; i < lispin.length; i++) {
+                    if (myContpin[i] == this.innerHTML) {
+                        myContpin.splice(i, 1);
+                    }
+                }
+            } else {
+                if (xxpin == 2) {
+                    $("#labelcheckedpin li").addClass("forbid");
+
+                    $("li[name=actions]").removeClass("forbid");
+                } else {
+                    var contpin = this.innerHTML;
+                    myContpin.push(contpin);
+                    $(this).addClass("otherBrowserChecked");
+                    $(this).attr("name", "actions");
+                    xxpin++;
+
+                }
+            }
+        }
+    }
+</script>
+<script>
+    window.webuploader = {
+        config: {
+            thumbWidth: 220, //缩略图宽度，可省略，默认为110
+            thumbHeight: 220, //缩略图高度，可省略，默认为110
+            wrapId: 'uploader', //必填
+        },
+        //处理客户端新文件上传时，需要调用后台处理的地址, 必填
+        uploadUrl: 'fileupload.php',
+        //处理客户端原有文件更新时的后台处理地址，必填
+        updateUrl: 'fileupdate.php',
+        //当客户端原有文件删除时的后台处理地址，必填
+        removeUrl: 'filedel.php',
+        //初始化客户端上传文件，从后台获取文件的地址, 可选，当此参数为空时，默认已上传的文件为空
+        initUrl: 'fileinit.php',
+    }
+</script>
+
+</html>

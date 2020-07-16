@@ -1,9 +1,6 @@
 package com.example.lixc.vo.back;
 
-import com.example.lixc.entity.SysImage;
-import com.example.lixc.entity.SysWork;
-import com.example.lixc.entity.Tag;
-import com.example.lixc.entity.User;
+import com.example.lixc.entity.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,6 +14,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class WorkBack extends SysWork {
+
     //作品包含的图片集合
     private List<SysImage> imageList;
     //作品对应的画风
@@ -25,4 +23,6 @@ public class WorkBack extends SysWork {
     private Boolean isLike;
     //作者信息
     private User user;
+
+    private UserAttr userAttr;
 }

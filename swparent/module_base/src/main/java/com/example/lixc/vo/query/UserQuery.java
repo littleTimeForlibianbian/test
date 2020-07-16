@@ -20,12 +20,13 @@ import java.util.Date;
  */
 @Data
 @ToString
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "用户参数类", description = "用户请求参数描述")
 public class UserQuery extends PageParam {
+
     private static final long serialVersionUID = -8825117023632700730L;
-    @Id
-    private Integer userId;
+
+    private Integer userID;
 
     @ApiModelProperty("用户名（邮箱）")
     private String userName;
@@ -66,7 +67,7 @@ public class UserQuery extends PageParam {
     /**
      * 是否开启
      */
-    private Integer enable;
+    private String enable;
 
     /**
      * 是否是画师
@@ -88,7 +89,10 @@ public class UserQuery extends PageParam {
 
     private Integer createBy;
 
-    private Date createTime;
+    private Integer activeCount;
+
+    private Date startTime;
+    private Date endTime;
 
     private Integer updateBy;
 
@@ -101,7 +105,6 @@ public class UserQuery extends PageParam {
     //重置密码token
     private String resetPasswordToken;
 
-
     /**
      * 上次登录时间
      */
@@ -112,13 +115,13 @@ public class UserQuery extends PageParam {
             return ResultJson.buildError("昵称为空");
         }
         if (!ToolsUtil.regexNickName(nickName)) {
-            return ResultJson.buildError("由最多8位中文、英文、下划线、数字组成");
+            return ResultJson.buildError("昵称由最多8位中文、英文、下划线、数字组成");
         }
         if (StringUtils.isEmpty(password)) {
             return ResultJson.buildError("密码为空");
         }
         if (!ToolsUtil.regexPass(password)) {
-            return ResultJson.buildError("由最多8位中文、英文、下划线、数字组成");
+            return ResultJson.buildError("密码由最多8位中文、英文、下划线、数字组成");
         }
         if (StringUtils.isEmpty(email)) {
             return ResultJson.buildError("邮箱为空");
@@ -132,13 +135,13 @@ public class UserQuery extends PageParam {
         if (!ToolsUtil.regexPhone(phone)) {
             return ResultJson.buildError("手机号格式错误");
         }
-        if (!ToolsUtil.regexPhone(invitationCode)) {
+        if (StringUtils.isEmpty(invitationCode)) {
             return ResultJson.buildError("邀请码为空");
         }
         if (invitationCode.length() != 9) {
             return ResultJson.buildError("邀请码错误");
         }
-        if (!ToolsUtil.regexPhone(city)) {
+        if (StringUtils.isEmpty(city)) {
             return ResultJson.buildError("城市为空");
         }
         return ResultJson.buildSuccess();

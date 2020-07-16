@@ -2,7 +2,9 @@ package com.example.lixc.entity;
 
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.data.annotation.Id;
+import org.apache.ibatis.type.Alias;
+
+import javax.persistence.Id;
 
 import javax.persistence.Table;
 
@@ -10,6 +12,7 @@ import javax.persistence.Table;
 @Data
 @ToString
 @Table(name = "sys_dict")
+@Alias("sysDict")
 public class SysDict {
     @Id
     private Integer id;

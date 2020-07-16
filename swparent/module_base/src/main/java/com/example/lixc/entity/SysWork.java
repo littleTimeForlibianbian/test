@@ -2,9 +2,9 @@ package com.example.lixc.entity;
 
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.Table;
+import javax.persistence.Id;
 import java.util.Date;
 
 @Table(name = "sys_work")
@@ -23,10 +23,6 @@ public class SysWork {
 
     private String content;
 
-    private String workStyle;
-
-    private String workCategory;
-
     private Integer praiseNum;
 
     private Integer commentNum;
@@ -38,6 +34,16 @@ public class SysWork {
     private Integer updateBy;
 
     private Date updateTime;
+
+    private String isNormal;
+
+    public String getIsNormal() {
+        return isNormal;
+    }
+
+    public void setIsNormal(String isNormal) {
+        this.isNormal = isNormal;
+    }
 
     public String getIsDelete() {
         return isDelete;

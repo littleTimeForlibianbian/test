@@ -12,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,7 +39,6 @@ public class ToolsUtil {
         String regex = "^(?![\\d]+$)(?![a-zA-Z]+$)(?![^\\da-zA-Z]+$).{8,20}$";
         return regex(pass, regex);
     }
-
 
     public static boolean regexEmail(String mail) {
         //邮箱验证
@@ -397,14 +397,21 @@ public class ToolsUtil {
         return null;
     }
 
-    public static void main(String[] args) {
-        Map<String, String> map = new HashMap<>();
-        map.put("from", "张三");
-        map.put("action", "评论");
-        map.put("source", "文章《我唾弃你的坟墓》");
-        String s = replaceTemplate(SimpleMessageTemplate.content_simple, map);
-        System.out.println(s);
-
+    public static TreeSet<String> getDaysList(int days) {
+        TreeSet<String> daysList = new TreeSet<>();
+        //获取当前日期
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+        Date nowDate = new Date();
+        String format = "";
+        calendar.setTime(nowDate);
+        for (int i = 0; i < days; i++) {
+            calendar.add(Calendar.DATE, -1);
+            format = sdf.format(calendar.getTime());
+            daysList.add(format);
+        }
+        return daysList;
     }
 
 }

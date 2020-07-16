@@ -7,8 +7,8 @@ import com.example.lixc.enums.MessageTypeEnum;
 import com.example.lixc.enums.UserStatusEnum;
 import com.example.lixc.enums.WorkStatusEnum;
 import com.example.lixc.mapper.*;
-import com.example.lixc.service.IndexService;
 import com.example.lixc.service.MessageService;
+import com.example.lixc.service.WorkService;
 import com.example.lixc.template.SimpleMessageTemplate;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.util.ThumbUtil;
@@ -27,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.tools.Tool;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -35,7 +34,7 @@ import java.util.*;
 
 @Service
 @Slf4j
-public class IndexServiceImpl implements IndexService {
+public class WorkServiceImpl implements WorkService {
 
     @Autowired
     private MessageService messageService;
@@ -85,8 +84,8 @@ public class IndexServiceImpl implements IndexService {
         }
         List<SysImage> imageList = new ArrayList<>();
         for (MultipartFile file : files) {
-            String suffix = Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-            String newFileName = new Date().getTime() + "_" + new Random(10000).nextInt();
+            String suffix = Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf("."));
+            String newFileName = new Date().getTime() + "_" + new Random().nextInt(10000);
             String thumbFileName = newFileName + "_thumb";
             Date currentDate = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -102,11 +101,11 @@ public class IndexServiceImpl implements IndexService {
                 SysImage image = new SysImage();
                 image.setUrl(targetFile.getAbsolutePath());
                 image.setThumbUrl(thumbFile.getAbsolutePath());
+                image.setCreateTime(new Date());
                 imageMapper.insertUseGeneratedKeys(image);
                 imageList.add(image);
             } catch (IOException e) {
                 e.printStackTrace();
-                //删除文件
                 targetFile.deleteOnExit();
                 thumbFile.deleteOnExit();
                 return ResultJson.buildError("上传图片异常");
@@ -150,6 +149,8 @@ public class IndexServiceImpl implements IndexService {
 //        work.setUserId(0);
 //        work.setCreateBy(0);
         work.setCreateTime(new Date());
+        work.setPraiseNum(0);
+        work.setIsNormal(StringUtils.isEmpty(workQuery.getIsNormal()) ? "Y" : workQuery.getIsNormal());
         workMapper.insertUseGeneratedKeys(work);
         int workId = work.getId();
         //添加作品图片关联
@@ -164,9 +165,9 @@ public class IndexServiceImpl implements IndexService {
         workImageMapper.insertList(list);
         //处理标签
         //添加作品标签关联表
-        List<String> strings = Arrays.asList(split);
-        List<String> strings1 = Arrays.asList(split1);
-        strings.addAll(strings1);
+        List<String> strings = new ArrayList<>();
+        strings.addAll(Arrays.asList(split));
+        strings.addAll(Arrays.asList(split1));
         List<SysWorkDict> workDicts = new ArrayList<>();
         for (String str : strings) {
             SysWorkDict workDict = new SysWorkDict();
@@ -175,7 +176,7 @@ public class IndexServiceImpl implements IndexService {
             workDicts.add(workDict);
         }
         workDictMapper.insertList(workDicts);
-        if (!workQuery.getIsNormal()) {
+        if ("N".equalsIgnoreCase(workQuery.getIsNormal())) {
             user.setStatus(UserStatusEnum.USER_STATUS_STEP1.getCode());
             userMapper.updateByPrimaryKeySelective(user);
         }
@@ -217,14 +218,18 @@ public class IndexServiceImpl implements IndexService {
         int count = wFavoriteMapper.selectCountByWorkId(userId, workId);
         sysWorkBack.setIsLike(count > 0);
         map.put("workBack", sysWorkBack);
-        //查询该作者的其余作品
-        Integer authorId = sysWorkBack.getUserId();
-        WorkQuery query = new WorkQuery();
-        query.setUserId(authorId);
-        List<WorkBack> others = workMapper.selectForList(query, "Y");
-        map.put("other", others);
         //TODO  查询所有的评论以及点赞
         return ResultJson.buildSuccess(map);
+    }
+
+
+    @Override
+    public ResultJson other(WorkQuery query) {
+        //查询该作者的其余作品
+        Integer authorId = query.getUserId();
+        Integer workId = query.getUserId();
+        List<WorkBack> others = workMapper.selectOther(authorId, workId);
+        return ResultJson.buildSuccess(others);
     }
 
     @Override
@@ -349,7 +354,7 @@ public class IndexServiceImpl implements IndexService {
         try {
             MessageQuery messageQuery = makeCommentMessage(work);
             messageService.create(messageQuery);
-            messageService.create(messageQuery);
+            messageService.send(messageQuery);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -405,6 +410,27 @@ public class IndexServiceImpl implements IndexService {
         return ResultJson.buildSuccess("删除成功");
     }
 
+    @Override
+    @Transactional
+    public ResultJson workCheck(WorkQuery workQuery) {
+        if (workQuery.getId() <= 0) {
+            log.error("传入参数id错误:{}", workQuery.getId());
+            return ResultJson.buildError("传入参数错误");
+        }
+        if (workQuery.getStatus() <= 0 || workQuery.getStatus() != WorkStatusEnum.WORK_STATUS_WAIT.getCode()) {
+            log.error("传入参数status错误:{}", workQuery.getStatus());
+            return ResultJson.buildError("传入参数错误");
+        }
+        SysWork work = workMapper.selectByPrimaryKey(workQuery.getId());
+        if (work == null || work.getId() <= 0) {
+            return ResultJson.buildError("对象不存在");
+        }
+        work.setStatus(workQuery.getStatus());
+        workMapper.updateByPrimaryKeySelective(work);
+        return ResultJson.buildSuccess();
+    }
+
+
     /**
      * 检查图片格式和大小
      *
@@ -422,8 +448,8 @@ public class IndexServiceImpl implements IndexService {
                         result = "图片格式不符合规范，请重新上传";
                         break;
                     }
-                    if (file.getSize() > 1024 * 2) {
-                        result = "图头大小不符合规范，请重新上传";
+                    if (file.getSize() > 1024 * 1024 * 2) {
+                        result = "图片大小不符合规范，请重新上传";
                         break;
                     }
                 }

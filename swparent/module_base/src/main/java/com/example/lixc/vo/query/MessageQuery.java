@@ -19,9 +19,9 @@ public class MessageQuery {
     //接受者id
     private Integer toUserId;
     private String toUserName;
-    //类型
+    //类型  '消息类型:announcement公告/remind提醒/message私信',
     private Integer type;
-    //动作
+    //动作 '用户动作触发的消息 comment评论，praise点赞，reply回复，recommend推荐 system 系统',
     private String action;
     //消息标题
     private String title;

@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "sw.mail.subject",
+      "type": "java.lang.String",
+      "description": "Description for sw.mail.subject."
+    },
+    {
+      "name": "sw.work.thumbRatio",
+      "type": "java.lang.String",
+      "description": "Description for sw.work.thumbRatio."
+    }
+  ]
+}

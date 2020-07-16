@@ -5,5 +5,5 @@ import com.example.lixc.entity.UserAttr;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserAttrMapper extends SwBaseMapper<UserAttr> {
-    UserAttr selectByUserId(@Param("userIdF")int userId);
+    UserAttr selectByUserId(@Param("userId") int userId);
 }

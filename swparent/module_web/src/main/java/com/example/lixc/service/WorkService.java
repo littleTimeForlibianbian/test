@@ -8,7 +8,7 @@ import com.example.lixc.vo.query.WorkQuery;
 import com.github.pagehelper.Page;
 import org.springframework.web.multipart.MultipartFile;
 
-public interface IndexService {
+public interface WorkService {
 
     ResultJson uploadImage(MultipartFile[] files);
 
@@ -34,4 +34,8 @@ public interface IndexService {
     ResultJson commentLike(int id);
 
     ResultJson commentDel(int id);
+
+    ResultJson workCheck(WorkQuery workQuery);
+
+    ResultJson other(WorkQuery query);
 }

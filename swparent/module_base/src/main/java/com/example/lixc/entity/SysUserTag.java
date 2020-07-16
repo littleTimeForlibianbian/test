@@ -1,9 +1,9 @@
 package com.example.lixc.entity;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.Table;
+import javax.persistence.Id;
 
 @Data
 @Table(name = "sys_user_tag")

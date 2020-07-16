@@ -1,7 +1,8 @@
 package com.example.lixc.entity;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
+
+import javax.persistence.Id;
 
 import javax.persistence.Table;
 import java.util.Date;

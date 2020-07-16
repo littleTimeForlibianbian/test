@@ -1,7 +1,7 @@
 package com.example.lixc.controller.portal;
 
 import com.example.lixc.entity.WComment;
-import com.example.lixc.service.IndexService;
+import com.example.lixc.service.WorkService;
 import com.example.lixc.util.QRCodeUtil;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.back.WorkBack;
@@ -24,14 +24,14 @@ import javax.servlet.http.HttpServletRequest;
 public class IndexController {
 
     @Autowired
-    private IndexService indexService;
+    private WorkService workService;
 
     //查询作品列表  按照时间进行倒叙排序
     @ApiOperation("查询作品列表")
     @PostMapping("/workList/{more}")
-    public Page<WorkBack> workList(@RequestBody WorkQuery query, @PathVariable("more") String more) {
+    public Page<WorkBack> workList(WorkQuery query, @PathVariable("more") String more) {
         try {
-            return indexService.workList(query, more);
+            return workService.workList(query, more);
         } catch (Exception e) {
             log.error("workList exception:{}", e.getMessage());
             return new Page<>();
@@ -44,10 +44,22 @@ public class IndexController {
     @PostMapping("/workDetail")
     public ResultJson workDetail(WorkQuery query) {
         try {
-            return indexService.workDetail(query);
+            return workService.workDetail(query);
         } catch (Exception e) {
             log.error("workList exception:{}", e.getMessage());
-            return ResultJson.buildError("获取作品标签发生异常");
+            return ResultJson.buildError("获取作品详情发生异常");
+        }
+    }
+
+    //作品详情
+    @ApiOperation("其余作品")
+    @PostMapping("/other")
+    public ResultJson other(WorkQuery query) {
+        try {
+            return workService.other(query);
+        } catch (Exception e) {
+            log.error("workList exception:{}", e.getMessage());
+            return ResultJson.buildError("获取作品详情发生异常");
         }
     }
 
@@ -55,15 +67,16 @@ public class IndexController {
     //上传图片
     @ApiOperation("上传图片")
     @PostMapping("/uploadImage")
-    public ResultJson uploadImage(@RequestParam("file") MultipartFile[] files) {
-        return indexService.uploadImage(files);
+    public ResultJson uploadImage(@RequestParam("file") MultipartFile file) {
+        MultipartFile[] files = new MultipartFile[]{file};
+        return workService.uploadImage(files);
     }
 
     @ApiOperation("获取作品标签")
     @PostMapping("/selectAllWorkLabels")
     public ResultJson selectAllWorkLabels() {
         try {
-            return indexService.selectAllWorkLabels();
+            return workService.selectAllWorkLabels();
         } catch (Exception e) {
             log.error("selectAllWorkLabels exception:{}", e.getMessage());
             return ResultJson.buildError("获取作品标签发生异常");
@@ -74,20 +87,20 @@ public class IndexController {
     @ApiOperation("上传作品")
     @PostMapping("/uploadWork")
     public ResultJson uploadWork(WorkQuery workQuery) {
-        return indexService.uploadWork(workQuery);
+        return workService.uploadWork(workQuery);
     }
 
     @ApiOperation("创作过往")
     @PostMapping("/createHistory")
     public ResultJson createHistory(String content) {
-        return indexService.createHistory(content);
+        return workService.createHistory(content);
     }
 
     @ApiOperation("常用网站")
     @PostMapping("/addWebsite")
     public ResultJson addWebsite(String website) {
         try {
-            return indexService.addWebsite(website);
+            return workService.addWebsite(website);
         } catch (Exception e) {
             log.error("addWebsite exception:{}", e.getMessage());
             return ResultJson.buildError("添加常用网站发生异常");
@@ -100,7 +113,7 @@ public class IndexController {
     @PostMapping("/focus")
     public ResultJson focus(String toUserId) {
         try {
-            return indexService.focus(toUserId);
+            return workService.focus(toUserId);
         } catch (Exception e) {
             log.error("addWebsite exception:{}", e.getMessage());
             return ResultJson.buildError("添加常用网站发生异常");
@@ -113,7 +126,7 @@ public class IndexController {
     @PostMapping("/like")
     public ResultJson like(String workId) {
         try {
-            return indexService.like(workId);
+            return workService.like(workId);
         } catch (Exception e) {
             log.error("addWebsite exception:{}", e.getMessage());
             return ResultJson.buildError("添加常用网站发生异常");
@@ -148,7 +161,7 @@ public class IndexController {
     @PostMapping("/comment")
     public ResultJson comment(WCommentQuery commentQuery) {
         try {
-            return indexService.comment(commentQuery);
+            return workService.comment(commentQuery);
         } catch (Exception e) {
             log.error("addWebsite exception:{}", e.getMessage());
             return ResultJson.buildError("添加常用网站发生异常");
@@ -159,7 +172,7 @@ public class IndexController {
     @PostMapping("/commentLike")
     public ResultJson commentLike(int id) {
         try {
-            return indexService.commentLike(id);
+            return workService.commentLike(id);
         } catch (Exception e) {
             log.error("addWebsite exception:{}", e.getMessage());
             return ResultJson.buildError("添加常用网站发生异常");
@@ -170,7 +183,7 @@ public class IndexController {
     @PostMapping("/commentDel")
     public ResultJson commentDel(int id) {
         try {
-            return indexService.commentDel(id);
+            return workService.commentDel(id);
         } catch (Exception e) {
             log.error("addWebsite exception:{}", e.getMessage());
             return ResultJson.buildError("添加常用网站发生异常");

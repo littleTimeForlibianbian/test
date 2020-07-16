@@ -18,17 +18,17 @@ create table `sys_work`
     `user_id`     int(11)      NOT NULL COMMENT '作者id',
     `status`      int(1)       NOT NULL COMMENT '审核状态',
     `is_delete`   char(1)      not null default 'N' comment '是否删除',
-    `name`        varchar(255) not null comment '作品名称',
+    `is_normal`   char(1)      not null default 'Y' comment '是否是普通作品上传',
+    `name`        varchar(255) null comment '作品名称',
     `content`     varchar(255) null comment '作品内容/作品描述',
 #     `work_style`    varchar(255) not null comment '画风',
 #     `work_category` varchar(255) not null comment '品类',
-    `praise_num`  int(11)      NOT NULL DEFAULT 0 COMMENT '点赞数',
-    `comment_num` int(11)      NOT NULL DEFAULT 0 COMMENT '评论数',
-    `create_by`   int(11)      NULL COMMENT '创建人',
-    `create_time` datetime     NOT NULL DEFAULT now() COMMENT '创建时间',
+    `praise_num`  int(11)      not NULL DEFAULT 0 COMMENT '点赞数',
+    `comment_num` int(11)      not NULL DEFAULT 0 COMMENT '评论数',
+    `create_by`   int(11) COMMENT '创建人',
+    `create_time` datetime     NULL     DEFAULT now() COMMENT '创建时间',
     `update_by`   int(11)               DEFAULT NULL COMMENT '更新人',
     `update_time` datetime              DEFAULT NULL COMMENT '更新时间',
-
     PRIMARY KEY (`id`)
 ) engine = InnoDB
   default charset = utf8;
@@ -237,7 +237,39 @@ create table `sys_suggest`
     `version`     int(5) comment '当前版本',
     `url`         varchar(255) comment '用户头像路径',
     `praise_num`  int(5) comment '点赞数量',
+    `priority`    int(5) comment '优先级',
+    `status`      int(5) comment '状态',
     primary key (`id`)
 ) engine = InnoDB
   default charset = utf8;
 
+-- TODO  增加作品转发记录表  用来统计
+
+
+drop table if exists `sys_version_spo`;
+create table `sys_version_spo`
+(
+    `id`           int(11) not null auto_increment comment '主键id',
+    `user_id`      int(11) comment '用户id',
+    `status`       int(11) default -1 comment '状态',
+    `content`      varchar(2000) comment '建议内容',
+    `publish_time` datetime comment '发布时间',
+    `create_time`  datetime comment '创建时间',
+    `type`         varchar(10) comment '类型  版本剧透spo  反馈优化opt',
+    `version`      int(5) comment '当前版本',
+    primary key (`id`)
+) engine = InnoDB
+  default charset = utf8;
+
+
+drop table if exists `sys_report`;
+create table `sys_report`
+(
+    `id`           int(11) not null auto_increment comment '主键id',
+    `content`      varchar(255) comment '举报条件',
+    `content_ext1` varchar(255) comment '附加条件1',
+    `content_ext2` varchar(255) comment '附加条件2',
+    `create_time`  datetime comment '创建时间',
+    primary key (`id`)
+) engine = InnoDB
+  default charset = utf8;

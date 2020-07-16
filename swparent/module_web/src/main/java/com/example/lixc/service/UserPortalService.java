@@ -6,6 +6,7 @@ import com.example.lixc.vo.back.AdminUserBack;
 import com.example.lixc.vo.query.AdminUserQuery;
 import com.example.lixc.vo.query.UserQuery;
 import com.github.pagehelper.Page;
+import org.apache.ibatis.annotations.Param;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -32,7 +33,7 @@ public interface UserPortalService {
      * @param userQuery 用户对象
      * @return ResultJson
      */
-    ResultJson Logon(UserQuery userQuery, HttpServletRequest request);
+    ResultJson logon(@Param("userQuery") UserQuery userQuery, @Param("request") HttpServletRequest request);
 
 
     /**

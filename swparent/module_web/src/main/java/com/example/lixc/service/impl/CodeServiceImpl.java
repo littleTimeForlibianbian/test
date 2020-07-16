@@ -40,8 +40,7 @@ public class CodeServiceImpl implements CodeService {
         code.setUsedNum(0);
         code.setCreateBy(SysConfigUtil.getLoginUserId());
         code.setCreateTime(new Date());
-        //写库
-        codeMapper.insertSelective(code);
+        codeMapper.insertUseGeneratedKeys(code);
         return ResultJson.buildSuccess(code, "生成邀请码成功");
     }
 

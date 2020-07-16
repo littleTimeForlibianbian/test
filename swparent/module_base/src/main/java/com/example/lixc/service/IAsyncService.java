@@ -4,9 +4,19 @@ public interface IAsyncService {
 
     /**
      * 异步发送邮件
-     * @param to 
+     *
+     * @param to
      * @param subject
      * @param content
      */
-    void sendEmailAsync(String to, String subject, String content);
+    void sendHtmlEmailAsync(String to, String subject, String content);
+
+    /**
+     * 异步发送邮件
+     *
+     * @param to
+     * @param subject
+     * @param content
+     */
+    void sendSimpleEmailAsync(String to, String subject, String content);
 }

@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 /***
  * redis分布式锁
- * 
+ *
  * @author ssr
  */
 @Component
@@ -33,7 +33,7 @@ public class RedisDistributedLock {
      * 锁定key, expire秒后自动解锁
      * @param
      * @param
-     * @return 操作成功返回ture,失败返回false;
+     * @return 操作成功返回ture, 失败返回false;
      */
     public boolean setLock(String lockKey, long expireSeconds) {
         RedisCallback<Boolean> callback = (connection) -> {

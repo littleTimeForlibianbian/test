@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=width-device,initial-scale=1.0">
+    <title>系统消息详情页</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+</head>
+<body>
+<div class="headernav1">
+    <div class="container">
+        <div class="pull-left navlogo">
+            <img src="img/ES-logo-light.png">
+        </div>
+        <div class="pull-left ES-mywo">
+            <a href="myworld.html"><img src="img/homepage.png"><span class="text-center">我的世界</span></a>
+        </div>
+        <div class="pull-right connav">
+            <ul>
+                <li><a href="Authentication.html"><img src="img/upload1.png"></a></li>
+                <li class="seachli">
+                    <form class="bs-example bs-example-form" role="form" style="width: 240px;">
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control" placeholder="作品、昵称">
+                            <span class="input-group-addon"><img src="img/icon-ss.png"></span>
+                        </div>
+                    </form>
+                </li>
+                <li><a href="drawerhomepage.html"><img src="img/code.jpg"
+                                                       style="width: 40px;height: 40px;border-radius:50%;"></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="text-center ES-window container">
+    <h3>我叫网卡和太子呀</h3>
+    <div class="newstime"><span>2018-08-18</span><span class="wangka">网卡</span></div>
+    <div>
+        <img src="img/news.jpeg">
+    </div>
+    <div class="newscontent">
+        <p>
+            中新网黄石9月11日电 (梁婷 南艳群 丁捷菲)第八届中国创新创业大赛(湖北赛区)决赛11日在湖北黄石举行，经过角逐，排序靠前的22家成长组企业和9家初创组企业将代表湖北进军全国行业总决赛。
+
+            中国创新创业大赛是一项以“科技创新、成就大业”为主题的全国性双创赛事。赛事分为地方赛和全国行业总决赛两个赛程。
+
+            本次大赛由科技部火炬高技术产业开发中心指导，湖北省科技厅、湖北省发改委、湖北省教育厅、湖北省财政厅、湖北省人社厅、共青团湖北省委共同主办。
+
+            自5月份大赛启动以来，湖北赛区共收到778家企业报名参赛，经过两个月的评审角逐，最终有来自电子信息、先进制造、生物医药、新材料、互联网、新能源及节能环保六大行业领域的53个参赛项目进入湖北赛区决赛。
+        </p>
+    </div>
+</div>
+
+
+</body>
+<script type="text/javascript" src="scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="../PictureEnlargement/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="../PictureEnlargement/jquery.imgZoom.js"></script>
+<script type="text/javascript" src="../PictureEnlargement/jquery.drag.js"></script>
+<script>
+    $(function () {
+        $('#myModal').modal('hide')
+    });
+</script>
+<script type="text/javascript">
+    $(".imgZoom").imgZoom();
+</script>
+<script>
+    $(".recominput").click(function () {
+        $(".reminput").slideToggle();
+    });
+
+    $('.categroyclick').click(function () {
+        $(".categorylist").slideToggle();
+    });
+
+    $('.newcreate').click(function () {
+        $(".newcreateinput").slideToggle();
+    });
+    $('.noticelist').click(function () {
+        $(".categorylist1").slideToggle();
+    });
+</script>
+</html>

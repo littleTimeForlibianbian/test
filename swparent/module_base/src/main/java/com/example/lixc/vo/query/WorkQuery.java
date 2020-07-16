@@ -19,13 +19,16 @@ public class WorkQuery extends PageParam {
     private String imageIds;
     //作品名称
     private String name;
-    //作品描述
-    private String content;
     //要查询的标签
     private String label;
+    private Integer status;
+    private String userName;
 
+    private String content;
+    //点赞数量
+    private Integer praiseNum;
     //作品上傳  true   身份認證 false
-    private Boolean isNormal;
+    private String isNormal;
 
     //画风标签列表  多个之间以-分割
     private String styleLabelForAdd;

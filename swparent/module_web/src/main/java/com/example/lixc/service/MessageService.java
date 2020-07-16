@@ -29,4 +29,9 @@ public interface MessageService {
 
     //查询动态消息
     List<SysMessage> queryDynamic(MessageQuery messageQuery);
+
+    //删除系统消息
+    void deleteById(MessageQuery messageQuery);
+
+
 }

@@ -8,31 +8,34 @@ import java.io.Serializable;
 public class PageParam implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**  当前页数 */
+    /**
+     * 当前页数
+     */
     private Integer pageNo = 1;
 
-    /** 每页记录数 */
+    /**
+     * 每页记录数
+     */
     private Integer pageSize = 10;
-    
-    
+
+
     public Integer getPageNo() {
-		return pageNo;
-	}
+        return pageNo;
+    }
 
-	public void setPageNo(Integer pageNo) {
-		this.pageNo = pageNo;
-	}
+    public void setPageNo(Integer pageNo) {
+        this.pageNo = pageNo;
+    }
 
-	public Integer getPageSize() {
+    public Integer getPageSize() {
         return pageSize;
     }
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }
-    
-    
-    
+
+
     public void manualPaging() {
         this.pageNo = null;
         this.pageSize = null;

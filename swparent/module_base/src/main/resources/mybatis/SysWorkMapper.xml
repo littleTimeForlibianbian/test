@@ -8,8 +8,7 @@
         <result column="is_delete" jdbcType="CHAR" property="isDelete"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
-        <result column="work_style" jdbcType="VARCHAR" property="workStyle"/>
-        <result column="work_category" jdbcType="VARCHAR" property="workCategory"/>
+        <result column="is_normal" jdbcType="CHAR" property="isNormal"/>
         <result column="praise_num" jdbcType="INTEGER" property="praiseNum"/>
         <result column="comment_num" jdbcType="INTEGER" property="commentNum"/>
         <result column="create_by" jdbcType="INTEGER" property="createBy"/>
@@ -17,50 +16,125 @@
         <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
-    <resultMap id="workBackMap" type="com.example.lixc.vo.back.WorkBack">
+    <resultMap id="WorkBackMap" type="com.example.lixc.vo.back.WorkBack">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="is_delete" jdbcType="CHAR" property="isDelete"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
-        <result column="work_style" jdbcType="VARCHAR" property="workStyle"/>
-        <result column="work_category" jdbcType="VARCHAR" property="workCategory"/>
+        <result column="is_normal" jdbcType="CHAR" property="isNormal"/>
         <result column="praise_num" jdbcType="INTEGER" property="praiseNum"/>
         <result column="comment_num" jdbcType="INTEGER" property="commentNum"/>
         <result column="create_by" jdbcType="INTEGER" property="createBy"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <collection property="imageList" select="com.example.lixc.mapper.SysWorkImageMapper.selectImagesByWorkId"
-                    column="${work_id = id}" fetchType="lazy"/>
-        <collection property="tags" select="com.example.lixc.mapper.SysWorkDictMapper.selectTagsByWork"
-                    column="${work_id = id}" fetchType="lazy" ofType="collection"/>
+        <association property="user" resultMap="com.example.lixc.mapper.UserMapper.UserBaseMap"/>
+        <association property="userAttr" resultMap="com.example.lixc.mapper.UserAttrMapper.BaseResultMap"/>
+        <collection property="tags" resultMap="com.example.lixc.mapper.SysDictMapper.BaseResultMap"/>
+        <collection property="imageList" resultMap="com.example.lixc.mapper.SysImageMapper.BaseResultMap"/>
+        <!-- 此种循环方式会先查询 work  然后再去查询 imageList  会发生两次查询-->
+        <!--        <collection property="imageList" select="com.example.lixc.mapper.SysWorkImageMapper.selectImagesByWorkId"-->
+        <!--                    column="${work_id = id}" fetchType="lazy" ofType="sysImage"/>-->
+        <!--        <collection property="tags" select="com.example.lixc.mapper.SysWorkDictMapper.selectTagsByWork"-->
+        <!--                    column="${work_id = id}" fetchType="lazy" ofType="sysDict"/>-->
     </resultMap>
     <sql id="Base_Column_List">
-        id, user_id, status, is_delete, name, content, work_style, work_category, praise_num,
-    comment_num, create_by, create_time, update_by, update_time
+        swork.id, swork.user_id, swork.`status`, swork.is_delete,swork.is_normal, swork.`name`, swork.content,  swork.praise_num,
+    swork.comment_num, swork.create_by, swork.create_time, swork.update_by, swork.update_time,sd.id sid,
+        sd.p_id,
+        sd.dict_key,
+        sd.dict_value,
+        si.id siid,
+        si.thumb_url ,
+        si.url
     </sql>
-    <select id="selectForList" resultMap="workBackMap">
+    <select id="selectForList" resultMap="WorkBackMap" parameterType="com.example.lixc.vo.query.WorkQuery">
+        select
+        swork.id ,
+        swork.user_id,
+        swork.status,
+        swork.is_delete,
+        swork.name ,
+        swork.content,
+        sd.id sid,
+        sd.p_id,
+        sd.dict_key,
+        sd.dict_value,
+        si.id siid,
+        si.thumb_url ,
+        si.url ,
+        u.nick_name,
+        sua.head_image,
+        sua.website,
+        sua.u_history,
+        sua.id suaid
+        from sys_work swork
+        left join sys_user u on swork.user_id = u.id
+        left join sys_work_image swi on swi.work_id = swork.id
+        left join sys_image si on swi.image_id = si.id
+        left join sys_work_dict swd on swd.work_id = swork.id
+        left join sys_dict sd on swd.dict_id = sd.id
+        left join sys_user_attr sua on u.id = sua.user_id
+        where swork.is_delete='N'
+        and u.enable='Y'
+        <if test="workQuery.id > 0">
+            and swork.id = #{workQuery.id}
+        </if>
+        <if test="workQuery.userId > 0">
+            and swork.user_id = #{workQuery.userId}
+        </if>
+        <if test="workQuery.status > 0">
+            and swork.status = #{workQuery.status}
+        </if>
+        <if test="workQuery.userName!=null and workQuery.userName !=''">
+            and (u.email = #{workQuery.userName} or u.nick_name=#{workQuery.userName})
+        </if>
+        <if test="workQuery.name!=null and workQuery.name !=''">
+            and swork.name like concat('%',#{workQuery.name},'%')
+        </if>
+        <if test="workQuery.praiseNum > 0">
+            and praise_num = #{workQuery.praiseNum}
+        </if>
+        <if test="more == null or  more =='' or more == 'N'.toString()">
+            limit 10
+        </if>
+        order by swork.create_time desc
+    </select>
+    <select id="selectById" resultMap="WorkBackMap">
         select
         <include refid="Base_Column_List"/>
-        from sys_work
+        from sys_work swork
+        left join sys_user u on swork.user_id = u.id
+        left join sys_work_image swi on swi.work_id = swork.id
+        left join sys_image si on swi.image_id = si.id
+        left join sys_work_dict swd on swd.work_id = swork.id
+        left join sys_dict sd on swd.dict_id = sd.id
+        left join sys_user_attr sua on u.id = sua.user_id
         <where>
-            <if test="workQuery.userId > 0">
-                and user_id = #{workQuery.userId}
-            </if>
-            <if test="more == null or  more =='' or more == 'N'">
-                limit 10
+            <if test="workId> 0">
+                and swork.id = #{workId}
             </if>
         </where>
     </select>
-    <select id="selectById" resultMap="workBackMap">
+
+    <select id="selectOther" resultMap="WorkBackMap">
         select
         <include refid="Base_Column_List"/>
-        from sys_work sw
+        from sys_work swork
+        left join sys_user u on swork.user_id = u.id
+        left join sys_work_image swi on swi.work_id = swork.id
+        left join sys_image si on swi.image_id = si.id
+        left join sys_work_dict swd on swd.work_id = swork.id
+        left join sys_dict sd on swd.dict_id = sd.id
+        left join sys_user_attr sua on u.id = sua.user_id
         <where>
-            <if test="workId> 0">
-                and sw.id = #{workId}
+            <if test="authorId > 0">
+                and u.id = #{authorId}
+            </if>
+            <if test="workId > 0">
+                and swork.id != #{workId}
             </if>
         </where>
     </select>

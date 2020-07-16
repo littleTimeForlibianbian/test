@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=width-device,initial-scale=1.0">
+    <title>标签选择</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+</head>
+<body>
+<div class="ES-Registration">
+    <div class="ES-Registration-logo">
+        <a href=""><img src="img/ES-logo.png"></a>
+    </div>
+    <div class="label-bk">
+        <div>
+            <div class="labelpage-list" id="labelidentity">
+                <label class="pull-left">身份</label>
+                <ul class="pull-right">
+                    <li>插画师</li>
+                    <li>漫画师</li>
+                    <li>自由画师</li>
+                    <li>美院学生</li>
+                    <li>原画师</li>
+                    <li>分镜师</li>
+                    <li>场景师</li>
+                    <li>国画师</li>
+                    <li>创作新秀</li>
+                    <li>资深派</li>
+                    <!--<li class="newidentity"><a id="openBtn" href="#"><img src="img/ES-add.png">自定义</a></li>-->
+                </ul>
+            </div>
+            <div class="labelpage-list" id="labelcheckedyear">
+                <label class="pull-left">年代</label>
+                <ul class="pull-right">
+                    <li>50后</li>
+                    <li>60后</li>
+                    <li>70后</li>
+                    <li>80后</li>
+                    <li>90后</li>
+                </ul>
+            </div>
+            <div class="labelpage-list" id="labelstyle">
+                <label class="pull-left">画风</label>
+                <ul class="pull-right">
+                    <li>中国风</li>
+                    <li>古风</li>
+                    <li>水墨风</li>
+                    <li>日系</li>
+                    <li>欧美系</li>
+                    <li>韩系</li>
+                    <li>写实风</li>
+                    <li>萌系</li>
+                    <li>童趣</li>
+                    <li>像素风</li>
+                    <li>科幻风</li>
+                    <li>简约风</li>
+                    <li>唯美风</li>
+                    <li>水彩</li>
+                    <li>白描</li>
+                    <li>厚涂</li>
+                    <li>平涂</li>
+                    <li>少女漫画</li>
+                    <li>美式卡通</li>
+                    <li>硬派</li>
+                    <li>野兽派</li>
+                    <li>未来风</li>
+                    <!--<li class="newstyle"><a id="openBtn1" href="#"><img src="img/ES-add.png">自定义</a></li>-->
+                </ul>
+            </div>
+            <div class="labelpage-list" id="labelcategory">
+                <label class="pull-left">品类</label>
+                <ul class="pull-right">
+                    <li>角色设计</li>
+                    <li>立绘</li>
+                    <li>3D</li>
+                    <li>场景</li>
+                    <li>条漫</li>
+                    <li>动漫</li>
+                    <li>特效</li>
+                    <li>分镜</li>
+                    <li>插画</li>
+                    <li>游戏原画</li>
+                    <li>二次元原创</li>
+                    <li>国画</li>
+                    <li>版画</li>
+                    <li>木刻</li>
+                    <li>壁画</li>
+                    <li>手绘</li>
+                    <li>简笔画</li>
+                    <li>儿童插画</li>
+                    <li>水粉</li>
+                    <li>彩铅</li>
+                    <li>钢笔画</li>
+                    <li>油画</li>
+                    <li>速写</li>
+                    <li>像素画</li>
+                    <li>素描</li>
+                    <!--<li class="newcategory"><a id="openBtn2" href="#"><img src="img/ES-add.png">自定义</a></li>-->
+                </ul>
+            </div>
+            <div class="labelpage-list">
+                <div class="pull-right labelin">
+                    <button type="submit" class="btn btn-default btn-disabled" style="margin-top: 0px;">提交</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--身份自定义弹层-->
+<!--<div class="modal fade" id="myModalnewself" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header reportlist">
+                <img src="img/ES-fri.png"/><span>身份</span>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="td-box">
+            <div class="modal-body">
+                <div class="text-center ES-Elasticlayer">
+
+                    <input type="checkbox" class="newcreate" id="newcreate">
+                    <span>创建新分类</span>
+                    <input class="newcreateinput" type="text" id="newcreateinput"/>
+
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-td">添加</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+<!--画风自定义弹层-->
+<!--<div class="modal fade" id="myModaldrawself" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header reportlist">
+                <img src="img/ES-fengge.png"/><span>画风</span>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="td-box">
+            <div class="modal-body">
+                <div class="text-center ES-Elasticlayer">
+
+                <div>
+                    <input type="checkbox" class="newcreate" id="newstyle">
+                    <span>创建新分类</span>
+                    <input class="newcreateinput" type="text" id="newcreateinput1" style="width: 200px;height: 30px;margin-left: 10px;" />
+                </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-td">添加</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+<!--品类自定义弹层-->
+<!--<div class="modal fade" id="myModalcateself" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header reportlist">
+                <img src="img/ES-cate.png"/><span>品类</span>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="td-box">
+            <div class="modal-body">
+                <div class="text-center ES-Elasticlayer">
+
+                <div>
+                    <input type="checkbox" class="newcreate" id="newcateself">
+                    <span>创建新分类</span>
+                    <input class="newcreateinput" id="newcreateinput2" type="text" style="width: 200px;height: 30px;margin-left: 10px;" />
+                </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-td">添加</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+</body>
+<script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<!--判断标签选择-->
+<script type="text/javascript">
+    //身份标签选择
+    var myContide = [];
+    var xxide = 0;
+    var liside = document.getElementById("labelidentity").getElementsByTagName("li");
+
+    for (var i = 0; i < liside.length; i++) {
+
+        liside[i].onclick = function () {
+            if ($(this).hasClass("otherBrowserChecked")) {
+                xxide = xxide - 1;
+                $(this).removeClass("otherBrowserChecked");
+
+                if (xxide != 1) {
+                    var contide = this.innerHTML;
+                    if (contide.indexOf("自定义") != -1) {
+                        $('.newidentity').show();
+                    }
+                    $("#labelidentity li").removeClass("forbid");
+                    $('.newidentity').show();
+                }
+                $(this).attr("name", "");
+                for (var i = 0; i < liside.length; i++) {
+                    if (myContide[i] == this.innerHTML) {
+                        myContide.splice(i, 1);
+                    }
+                }
+            } else {
+                if (xxide == 1) {
+                    $("#labelidentity li").addClass("forbid");
+                    $('.newidentity').hide();
+                    $("li[name=actions]").removeClass("forbid");
+                    if (myContide[0].indexOf('自定义') != -1) {
+                        $('.newidentity').show();
+                    }
+                } else {
+                    var contide = this.innerHTML;
+                    myContide.push(contide);
+                    $(this).addClass("otherBrowserChecked");
+                    $(this).attr("name", "actions");
+                    xxide++;
+
+                    if (contide.indexOf("自定义") != -1) {
+                        $('.newidentity').show();
+                        $('#myModalnewself').modal();
+
+                    } else {
+                        $('.newidentity').hide();
+                    }
+
+                }
+            }
+        }
+    }
+
+    //年代点选
+    var myContyear = [];
+    var xxyear = 0;
+    var lisyear = document.getElementById("labelcheckedyear").getElementsByTagName("li");
+    for (var i = 0; i < lisyear.length; i++) {
+        lisyear[i].onclick = function () {
+            if ($(this).hasClass("otherBrowserChecked")) {
+                xxyear = xxyear - 1;
+                $(this).removeClass("otherBrowserChecked");
+                if (xxyear != 1) {
+                    $("#labelcheckedyear li").removeClass("forbid");
+                }
+                $(this).attr("name", "");
+                for (var i = 0; i < lisyear.length; i++) {
+                    if (myContyear[i] == this.innerHTML) {
+                        myContyear.splice(i, 1);
+                    }
+                }
+            } else {
+                if (xxyear == 1) {
+                    $("#labelcheckedyear li").addClass("forbid");
+
+                    $("li[name=actions]").removeClass("forbid");
+                } else {
+                    var contyear = this.innerHTML;
+                    myContyear.push(contyear);
+                    $(this).addClass("otherBrowserChecked");
+                    $(this).attr("name", "actions");
+                    xxyear++;
+
+                }
+            }
+        }
+    }
+    //画风选择
+    var myContstyle = [];
+    var xxstyle = 0;
+    var lisstyle = document.getElementById("labelstyle").getElementsByTagName("li");
+
+    for (var i = 0; i < lisstyle.length; i++) {
+
+        lisstyle[i].onclick = function () {
+            if ($(this).hasClass("otherBrowserChecked")) {
+                xxstyle = xxstyle - 1;
+                $(this).removeClass("otherBrowserChecked");
+
+                if (xxstyle != 3) {
+                    $("#labelstyle li").removeClass("forbid");
+                    var contstyle = this.innerHTML;
+                    if (contstyle.indexOf("自定义") != -1) {
+                        $('.newstyle').show();
+                    }
+                    $("#labelstyle li").removeClass("forbid");
+
+                    $('.newstyle').show();
+                }
+                $(this).attr("name", "");
+                for (var i = 0; i < lisstyle.length; i++) {
+                    if (myContstyle[i] == this.innerHTML) {
+                        myContstyle.splice(i, 1);
+                    }
+                }
+            } else {
+                if (xxstyle == 3) {
+                    $("#labelstyle li").addClass("forbid");
+                    var contstyle = this.innerHTML;
+                    if (contstyle.indexOf("自定义") != -1) {
+                        $('.newstyle').hide();
+                    }
+                    $("#labelstyle li").addClass("forbid");
+                    $('.newstyle').show();
+                    $("li[name=actions]").removeClass("forbid");
+                    if (myContstyle[0].indexOf('自定义') != -1) {
+                        $('.newstyle').show();
+                    }
+                } else {
+                    var contstyle = this.innerHTML;
+                    myContstyle.push(contstyle);
+                    $(this).addClass("otherBrowserChecked");
+                    $(this).attr("name", "actions");
+                    xxstyle++;
+
+                    if (contstyle.indexOf("自定义") != -1) {
+                        $('.newstyle').show();
+                        $('#myModaldrawself').modal();
+
+                    }
+                }
+            }
+        }
+    }
+    //品类选择
+    var myContcategory = [];
+    var xxcategory = 0;
+    var liscategory = document.getElementById("labelcategory").getElementsByTagName("li");
+
+    for (var i = 0; i < liscategory.length; i++) {
+
+        liscategory[i].onclick = function () {
+            if ($(this).hasClass("otherBrowserChecked")) {
+                xxcategory = xxcategory - 1;
+                $(this).removeClass("otherBrowserChecked");
+
+                if (xxcategory != 3) {
+                    $("#labelcategory li").removeClass("forbid");
+                    var contcategory = this.innerHTML;
+                    if (contcategory.indexOf("自定义") != -1) {
+                        $('.newcategory').show();
+                    }
+                    $("#labelcategory li").removeClass("forbid");
+
+                    $('.newcategory').show();
+                }
+                $(this).attr("name", "");
+                for (var i = 0; i < liscategory.length; i++) {
+                    if (myContcategory[i] == this.innerHTML) {
+                        myContcategory.splice(i, 1);
+                    }
+                }
+            } else {
+                if (xxcategory == 3) {
+                    $("#labelcategory li").addClass("forbid");
+                    var contcategory = this.innerHTML;
+                    if (contcategory.indexOf("自定义") != -1) {
+                        $('.newcategory').hide();
+                    }
+                    $("#labelcategory li").addClass("forbid");
+                    $('.newcategory').show();
+                    $("li[name=actions]").removeClass("forbid");
+                    if (myContcategory[0].indexOf('自定义') != -1) {
+                        $('.newcategory').show();
+                    }
+                } else {
+                    var contcategory = this.innerHTML;
+                    myContcategory.push(contcategory);
+                    $(this).addClass("otherBrowserChecked");
+                    $(this).attr("name", "actions");
+                    xxcategory++;
+
+                    if (contcategory.indexOf("自定义") != -1) {
+                        $('.newcategory').show();
+                        $('#myModalcateself').modal();
+
+                    }
+                }
+            }
+        }
+    }
+</script>
+<script>
+    //身份自定义添加
+    $("#newcreate").click(function () {
+        $("#newcreateinput").slideToggle();
+    })
+    //画风自定义添加
+    $("#newstyle").click(function () {
+        $("#newcreateinput1").slideToggle();
+    })
+    //品类自定义添加
+    $("#newcateself").click(function () {
+        $("#newcreateinput2").slideToggle();
+    })
+</script>
+</html>

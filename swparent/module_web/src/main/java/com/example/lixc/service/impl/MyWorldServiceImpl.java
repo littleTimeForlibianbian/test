@@ -118,7 +118,7 @@ public class MyWorldServiceImpl implements MyWorldService {
         for (UFocus u : select) {
             Integer userId = u.getAuthorId();
             UserQuery userQuery = new UserQuery();
-            userQuery.setId(userId);
+            userQuery.setUserID(userId);
             UserBack user = userMapper.selectByUserName(userQuery);
             result.add(user);
         }

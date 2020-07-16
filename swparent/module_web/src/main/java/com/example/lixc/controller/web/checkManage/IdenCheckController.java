@@ -47,7 +47,7 @@ public class IdenCheckController {
     public Page<UserBack> list(UserQuery userQuery) {
         //param为用户名或者邮箱
         //查询所有  非画师的 并且状态为提交申请的
-        return checkService.list( userQuery);
+        return checkService.list(userQuery);
     }
 
 }

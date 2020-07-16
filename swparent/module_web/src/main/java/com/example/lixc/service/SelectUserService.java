@@ -1,5 +1,6 @@
 package com.example.lixc.service;
 
+import com.example.lixc.common.PageData;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.back.UserBack;
 import com.example.lixc.vo.query.UserQuery;
@@ -18,5 +19,5 @@ public interface SelectUserService {
 
     ResultJson painterDetail(UserQuery userQuery);
 
-    Page<UserBack> selectForActiveList(UserQuery userQuery);
+    PageData<UserBack> selectForActiveList(UserQuery userQuery);
 }

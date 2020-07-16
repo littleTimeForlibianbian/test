@@ -7,6 +7,7 @@ import com.example.lixc.vo.back.AdminUserBack;
 import com.example.lixc.vo.back.UserBack;
 import com.example.lixc.vo.query.AdminUserQuery;
 import com.example.lixc.vo.query.UserQuery;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,12 +18,14 @@ import java.util.List;
  */
 public interface UserMapper extends SwBaseMapper<User> {
 
-    int existsWithPhone(String phone, String isManager);
+    int existsWithPhone(@Param("phone") String phone, @Param("isManager") String isManager);
 
-    int existsWithEmail(String email, String isManager);
+    int existsWithEmail(@Param("email") String email, @Param("isManager") String isManager);
+
+    int existsWithNickName(@Param("nickName") String nickName, @Param("isManager") String isManager);
 
     //登录
-    UserBack selectByUserName(UserQuery user);
+    UserBack selectByUserName(UserQuery userQuery);
 
 
     List<AdminUserBack> selectAllAdminUsers(AdminUserQuery adminUserQuery);
@@ -33,5 +36,9 @@ public interface UserMapper extends SwBaseMapper<User> {
 
     //查询普通用户
     List<UserBack> selectAllUser(UserQuery user);
+
+    //用户基础信息
+    User selectBaseByUserName(UserQuery userQuery);
+
 
 }

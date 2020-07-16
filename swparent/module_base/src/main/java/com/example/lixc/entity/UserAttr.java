@@ -1,12 +1,15 @@
 package com.example.lixc.entity;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
+import org.apache.ibatis.type.Alias;
+
+import javax.persistence.Id;
 
 import javax.persistence.Table;
 import java.util.Date;
 
 @Data
+@Alias("userAttr")
 @Table(name = "sys_user_attr")
 public class UserAttr {
     @Id

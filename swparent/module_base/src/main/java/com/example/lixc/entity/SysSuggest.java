@@ -24,4 +24,8 @@ public class SysSuggest {
 
     private Integer praiseNum;
 
+    //优先级
+    private Integer priority;
+
+    private Integer status;
 }

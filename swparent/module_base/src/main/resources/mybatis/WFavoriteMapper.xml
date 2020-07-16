@@ -9,14 +9,12 @@
     </resultMap>
     <select id="selectCountByWorkId" resultType="java.lang.Integer">
         select count(1) from w_favorite wf where type='work'
-        <where>
-            <if test="workId > 0">
-                and wf.target_id = #{workId}
-            </if>
-            <if test="userId > 0">
-                and wf.user_id = #{userId}
-            </if>
-        </where>
+        <if test="workId > 0">
+            and wf.target_id = #{workId}
+        </if>
+        <if test="userId > 0">
+            and wf.user_id = #{userId}
+        </if>
     </select>
 
 </mapper>

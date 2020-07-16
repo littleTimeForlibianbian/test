@@ -4,12 +4,14 @@ import com.example.lixc.entity.SysMessage;
 import com.example.lixc.entity.SysWork;
 import com.example.lixc.entity.SysWorkDict;
 import com.example.lixc.entity.User;
+import lombok.Data;
 
 /**
  * @author lixc
  * @Description
  * @createTime 2020/7/1 22:28
  */
+@Data
 public class MessageBack {
     //消息id
     private SysMessage message;

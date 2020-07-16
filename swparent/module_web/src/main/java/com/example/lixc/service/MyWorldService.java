@@ -9,7 +9,6 @@ import com.example.lixc.util.ResultJson;
  */
 public interface MyWorldService {
     /**
-     *
      * @return
      */
     ResultJson newMessage();

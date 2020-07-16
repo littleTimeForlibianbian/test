@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -100,12 +101,12 @@ public class EmailUtil implements Serializable {
         Properties javaMailProperties = new Properties();
         javaMailProperties.put("mail.smtp.auth", "true");
         javaMailProperties.put("mail.smtp.ssl.enable", "true");
-        javaMailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        javaMailProperties.put("mail.smtp.socketFactory.class", " .net.ssl.SSLSocketFactory");
         mailSender.setJavaMailProperties(javaMailProperties);
         final MimeMessage mimeMessage = mailSender.createMimeMessage();
         final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true,
                 "UTF-8");// 防止出现中文乱码，
-        message.setFrom(mailSender.getUsername());// 设置发送方地址
+        message.setFrom(Objects.requireNonNull(mailSender.getUsername()));// 设置发送方地址
         message.setTo(this.toEmail);// 设置接收方的email地址
         message.setSubject(this.subject);// 设置邮件主题
         message.setText(this.mailContent, this.html);
@@ -126,7 +127,7 @@ public class EmailUtil implements Serializable {
         mailSender.setPort(465);
         mailSender.setHost("smtp.163.com");
 
-        String[] toEmail = new String[]{"liyuan2016x@163.com"};
+        String[] toEmail = new String[]{"liyuan2016x@163.com", "1193096107@qq.com"};
 //        String content="<!DOCTYPE html>\n" +
 //                "<html>\n" +
 //                "\t<body>\n" +

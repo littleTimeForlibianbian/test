@@ -3,6 +3,11 @@
 <mapper namespace="com.example.lixc.mapper.UserAttrMapper">
     <resultMap id="BaseResultMap" type="com.example.lixc.entity.UserAttr">
         <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="website" property="website" jdbcType="VARCHAR"/>
+        <id column="u_history" property="uHistory" jdbcType="VARCHAR"/>
+        <id column="head_image" property="headImage" jdbcType="VARCHAR"/>
+        <id column="create_time" property="createTime" jdbcType="DATE"/>
     </resultMap>
     <select id="selectByUserId" resultType="com.example.lixc.entity.UserAttr">
         select `id`,`user_id`,`website`,`u_history`,`head_image`,`create_time` from sys_user_attr sua

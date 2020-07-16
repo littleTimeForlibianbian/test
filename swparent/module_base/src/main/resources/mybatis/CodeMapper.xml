@@ -6,11 +6,16 @@
         <result column="code" property="code" jdbcType="VARCHAR"/>
     </resultMap>
     <select id="selectCountByCode" parameterType="java.lang.String" resultType="java.lang.Integer">
-        select used_num from sw_code sc
+        select used_num from sys_code sc
         <where>
             <if test="code !=null and code != ''">
                 and sc.code= #{code}
             </if>
         </where>
     </select>
+    <update id="updateCount" parameterType="com.example.lixc.entity.Code">
+        update sys_code
+        set used_num = #{usedNum}
+        where code = #{code}
+    </update>
 </mapper>

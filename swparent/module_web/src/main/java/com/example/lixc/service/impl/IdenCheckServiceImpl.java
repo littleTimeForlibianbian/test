@@ -41,7 +41,7 @@ public class IdenCheckServiceImpl implements IdenCheckService {
 
     @Override
     public ResultJson identifyCheck(UserQuery userQuery) {
-        if (userQuery.getUserId() <= 0) {
+        if (userQuery.getUserID() <= 0) {
             log.error("传入参数【id】为空");
             return ResultJson.buildError("传入参数为空");
         }
@@ -55,7 +55,7 @@ public class IdenCheckServiceImpl implements IdenCheckService {
             log.error("传入参数【status】为：{},不合法", status);
             return ResultJson.buildError("传入参数不合法");
         }
-        User user = userMapper.selectByPrimaryKey(userQuery.getUserId());
+        User user = userMapper.selectByPrimaryKey(userQuery.getUserID());
         if (user == null) {
             return ResultJson.buildError("查询为空");
         }

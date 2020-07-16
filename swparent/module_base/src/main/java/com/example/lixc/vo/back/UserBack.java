@@ -24,10 +24,12 @@ public class UserBack implements Serializable {
     private String realName;
     private String email;
     private String location;
+    //用户所在城市中文
+    private String locationCN;
     private String phone;
     private Date createTime;
     private Date lastLoginTime;
-    private int enable;
+    private String enable;
     private String password;
     private String painter;
     private List<Role> roleList;

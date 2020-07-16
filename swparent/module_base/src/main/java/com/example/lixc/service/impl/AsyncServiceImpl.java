@@ -15,7 +15,14 @@ public class AsyncServiceImpl implements IAsyncService {
 
     @Async
     @Override
-    public void sendEmailAsync(String to, String subject, String content) {
+    public void sendHtmlEmailAsync(String to, String subject, String content) {
         mailService.sendHtmlMail(to, subject, content);
+    }
+
+
+    @Async
+    @Override
+    public void sendSimpleEmailAsync(String to, String subject, String content) {
+        mailService.sendSimpleMail(to, subject, content);
     }
 }

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=width-device,initial-scale=1.0">
+    <title>登录页面</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/framework-font.css"/>
+    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery.md5.js"></script>
+    <script type="text/javascript" src="js/base.js"></script>
+</head>
+
+<body>
+<div class="ES-Registration">
+    <div class="ES-Registration-logo">
+        <a href=""><img src="img/ES-logo.png"></a>
+    </div>
+    <div class="ES-Registration-admin">
+        <div>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label for="firstname" class="col-sm-2 control-label">用户名</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="txt_account" placeholder="请输入昵称或者邮箱">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lastname" class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-8">
+                        <input type="password" class="form-control" id="txt_password" placeholder="请输入密码">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <div class="ES-RePa">
+                            <label class="pull-left">
+                                <input type="checkbox" id="isRemenber"> 记住密码
+                            </label>
+                            <label class="pull-right">
+                                <a href="password.html">忘记密码？</a>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ES-Submission btn-disabled" id="login_button">
+                    <a href="#">登&nbsp;&nbsp;录</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+    $(function () {
+        $("#login_button").click(function () {
+            loginClick();
+        });
+    })
+
+    function loginClick() {
+        var $username = $("#txt_account").val();
+        var $password = $("#txt_password").val();
+        if ($username == "") {
+            $("#txt_account").css("border-color", "red");
+        } else if ($password == "") {
+            $("#txt_password").css("border-color", "red");
+        } else {
+            $("#login_button").attr('disabled', 'disabled').find('span').html("loading...");
+            $.ajax({
+                url: basePath + "public/user/logon",//接口地址
+                data: {//接口里必传的参数
+                    userName: $.trim($username),
+                    password: $.trim($password)
+                },
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data.status == 200) {
+                        $("#login_button").find('a').html("登录成功，正在跳转...");
+                        window.location.href = "homepage.html";
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                }
+            });
+        }
+    }
+</script>
+</html>

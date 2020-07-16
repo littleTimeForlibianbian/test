@@ -28,20 +28,26 @@ public class MailServiceImpl implements IMailService {
         simpleMailMessage.setSubject(subject);
         simpleMailMessage.setText(content);
         simpleMailMessage.setFrom(from);
-        mailSender.send(simpleMailMessage);
+        try {
+            mailSender.send(simpleMailMessage);
+            log.info("Text邮件已经发送。");
+        } catch (Exception e) {
+            log.error("发送Text邮件时发生异常！", e);
+        }
     }
 
     @Override
     public void sendHtmlMail(String to, String subject, String content) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             messageHelper.addTo(to);
             messageHelper.setSubject(subject);
             //邮件内容，html格式
             messageHelper.setText(content, true);
             messageHelper.setFrom(from);
             mailSender.send(mimeMessage);
+            log.info("sendHtmlMail>>>邮件已经发送");
         } catch (Exception ex) {
             log.info("sendHtmlMail>>>catch exception: {}", ex.getMessage(), ex);
         }

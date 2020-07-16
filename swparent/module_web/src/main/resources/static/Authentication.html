@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>画师认证</title>
+    <link rel="stylesheet" type="text/css" href="drawerAuthentictationNav/default.css"/>
+    <link rel="stylesheet" type="text/css" href="drawerAuthentictationNav/normalize.css">
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="drawerAuthentictationNav/upload.css">
+    <style>
+        /*.case{margin-top: 15px;width:800px;}*/
+    </style>
+</head>
+<body>
+
+<div id="wrapper">
+    <div id="left-side">
+        <ul>
+            <li class="choose active">
+                <div class="icon active" style="margin-top: 0px;">
+                    <img src="img/upload2.png">
+                </div>
+                上传作品
+
+            </li>
+            <li class="pay">
+                <div class="icon" style="margin-top: 0px;">
+                    <img src="img/experience.png" style="width:22px;height: 22px;">
+                </div>
+                创作过往
+            </li>
+            <li class="wrap">
+                <div class="icon" style="margin-top: 0px;">
+                    <img src="img/site.png" style="width:20px;height: 20px;">
+                </div>
+                常用网站
+            </li>
+        </ul>
+    </div>
+
+    <div id="border">
+        <div id="line" class="one"></div>
+    </div>
+
+    <div id="right-side">
+        <div id="first" class="active" style="height: 600px;">
+
+
+            <h3>上传作品</h3>
+            <p>上传一张高质量原创图片（3Mb/张；标有艺名＋创作完成时间；不违反国内法律的）</p>
+            <p>此原创作品仅用于审核。</p>
+            <div class="case">
+                <div class="upload" action='upload.html' data-num='1' id='case2' data-name='自由画师'></div>
+            </div>
+            <div class="labelpage-list" id="labelchecked">
+                <label class="pull-left" style="margin: 0px 10px;">画风</label>
+                <ul class="pull-right">
+                    <li>中国风</li>
+                    <li>水墨</li>
+                    <li>古风</li>
+                    <li>日风</li>
+                    <li>欧美风</li>
+                    <li>韩风</li>
+                    <li>写实风</li>
+                    <li>萌系</li>
+                    <li>童趣</li>
+                    <li>自由画师</li>
+                    <li>像素风</li>
+                </ul>
+            </div>
+            <div class="labelpage-list" id="labelpagechecked">
+                <label class="pull-left" style="margin: 0px 10px;">品类</label>
+                <ul class="pull-right">
+                    <li>插画</li>
+                    <li>儿插</li>
+                    <li>手绘</li>
+                    <li>国画</li>
+                    <li>原画</li>
+                    <li>水粉</li>
+                    <li>彩铅</li>
+                    <li>钢笔画</li>
+                    <li>油画</li>
+                    <li>素描画</li>
+                    <li>速写</li>
+                </ul>
+            </div>
+            <div class="intellectual usethings">
+                <div><input type="checkbox" onclick="return false;" checked="checked">禁止匿名转载，禁止商用，禁止个人使用；</div>
+                <div class="intellectualp"><input type="checkbox" onclick="return false;" checked="checked">慢蜗社区水印，对上传原创作品进行版权保护；
+                </div>
+            </div>
+            <div class="prefect">
+                <a href="">发布</a>
+            </div>
+        </div>
+        <div id="second">
+            <h3>过往经验及介绍</h3>
+            <p>请填写过往参与过的项目/原创的作品/课题/合作的出版作品，目前的职业。帮助需求方以后更好地了解您，防止其他人员破坏社区氛围。</p>
+            <textarea class="truetextarea" placeholder="字数不得超过200字"></textarea>
+            <div class="prefect" id="prefact" style="margin-top: 40px;">
+                <a href="">完美</a>
+            </div>
+        </div>
+        <div id="third">
+            <h3>常用网址</h3>
+            <p>请复制粘贴你的个人网站链接，为了方便验证画师身份，是否有过被举报盗用他人作品的先例。</p>
+            <textarea class="truetextarea truetextareaweb" placeholder="最多可填写三个链接"></textarea>
+
+            <div class="prefect" id="enough" style="margin-top: 40px;">
+                <a href="">够了</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="drawerAuthentictationNav/js/jQuery.upload.min.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $(function () {
+        $("#case2").upload();
+    })
+</script>
+<script>
+    $('.choose').click(function () {
+        $('.choose').addClass('active');
+        $('.choose > .icon').addClass('active');
+        $('.pay').removeClass('active');
+        $('.wrap').removeClass('active');
+        $('.ship').removeClass('active');
+        $('.pay > .icon').removeClass('active');
+        $('.wrap > .icon').removeClass('active');
+        $('.ship > .icon').removeClass('active');
+        $('#line').addClass('one');
+        $('#line').removeClass('two');
+        $('#line').removeClass('three');
+        $('#line').removeClass('four');
+    });
+    $('.pay').click(function () {
+        $('.pay').addClass('active');
+        $('.pay > .icon').addClass('active');
+        $('.choose').removeClass('active');
+        $('.wrap').removeClass('active');
+        $('.ship').removeClass('active');
+        $('.choose > .icon').removeClass('active');
+        $('.wrap > .icon').removeClass('active');
+        $('.ship > .icon').removeClass('active');
+        $('#line').addClass('two');
+        $('#line').removeClass('one');
+        $('#line').removeClass('three');
+        $('#line').removeClass('four');
+    });
+    $('.wrap').click(function () {
+        $('.wrap').addClass('active');
+        $('.wrap > .icon').addClass('active');
+        $('.pay').removeClass('active');
+        $('.choose').removeClass('active');
+        $('.ship').removeClass('active');
+        $('.pay > .icon').removeClass('active');
+        $('.choose > .icon').removeClass('active');
+        $('.ship > .icon').removeClass('active');
+        $('#line').addClass('three');
+        $('#line').removeClass('two');
+        $('#line').removeClass('one');
+        $('#line').removeClass('four');
+    });
+    $('.ship').click(function () {
+        $('.ship').addClass('active');
+        $('.ship > .icon').addClass('active');
+        $('.pay').removeClass('active');
+        $('.wrap').removeClass('active');
+        $('.choose').removeClass('active');
+        $('.pay > .icon').removeClass('active');
+        $('.wrap > .icon').removeClass('active');
+        $('.choose > .icon').removeClass('active');
+        $('#line').addClass('four');
+        $('#line').removeClass('two');
+        $('#line').removeClass('three');
+        $('#line').removeClass('one');
+    });
+    $('.choose').click(function () {
+        $('#first').addClass('active');
+        $('#second').removeClass('active');
+        $('#third').removeClass('active');
+        $('#fourth').removeClass('active');
+    });
+    $('.pay').click(function () {
+        $('#first').removeClass('active');
+        $('#second').addClass('active');
+        $('#third').removeClass('active');
+        $('#fourth').removeClass('active');
+    });
+    $('.wrap').click(function () {
+        $('#first').removeClass('active');
+        $('#second').removeClass('active');
+        $('#third').addClass('active');
+        $('#fourth').removeClass('active');
+    });
+    $('.ship').click(function () {
+        $('#first').removeClass('active');
+        $('#second').removeClass('active');
+        $('#third').removeClass('active');
+        $('#fourth').addClass('active');
+    });
+
+    //画风点选
+    var myCont = [];
+    var xx = 0;
+    var lis = document.getElementById("labelchecked").getElementsByTagName("li");
+    for (var i = 0; i < lis.length; i++) {
+        lis[i].onclick = function () {
+            if ($(this).hasClass("otherBrowserChecked")) {
+                xx = xx - 1;
+                $(this).removeClass('otherBrowserChecked');
+                if (xx != 3) {
+                    $("#labelchecked li").removeClass('forbid');
+                }
+                $(this).attr("name", "");
+                for (var i = 0; i < lis.length; i++) {
+                    if (myCont[i] == this.innerHTML) {
+                        myCont.splice(i, 1);
+                    }
+                }
+            } else {
+                if (xx == 3) {
+                    $("#labelchecked li").addClass('forbid');
+
+                    $("li[name=actions]").removeClass("forbid");
+                } else {
+                    var cont = this.innerHTML;
+                    myCont.push(cont);
+                    console.log(myCont);
+                    $(this).addClass('otherBrowserChecked');
+                    $(this).attr("name", "actions");
+                    xx++;
+                }
+            }
+        }
+    }
+    //品类点选
+    var myContpin = [];
+    var xxx = 0;
+    var lispin = document.getElementById("labelpagechecked").getElementsByTagName("li");
+    for (var i = 0; i < lispin.length; i++) {
+        lispin[i].onclick = function () {
+            if ($(this).hasClass("otherBrowserChecked")) {
+                xxx = xxx - 1;
+                $(this).removeClass('otherBrowserChecked');
+                if (xxx != 2) {
+                    $("#labelpagechecked li").removeClass('forbid');
+                }
+                $(this).attr("name", "");
+                for (var i = 0; i < lispin.length; i++) {
+                    if (myContpin[i] == this.innerHTML) {
+                        myContpin.splice(i, 1);
+                    }
+                }
+            } else {
+                if (xxx == 2) {
+                    $("#labelpagechecked li").addClass('forbid');
+
+                    $("li[name=actionpins]").removeClass("forbid");
+                } else {
+                    var contpin = this.innerHTML;
+                    myContpin.push(contpin);
+                    console.log(myContpin);
+                    $(this).addClass('otherBrowserChecked');
+                    $(this).attr("name", "actionpins");
+                    xxx++;
+                }
+            }
+        }
+    }
+    //过往经历
+    $("#prefact").click(function () {
+        alert($(".truetextarea").val());
+    });
+    //过往经历
+    $("#enough").click(function () {
+        alert($(".truetextareaweb").val());
+    });
+
+</script>
+</body>
+</html>

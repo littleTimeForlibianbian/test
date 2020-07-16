@@ -69,7 +69,7 @@ public class UserAdminServiceImpl implements UserAdminService {
             user.setLocation(adminUserQuery.getLocation());
             user.setPosition(adminUserQuery.getPosition());
             user.setCreateTime(new Date());
-            user.setRoleId(adminUserQuery.getRoleId());
+//            user.setRoleId(adminUserQuery.getRoleId());
             userMapper.insertUseGeneratedKeys(user);
             //添加用户角色关联表
             UserRole userRole = new UserRole();
@@ -121,8 +121,12 @@ public class UserAdminServiceImpl implements UserAdminService {
             user.setPhone(adminUserQuery.getPhone());
             user.setPosition(adminUserQuery.getPosition());
             user.setLocation(adminUserQuery.getLocation());
-            user.setRoleId(adminUserQuery.getRoleId());
+//            user.setRoleId(adminUserQuery.getRoleId());
             userMapper.updateByPrimaryKeySelective(user);
+            //TODO 更新完毕之后更新 用户角色表
+//            userRoleMapper.selectListByUserId()
+
+
         } catch (Exception e) {
             log.error("updateAdminUser exception: {}", e.getMessage());
             e.printStackTrace();

@@ -36,7 +36,7 @@ public class MyWorldController {
     }
 
     @ApiOperation("最新消息已读")
-    @PostMapping("/newMessage")
+    @PostMapping("/newMessageRead")
     public ResultJson newMessageRead(int messageId) {
         try {
             return service.newMessageRead(messageId);
@@ -127,7 +127,7 @@ public class MyWorldController {
     }
 
     @ApiOperation("查询建议反馈")
-    @PostMapping("/feedBackLike")
+    @PostMapping("/feedBackList")
     public ResultJson feedBackList() {
         try {
             return service.feedBackList();

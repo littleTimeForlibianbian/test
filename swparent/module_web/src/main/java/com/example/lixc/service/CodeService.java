@@ -19,6 +19,7 @@ public interface CodeService {
 
     /**
      * 查询邀请码是否存在
+     *
      * @param code 邀请码
      * @return
      */

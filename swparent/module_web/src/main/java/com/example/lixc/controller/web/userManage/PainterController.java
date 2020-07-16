@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,7 @@ public class PainterController {
     private SelectUserService selectUserService;
 
     @ApiOperation("查询列表")
-    @RequestMapping("/selectForList")
+    @PostMapping("/selectForList")
     public Page<UserBack> selectForList(UserQuery userQuery) {
         try {
             userQuery.setPainter("Y");

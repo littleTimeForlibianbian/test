@@ -10,8 +10,8 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <select id="selectLoginRecord" resultType="hashmap">
-        select slr.user_id ,count(slr.user_id) as count
+    <select id="selectLoginRecord" resultType="com.example.lixc.vo.back.UserBack">
+        select slr.user_id user_id ,count(slr.user_id) as count,su.*
         from sys_login_record slr left join sys_user su on
         slr.user_id = su.id
         <where>
@@ -26,5 +26,8 @@
             </if>
         </where>
         group by slr.user_id
+        <if test="activeCount > 0">
+            having count > #{activeCount}
+        </if>
     </select>
 </mapper>

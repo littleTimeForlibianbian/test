@@ -55,14 +55,14 @@ public class SysConfigUtil {
 
 
     /**
-     * 获取档期登录用户的userId
+     * 获取当前登录用户的userId
      *
      * @return
      */
     public static int getLoginUserId() {
 //        JwtUser loginUser = getLoginUser();
 //        return loginUser.getId();
-        return 0;
+        return 1;
     }
 
     /**

@@ -1,10 +1,7 @@
 package com.example.lixc.entity;
 
-import com.example.lixc.util.ResultJson;
-import com.example.lixc.util.ToolsUtil;
 import lombok.Data;
 import lombok.ToString;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -17,8 +14,6 @@ public class User {
 
     @Id
     private Integer id;
-
-    private Integer roleId;
 
     private String administrator;
 
@@ -70,7 +65,7 @@ public class User {
     /**
      * 是否开启
      */
-    private Integer enable;
+    private String enable;
 
     /**
      * 是否是画师

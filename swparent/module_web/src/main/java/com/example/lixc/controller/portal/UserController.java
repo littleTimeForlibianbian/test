@@ -1,7 +1,10 @@
 package com.example.lixc.controller.portal;
 
+import com.example.lixc.mapper.UserMapper;
+import com.example.lixc.service.IAsyncService;
 import com.example.lixc.service.UserPortalService;
 import com.example.lixc.util.ResultJson;
+import com.example.lixc.vo.back.UserBack;
 import com.example.lixc.vo.query.UserQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,7 +37,7 @@ public class UserController {
      */
     @PostMapping("/registerUser")
     @ApiOperation("用户注册")
-    public ResultJson registerUser(UserQuery user) {
+    public ResultJson registerUser(@RequestBody UserQuery user) {
         try {
             return userPortalService.registerUser(user);
         } catch (Exception e) {
@@ -45,9 +48,22 @@ public class UserController {
 
     }
 
+    @Autowired
+    private IAsyncService asyncService;
+    @Autowired
+    private UserMapper userMapper;
+
     @GetMapping("/test")
     public ResultJson test() {
-        return ResultJson.buildSuccess("1234");
+        String to = "1193096107@qq.com";
+        String subject = "test";
+        String content = "content";
+        asyncService.sendHtmlEmailAsync(to, subject, content);
+//        UserQuery userQuery = new UserQuery();
+//        userQuery.setUserName("admin");
+//        userQuery.setPassword("password");
+//        UserBack userBack = userMapper.selectByUserName(userQuery);
+        return ResultJson.buildSuccess();
     }
 
 
@@ -57,7 +73,7 @@ public class UserController {
      * @param param 昵称base64
      * @return
      */
-    @PostMapping("/activeRegister")
+    @GetMapping("/activeRegister")
     @ApiOperation("用户注册-激活")
     public ResultJson activeRegister(String param) {
         try {
@@ -75,11 +91,11 @@ public class UserController {
      * @param userQuery 登录对象
      * @return
      */
-    @PostMapping("/Logon")
+    @PostMapping("/logon")
     @ApiOperation("用户登录")
-    public ResultJson Logon(@RequestBody UserQuery userQuery, HttpServletRequest request) {
+    public ResultJson logon(UserQuery userQuery, HttpServletRequest request) {
         try {
-            return userPortalService.Logon(userQuery, request);
+            return userPortalService.logon(userQuery, request);
         } catch (Exception e) {
             log.error("用户登录发生异常:{}", e.getMessage());
             e.printStackTrace();

@@ -102,7 +102,7 @@ public class MyWorldServiceImpl implements MyWorldService {
         List<WFavorite> list = favoriteMapper.select(favorite);
         List<WorkBack> result = new ArrayList<>();
         for (WFavorite w : list) {
-            WorkBack workBack = workMapper.selectById(w.getTargetId());
+            WorkBack workBack = workMapper.selectById(w.getTargetID());
             result.add(workBack);
         }
         return ResultJson.buildSuccess(result);
@@ -226,7 +226,7 @@ public class MyWorldServiceImpl implements MyWorldService {
         WFavorite wFavorite = new WFavorite();
         wFavorite.setCreateTime(new Date());
         wFavorite.setUserId(SysConfigUtil.getLoginUserId());
-        wFavorite.setTargetId(Integer.parseInt(id));
+        wFavorite.setTargetID(Integer.parseInt(id));
         wFavorite.setType("feedback");
         wFavoriteMapper.insertSelective(wFavorite);
         suggest.setPraiseNum(suggest.getPraiseNum() + 1);

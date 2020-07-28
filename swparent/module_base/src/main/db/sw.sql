@@ -175,6 +175,7 @@ create table `sys_user_attr`
     `website`     varchar(255) null comment '常用网站',
     `head_image`  varchar(255) null comment '用户头像',
     `create_time` datetime     NULL COMMENT '创建时间',
+    `update_time` datetime     NULL COMMENT '修改时间',
     primary key (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;

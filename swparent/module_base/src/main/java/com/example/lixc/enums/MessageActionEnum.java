@@ -8,11 +8,13 @@ package com.example.lixc.enums;
 public enum MessageActionEnum {
     MESSAGE_ACTION_COMMENT("comment", "评论"),
 
-    MESSAGE_ACTION_PRAISE("praise", "喜欢"),
+    MESSAGE_ACTION_PRAISE("praise", "赞"),
 
     MESSAGE_ACTION_REPLY("reply", "回复"),
 
-    MESSAGE_ACTION_RECOMMEND("recommend", "推荐");
+    MESSAGE_ACTION_RECOMMEND("recommend", "推荐"),
+
+    MESSAGE_ACTION_FOCUS("focus", "关注");
 
     private String code;
     private String message;

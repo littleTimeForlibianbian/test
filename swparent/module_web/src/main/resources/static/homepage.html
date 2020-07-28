@@ -6,14 +6,14 @@
     <title>首页</title>
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
-</head>
+    <script src="js/base.js"></script>
 <body>
 <div class="headernav">
     <div class="container">
         <div class="pull-left navlogo">
             <img src="img/ES-logo-light.png">
         </div>
-        <div class="pull-left ES-mywo">
+        <div class="pull-left ES-mywo" id="myworldcon">
             <a href="#"><img src="img/homepage.png"><span class="text-center">我的世界</span></a>
         </div>
         <div class="pull-right connav">
@@ -22,8 +22,9 @@
                 <li class="seachli">
                     <form class="bs-example bs-example-form" role="form" style="width: 240px;">
                         <div class="input-group input-group-lg">
-                            <input type="text" class="form-control" placeholder="作品、昵称">
-                            <a href="#" class="input-group-addon"><img src="img/icon-ss.png"></a>
+                            <input id="worklabelmore" type="text" class="form-control" placeholder="作品标签">
+                            <a href="#" class="input-group-addon" onclick="searchlabel()"><img
+                                    src="img/icon-ss.png"></a>
                         </div>
                     </form>
                 </li>
@@ -78,70 +79,6 @@
                 <span>少女漫画</span><span>漫画</span><span>萌系</span>
             </div>
         </li>
-        <li>
-            <a href="">
-                <img class="imgpicture" src="img/page3.jpg">
-            </a>
-            <div class="labelhome">
-                <span>少女漫画</span><span>漫画</span><span>萌系</span>
-            </div>
-        </li>
-        <li>
-            <a href="">
-                <img class="imgpicture" src="img/portfolio-1.jpg">
-            </a>
-            <div class="labelhome">
-                <span>少女漫画</span><span>漫画</span><span>萌系</span>
-            </div>
-        </li>
-        <li>
-            <a href="">
-                <img class="imgpicture" src="img/page1.jpg">
-            </a>
-            <div class="labelhome">
-                <span>少女漫画</span><span>漫画</span><span>萌系</span>
-            </div>
-        </li>
-        <li>
-            <a href="">
-                <img class="imgpicture" src="img/page7.jpg">
-            </a>
-            <div class="labelhome">
-                <span>少女漫画</span><span>漫画</span><span>萌系</span>
-            </div>
-        </li>
-        <li>
-            <a href="">
-                <img class="imgpicture" src="img/page6.jpg">
-            </a>
-            <div class="labelhome">
-                <span>少女漫画</span><span>漫画</span><span>萌系</span>
-            </div>
-        </li>
-        <li>
-            <a href="">
-                <img class="imgpicture" src="img/page3.jpg">
-            </a>
-            <div class="labelhome">
-                <span>少女漫画</span><span>漫画</span><span>萌系</span>
-            </div>
-        </li>
-        <li>
-            <a href="">
-                <img class="imgpicture" src="img/page7.jpg">
-            </a>
-            <div class="labelhome">
-                <span>少女漫画</span><span>漫画</span><span>萌系</span>
-            </div>
-        </li>
-        <li>
-            <a href="">
-                <img class="imgpicture" src="img/page8.jpg">
-            </a>
-            <div class="labelhome">
-                <span>少女漫画</span><span>漫画</span><span>萌系</span>
-            </div>
-        </li>
     </ul>
 </div>
 <div class="more text-center"><a href="" class="btn-more" onclick="show()">查看更多</a></div>
@@ -158,23 +95,6 @@
         </div>
     </div>
 </div>
-<!--发布作品弹框待定-->
-<!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-            点击关闭按钮检查事件功能。
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">预览</button>
-                <button type="button" class="btn btn-primary">发布</button>
-            </div>
-        </div>
-    </div>
-</div>-->
 <!--第二版：新功能开启提示（登录以后）-->
 <!--<div class="mask"></div>
 <div class="modal-c modal-dw">
@@ -192,7 +112,7 @@
     </div>
 </div>-->
 <!--提示继续认证画师-->
-<div class="mask"></div>
+<!--<div class="mask"></div>
 <div class="modal-c modal-dw">
     <div class="modal-header reportlist">
         <img src="img/es.png"/><span>认证提示</span>
@@ -206,7 +126,7 @@
         <a href="#" class="btn continuebtn modal-close">继续</a>
         <a href="#" class="btn continuebtn modal-close">取消</a>
     </div>
-</div>
+</div>-->
 <!--认证中的进度-->
 <!--<div class="mask"></div>
 <div class="modal-c modal-dw">
@@ -233,13 +153,89 @@
             return false;
         });
     });
-    window.onload = function () {
-        $(".mask").show();
-        $(".modal-c").show();
-        $(".modal-close").click(function () {
-            $(".mask").hide();
-            $(".modal-c").hide();
-        })
+    //	window.onload = function(){
+    //     	$(".mask").show();
+    //      $(".modal-c").show();
+    //      $(".modal-close").click(function(){
+    //	$(".mask").hide();
+    //	$(".modal-c").hide();
+    //})
+    //  }
+    var pages = 1;//页数
+    var pagesNum = 10;//每页显示的条数
+    $(function () {
+        show();
+//	var urlinfo = window.location.href;
+//	var urlinfourl=urlinfo.charAt(urlinfo.length – 1);
+//	if(urlinfourl==1){
+//		$("#myworldcon").hide()
+//	}else{
+//		$("#myworldcon").show()
+//	}
+    })
+
+    //搜索功能
+    function searchlabel() {
+        var worklabelmore = $("#worklabelmore").val();
+        alert(worklabelmore);
+        $.ajax({
+            url: "",//接口地址
+            data: {//接口里必传的参数
+                xxxxx: worklabelmore
+            },
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                var dataObj = data.xxxxx;//json集合的名字dataObj[i].url
+                imgCon = "";
+                for (var i = 0; i < dataObj.length; i++) {
+                    imgCon += "<li>" +
+                        "<a href=" + dataObj[i].xxxx + ">" +
+                        "<img class='imgpicture' src=" + dataObj[i].xxxx + ">" +
+                        "</a>" +
+                        "<div class='labelhome'><span>" + dataObj[i].xxxx + "</span></div>" +
+                        "</li>";
+                }
+                $('#tab').append(imgCon);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+            }
+        });
+    }
+
+    //图片展示
+    function show() {
+        pages++;
+        $.ajax({
+            url: basePath + "/portal/index/workList/N",//接口地址
+            data: {//接口里必传的参数
+                "pageNo": pages,
+                "pageSize": pagesNum
+            },
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                var dataObj = data;//json集合的名字dataObj[i].url
+                console.log(dataObj)
+                imgCon = "";
+                var imgCon;
+                for (var i = 0; i < dataObj.length; i++) {
+                    var imageList = dataObj[i].imageList;
+                    var tagList = dataObj[i].tags;
+                    imgCon += "<li>" +
+                        "<a href=" + dataObj[i].imageList + ">" +
+                        "<img class='imgpicture' src=" + dataObj[i].imageList[0].url + ">" +
+                        "</a>";
+                    for (var j = 0; j < tagList.length; j++) {
+                        imgCon += "<div class='labelhome'><span>" + tagList[j].dictValue + "</span></div>"
+                    }
+                    imgCon += "</li>";
+                }
+                $('#tab').append(imgCon);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+            }
+        });
     }
 </script>
 </html>

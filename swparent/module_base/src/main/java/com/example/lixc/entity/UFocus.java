@@ -2,6 +2,7 @@ package com.example.lixc.entity;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 
 import javax.persistence.Table;
@@ -19,5 +20,7 @@ public class UFocus {
     private Integer id;
     private Integer userId;
     private Integer authorId;
+    @Column(name = "is_cancel")
+    private String cancel;
     private Date createTime;
 }

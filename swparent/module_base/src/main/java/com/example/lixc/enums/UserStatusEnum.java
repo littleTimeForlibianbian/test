@@ -12,7 +12,8 @@ public enum UserStatusEnum {
     USER_STATUS_STEP2(4, "已填写创作过往"),
     USER_STATUS_STEP3(5, "已填写常用网站"),
     USER_STATUS_PASS(6, "审核通过"),
-    USER_STATUS_FAIL(7, "审核拒绝");
+    USER_STATUS_FAIL(7, "审核拒绝"),
+    USER_STATUS_APPLY(8, "已申请");
 
     private int code;
     private String message;

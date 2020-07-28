@@ -24,6 +24,7 @@ public class RedisTimeConstant {
      *
      */
     public static final String EMAIL_CODE_RANDOM = _PREFIX + "email_code_random_";
+    public static final String USER_INFO = _PREFIX + "user:info";
     /**
      * 短信配置
      */

@@ -8,6 +8,8 @@ import com.example.lixc.vo.query.WorkQuery;
 import com.github.pagehelper.Page;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+
 public interface WorkService {
 
     ResultJson uploadImage(MultipartFile[] files);
@@ -18,7 +20,9 @@ public interface WorkService {
 
     Page<WorkBack> workList(WorkQuery workQuery, String more);
 
-    ResultJson workDetail(WorkQuery workQuery);
+    ResultJson workDetail(Integer workId);
+
+    ResultJson getWorkComment(Integer workId);
 
     ResultJson createHistory(String content);
 
@@ -27,7 +31,7 @@ public interface WorkService {
     //关注
     ResultJson focus(String toUserId);
 
-    ResultJson like(String workId);
+    ResultJson like(String workId, Integer fromUserId);
 
     ResultJson comment(WCommentQuery commentQuery);
 
@@ -38,4 +42,19 @@ public interface WorkService {
     ResultJson workCheck(WorkQuery workQuery);
 
     ResultJson other(WorkQuery query);
+
+    ResultJson cancelFocus(String toUserId);
+
+    //向所有关注我的人 推荐此作品
+    ResultJson recommend(String workId);
+
+    ResultJson reportList();
+
+    ResultJson report(String ids);
+
+    //以base64的格式上传图片
+    ResultJson uploadImageBase64(String data);
+
+    //使用ftpUtil上传工具上传到图片服务器
+    ResultJson uploadImageToServer(String base64);
 }

@@ -22,7 +22,11 @@ public class WorkBack extends SysWork {
     //作品详情应该包含一个字段 是否被喜欢
     private Boolean isLike;
     //作者信息
-    private User user;
+//    private User user;
 
-    private UserAttr userAttr;
+    //如果是推荐的话，记录推荐人的名称
+    private String recommendName;
+
+//    private UserAttr userAttr;
+
 }

@@ -7,8 +7,10 @@ import com.example.lixc.vo.query.AdminUserQuery;
 import com.example.lixc.vo.query.UserQuery;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -67,14 +69,6 @@ public interface UserPortalService {
     /*************portal end***********************/
 
     /**
-     *
-     *
-     *
-     *
-     *
-     *
-     */
-    /**
      * 选择标签
      *
      * @param tags
@@ -83,6 +77,25 @@ public interface UserPortalService {
     ResultJson chooseTags(String tags);
 
     ResultJson allTags();
+
+    /**
+     * 个人主页获取用户详情接口
+     * 作品详情页获取作者详情
+     *
+     * @param userQuery
+     * @return
+     */
+    ResultJson getUserInfo(UserQuery userQuery);
+
+    ResultJson updateUserAttr(UserQuery userQuery);
+
+
+    /**
+     * @param picString 头像base64
+     * @param userId    当前用户id
+     * @return
+     */
+    ResultJson updateUserHeadImage(String picString, Integer userId);
 
 
     /*************web end***********************/

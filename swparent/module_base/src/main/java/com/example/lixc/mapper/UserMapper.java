@@ -1,6 +1,7 @@
 package com.example.lixc.mapper;
 
 import com.example.lixc.basemapper.SwBaseMapper;
+import com.example.lixc.dto.UserInfoDTO;
 import com.example.lixc.entity.LoginRecord;
 import com.example.lixc.entity.User;
 import com.example.lixc.vo.back.AdminUserBack;
@@ -26,6 +27,7 @@ public interface UserMapper extends SwBaseMapper<User> {
 
     //登录
     UserBack selectByUserName(UserQuery userQuery);
+    UserBack selectByEmail(UserQuery userQuery);
 
 
     List<AdminUserBack> selectAllAdminUsers(AdminUserQuery adminUserQuery);
@@ -39,6 +41,8 @@ public interface UserMapper extends SwBaseMapper<User> {
 
     //用户基础信息
     User selectBaseByUserName(UserQuery userQuery);
+
+    List<UserInfoDTO> selectUserInfo();
 
 
 }

@@ -5,14 +5,14 @@ spring:
     name: user
   redis:
     database: 0
-    host: localhost
+    host: 127.0.0.1
     port: 6379
     timeout: 6000
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: root
-    url: jdbc:mysql://192.168.244.129:3306/sw?useUnicode=true&characterEncoding=UTF-8&useSSL=false&nullNamePatternMatchesAll=true&autoReconnect=true&serverTimezone=GMT%2B8
+    password: lixc
+    url: jdbc:mysql://localhost:3306/sw?useUnicode=true&characterEncoding=UTF-8&useSSL=false&nullNamePatternMatchesAll=true&autoReconnect=true&serverTimezone=GMT%2B8
   mail:
     host: smtp.163.com #发送邮件服务器
     username: lixianchun2016x@163.com #发送邮件的邮箱地址
@@ -33,6 +33,14 @@ spring:
           socketFactory:
             port: 465
             class: javax.net.ssl.SSLSocketFactory
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 3MB
+      max-request-size: 3MB
+
+#  resources:
+#    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
 
 mybatis:
   configuration:
@@ -52,6 +60,7 @@ pagehelper:
 logging:
   config: classpath:log4j2-spring.xml
   level:
+    #    root: INFO
     cn.jay.repository: trace
 
 sw:
@@ -66,4 +75,5 @@ sw:
 
   work:
     url: E:\\Users\\11930\\Desktop\\upload\\
+    headImageUrl: E:\\Users\\11930\\Desktop\\headImage\\
     thumbRatio: 0.2

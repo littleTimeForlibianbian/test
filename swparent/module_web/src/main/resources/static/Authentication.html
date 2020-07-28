@@ -5,11 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>画师认证</title>
-    <link rel="stylesheet" type="text/css" href="drawerAuthentictationNav/default.css"/>
-    <link rel="stylesheet" type="text/css" href="drawerAuthentictationNav/normalize.css">
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="drawerAuthentictationNav/upload.css">
     <style>
         /*.case{margin-top: 15px;width:800px;}*/
     </style>
@@ -19,12 +16,11 @@
 <div id="wrapper">
     <div id="left-side">
         <ul>
-            <li class="choose active">
+                <li class="choose active">
                 <div class="icon active" style="margin-top: 0px;">
                     <img src="img/upload2.png">
                 </div>
                 上传作品
-
             </li>
             <li class="pay">
                 <div class="icon" style="margin-top: 0px;">
@@ -40,25 +36,30 @@
             </li>
         </ul>
     </div>
-
     <div id="border">
         <div id="line" class="one"></div>
     </div>
-
     <div id="right-side">
         <div id="first" class="active" style="height: 600px;">
-
-
             <h3>上传作品</h3>
             <p>上传一张高质量原创图片（3Mb/张；标有艺名＋创作完成时间；不违反国内法律的）</p>
             <p>此原创作品仅用于审核。</p>
-            <div class="case">
-                <div class="upload" action='upload.html' data-num='1' id='case2' data-name='自由画师'></div>
+            <!--<div class="case">
+                 <div class="upload" data-type="png,jpg,jpeg,gif" action='' data-num='1' id='case2'></div>
+
+            </div>-->
+            <div class="fileupload-box" style="display:inline-block;">
+                <div class="img-box">
+                    <input type="text" style="display:none" name="fileT" id="fileT"/>
+                    <input type="file" style="display:none" id="file" name="file" accept="image/*"/>
+                    <img src="img/chuantu.png" id="image"/>
+                </div>
+
             </div>
             <div class="labelpage-list" id="labelchecked">
                 <label class="pull-left" style="margin: 0px 10px;">画风</label>
-                <ul class="pull-right">
-                    <li>中国风</li>
+                <ul class="pull-right" id="workstyle">
+                    <!--<li>中国风</li>
                     <li>水墨</li>
                     <li>古风</li>
                     <li>日风</li>
@@ -68,13 +69,13 @@
                     <li>萌系</li>
                     <li>童趣</li>
                     <li>自由画师</li>
-                    <li>像素风</li>
+                    <li>像素风</li>-->
                 </ul>
             </div>
             <div class="labelpage-list" id="labelpagechecked">
                 <label class="pull-left" style="margin: 0px 10px;">品类</label>
-                <ul class="pull-right">
-                    <li>插画</li>
+                <ul class="pull-right" id="workpinlei">
+                    <!--<li>插画</li>
                     <li>儿插</li>
                     <li>手绘</li>
                     <li>国画</li>
@@ -84,7 +85,7 @@
                     <li>钢笔画</li>
                     <li>油画</li>
                     <li>素描画</li>
-                    <li>速写</li>
+                    <li>速写</li>-->
                 </ul>
             </div>
             <div class="intellectual usethings">
@@ -92,35 +93,128 @@
                 <div class="intellectualp"><input type="checkbox" onclick="return false;" checked="checked">慢蜗社区水印，对上传原创作品进行版权保护；
                 </div>
             </div>
-            <div class="prefect">
-                <a href="">发布</a>
+            <div class="prefect" id="next1">下一步
+                <!--<a href="">下一步</a>-->
             </div>
         </div>
         <div id="second">
             <h3>过往经验及介绍</h3>
             <p>请填写过往参与过的项目/原创的作品/课题/合作的出版作品，目前的职业。帮助需求方以后更好地了解您，防止其他人员破坏社区氛围。</p>
             <textarea class="truetextarea" placeholder="字数不得超过200字"></textarea>
-            <div class="prefect" id="prefact" style="margin-top: 40px;">
-                <a href="">完美</a>
-            </div>
+            <div class="prefect" id="prefact" style="margin-top: 40px;">下一步</div>
         </div>
         <div id="third">
             <h3>常用网址</h3>
             <p>请复制粘贴你的个人网站链接，为了方便验证画师身份，是否有过被举报盗用他人作品的先例。</p>
             <textarea class="truetextarea truetextareaweb" placeholder="最多可填写三个链接"></textarea>
-
-            <div class="prefect" id="enough" style="margin-top: 40px;">
-                <a href="">够了</a>
-            </div>
+            <div class="prefect" id="authen" onclick="authen()" style="margin-top: 40px;">认证</div>
         </div>
     </div>
 </div>
+<!--认证提示-->
+<div class="mask" style="display: none;"></div>
+<div class="modal-c modal-dw" style="display: none;">
+    <div class="modal-header reportlist">
+        <img src="img/progess.png"/><span>认证进度</span>
+        <button type="button" class="close modal-close" data-dismiss="modal" aria-hidden="true">×</button>
+    </div>
+    <div class="ES-finish">
+        <p>画师认证审核中，24小时之内，会发给你一份反馈邮件。</p>
+    </div>
+    <div class="btn-dw-c text-center">
+        <a href="#" class="btn continuebtn modal-close">知道了</a>
+    </div>
+</div>
 <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
 <script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="drawerAuthentictationNav/js/jQuery.upload.min.js" type="text/javascript" charset="utf-8"></script>
+<!--<script src="drawerAuthentictationNav/js/jQuery.upload.min.js" type="text/javascript" charset="utf-8"></script>-->
 <script>
+    var hhhurl;
+    var imageIdList = [];
     $(function () {
-        $("#case2").upload();
+        $("#image").click(function () {
+            $("#file").click();
+        })
+        $("#file").change(function () {
+            var files = $(this)[0].files[0];    //获取文件信息
+            if (files) {
+                var reader = new FileReader();  //调用FileReader
+                reader.onload = function (evt) {   //读取操作完成时触发。
+                    hhhurl = evt.target.result;
+                    console.log(hhhurl);
+                    //上传文件
+                    $.ajax({
+                        url: basePath + '/portal/index/uploadImageBase64',
+                        data: {
+                            "picString": hhhurl,
+                        },
+                        async: true,
+                        type: "post",
+                        success: function (data) {
+                            console.log(data);
+                            if (data.status == 400) {
+                                console.log("上传失败");
+                                return false;
+                            } else if (data.status == 200) {
+                                $("#fileName").val(data.message);
+                                $("#view").css('display', 'block');
+                                $("#MainList").css('display', 'none');
+                                //获取服务端返回结果  保存图片数据
+                                var imageList = data.data;
+                                console.log(imageList);
+                                console.log("上传成功");
+                                imageIdList.push(imageList.id);
+                            }
+                        }
+                    });
+                    $("#image").attr('src', evt.target.result)  //将img标签的src绑定为DataURL
+                }
+                reader.readAsDataURL(files); //将文件读取为 DataURL(base64)
+
+            } else {
+                alert("上传失败");
+            }
+        })
+        //获取画风数据
+        $.ajax({
+            url: basePath + '/portal/index/getDict?type=wind',//地址
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                // console.log(data);
+                var dataObj = data.data;//json集合的名字dataObj[i].url
+                imglabel = "";
+                for (var i = 0; i < dataObj.length; i++) {
+                    imglabel += "<li  id='" + dataObj[i].id + "'>" + dataObj[i].dictValue + "</li>";
+                }
+                $('#workstyle').append(imglabel);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //options.obj.value = "出错，请刷新页面重试";
+            },
+        });
+        //获取品类数据
+        $.ajax({
+            url: basePath + '/portal/index/getDict?type=category',//地址
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                // console.log(data);
+                var dataObj = data.data;//json集合的名字dataObj[i].url
+                imgpinlei = "";
+                for (var i = 0; i < dataObj.length; i++) {
+                    imgpinlei += "<li id='" + dataObj[i].id + "'>" + dataObj[i].dictValue + "</li>";
+                }
+                $('#workpinlei').append(imgpinlei);
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //options.obj.value = "出错，请刷新页面重试";
+            },
+        });
     })
 </script>
 <script>
@@ -152,7 +246,35 @@
         $('#line').removeClass('three');
         $('#line').removeClass('four');
     });
+    $('#next1').click(function () {
+        $('.pay').addClass('active');
+        $('.pay > .icon').addClass('active');
+        $('.choose').removeClass('active');
+        $('.wrap').removeClass('active');
+        $('.ship').removeClass('active');
+        $('.choose > .icon').removeClass('active');
+        $('.wrap > .icon').removeClass('active');
+        $('.ship > .icon').removeClass('active');
+        $('#line').addClass('two');
+        $('#line').removeClass('one');
+        $('#line').removeClass('three');
+        $('#line').removeClass('four');
+    });
     $('.wrap').click(function () {
+        $('.wrap').addClass('active');
+        $('.wrap > .icon').addClass('active');
+        $('.pay').removeClass('active');
+        $('.choose').removeClass('active');
+        $('.ship').removeClass('active');
+        $('.pay > .icon').removeClass('active');
+        $('.choose > .icon').removeClass('active');
+        $('.ship > .icon').removeClass('active');
+        $('#line').addClass('three');
+        $('#line').removeClass('two');
+        $('#line').removeClass('one');
+        $('#line').removeClass('four');
+    });
+    $('#prefact').click(function () {
         $('.wrap').addClass('active');
         $('.wrap > .icon').addClass('active');
         $('.pay').removeClass('active');
@@ -192,7 +314,19 @@
         $('#third').removeClass('active');
         $('#fourth').removeClass('active');
     });
+    $('#next1').click(function () {
+        $('#first').removeClass('active');
+        $('#second').addClass('active');
+        $('#third').removeClass('active');
+        $('#fourth').removeClass('active');
+    });
     $('.wrap').click(function () {
+        $('#first').removeClass('active');
+        $('#second').removeClass('active');
+        $('#third').addClass('active');
+        $('#fourth').removeClass('active');
+    });
+    $('#prefact').click(function () {
         $('#first').removeClass('active');
         $('#second').removeClass('active');
         $('#third').addClass('active');
@@ -204,7 +338,6 @@
         $('#third').removeClass('active');
         $('#fourth').addClass('active');
     });
-
     //画风点选
     var myCont = [];
     var xx = 0;
@@ -219,7 +352,7 @@
                 }
                 $(this).attr("name", "");
                 for (var i = 0; i < lis.length; i++) {
-                    if (myCont[i] == this.innerHTML) {
+                    if (myCont[i] == this.id) {
                         myCont.splice(i, 1);
                     }
                 }
@@ -229,7 +362,7 @@
 
                     $("li[name=actions]").removeClass("forbid");
                 } else {
-                    var cont = this.innerHTML;
+                    var cont = this.id;
                     myCont.push(cont);
                     console.log(myCont);
                     $(this).addClass('otherBrowserChecked');
@@ -253,7 +386,7 @@
                 }
                 $(this).attr("name", "");
                 for (var i = 0; i < lispin.length; i++) {
-                    if (myContpin[i] == this.innerHTML) {
+                    if (myContpin[i] == this.id) {
                         myContpin.splice(i, 1);
                     }
                 }
@@ -263,7 +396,7 @@
 
                     $("li[name=actionpins]").removeClass("forbid");
                 } else {
-                    var contpin = this.innerHTML;
+                    var contpin = this.id;
                     myContpin.push(contpin);
                     console.log(myContpin);
                     $(this).addClass('otherBrowserChecked');
@@ -273,15 +406,41 @@
             }
         }
     }
-    //过往经历
-    $("#prefact").click(function () {
-        alert($(".truetextarea").val());
-    });
-    //过往经历
-    $("#enough").click(function () {
-        alert($(".truetextareaweb").val());
-    });
 
+    //提交画师认证资料
+    var truetextarea = $(".truetextarea").val();
+    var truetextareaweb = $(".truetextareaweb").val();
+
+    function authen() {
+        var data = {
+            "imageIds": imageIdList,
+            "styleLabelForAdd": myContpin,
+            "categoryLabelForAdd": myCont,
+            "name": truetextarea,
+            "content": truetextareaweb,
+            "isNormal": "N"
+        }
+        $.ajax({
+            url: basePath + '/portal/index/uploadWork',//地址
+            data: JSON.stringify(data),//
+            type: "post",
+            dataType: "json",
+            contentType: "application/json",
+            async: false,
+            success: function (data) {
+                console.log(data);
+                $(".mask").show();
+                $(".modal-c").show();
+                $(".modal-close").click(function () {
+                    $(".mask").hide();
+                    $(".modal-c").hide();
+                })
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //options.obj.value = "出错，请刷新页面重试";
+            },
+        });
+    }
 </script>
 </body>
 </html>

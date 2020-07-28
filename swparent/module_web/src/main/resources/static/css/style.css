@@ -985,11 +985,12 @@ select {
         padding: 8px 60px;
     }
 
-    .prefect a {
+    .prefect {
         color: white !important;
     }
 
-    .prefect a:hover {
+    .prefect:hover {
+        cursor: pointer;
         color: white;
     }
 
@@ -1155,51 +1156,14 @@ select {
         font-size: 0;
     }
 
-    .product-wrap .PW-show {
-        display: block;
-    }
-
-    .product-wrap .product li {
-        float: left;
-        display: inline;
-        margin-left: 13px;
-        background: #f3f3f3;
-        border: 2px solid #fafafa;
-        transition: 0.4s;
-        -webkit-transition: 0.4s;
-        -moz-transition: 0.4s;
-        -o-transition: 0.4s;
-        -ms-transition: 0.4s;
-    }
-
-    .product-wrap .product li.ml0 {
-        margin-left: 0px;
-    }
-
-    .product-wrap .product li a.imgwrap {
-        display: block;
-        width: 226px;
-        height: 200px;
-        background: #fff;
-        text-align: center;
-    }
-
-    .product-wrap .product li p {
-        padding-left: 15px;
-        color: #666666;
-        line-height: 22px;
-    }
-
-    .product-wrap .product li p a {
-        color: #666666;
-        text-decoration: none;
-    }
-
-    .product-wrap .product li p a:hover {
-        color: #ff6600;
-        text-decoration: none;
-    }
-
+    /*.product{position: relative; overflow: hidden; display: none; margin-top: 20px;}
+    .product-wrap .PW-show{ display: block;}
+    .product-wrap .product li{ float: left; display: inline; margin-left: 13px;background: #f3f3f3;border: 2px solid #fafafa; transition:0.4s;-webkit-transition:0.4s;-moz-transition: 0.4s;-o-transition: 0.4s;-ms-transition: 0.4s;}
+    .product-wrap .product li.ml0{margin-left:0px;}
+    .product-wrap .product li a.imgwrap{ display: block; width: 226px; height: 200px; background: #fff; text-align:center;}
+    .product-wrap .product li p{color: #666666;line-height: 22px;}
+    .product-wrap .product li p a{ color: #666666; text-decoration: none;}
+    .product-wrap .product li p a:hover{ color: #ff6600; text-decoration: none;}*/
     .PublishingWorks {
         width: 1280px;
         padding-top: 48px;
@@ -1345,6 +1309,7 @@ select {
 
     .cardscontent div {
         margin-top: 3px;
+        overflow: hidden;
     }
 
     .cardscontent div p {
@@ -2537,16 +2502,15 @@ select {
         right: 0;
         margin-top: -1px;
         background: #f2f6fc;
-        padding: 20px 20px 0 20px;
+        padding: 10px 0px 0 10px;
         border: solid 1px #4977fc;
         border-radius: 4px;
     }
 
     .xl-down li {
         float: left;
-        width: 33.333333%;
-        padding: 0 15px;
-        height: 36px;
+        width: 20%; /*padding:0 5px;*/
+        height: 30px;
     }
 
     .xl-down li a {
@@ -2556,3 +2520,33 @@ select {
     .xl-down li a.active, .xl-down li a:hover {
         color: #4977fc;
     }
+
+    /*上传作品最新样式*/
+    .fileupload-box {
+        padding: 5px;
+        height: 130px;
+        width: 125px;
+        position: relative;
+        left: 10px;
+    }
+
+
+    .img-box {
+        position: absolute;
+        width: 125px;
+        height: 130px;
+        left: 0;
+        top: 10px;
+        bottom: 0;
+        margin: auto;
+    }
+
+    .img-box img {
+        width: 125px;
+        height: 125px;
+    }
+
+    .btn-box .btn.disabled, .btn-box .btn[disabled], fieldset[disabled] .btn {
+        color: #FFF !important;
+    }
+        /*opacity: 0!important;*/

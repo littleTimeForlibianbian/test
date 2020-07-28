@@ -6,8 +6,9 @@
     <title>个人主页</title>
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
+    <script type="text/javascript" src="js/base.js"></script>
 </head>
-<body>
+<body id="body">
 <div class="headernav1">
     <div class="container">
         <div class="pull-left navlogo">
@@ -67,24 +68,26 @@
             </div>
         </div>
         <div class="pull-left cardscontent">
-            <div><span class="passname"><a href="drawerhomepage.html">昵称：我叫网卡和太子呀</a></span><span
-                    style="margin-left: 30px;">城市：未选择</span></div>
+            <div>
+                <span class="passname"><a href="drawerhomepage.html">昵称：<span id="nickName"></span></a></span>
+                <span style="margin-left: 30px;">城市：<span id="city"></span></span></div>
             <div><span class="pull-left" style="margin-top: 5px;">标签：</span>
-                <ul class="pull-left">
-                    <li>插画原创派</li>
-                    <li>90后</li>
-                    <li>少女漫画</li>
-                    <li>卡通动漫</li>
-                    <li>卡通动漫</li>
-                    <li>卡通动漫</li>
-                    <li>卡通动漫</li>
-                    <li>卡通动漫</li>
+                <ul class="pull-left" id="tags">
+                    <!--                    <li>插画原创派</li>-->
+                    <!--                    <li>90后</li>-->
+                    <!--                    <li>少女漫画</li>-->
+                    <!--                    <li>卡通动漫</li>-->
+                    <!--                    <li>卡通动漫</li>-->
+                    <!--                    <li>卡通动漫</li>-->
+                    <!--                    <li>卡通动漫</li>-->
+                    <!--                    <li>卡通动漫</li>-->
                 </ul>
             </div>
             <div>创作经历：
-                <p>1.与XXX合作/独立创作出版过《纸糖屋》</p>
-                <p>2.获得过安徒生创作大奖</p>
-                <p>3.美国XXX插画创作金奖</p>
+                <!--                <p>1.与XXX合作/独立创作出版过《纸糖屋》</p>-->
+                <!--                <p>2.获得过安徒生创作大奖</p>-->
+                <!--                <p>3.美国XXX插画创作金奖</p>-->
+                <span id="uHistory"></span>
             </div>
         </div>
     </div>
@@ -93,8 +96,8 @@
     <!--<div class="pull-right">
         <a href="adminvoice.html"><img src="img/voice1.png"><span>用户声音</span></a>
     </div>-->
-    <div class="container contentpage">
-        <ul class="nologinul">
+    <div class="container contentpage" id="tab">
+        <ul class="nologinul" id="nologinul">
             <li>
                 <a href="drawerdetails.html">
                     <img class="imgpicture" src="img/page4.jpg">
@@ -218,18 +221,18 @@
                         <div class="pull-left xl-box">
                             <input type="text" class="form-control zc-input xl-click" readonly="readonly"
                                    placeholder="请选择省份">
-                            <ul class="xl-down clearfix">
-                                <li><a class="active" role="button">安徽省</a></li>
-                                <li><a role="button">安徽省</a></li>
+                            <ul class="xl-down clearfix" id="nickselect">
+
                             </ul>
                         </div>
                     </div>
                     <div class="businesscard">
-                        <span style="line-height: 70px;">荣誉填写</span><textarea></textarea>
+                        <span style="line-height: 70px;">创作经历</span><textarea id="businesstext"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-share" style="background: #0066ff!important;color: white;">保存
+                    <button type="button" class="btn btn-share" style="background: #0066ff!important;color: white;"
+                            onclick="baocun()">保存
                     </button>
                 </div>
             </div>
@@ -250,7 +253,107 @@
 
 <script>
     $(function () {
-        $('#myModal').modal('hide')
+        $('#myModal').modal('hide');
+        //页面初始化加载城市
+        var bank;
+        var bankid;//城市编码
+
+        $.ajax({
+            type: "get",
+            url: "city.json",
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                var dataObj = result.provinces;
+                con = "";
+                for (var i = 0; i < dataObj.length; i++) {
+                    con += "<li>" + "<a id=" + dataObj[i].code + ">" + dataObj[i].name + "</a>" + "</li>"
+                    cityMap.set(dataObj[i].code, dataObj[i].name);
+                }
+                $('#nickselect').append(con);
+            },
+        });
+
+        //获取用户详情
+        $.ajax({
+            type: "get",
+            url: basePath + "/public/user/getUserInfo",
+            data: {"userID": localStorage.getItem("userId")},
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                var dataObj = result.data;
+                var tagList = dataObj.tagList;
+                //昵称
+                $("#nickName").html(dataObj.nickName);
+                //city编码
+                bankid = dataObj.city;
+                $("#city").html(cityMap.get(dataObj.city));
+                //标签
+                var tagContent = "";
+                for (var i = 0; i < tagList.length; i++) {
+                    tagContent += "<li>" + "<a id=" + tagList[i].id + ">" + tagList[i].content + "</a>" + "</li>"
+                }
+                $("#tags").append(tagContent);
+                //头像
+                $("#view").css("background-image", "url(" + dataObj.userAttr.headImage + ")")
+                // $("#view").css("background-image", "url(http://192.168.244.129/images/20200728/737623766074527744.jpeg)")
+                //创作历史
+                $("#uHistory").html(dataObj.userAttr.uhistory);
+
+            },
+        });
+
+        //获取个人主页的作品集合
+        $.ajax({
+            type: "post",
+            url: basePath + "/portal/index/workList/Y",
+            data: {
+                "userID": localStorage.getItem("userId"),
+                "isNormal": "Y",
+            },
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                var dataObj = result;
+                var imgCon = "";
+                for (var i = 0; i < dataObj.length; i++) {
+                    imgCon += "<li>" +
+                        "<a href=drawerdetails.html?workId=" + dataObj[i].id + "&authorId="+dataObj[i].userId+">" +
+                        "<img class='imgpicture' src=" + dataObj[i].imageList[0].url + ">" +
+                        "</a>";
+                    var tagList = dataObj[i].tags;
+                    //标签只显示3个
+                    var l = 3;
+                    if (tagList.length <= 3) {
+                        l = tagList;
+                    }
+                    var tagContent = "";
+                    for (var j = 0; j < l; j++) {
+                        tagContent += "<span>" + tagList[j].dictValue + "</span>";
+                    }
+                    imgCon += "<div class='labelhome'>" + tagContent + "</span></div>" +
+                        "</li>";
+                }
+                $('#tab').append(imgCon);
+            },
+        });
+        $('.xl-click').focus(function () {
+            $('.xl-down').slideDown('slow');
+        });
+        $(".xl-click").blur(function () {
+            $('.xl-down').slideUp('slow');
+        });
+        $('.xl-down li a').click(function () {
+            $('.xl-down li a').removeClass("active");
+            $(this).addClass("active");
+            bank = $(this).html();
+            $(".xl-click").val(bank);
+            bankid = $(this).attr("id");
+            //alert(bankid)
+        })
     });
     $('.xl-click').focus(function () {
         $('.xl-down').slideDown('slow');
@@ -275,27 +378,52 @@
 </script>
 <!--修改资料-->
 <script>
-    $(".btn-share").click(function () {
-        $(".td-box1").hide();
-        $(".tccg-box1").show();
-    })
+
+    function baocun() {
+        var businesstext = $("#businesstext").val();
+        var city = $(".xl-click").val();
+        $.ajax({
+            url: basePath + '/public/user/updateUserAttr',//地址
+            data: {"uHistory": businesstext, "city": city, "userID": 1},//传参数
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data);
+                //请求成功跳转页面
+                if (data.status == 200)//返回成功的值
+                {
+                    $(".btn-share").click(function () {
+                        $(".td-box1").hide();
+                        $(".tccg-box1").show();
+                    })
+                } else//注册失败
+                {
+                    alert("你失败了");
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //options.obj.value = "出错，请刷新页面重试";
+            },
+        });
+    }
 </script>
 <!--上传照片-->
 <script type="text/javascript">
     function scimg(imgStr) {
         $.ajax({
-            url: 'http://localhost:41168/Registration/upimg/',
+            url: basePath + '/public/user/updateUserHeadImage',
             data: {
-                "picString": imgStr
+                "picString": imgStr,
+                "userId": 1
             },
             async: true,
             type: "post",
             success: function (data) {
-
-                if (data.state == "error") {
+                if (data.status == 400) {
                     console.log("上传失败");
                     return false;
-                } else if (data.state == "success") {
+                } else if (data.status == 200) {
                     $("#fileName").val(data.message);
                     $("#view").css('display', 'block');
                     $("#MainList").css('display', 'none');
@@ -306,7 +434,6 @@
     }
 </script>
 <script type="text/javascript">
-
     //上传封面
     //document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
     var clipArea = new bjj.PhotoClip("#clipArea", {
@@ -335,5 +462,45 @@
         }
 
     });
+
+    //图片展示
+    var pageNo = 0;//页数
+    var pageSize = 10;//每页显示的条数
+    function show() {
+        pages++;
+        $.ajax({
+            url: basePath + "/portal/index/workList/Y",//接口地址
+            data: {//接口里必传的参数
+                "pageNo": pageNo,
+                "pageSize": pageSize,
+                "userID": localStorage.getItem("userId"),
+                "isNormal": "Y"
+            },
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var dataObj = data;//json集合的名字dataObj[i].url
+                imgCon = "";
+                for (var i = 0; i < dataObj.length; i++) {
+                    imgCon += "<li>" +
+                        "<a href=" + dataObj[i].url + ">" +
+                        "<img class='imgpicture' src=" + dataObj[i].imageList[0].url + ">" +
+                        "</a>";
+                    var tagList = dataObj[i].tags;
+                    var tagContent = "";
+                    for (var j = 0; j < tagList.length; j++) {
+                        tagContent += "<span>" + tagList[j].dictValue + "</span>";
+                    }
+                    imgCon += "<div class='labelhome'>" + tagContent + "</span></div>" +
+                        "</li>";
+                }
+                console.log(imgCon)
+                $('#tab').append(imgCon);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+            }
+        });
+    }
 </script>
 </html>

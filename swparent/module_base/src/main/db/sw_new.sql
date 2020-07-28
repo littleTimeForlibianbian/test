@@ -62,7 +62,7 @@ create table `sys_image`
     `id`          int(11)      not null auto_increment comment '主键id',
     `name`        varchar(255) null comment '图片名称',
     `url`         varchar(255) not null comment '图片存储路径',
-    `thumb_url`   varchar(255) not null comment '缩略图存储路径',
+    `thumb_url`   varchar(255)  null comment '缩略图存储路径',
     `create_time` datetime     NULL COMMENT '创建时间',
     primary key (`id`)
 ) Engine = InnoDB
@@ -98,9 +98,10 @@ drop table if exists `u_focus`;
 create table `u_focus`
 (
     `id`          int(10)  NOT NULL AUTO_INCREMENT COMMENT '主键id',
-    `user_id`     int(10)  NOT NULL COMMENT '用户id',
-    `author_id`   int(10)  NOT NULL COMMENT '被关注者id',
-    `create_time` datetime NOT NULL DEFAULT now() COMMENT '创建时间',
+    `user_id`     int(10)  NULL COMMENT '用户id',
+    `author_id`   int(10)  NULL COMMENT '被关注者id',
+    `is_cancel`   char(1)  NULL COMMENT '是否取消关注',
+    `create_time` datetime NULL DEFAULT now() COMMENT '创建时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -200,14 +201,19 @@ create table `sys_focus`
 drop table if exists `sys_message`;
 create table `sys_message`
 (
-    `id`          int(11)      not null auto_increment comment '主键id',
-    `content`     longtext     not null comment '消息内容',
-    `type`        varchar(4)   null comment '消息类型:announcement公告/remind提醒/message私信',
-    `action`      varchar(10)  null comment '用户动作触发的消息 comment评论，praise点赞，reply回复，recommend推荐',
-    `title`       varchar(255) null comment '消息标题',
-    `source_id`   int(11)      null comment '来源id  作品id或者评论id',
-    `source_type` varchar(10)  null comment '来源类型',
-    `create_time` datetime     NULL DEFAULT now() COMMENT '创建时间',
+    `id`           int(11)      not null auto_increment comment '主键id',
+    `content`      longtext     not null comment '消息内容',
+    `type`         int(10)      null comment '消息类型:announcement公告/remind提醒/message私信',
+    `action`       varchar(10)  null comment '用户动作触发的消息 comment评论，praise点赞，reply回复，recommend推荐',
+    `title`        varchar(255) null comment '消息标题',
+    `source_id`    int(11)      null comment '来源id  作品id或者评论id',
+    `source_type`  varchar(10)  null comment '来源类型  work 作品  ，comment 评论',
+    --  为什么要在消息表中增加  发送者和接受者呢？
+    `from_user_id` int(11) comment '发送者id  当前用户id',
+    `to_user_id`   int(11) comment '接受者id source_id 所属的作者id',
+    `create_time`  datetime     NULL DEFAULT now() COMMENT '创建时间',
+    `send_time`    datetime     NULL DEFAULT now() COMMENT '发送时间',
+    `is_delete`    char(1)      NULL DEFAULT 'N' COMMENT '是否删除',
     primary key (`id`)
 ) engine = InnoDB
   default charset = utf8;
@@ -273,3 +279,17 @@ create table `sys_report`
     primary key (`id`)
 ) engine = InnoDB
   default charset = utf8;
+
+
+drop table if exists `sys_report_record`;
+create table `sys_report_record`
+(
+    `id`          int(11) not null auto_increment comment '主键id',
+    `report_id`   int(11) not null comment '举报id',
+    `user_id`     int(11) not null comment '举报人id',
+    `create_time` datetime comment '创建时间',
+    primary key (`id`)
+) engine = InnoDB
+  default charset = utf8;
+
+# 协议表

@@ -12,10 +12,9 @@ import java.util.Date;
 @Data
 public class MessageQuery {
     //消息id
-    private Integer id;
+    private Integer messageId;
     //发送者id
     private Integer fromUserId;
-    private String fromUserName;
     //接受者id
     private Integer toUserId;
     private String toUserName;

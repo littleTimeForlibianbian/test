@@ -2,20 +2,18 @@ package com.example.lixc.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.example.lixc.config.InitConfig;
 import com.example.lixc.config.security.utils.SysConfigUtil;
 import com.example.lixc.constants.RedisTimeConstant;
 import com.example.lixc.entity.*;
 import com.example.lixc.enums.UserStatusEnum;
 import com.example.lixc.mapper.*;
+import com.example.lixc.service.FtpService;
 import com.example.lixc.service.IAsyncService;
 import com.example.lixc.service.UserPortalService;
 import com.example.lixc.util.*;
-import com.example.lixc.vo.back.AdminUserBack;
 import com.example.lixc.vo.back.UserBack;
-import com.example.lixc.vo.query.AdminUserQuery;
 import com.example.lixc.vo.query.UserQuery;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +22,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.*;
 
 /**
@@ -41,6 +42,8 @@ public class UserPortalServiceImpl implements UserPortalService {
     @Resource
     private UserMapper userMapper;
 
+    @Autowired
+    private FtpService ftpService;
 
     @Autowired
     private UserAttrMapper userAttrMapper;
@@ -53,6 +56,9 @@ public class UserPortalServiceImpl implements UserPortalService {
 
     @Resource
     private UserRoleMapper userRoleMapper;
+
+    @Autowired
+    private SysImageMapper imageMapper;
 
     @Resource
     private SysConfigMapper sysConfigMapper;
@@ -180,6 +186,8 @@ public class UserPortalServiceImpl implements UserPortalService {
         if (StringUtils.isEmpty(userQuery.getPassword())) {
             return ResultJson.buildError("密码为空");
         }
+
+        String forwardParam = request.getParameter("forwardParam");
         //使用用户名和密码进行登录
         User user = userMapper.selectBaseByUserName(userQuery);
         if (user != null && user.getId() > 0) {
@@ -200,6 +208,11 @@ public class UserPortalServiceImpl implements UserPortalService {
         map.put("user", user);
         map.put("userAttr", userAttr);
         map.put("isPainter", "Y".equalsIgnoreCase(user.getPainter()));
+        if (!StringUtils.isEmpty(forwardParam)) {
+            map.put("forwardParam", forwardParam);
+        }
+        //缓存redis
+        RedisPoolUtil.set(RedisContents.USER_TOKEN + user.getId(), map, expireTime);
         return ResultJson.buildSuccess(map);
     }
 
@@ -243,18 +256,36 @@ public class UserPortalServiceImpl implements UserPortalService {
         if (StringUtils.isEmpty(email)) {
             return ResultJson.buildError("邮箱参数为空");
         }
+        if (!ToolsUtil.regexEmail(email)) {
+            return ResultJson.buildError("邮箱格式错误");
+        }
         UserQuery userQuery = new UserQuery();
         userQuery.setUserName(email);
         User userBack = userMapper.selectBaseByUserName(userQuery);
         if (userBack == null) {
             return ResultJson.buildError("用户不存在");
         }
-        //发送邮件
         //产生一个token
-        String token = "";
+        String token = Base64.getEncoder().encodeToString(email.getBytes());
         String suffix = "?email=" + email + "&reset_password_token=" + token;
-        //TODO 补充发送邮件参数或者  从DB获取邮件模板，进行填充
-        asyncService.sendHtmlEmailAsync(email, "忘记密码", "");
+        String content = "<html> <body> " +
+                "<img  src='cid:imageId'>" +
+                "<p class=\"text-center\">亲爱的<span style=\"color: #0066FF;\">{nickName}</span></p>\n" +
+                "        <p class=\"text-center\">小蜗为原创而生</p>\n" +
+                "        <p class=\"text-center\">点击<a href=\"{path}\">www.com.cn</a>进行修改密码，<br/>就可以重新在原创的世界里游玩啦。</p>\n" +
+                "        <p class=\"text-center\">期待你的精彩艺术人生！</p></body></html>";
+        Map<String, String> map = new HashMap<>();
+        map.put("nickName", userBack.getNickName());
+        //TODO 环境部署以后  修改文件位置
+//        map.put("path", "file:///E:\\2020\\test\\test\\swparent\\module_web\\src\\main\\resources\\static\\password.html");
+        map.put("path", "http://www.baidu.com");
+        try {
+            String content1 = ToolsUtil.replaceTemplate(content, map);
+            asyncService.sendImageEmailAsync(email, "忘记密码",
+                    content1, "E:\\Users\\11930\\Desktop\\other\\SlowWormPainterProject (2)\\SlowWormPainterProject\\img\\ES-logo.png", "imageId");
+        } catch (Exception e) {
+            log.error("发送忘记密码邮件异常:{}", e.getMessage());
+        }
         RedisPoolUtil.set(RedisTimeConstant.EMAIL_CODE_RANDOM + email, token, RedisTimeConstant.CACHE_5_MINUTE);
         return ResultJson.buildSuccess();
     }
@@ -271,11 +302,14 @@ public class UserPortalServiceImpl implements UserPortalService {
         if (StringUtils.isEmpty(userQuery.getEmail())) {
             return ResultJson.buildError("邮箱为空");
         }
-        String token = RedisPoolUtil.get(RedisTimeConstant.EMAIL_CODE_RANDOM + userQuery.getEmail());
-        if (StringUtils.isEmpty(token) || token.equals(userQuery.getResetPasswordToken())) {
-            return ResultJson.buildError("该链接已经失效,请尝试重新发送密码重置邮件");
+        if (StringUtils.isEmpty(userQuery.getPassword())) {
+            return ResultJson.buildError("密码为空");
         }
-        UserBack userBack = userMapper.selectByUserName(userQuery);
+//        String token = RedisPoolUtil.get(RedisTimeConstant.EMAIL_CODE_RANDOM + userQuery.getEmail());
+//        if (StringUtils.isEmpty(token) || token.equals(userQuery.getResetPasswordToken())) {
+//            return ResultJson.buildError("该链接已经失效,请尝试重新发送密码重置邮件");
+//        }
+        UserBack userBack = userMapper.selectByEmail(userQuery);
         if (userBack == null) {
             return ResultJson.buildError("用户【" + userQuery.getEmail() + "】不存在");
         }
@@ -328,4 +362,65 @@ public class UserPortalServiceImpl implements UserPortalService {
         return ResultJson.buildSuccess(tagMapper.selectAll());
     }
 
+    @Override
+    public ResultJson getUserInfo(UserQuery userQuery) {
+        if (userQuery == null || userQuery.getUserID() <= 0) {
+            userQuery = new UserQuery();
+            userQuery.setUserID(SysConfigUtil.getLoginUserId());
+        }
+        UserBack userBack = userMapper.selectByUserName(userQuery);
+        return ResultJson.buildSuccess(userBack);
+    }
+
+
+
+    //更新名片信息
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public ResultJson updateUserAttr(UserQuery userQuery) {
+        if (userQuery.getUserID() == null || userQuery.getUserID() <= 0) {
+            log.error("用户id为空");
+            return ResultJson.buildError("用户id为空");
+        }
+        if (!StringUtils.isEmpty(userQuery.getUHistory())) {
+            UserAttr userAttrFromDB = userAttrMapper.selectByUserId(userQuery.getUserID());
+            userAttrFromDB.setUHistory(userQuery.getUHistory());
+            userAttrFromDB.setUpdateTime(new Date());
+            userAttrMapper.updateByPrimaryKeySelective(userAttrFromDB);
+        }
+        if (!StringUtils.isEmpty(userQuery.getCity())) {
+            User user = userMapper.selectByPrimaryKey(userQuery.getUserID());
+            user.setCity(userQuery.getCity());
+            userMapper.updateByPrimaryKeySelective(user);
+        }
+        return ResultJson.buildSuccess();
+    }
+
+    @Override
+    public ResultJson updateUserHeadImage(String picString, Integer userId) {
+        if (StringUtils.isEmpty(picString)) {
+            return ResultJson.buildError("传入图片为空");
+        }
+        ResultJson resultJson = ftpService.uploadToServer(picString, false);
+        if (ToolsUtil.verifyParams(resultJson)) {
+//            List<SysImage> imageList = new ArrayList<>();
+            Map<String, String> map = (Map<String, String>) resultJson.getData();
+            SysImage image = new SysImage();
+            image.setUrl(map.get("url"));
+            image.setThumbUrl(map.get("thumbUrl"));
+            image.setCreateTime(new Date());
+            imageMapper.insertUseGeneratedKeys(image);
+            log.info("上传头像成功，开始设置用户头像路径....");
+            UserAttr userAttr = userAttrMapper.selectByUserId(userId);
+            userAttr.setHeadImage(map.get("url"));
+            userAttr.setUpdateTime(new Date());
+            userAttrMapper.updateByPrimaryKeySelective(userAttr);
+            log.info("设置用户头像路径成功");
+//            imageList.add(image);
+            return ResultJson.buildSuccess(image);
+        } else {
+            log.error(resultJson.toString());
+            return resultJson;
+        }
+    }
 }

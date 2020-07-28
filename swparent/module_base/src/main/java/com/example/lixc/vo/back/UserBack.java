@@ -24,6 +24,7 @@ public class UserBack implements Serializable {
     private String realName;
     private String email;
     private String location;
+    private String city;
     //用户所在城市中文
     private String locationCN;
     private String phone;

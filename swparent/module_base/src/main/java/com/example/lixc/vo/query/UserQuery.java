@@ -9,8 +9,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Id;
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -87,16 +89,10 @@ public class UserQuery extends PageParam {
     @ApiModelProperty("邀请码")
     private String invitationCode;
 
-    private Integer createBy;
-
     private Integer activeCount;
 
     private Date startTime;
     private Date endTime;
-
-    private Integer updateBy;
-
-    private Date updateTime;
 
     private Integer rememberMe;
 
@@ -104,6 +100,11 @@ public class UserQuery extends PageParam {
 
     //重置密码token
     private String resetPasswordToken;
+
+    private String uHistory;
+
+    //用户扫描二维码 携带参数
+    private String forwardParam;
 
     /**
      * 上次登录时间

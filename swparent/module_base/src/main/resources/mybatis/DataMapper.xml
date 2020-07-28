@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.lixc.mapper.DataMapper">
+    <select id="getAddUsers" resultType="com.example.lixc.vo.back.UserDataBack">
+        select DATE_FORMAT(create_time,'%Y-%m-%d') create_time,count(u.id) count_user_add from sys_user u
+        where create_time BETWEEN #{start_date} and #{end_date}
+        <if test="isPainter">
+            and painter = 'Y'
+        </if>
+        GROUP BY create_time
+        order by create_time desc
+    </select>
+    <!--获取用户分布-->
+    <select id="getUserAreaDistributed" resultType="com.example.lixc.vo.back.UserDataBack">
+        select location ,count(u.id) count_user_area from sys_user u
+        <if test="isPainter">
+            and painter = 'Y'
+        </if>
+        group by location
+    </select>
+</mapper>

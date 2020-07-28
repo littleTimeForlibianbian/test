@@ -12,8 +12,13 @@ import java.util.List;
  */
 public interface MessageService {
 
-    //创建消息
-    void create(MessageQuery messageQuery);
+    /**
+     * 发送消息
+     *
+     * @param messageQueryList messageQuery集合对象
+     * @param isTimed      是否是定时发送，y:是  n:false
+     */
+    void create(List<MessageQuery> messageQueryList, boolean isTimed);
 
     //查询消息
     SysMessage queryMessage(MessageQuery messageQuery);
@@ -23,6 +28,8 @@ public interface MessageService {
 
     //查询我的未读消息
     List<SysMessage> queryNotRead(MessageQuery messageQuery);
+
+    int queryNotReadCount(MessageQuery messageQuery);
 
     //查询系统消息
     List<SysMessage> querySystem(MessageQuery messageQuery);

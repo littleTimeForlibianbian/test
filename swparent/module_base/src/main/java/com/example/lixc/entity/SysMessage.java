@@ -27,4 +27,9 @@ public class SysMessage {
 
     private String content;
 
+    //发送者id
+    private Integer fromUserId;
+    //接受者id
+    private Integer toUserId;
+
 }

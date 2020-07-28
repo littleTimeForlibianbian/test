@@ -1,3 +1,5 @@
+var imageList = [];
+
 jQuery(function () {
     var $ = jQuery;
     if (!window.webuploader) {
@@ -5,6 +7,7 @@ jQuery(function () {
         $('#dndArea p').html('请配置好window.webuploader');
         return false;
     }
+
     if (!window.webuploader.config || !window.webuploader.config.wrapId) {
         console.log("请配置好window.webuploader.config.wrapId");
         $('#dndArea p').html('请配置好window.webuploader.config.wrapId');
@@ -409,7 +412,6 @@ jQuery(function () {
             case 'finish':
                 stats = uploader.getStats();
                 if (stats.successNum) {
-                    alert('上传成功');
                 } else {
                     state = 'done';
                     location.reload();
@@ -418,6 +420,7 @@ jQuery(function () {
         }
         updateStatus();
     }
+
 
     //文件加入到webuploader中的队列
     function fileQueue(file) {
@@ -468,8 +471,25 @@ jQuery(function () {
         updateTotalProgress();
     });
 
-    uploader.on('uploadSuccess', function (file) {
+    uploader.on('uploadSuccess', function (file, ret) {
         $('#' + file.id).find('p.state').text('已上传');
+        if (ret.status === 200) {
+            imageList.push(ret.data.id);
+            console.log(ret.data)
+            // var list = ret.data;
+            // if (list.length > 0) {
+            //     for (var i = 0; i < list.length; i++) {
+            //         var l = list[i];
+            //         console.log(l);
+            //
+            //     }
+            // }
+            console.log("imageList")
+            console.log(imageList)
+            // ids = ids.substring(0, ids.length - 1);
+            // $("#imageIds").val(ids);
+        }
+
     });
 
     uploader.on('uploadError', function (file) {
@@ -527,4 +547,7 @@ jQuery(function () {
     initServerFile();
 
 });
+
+
+
 

@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Wilson
  * @Description
@@ -36,7 +39,9 @@ public class SystemMessageController {
     @PostMapping("/add")
     public ResultJson add(MessageQuery messageQuery) {
         try {
-            messageService.create(messageQuery);
+            List<MessageQuery> messageQueryList = new ArrayList<>();
+            messageQueryList.add(messageQuery);
+            messageService.create(messageQueryList, true);
             return ResultJson.buildSuccess();
         } catch (Exception e) {
             log.error("添加消息异常:{}", e.getMessage());

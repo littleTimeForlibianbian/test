@@ -28,20 +28,20 @@ public class SysConfigUtil {
         SysConfigUtil.sysConfigMapper = sysConfigMapper;
     }
 
-    //    /**
-//     * 获取当前登录的用户
-//     *
-//     * @return
-//     */
-//    public static JwtUser getLoginUser() {
-//        return (JwtUser) getCurrentUserAuthentication().getPrincipal();
-//    }
-//
-//
-//    public static Authentication getCurrentUserAuthentication() {
-//        return SecurityContextHolder.getContext().getAuthentication();
-//    }
-//
+    /**
+     * 获取当前登录的用户
+     *
+     * @return
+     */
+    public static JwtUser getLoginUser() {
+        return (JwtUser) getCurrentUserAuthentication().getPrincipal();
+    }
+
+
+    public static Authentication getCurrentUserAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
 
     public static SysConfig selectSysConfig() {
         String sysconfig = RedisPoolUtil.get("sysconfig");

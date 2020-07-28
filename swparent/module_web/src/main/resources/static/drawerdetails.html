@@ -6,9 +6,11 @@
     <title>作品详情页</title>
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
+    <script src="js/base.js"></script>
     <!--[if lt IE 9]>
 
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+
 
     <![endif]-->
 </head>
@@ -45,7 +47,7 @@
     <div class="drawerdetails" style="display: none;">
         <div class="pull-left">
             <div class="headsculpture">
-                <img src="img/code.jpg"/>
+                <img id="headImage" src="img/code.jpg"/>
             </div>
             <div class="drawercare" id="drawercare">
                 <a href="###"><span>关注</span><font>已关注</font></a>
@@ -53,24 +55,32 @@
             </div>
         </div>
         <div class="pull-left cardscontent">
-            <div><span class="passname">昵称：我叫网卡和太子呀</span><span style="margin-left: 30px;">城市：北京市</span></div>
+            <div>
+                <span class="passname">
+                    昵称：<span id="nickName"></span>
+                </span>
+                <span style="margin-left: 30px;">
+                    城市：<span id="city"></span>
+                </span>
+            </div>
             <div><span class="pull-left" style="margin-top: 5px;">标签：</span>
-                <ul class="pull-left">
-                    <li>插画原创派</li>
-                    <li>90后</li>
-                    <li>少女漫画</li>
-                    <li>卡通动漫</li>
-                    <li>卡通动漫</li>
-                    <li>卡通动漫</li>
-                    <li>卡通动漫</li>
-                    <li>卡通动漫</li>
+                <ul class="pull-left" id="tags">
+                    <!--                    <li>插画原创派</li>-->
+                    <!--                    <li>90后</li>-->
+                    <!--                    <li>少女漫画</li>-->
+                    <!--                    <li>卡通动漫</li>-->
+                    <!--                    <li>卡通动漫</li>-->
+                    <!--                    <li>卡通动漫</li>-->
+                    <!--                    <li>卡通动漫</li>-->
+                    <!--                    <li>卡通动漫</li>-->
                 </ul>
 
             </div>
             <div>创作经历：
-                <p>1.与XXX合作/独立创作出版过《纸糖屋》</p>
-                <p>2.获得过安徒生创作大奖</p>
-                <p>3.美国XXX插画创作金奖</p>
+                <!--                <p>1.与XXX合作/独立创作出版过《纸糖屋》</p>-->
+                <!--                <p>2.获得过安徒生创作大奖</p>-->
+                <!--                <p>3.美国XXX插画创作金奖</p>-->
+                <span id="uHistory"></span>
             </div>
         </div>
     </div>
@@ -84,19 +94,19 @@
             <img src="img/readDate.png" style="margin-right: 10px;"><span>9999</span>
         </div>-->
     </div>
-    <div class="picturearea" align="center">
-        <img src="img/W.jpeg">
-        <img src="img/W.jpeg">
+    <div class="picturearea" align="center" id="picturearea">
+        <!--        <img src="img/W.jpeg">-->
+        <!--        <img src="img/W.jpeg">-->
     </div>
     <div class="picturecon">
         <div class="picturecontent pull-left">
-            <div><h3>萝莉与小蚂蚁</h3></div>
-            <div><p>无法相见的两人，存着一丝温暖的联系，从噩梦中逃离，白色的晨光即将洒下。</p></div>
+            <div><h3 id="workName"></h3></div>
+            <div><p id="content"></p></div>
             <div class="labelshow cardscontent">
-                <ul>
-                    <li>插画原创派</li>
-                    <li>90后</li>
-                    <li>少女漫画</li>
+                <ul id="workTags">
+                    <!--                    <li>插画原创派</li>-->
+                    <!--                    <li>90后</li>-->
+                    <!--                    <li>少女漫画</li>-->
                 </ul>
             </div>
         </div>
@@ -314,7 +324,97 @@
 
 <!--textarea高度自适应-->
 <script type="text/javascript">
+    var workId = getQueryVariable("workId");
+    var authorId = getQueryVariable("authorId");
     $(function () {
+        initCityMap();
+        //页面初始化填充数据
+        $.ajax({
+            //获取用户详情
+            type: "get",
+            url: basePath + "/public/user/getUserInfo",
+            data: {"userID": authorId},
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                var dataObj = result.data;
+                var tagList = dataObj.tagList;
+                //昵称
+                $("#nickName").html(dataObj.nickName);
+                //city编码
+                bankid = dataObj.city;
+                $("#city").html(cityMap.get(dataObj.city));
+                //标签
+                var tagContent = "";
+                for (var i = 0; i < tagList.length; i++) {
+                    tagContent += "<li>" + "<a id=" + tagList[i].id + ">" + tagList[i].content + "</a>" + "</li>"
+                }
+                $("#tags").append(tagContent);
+                //头像
+                $("#headImage").attr("src", dataObj.userAttr.headImage);
+                // $("#view").css("background-image", "url(http://192.168.244.129/images/20200728/737623766074527744.jpeg)")
+                //创作历史
+                $("#uHistory").html(dataObj.userAttr.uhistory);
+
+            },
+        })
+        $.ajax({
+            //获取作品详情
+            type: "get",
+            url: basePath + "/portal/index/workDetail",
+            data: {
+                "workId": workId,
+            },
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                var imageList = result.data.imageList;
+                var imageStr = '';
+                for (var i = 0; i < imageList.length; i++) {
+                    imageStr += '<img src="' + imageList[i].url + '"/>';
+                }
+                // $("#picturearea").append('<img src="http://192.168.244.129/images/20200728/737632883241521152.jpg"/>');
+                $("#picturearea").append(imageStr);
+                //作品名称
+                $("#workName").html(result.data.name);
+                //创作初心
+                $("content").html(result.data.content);
+                //作品标签
+                var workTagStr = "";
+                var tagContent = "";
+                var workTagList = result.data.tags;
+                for (var j = 0; j < workTagList.length; j++) {
+                    tagContent += "<span>" + workTagList[j].dictValue + "</span>";
+                }
+                workTagStr += "<div class='labelhome'>" + tagContent + "</span></div>"
+                $("#workTags").append(workTagStr);
+
+            },
+            error: function (data) {
+                alert("error")
+            }
+        })
+        $.ajax({
+            //获取该作者其余作品
+            //获取作品详情
+            type: "post",
+            url: basePath + "/portal/index/other",
+            data: {
+                "workId": workId,
+                "isNormal": "Y",
+            },
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                console.log(result)
+
+            },
+            error: function (data) {
+                alert("error")
+            }
+        })
         //$('.content').flexText();
     });
 </script>
@@ -454,16 +554,37 @@
     $('.comment-show').on('click', '.date-dz-z', function () {
         var zNum = $(this).find('.z-num').html();
         if ($(this).is('.date-dz-z-click')) {
+            //取消点 赞
             zNum--;
             $(this).removeClass('date-dz-z-click red');
             $(this).find('.z-num').html(zNum);
             $(this).find('.date-dz-z-click-red').removeClass('red');
         } else {
+            //点赞
             zNum++;
             $(this).addClass('date-dz-z-click');
             $(this).find('.z-num').html(zNum);
             $(this).find('.date-dz-z-click-red').addClass('red');
         }
+    });
+    $("likeword").on("click", function () {
+        $.ajax({
+            type: "post",
+            url: basePath + "/portal/index/like",
+            data: {
+                "workId": workId,
+                "fromUserId": localStorage.getItem("userId")
+            },
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                console.log(result)
+
+            },
+            error: function (data) {
+                alert("error")
+            }
+        })
     })
 </script>
 <script type="text/javascript">

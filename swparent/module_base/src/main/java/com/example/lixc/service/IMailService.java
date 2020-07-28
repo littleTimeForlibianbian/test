@@ -1,5 +1,7 @@
 package com.example.lixc.service;
 
+import javax.mail.MessagingException;
+
 public interface IMailService {
 
     /**
@@ -39,6 +41,6 @@ public interface IMailService {
      * @param rscPath 图片路径
      * @param rscId   图片ID，用于在<img>标签中使用，从而显示图片
      */
-    void sendInlineResourceMail(String to, String subject, String content, String rscPath, String rscId);
+    void sendInlineResourceMail(String to, String subject, String content, String rscPath, String rscId) throws MessagingException;
 
 }

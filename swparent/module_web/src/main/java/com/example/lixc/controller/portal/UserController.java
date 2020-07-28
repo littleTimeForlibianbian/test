@@ -1,8 +1,15 @@
 package com.example.lixc.controller.portal;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.example.lixc.config.InitConfig;
+import com.example.lixc.config.security.utils.SysConfigUtil;
+import com.example.lixc.dto.UserInfoDTO;
 import com.example.lixc.mapper.UserMapper;
 import com.example.lixc.service.IAsyncService;
 import com.example.lixc.service.UserPortalService;
+import com.example.lixc.util.RedisContents;
+import com.example.lixc.util.RedisPoolUtil;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.back.UserBack;
 import com.example.lixc.vo.query.UserQuery;
@@ -11,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -54,16 +62,8 @@ public class UserController {
     private UserMapper userMapper;
 
     @GetMapping("/test")
-    public ResultJson test() {
-        String to = "1193096107@qq.com";
-        String subject = "test";
-        String content = "content";
-        asyncService.sendHtmlEmailAsync(to, subject, content);
-//        UserQuery userQuery = new UserQuery();
-//        userQuery.setUserName("admin");
-//        userQuery.setPassword("password");
-//        UserBack userBack = userMapper.selectByUserName(userQuery);
-        return ResultJson.buildSuccess();
+    public ResultJson test(int userId) {
+        return ResultJson.buildSuccess(SysConfigUtil.getLoginUserId());
     }
 
 
@@ -135,21 +135,60 @@ public class UserController {
     }
 
     /**
+     * 个人主页获取用户详情接口
+     *
+     * @return
+     */
+    @GetMapping("/getUserInfo")
+    @ApiOperation("获取用户详情接口")
+    public ResultJson getUserInfo(UserQuery userQuery) {
+        try {
+            return userPortalService.getUserInfo(userQuery);
+        } catch (Exception e) {
+            log.error("获取用户详情接口:{}", e.getMessage());
+            e.printStackTrace();
+            return ResultJson.buildError("获取用户详情接口异常");
+        }
+    }
+
+
+    //设置用户名片
+    @PostMapping("/updateUserAttr")
+    @ApiOperation("设置用户名片接口")
+    public ResultJson updateUserAttr(UserQuery userQuery) {
+        try {
+            return userPortalService.updateUserAttr(userQuery);
+        } catch (Exception e) {
+            log.error("设置用户名片异常:{}", e.getMessage());
+            e.printStackTrace();
+            return ResultJson.buildError("设置用户名片异常");
+        }
+    }
+
+    //设置用户头像
+    @PostMapping("/updateUserHeadImage")
+    @ApiOperation("设置用户头像")
+    public ResultJson updateUserHeadImage(@RequestParam("picString") String  picString, @RequestParam("userId") Integer userId) {
+        return userPortalService.updateUserHeadImage(picString, userId);
+    }
+
+    /**
      * 查询当前用户是否是画师，只有画师才能看到myWorld
      *
      * @return
      */
-    @PostMapping("/isPainter")
-    @ApiOperation("是否是画师")
-    public ResultJson isPainter() {
-        try {
-            return userPortalService.isPainter();
-        } catch (Exception e) {
-            log.error("重置密码发生异常:{}", e.getMessage());
-            e.printStackTrace();
-            return ResultJson.buildError("重置密码发生异常");
-        }
-    }
+//    @PostMapping("/isPainter")
+//    @ApiOperation("是否是画师")
+//
+//    public ResultJson isPainter() {
+//        try {
+//            return userPortalService.isPainter();
+//        } catch (Exception e) {
+//            log.error("重置密码发生异常:{}", e.getMessage());
+//            e.printStackTrace();
+//            return ResultJson.buildError("重置密码发生异常");
+//        }
+//    }
 
     /**
      * 选择标签

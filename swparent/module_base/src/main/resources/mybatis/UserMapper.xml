@@ -23,6 +23,7 @@
         <id column="enable" jdbcType="VARCHAR" property="enable"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
         <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
         <result column="real_name" jdbcType="VARCHAR" property="realName"/>
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
@@ -65,10 +66,10 @@
     </resultMap>
     <sql id="userAttrSql">
         sua.`id` userAttrId,
-        sua.`user_id` userId,
+        sua.`user_id` user_id,
         sua.`website` website,
-        sua.`u_history` uHistory,
-        sua.`head_image` headImage,
+        sua.`u_history` u_history,
+        sua.`head_image` head_image,
         sua.`create_time` createTime
     </sql>
     <sql id="Base_Column_List">
@@ -163,6 +164,20 @@
         </where>
     </select>
 
+    <select id="selectByEmail" parameterType="com.example.lixc.vo.query.UserQuery"
+            resultMap="UserBackMap">
+        select
+        <include refid="Base_Column_List"/>,
+        <include refid="userAttrSql"/>
+        from sys_user su
+        left join sys_user_attr sua on su.id = sua.user_id
+        <where>
+            <if test="email != null and email != ''">
+                and su.email = #{email}
+            </if>
+        </where>
+    </select>
+
     <select id="selectAllAdminUsers" parameterType="com.example.lixc.vo.query.AdminUserQuery"
             resultMap="AdminUserBackMap">
         select
@@ -231,5 +246,15 @@
             </if>
         </where>
         order by create_time,id desc
+    </select>
+    <select id="selectUserInfo" resultType="com.example.lixc.dto.UserInfoDTO">
+        SELECT su.id          userId,
+               su.nick_name   userName,
+               su.painter     painter,
+               sua.head_image headImage,
+               sua.u_history  uHistory,
+               sua.website    website
+        FROM sys_user su
+                 LEFT JOIN sys_user_attr sua ON su.id = sua.user_id
     </select>
 </mapper>

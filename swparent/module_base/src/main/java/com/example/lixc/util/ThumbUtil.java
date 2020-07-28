@@ -36,6 +36,14 @@ public class ThumbUtil {
     }
 
 
+    /**
+     * 带水印上传
+     * @param fromPicture  上传图片
+     * @param toPic 目的文件
+     * @param f 缩放比例
+     * @param waterPic  水印图片
+     * @throws IOException
+     */
     public static void proportionalScalingWithWater(File fromPicture, File toPic, float f, File waterPic) throws IOException {
 
         Thumbnails.of(fromPicture).scale(1)

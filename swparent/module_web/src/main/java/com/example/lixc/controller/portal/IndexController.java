@@ -1,6 +1,9 @@
 package com.example.lixc.controller.portal;
 
+import com.example.lixc.entity.SysReport;
 import com.example.lixc.entity.WComment;
+import com.example.lixc.service.ReportService;
+import com.example.lixc.service.SysDictService;
 import com.example.lixc.service.WorkService;
 import com.example.lixc.util.QRCodeUtil;
 import com.example.lixc.util.ResultJson;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Api("首页管理类")
 @RestController
@@ -25,6 +29,12 @@ public class IndexController {
 
     @Autowired
     private WorkService workService;
+
+    @Autowired
+    private ReportService reportService;
+
+    @Autowired
+    private SysDictService dictService;
 
     //查询作品列表  按照时间进行倒叙排序
     @ApiOperation("查询作品列表")
@@ -41,15 +51,28 @@ public class IndexController {
 
     //作品详情
     @ApiOperation("作品详情")
-    @PostMapping("/workDetail")
-    public ResultJson workDetail(WorkQuery query) {
+    @GetMapping("/workDetail")
+    public ResultJson workDetail(Integer workId) {
         try {
-            return workService.workDetail(query);
+            return workService.workDetail(workId);
         } catch (Exception e) {
             log.error("workList exception:{}", e.getMessage());
             return ResultJson.buildError("获取作品详情发生异常");
         }
     }
+
+    //作品详情
+    @ApiOperation("作品对应评论列表")
+    @PostMapping("/getWorkComment")
+    public ResultJson getWorkComment(Integer workId) {
+        try {
+            return workService.getWorkComment(workId);
+        } catch (Exception e) {
+            log.error("workList exception:{}", e.getMessage());
+            return ResultJson.buildError("获取作品详情发生异常");
+        }
+    }
+
 
     //作品详情
     @ApiOperation("其余作品")
@@ -64,13 +87,21 @@ public class IndexController {
     }
 
 
-    //上传图片
+    //上传图片 file
     @ApiOperation("上传图片")
     @PostMapping("/uploadImage")
     public ResultJson uploadImage(@RequestParam("file") MultipartFile file) {
         MultipartFile[] files = new MultipartFile[]{file};
         return workService.uploadImage(files);
     }
+
+    @ApiOperation("上传图片")
+    @PostMapping("/uploadImageBase64")
+    public ResultJson uploadImageBase64(String picString) {
+//        return workService.uploadImageBase64(picString);
+        return workService.uploadImageToServer(picString);
+    }
+
 
     @ApiOperation("获取作品标签")
     @PostMapping("/selectAllWorkLabels")
@@ -86,8 +117,14 @@ public class IndexController {
 
     @ApiOperation("上传作品")
     @PostMapping("/uploadWork")
-    public ResultJson uploadWork(WorkQuery workQuery) {
-        return workService.uploadWork(workQuery);
+    public ResultJson uploadWork(@RequestBody WorkQuery workQuery) {
+        try {
+            return workService.uploadWork(workQuery);
+        } catch (Exception e) {
+            log.error("上传作品异常：{}", e.getMessage());
+            return ResultJson.buildError("上传作品异常");
+        }
+
     }
 
     @ApiOperation("创作过往")
@@ -120,13 +157,24 @@ public class IndexController {
         }
     }
 
+    //关注  对人进行关注
+    @ApiOperation("取消关注")
+    @PostMapping("/cancelFocus")
+    public ResultJson cancelFocus(String toUserId) {
+        try {
+            return workService.cancelFocus(toUserId);
+        } catch (Exception e) {
+            log.error("addWebsite exception:{}", e.getMessage());
+            return ResultJson.buildError("添加常用网站发生异常");
+        }
+    }
 
     //点赞功能 对作品点赞
     @ApiOperation("点赞")
     @PostMapping("/like")
-    public ResultJson like(String workId) {
+    public ResultJson like(String workId, Integer fromUserId) {
         try {
-            return workService.like(workId);
+            return workService.like(workId, fromUserId);
         } catch (Exception e) {
             log.error("addWebsite exception:{}", e.getMessage());
             return ResultJson.buildError("添加常用网站发生异常");
@@ -134,21 +182,24 @@ public class IndexController {
     }
 
     //推荐给所有关注我的人
-    //TODO 向所有关注我的人发送一条消息
     @ApiOperation("推荐")
     @PostMapping("/recommend")
-    public ResultJson recommend() {
-        return null;
+    public ResultJson recommend(String workId) {
+        try {
+            return workService.recommend(workId);
+        } catch (Exception e) {
+            log.error("addWebsite exception:{}", e.getMessage());
+            return ResultJson.buildError("推荐异常");
+        }
     }
 
-    //分享 ---生成一个分享的二维码就ok
-    //TODO 用户点击或者扫描生成的二维码 首先会跳转到登录页面，登录以后直接跳转到作品详情页
+    //分享
     @ApiOperation("分享")
     @PostMapping("/share")
-    public ResultJson share(HttpServletRequest request) {
+    public ResultJson share(HttpServletRequest request, String workId) {
         try {
             StringBuffer requestURL = request.getRequestURL();
-            String text = requestURL.toString().substring(0, requestURL.lastIndexOf("/")) + "workDetail";
+            String text = requestURL.toString().substring(0, requestURL.lastIndexOf("/") - 12) + "logon?forwardParam=workDetail-" + workId;
             byte[] qrCodeImage = QRCodeUtil.getQRCodeImage(text, 300, 300);
             return ResultJson.buildSuccess(qrCodeImage);
         } catch (Exception e) {
@@ -164,7 +215,7 @@ public class IndexController {
             return workService.comment(commentQuery);
         } catch (Exception e) {
             log.error("addWebsite exception:{}", e.getMessage());
-            return ResultJson.buildError("添加常用网站发生异常");
+            return ResultJson.buildError("评论异常");
         }
     }
 
@@ -194,8 +245,38 @@ public class IndexController {
     //举报
     @ApiOperation("举报")
     @PostMapping("/report")
-    public ResultJson report() {
-        return null;
+    public ResultJson report(String ids) {
+        try {
+            return workService.report(ids);
+        } catch (Exception e) {
+            log.error("举报失败:{}", e.getMessage());
+            return ResultJson.buildError("举报失败");
+        }
     }
 
+    //举报
+    @ApiOperation("举报选项集合")
+    @PostMapping("/reportList")
+    public ResultJson reportList() {
+        SysReport report = new SysReport();
+        List<SysReport> sysReports = reportService.selectForList(report);
+        return ResultJson.buildSuccess(sysReports);
+    }
+
+    /**
+     * 获取标签
+     *
+     * @param type category==品类 其余代表画风
+     * @return
+     */
+    @ApiOperation("获取标签集合")
+    @PostMapping("/getDict")
+    public ResultJson getDict(String type) {
+        try {
+            return ResultJson.buildSuccess(dictService.getDict(type));
+        } catch (Exception e) {
+            log.error("获取作品标签失败:{}", e.getMessage());
+        }
+        return ResultJson.buildError("获取标签失败");
+    }
 }

@@ -13,8 +13,8 @@
             parameterType="com.example.lixc.vo.query.MessageQuery">
         select id,message_id,send_time,from_user_id,to_user_id,is_read from sys_user_message sum
         <where>
-            <if test="toUserId > 0">
-                and sum.to_user_id = #{toUserId}
+            <if test="userId > 0">
+                and sum.to_user_id = #{userId}
             </if>
             <if test="isRead != null and isRead != ''">
                 and sum.is_read=#{isRead}
@@ -25,29 +25,41 @@
         select sm.id, sm.`content`, sm.title
         from sys_user_message sum
         left join sys_message sm on sum.message_id = sm.id
-        where sm.is_delete = 'N' and sum.is_read='N'
+        where sm.is_delete = 'N'
         # 发送时间小于当前时间
-        and sum.send_time lgt;= now()
+        and sum.send_time &lt;= now()
         <if test="type > 0">
             and sm.type = #{type}
         </if>
         <if test="toUserId > 0">
-            and sm.to_user_id = #{toUserId}
+            and sum.to_user_id = #{toUserId}
         </if>
-
+        <if test="isRead != null and isRead != ''">
+            and sum.is_read =#{isRead}
+        </if>
     </select>
     <select id="queryCount" resultType="java.lang.Integer">
         select count(1)
         from sys_user_message sum
         left join sys_message sm on sum.message_id = sm.id
-        where sm.is_delete = 'N' and sum.is_read='N'
-        # 发送时间小于当前时间
-        and sum.send_time lgt;= now()
+        where sm.is_delete = 'N'
+        and sum.send_time &lt;= now()
         <if test="type > 0">
             and sm.type = #{type}
         </if>
         <if test="toUserId > 0">
             and sm.to_user_id = #{toUserId}
         </if>
+    </select>
+    <select id="queryHomeMessage" resultType="com.example.lixc.entity.SysMessage">
+        select DISTINCT sm.id,
+                        sm.`content`,
+                        sm.title
+        from sys_user_message sum
+                 left join sys_message sm on sum.message_id = sm.id
+        where sm.is_delete = 'N'
+          and sum.send_time &lt;= now()
+          and action in ('recommend', 'publish')
+        order by sm.create_time desc
     </select>
 </mapper>

@@ -65,9 +65,6 @@ public interface UserPortalService {
 
     ResultJson isPainter();
 
-
-    /*************portal end***********************/
-
     /**
      * 选择标签
      *
@@ -98,5 +95,11 @@ public interface UserPortalService {
     ResultJson updateUserHeadImage(String picString, Integer userId);
 
 
-    /*************web end***********************/
+    /**
+     * 查询全部的普通用户的id集合
+     *
+     * @return
+     */
+    List<Integer> selectNormalUserIdList();
+
 }

@@ -6,14 +6,13 @@ package com.example.lixc.enums;
  * @createTime 2020/6/7 12:05
  */
 public enum UserStatusEnum {
-    USER_STATUS_REG(1, "注册"),
-    USER_STATUS_ACTIVE(2, "激活"),
-    USER_STATUS_STEP1(3, "已完成作品上传"),
-    USER_STATUS_STEP2(4, "已填写创作过往"),
-    USER_STATUS_STEP3(5, "已填写常用网站"),
-    USER_STATUS_PASS(6, "审核通过"),
-    USER_STATUS_FAIL(7, "审核拒绝"),
-    USER_STATUS_APPLY(8, "已申请");
+    USER_STATUS_REG(1, "已注册"),
+    USER_STATUS_ACTIVE(2, "已激活"),
+    USER_STATUS_CHOOSE(3, "已选择标签"),
+    USER_STATUS_APPLY(4, "已申请"),
+    USER_STATUS_PASS(5, "审核通过"),
+    USER_STATUS_FAIL(6, "审核拒绝");
+
 
     private int code;
     private String message;

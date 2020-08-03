@@ -88,7 +88,7 @@
 
 <div class="ES-window container">
     <div class="copyright" style="overflow: hidden;">
-        <div class="pull-left"><a href="" title="禁止匿名转载，禁止商用，禁止个人使用；">©</a>2019-08-18</div>
+        <div class="pull-left"><a href="" title="禁止匿名转载，禁止商用，禁止个人使用；">©</a><span id="createTime"></span></div>
         <!--增加阅读数待定-->
         <!--<div class="pull-right adminvioce">
             <img src="img/readDate.png" style="margin-right: 10px;"><span>9999</span>
@@ -118,7 +118,8 @@
                 </li>
                 <li><a role="button" class="jy-a-click" id="likeword"></a><span>喜欢</span></li>
                 <li><a href="#" data-toggle="modal" data-target="#myModalrecommendimg"><img src="img/recommend.png"
-                                                                                            class="recommendimg"><span>推荐</span></a>
+                                                                                            class="recommendimg"><span
+                        id="recommend">推荐</span></a>
                 </li>
                 <li><a href="#" data-toggle="modal" data-target="#myModalcode"><img src="img/share.png"
                                                                                     class="shareimg"><span>分享</span></a>
@@ -139,25 +140,26 @@
             <!--评论区域 end-->
             <!--回复区域 begin-->
             <div class="comment-show">
-                <div class="comment-show-con clearfix">
-                    <div class="comment-show-con-img pull-left"><img src="img/header-img-comment_03.png" alt=""></div>
-                    <div class="comment-show-con-list pull-left clearfix">
-                        <div class="pl-text clearfix">
-                            <a href="#" class="comment-size-name" style="color: #0066ff;">张三 : </a>
-                            <span class="my-pl-con">&nbsp;来啊 造作啊!</span>
-                        </div>
-                        <div class="date-dz">
-                            <span class="date-dz-left pull-left comment-time">2017-5-2 11:11:39</span>
-                            <div class="date-dz-right pull-right comment-pl-block">
-                                <a href="javascript:;" class="removeBlock">删除</a>
-                                <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复</a>
-                                <span class="pull-left date-dz-line">|</span>
-                                <a href="javascript:;" class="date-dz-z pull-left"><i class="date-dz-z-click-red"></i>赞
-                                    (<i class="z-num">666</i>)</a>
-                            </div>
-                        </div>
-                        <div class="hf-list-con"></div>
-                    </div>
+                <div class="comment-show-con clearfix" id="comment_content">
+                    <!--头像-->
+                    <!--                    <div class="comment-show-con-img pull-left"><img src="img/header-img-comment_03.png" alt=""></div>-->
+                    <!--                    <div class="comment-show-con-list pull-left clearfix">-->
+                    <!--                        <div class="pl-text clearfix">-->
+                    <!--                            <a href="#" class="comment-size-name" style="color: #0066ff;">张三 : </a>-->
+                    <!--                            <span class="my-pl-con">&nbsp;来啊 造作啊!</span>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="date-dz">-->
+                    <!--                            <span class="date-dz-left pull-left comment-time">2017-5-2 11:11:39</span>-->
+                    <!--                            <div class="date-dz-right pull-right comment-pl-block">-->
+                    <!--                                <a href="javascript:;" class="removeBlock">删除</a>-->
+                    <!--                                <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复</a>-->
+                    <!--                                <span class="pull-left date-dz-line">|</span>-->
+                    <!--                                <a href="javascript:;" class="date-dz-z pull-left"><i class="date-dz-z-click-red"></i>赞-->
+                    <!--                                    (<i class="z-num">666</i>)</a>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="hf-list-con"></div>-->
+                    <!--                    </div>-->
                 </div>
             </div>
             <!--回复区域 end-->
@@ -171,36 +173,36 @@
                 <div id="four_flash">
                     <div class="flashBg">
                         <ul class="mobile">
-                            <a href="#">
-                                <li>
-                                    <img src="img/senke_xy00.jpeg"/>
-                                </li>
-                            </a>
-                            <a href="#">
-                                <li>
-                                    <img src="img/senke_xy00.jpeg"/>
-                                </li>
-                            </a>
-                            <a href="#">
-                                <li>
-                                    <img src="img/senke_xy02.jpeg"/>
-                                </li>
-                            </a>
-                            <a href="#">
-                                <li>
-                                    <img src="img/senke_xy03.jpeg"/>
-                                </li>
-                            </a>
-                            <a href="#">
-                                <li>
-                                    <img src="img/senke_xy02.jpeg"/>
-                                </li>
-                            </a>
-                            <a href="#">
-                                <li>
-                                    <img src="img/senke_xy04.jpeg"/>
-                                </li>
-                            </a>
+                            <!--                            <a href="#">-->
+                            <!--                                <li>-->
+                            <!--                                    <img src="img/senke_xy00.jpeg"/>-->
+                            <!--                                </li>-->
+                            <!--                            </a>-->
+                            <!--                            <a href="#">-->
+                            <!--                                <li>-->
+                            <!--                                    <img src="img/senke_xy00.jpeg"/>-->
+                            <!--                                </li>-->
+                            <!--                            </a>-->
+                            <!--                            <a href="#">-->
+                            <!--                                <li>-->
+                            <!--                                    <img src="img/senke_xy02.jpeg"/>-->
+                            <!--                                </li>-->
+                            <!--                            </a>-->
+                            <!--                            <a href="#">-->
+                            <!--                                <li>-->
+                            <!--                                    <img src="img/senke_xy03.jpeg"/>-->
+                            <!--                                </li>-->
+                            <!--                            </a>-->
+                            <!--                            <a href="#">-->
+                            <!--                                <li>-->
+                            <!--                                    <img src="img/senke_xy02.jpeg"/>-->
+                            <!--                                </li>-->
+                            <!--                            </a>-->
+                            <!--                            <a href="#">-->
+                            <!--                                <li>-->
+                            <!--                                    <img src="img/senke_xy04.jpeg"/>-->
+                            <!--                                </li>-->
+                            <!--                            </a>-->
 
                         </ul>
                     </div>
@@ -222,28 +224,27 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="td-box">
-                <div class="modal-body">
+                <div class="modal-body" id="reportContent">
+                    <!--                    <div class="text-center jubaocontent">-->
+                    <!--                        <div><input type="checkbox" class="newinput"><span>抄袭他人作品（局部或者整体）；</span></div>-->
+                    <!--                        <div><input type="checkbox" class="newinput1"><span>临摹/改动他人作品；</span></div>-->
+                    <!--                        <div class="newpicture" style="display: none;">-->
+                    <!--                            <div><span-->
+                    <!--                                    style="font-size: 14px;float: left;line-height: 40px;margin-left: 23px;width: 60px;text-align: right;">原作链接</span><input-->
+                    <!--                                    type="text" placeholder="第一时间发布的原作链接"-->
+                    <!--                                    style="width: 450px;height: 40px;margin-left: 10px;"/></div>-->
+                    <!--                            <div><span-->
+                    <!--                                    style="font-size: 14px;float: left;line-height: 40px;margin-left: 23px;width: 60px;text-align: right;">QQ号</span><input-->
+                    <!--                                    type="text" placeholder="" style="height: 40px;margin-left: 10px;"/></div>-->
+                    <!--                        </div>-->
 
-                    <div class="text-center jubaocontent">
-                        <div><input type="checkbox" class="newinput"><span>抄袭他人作品（局部或者整体）；</span></div>
-                        <div><input type="checkbox" class="newinput1"><span>临摹/改动他人作品；</span></div>
-                        <div class="newpicture" style="display: none;">
-                            <div><span
-                                    style="font-size: 14px;float: left;line-height: 40px;margin-left: 23px;width: 60px;text-align: right;">原作链接</span><input
-                                    type="text" placeholder="第一时间发布的原作链接"
-                                    style="width: 450px;height: 40px;margin-left: 10px;"/></div>
-                            <div><span
-                                    style="font-size: 14px;float: left;line-height: 40px;margin-left: 23px;width: 60px;text-align: right;">QQ号</span><input
-                                    type="text" placeholder="" style="height: 40px;margin-left: 10px;"/></div>
-                        </div>
-
-                        <div><input type="checkbox"><span>作品涉及政治、黄赌毒等信息；</span></div>
-                        <div><input type="checkbox"><span>作品带有丑化国家领导人/国家形象、人身攻击、人格污蔑等；</span></div>
-                        <div><input type="checkbox"><span>作品带有很浓非正式（不被所在国正式认可的）宗教宣传等；</span></div>
-                        <div><input type="checkbox"><span>作品带有性暗示的；</span></div>
-                        <div><input type="checkbox"><span>作品带有极端主义色彩等；</span></div>
-                        <div><input type="checkbox"><span>作品违反中国法律的其他情况。</span></div>
-                    </div>
+                    <!--                        <div><input type="checkbox"><span>作品涉及政治、黄赌毒等信息；</span></div>-->
+                    <!--                        <div><input type="checkbox"><span>作品带有丑化国家领导人/国家形象、人身攻击、人格污蔑等；</span></div>-->
+                    <!--                        <div><input type="checkbox"><span>作品带有很浓非正式（不被所在国正式认可的）宗教宣传等；</span></div>-->
+                    <!--                        <div><input type="checkbox"><span>作品带有性暗示的；</span></div>-->
+                    <!--                        <div><input type="checkbox"><span>作品带有极端主义色彩等；</span></div>-->
+                    <!--                        <div><input type="checkbox"><span>作品违反中国法律的其他情况。</span></div>-->
+                    <!--                    </div>-->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-td" style="background: #0066ff!important;color: white;">提交
@@ -266,7 +267,7 @@
         <div class="modal-content">
             <div class="td-share">
                 <div class="modal-body">
-                    <img src="img/code.jpg" style="width: 300px;height: 300px;"/>
+                    <img id="shareimg" style="width: 300px;height: 300px;"/>
                 </div>
 
             </div>
@@ -300,7 +301,9 @@
 </body>
 <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jquery.flexText.js"></script>
 <script>
+
     $("#cardshidden").click(function () {
         $(".drawerdetails").slideToggle();
     });
@@ -313,52 +316,132 @@
     })
 
     function makeComment() {
+        $.ajax({
+            type: "post",
+            url: basePath + "/portal/index/commentList",
+            data: {
+                "workId": workId,
+            },
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                console.log(result)
+                var commentList = result.data;
+                var comStr = "";
+                var replyStr = "";
+                var allStr = "";
+                for (var i = 0; i < commentList.length; i++) {
+                    var comment = commentList[i];
+                    comStr += '<div class="comment-show-con-img pull-left">' +
+                        //TODO 存储评论的id
+                        '<input type="hidden" id="">' +
+                        '<img src="' + comment.headImageUrl + '" alt=""></div>\n' +
+                        '                    <div class="comment-show-con-list pull-left clearfix">\n' +
+                        '                        <div class="pl-text clearfix">\n' +
+                        '                            <a href="#" class="comment-size-name" style="color: #0066ff;">' + comment.nickName + ' : </a>\n' +
+                        '                            <span class="my-pl-con">&nbsp;' + comment.content + '</span>\n' +
+                        '                        </div>\n' +
+                        '                        <div class="date-dz">\n' +
+                        '                            <span class="date-dz-left pull-left comment-time">' + comment.createTime + '</span>\n' +
+                        '                            <div class="date-dz-right pull-right comment-pl-block">\n' +
+                        '                                <a href="javascript:;" class="removeBlock">删除</a>\n' +
+                        '                                <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复</a>\n' +
+                        '                                <span class="pull-left date-dz-line">|</span>\n' +
+                        '                                <a href="javascript:;" class="date-dz-z pull-left"><i class="date-dz-z-click-red"></i>赞\n' +
+                        '                                    (<i class="z-num">' + comment.praiseNum + '</i>)</a>\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                        <div class="hf-list-con"></div>\n' +
+                        '                    </div>';
+                }
+
+                $("#comment_content").append(comStr);
+            },
+            error: function () {
+                alert("error");
+            }
+        })
         $(".makeComment").show();
     }
 
+    //点击关注
     $("#drawercare").click(function () {
-
         $(this).toggleClass("active");
+        $.ajax({
+            type: "post",
+            url: basePath + "/portal/index/focus",
+            data: {
+                "toUserId": authorId,
+            },
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                console.log(result)
+            },
+            error: function () {
+                alert("error");
+            }
+        })
     })
 </script>
 
 <!--textarea高度自适应-->
 <script type="text/javascript">
-    var workId = getQueryVariable("workId");
-    var authorId = getQueryVariable("authorId");
+    var workId = getQueryVariable("id");
+    var authorId = "";
     $(function () {
         initCityMap();
-        //页面初始化填充数据
+        //获取用户详情
         $.ajax({
-            //获取用户详情
             type: "get",
-            url: basePath + "/public/user/getUserInfo",
-            data: {"userID": authorId},
+            url: basePath + "/portal/index/getUserInfoByWorkId",
+            data: {"workId": workId},
             async: false,//同步  true ：异步
             dataType: "json",
             success: function (result) {
                 console.log(result);
-                var dataObj = result.data;
-                var tagList = dataObj.tagList;
-                //昵称
-                $("#nickName").html(dataObj.nickName);
-                //city编码
-                bankid = dataObj.city;
-                $("#city").html(cityMap.get(dataObj.city));
-                //标签
-                var tagContent = "";
-                for (var i = 0; i < tagList.length; i++) {
-                    tagContent += "<li>" + "<a id=" + tagList[i].id + ">" + tagList[i].content + "</a>" + "</li>"
+                if (result.status == 200) {
+                    var dataObj = result.data;
+                    var tagList = dataObj.tagList;
+                    authorId = dataObj.id;
+                    //昵称
+                    $("#nickName").html(dataObj.nickName);
+                    //city编码
+                    bankid = dataObj.city;
+                    $("#city").html(cityMap.get(dataObj.city));
+                    //标签
+                    var tagContent = "";
+                    for (var i = 0; i < tagList.length; i++) {
+                        tagContent += "<li>" + "<a id=" + tagList[i].id + ">" + tagList[i].content + "</a>" + "</li>"
+                    }
+                    $("#tags").append(tagContent);
+                    //头像
+                    $("#headImage").attr("src", dataObj.userAttr.headImage);
+                    // $("#view").css("background-image", "url(http://192.168.244.129/images/20200728/737623766074527744.jpeg)")
+                    //创作历史
+                    $("#uHistory").html(dataObj.userAttr.uhistory);
+                } else {
+                    alert("获取用详情异常，请联系管理员")
                 }
-                $("#tags").append(tagContent);
-                //头像
-                $("#headImage").attr("src", dataObj.userAttr.headImage);
-                // $("#view").css("background-image", "url(http://192.168.244.129/images/20200728/737623766074527744.jpeg)")
-                //创作历史
-                $("#uHistory").html(dataObj.userAttr.uhistory);
-
             },
         })
+        //查询是否关注
+        $.ajax({
+            type: "post",
+            url: basePath + "/portal/index/queryFocus",
+            data: {
+                "toUserId": authorId,
+            },
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (data) {
+                alert("error")
+            }
+        })
+        //作品详情
         $.ajax({
             //获取作品详情
             type: "get",
@@ -380,11 +463,14 @@
                 //作品名称
                 $("#workName").html(result.data.name);
                 //创作初心
-                $("content").html(result.data.content);
+                $("#content").html(result.data.content);
+                //创建时间
+                var createDate = new Date(result.data.createTime).format("yyyy-MM-dd");
+                $("#createTime").html(createDate);
                 //作品标签
                 var workTagStr = "";
                 var tagContent = "";
-                var workTagList = result.data.tags;
+                var workTagList = result.data.dicts;
                 for (var j = 0; j < workTagList.length; j++) {
                     tagContent += "<span>" + workTagList[j].dictValue + "</span>";
                 }
@@ -396,20 +482,29 @@
                 alert("error")
             }
         })
+        //其余作品
         $.ajax({
-            //获取该作者其余作品
-            //获取作品详情
             type: "post",
             url: basePath + "/portal/index/other",
             data: {
-                "workId": workId,
+                "id": workId,
+                "userId": authorId,
                 "isNormal": "Y",
             },
             async: false,//同步  true ：异步
             dataType: "json",
             success: function (result) {
                 console.log(result)
-
+                var workList = result.data
+                var workStr = "";
+                for (var i = 0; i < workList.length; i++) {
+                    workStr += " <a href=\"#\">" +
+                        "                                <li>" +
+                        "                                    <img src=" + workList[i].imageList[0].thumbUrl + "/>" +
+                        "                                </li>" +
+                        "                            </a>"
+                }
+                $(".mobile").append(workStr)
             },
             error: function (data) {
                 alert("error")
@@ -443,15 +538,72 @@
         var s = myDate.getSeconds();
         if (s < 10) s = '0' + s;
         var now = year + '-' + month + "-" + date + " " + h + ':' + m + ":" + s;
+        // let siblings = $(this).siblings('.flex-text-wrap');
+        // console.log(siblings)
         //获取输入内容
-        var oSize = $(this).siblings('.flex-text-wrap').find('.comment-input').val();
-        console.log(oSize);
-        //动态创建评论模块
-        oHtml = '<div class="comment-show-con clearfix"><div class="comment-show-con-img pull-left"><img src="images/header-img-comment_03.png" alt=""></div> <div class="comment-show-con-list pull-left clearfix"><div class="pl-text clearfix"> <a href="#" class="comment-size-name">David Beckham : </a> <span class="my-pl-con">&nbsp;' + oSize + '</span> </div> <div class="date-dz"> <span class="date-dz-left pull-left comment-time">' + now + '</span> <div class="date-dz-right pull-right comment-pl-block"><a href="javascript:;" class="removeBlock">删除</a> <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复</a> <span class="pull-left date-dz-line">|</span> <a href="javascript:;" class="date-dz-z pull-left"><i class="date-dz-z-click-red"></i>赞 (<i class="z-num">666</i>)</a> </div> </div><div class="hf-list-con"></div></div> </div>';
-        if (oSize.replace(/(^\s*)|(\s*$)/g, "") != '') {
-            $(this).parents('.reviewArea ').siblings('.comment-show').prepend(oHtml);
-            $(this).siblings('.flex-text-wrap').find('.comment-input').prop('value', '').siblings('pre').find('span').text('');
+        // var oSize = $(this).siblings('.flex-text-wrap').find('.comment-input').val();
+        // var oSize = $(this).siblings('.reviewArea').find('.comment-input').val();
+        // var oSize = $(".content comment-input").val();
+        // //动态创建评论模块
+        // oHtml = '<div class="comment-show-con clearfix"><div class="comment-show-con-img pull-left"><img src="images/header-img-comment_03.png" alt=""></div> <div class="comment-show-con-list pull-left clearfix"><div class="pl-text clearfix"> <a href="#" class="comment-size-name">David Beckham : </a> <span class="my-pl-con">&nbsp;' + oSize + '</span> </div> <div class="date-dz"> <span class="date-dz-left pull-left comment-time">' + now + '</span> <div class="date-dz-right pull-right comment-pl-block"><a href="javascript:;" class="removeBlock">删除</a> <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复</a> <span class="pull-left date-dz-line">|</span> <a href="javascript:;" class="date-dz-z pull-left"><i class="date-dz-z-click-red"></i>赞 (<i class="z-num">666</i>)</a> </div> </div><div class="hf-list-con"></div></div> </div>';
+        // if (oSize.replace(/(^\s*)|(\s*$)/g, "") != '') {
+        //     $(this).parents('.reviewArea').siblings('.comment-show').prepend(oHtml);
+        //     $(this).siblings('.flex-text-wrap').find('.comment-input').prop('value', '').siblings('pre').find('span').text('');
+        // }
+        //如果直接评论作品  conmmentLevel 传1  parentId 为0   如果回复评论，parentId 为评论的id，commentLevel为评论的commentLevel +1
+        var content = "测试回复作品评论";
+        var data = {
+            "workId": workId,
+            "content": content,
+            "commentLevel": 2,
+            "parentId": 1,
+            "targetType": "work"
         }
+        //调用评论接口
+        $.ajax({
+            type: "post",
+            url: basePath + "/portal/index/comment",
+            data: data,
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                console.log(result)
+
+            },
+            error: function (data) {
+                alert("error")
+            }
+        })
+        //调用删除评论接口
+        $.ajax({
+            type: "post",
+            url: basePath + "/portal/index/commentDel",
+            data: {"id": 1},
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                console.log(result)
+
+            },
+            error: function (data) {
+                alert("error")
+            }
+        })
+        //调用删除评论点赞接口
+        $.ajax({
+            type: "post",
+            url: basePath + "/portal/index/commentLike",
+            data: {"id": 6},
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                console.log(result)
+
+            },
+            error: function (data) {
+                alert("error")
+            }
+        })
     });
 </script>
 <!--点击回复动态创建回复块-->
@@ -546,28 +698,27 @@
             oT.remove();
         }
         $(this).parents('.date-dz-right').parents('.date-dz').parents('.comment-show-con-list').parents('.comment-show-con').remove();
-
     })
+
 </script>
 <!--点赞-->
 <script type="text/javascript">
     $('.comment-show').on('click', '.date-dz-z', function () {
         var zNum = $(this).find('.z-num').html();
         if ($(this).is('.date-dz-z-click')) {
-            //取消点 赞
             zNum--;
             $(this).removeClass('date-dz-z-click red');
             $(this).find('.z-num').html(zNum);
             $(this).find('.date-dz-z-click-red').removeClass('red');
         } else {
-            //点赞
             zNum++;
             $(this).addClass('date-dz-z-click');
             $(this).find('.z-num').html(zNum);
             $(this).find('.date-dz-z-click-red').addClass('red');
         }
     });
-    $("likeword").on("click", function () {
+    //点赞
+    $("#likeword").on("click", function () {
         $.ajax({
             type: "post",
             url: basePath + "/portal/index/like",
@@ -613,16 +764,76 @@
 <!--举报弹框-->
 <script>
     $(".reportimg").click(function () {
+        $.ajax({
+            type: "post",
+            url: basePath + "/portal/index/reportList",
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                var content = "";
+                content += ' <div class="text-center jubaocontent">';
+                for (var i = 0; i < result.data.length; i++) {
+                    content += '<div><input type="checkbox" class="newinput" name="newinput" value="' + result.data[i].id + '"><span>' + result.data[i].content + '</span></div>\n'
+                }
+
+                content += '                    </div>';
+                $("#reportContent").append(content);
+            },
+            error: function (data) {
+                alert("error")
+            }
+        })
         $(".td-box").show();
         $(".tccg-box").hide();
     })
     $(".btn-td").click(function () {
+        var ids = "";
+        $('input[type="checkbox"]:checked').each(function () {
+            ids += $(this).val() + "-";
+        })
+        $.ajax({
+            type: "post",
+            url: basePath + "/portal/index/report",
+            data: {
+                "ids": ids.substring(0, ids.length - 1),
+                "workId": workId
+            },
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (data) {
+                alert("error")
+            }
+        })
+
+
         $(".td-box").hide();
         $(".tccg-box").show();
     })
 </script>
 <!--推荐弹框-->
 <script>
+    //推荐
+    $("#recommend").on("click", function () {
+        $.ajax({
+            type: "post",
+            url: basePath + "/portal/index/recommend",
+            data: {
+                "workId": workId
+            },
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                console.log(result)
+
+            },
+            error: function (data) {
+                alert("error")
+            }
+        })
+    })
     $(".recommendimg").click(function () {
         $(".td-recommend").show();
 
@@ -635,7 +846,24 @@
 <!--分享弹框-->
 <script>
     $(".shareimg").click(function () {
-        $(".td-share").show();
+        $.ajax({
+            type: "post",
+            url: basePath + "/portal/index/share",
+            data: {
+                "workId": workId
+            },
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                $("#shareimg").attr("src", "data:image/png;base64," + result.message);
+                $(".td-share").show();
+            },
+            error: function (data) {
+                alert("error")
+            }
+        })
+
 
     })
 </script>

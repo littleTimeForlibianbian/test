@@ -1,32 +1,36 @@
 package com.example.lixc.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
-
 import javax.persistence.Table;
 import java.util.Date;
 
-/**
- * @author lixc
- * @Description
- * @createTime 2020/6/27 22:21
- */
 @Data
-@Table(name = "w_comment")
-public class WComment {
+@ToString
+@Table(name = "sys_comment")
+public class SysComment {
     @Id
     private Integer id;
-    private Integer workId;
+
+    private Integer targetId;
+
+    private String targetType;
+
+    @Column(name = "user_id")
     private Integer userId;
-    private String userName;
+
     private String content;
+
     private Integer commentLevel;
+
     private Integer parentId;
+
     private Integer topStatus;
-    //评论点赞数量
+
     private Integer praiseNum;
+
     private Date createTime;
-
-
 }

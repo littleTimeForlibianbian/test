@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface WFavoriteMapper extends SwBaseMapper<WFavorite> {
-    //查询作品是否是我喜欢的作品
+    //查询我喜欢作品数量
     int selectCountByWorkId(@Param("userId") int userId, @Param("workId") int workId);
 
     //查询我喜欢的全部的作品

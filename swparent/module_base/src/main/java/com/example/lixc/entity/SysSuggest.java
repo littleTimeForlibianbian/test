@@ -14,6 +14,8 @@ public class SysSuggest {
 
     private Integer userId;
 
+    private String userName;
+
     private String content;
 
     private Integer version;

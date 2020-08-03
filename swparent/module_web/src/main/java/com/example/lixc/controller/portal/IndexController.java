@@ -1,7 +1,6 @@
 package com.example.lixc.controller.portal;
 
 import com.example.lixc.entity.SysReport;
-import com.example.lixc.entity.WComment;
 import com.example.lixc.service.ReportService;
 import com.example.lixc.service.SysDictService;
 import com.example.lixc.service.WorkService;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Base64;
 import java.util.List;
 
 @Api("首页管理类")
@@ -38,10 +38,10 @@ public class IndexController {
 
     //查询作品列表  按照时间进行倒叙排序
     @ApiOperation("查询作品列表")
-    @PostMapping("/workList/{more}")
-    public Page<WorkBack> workList(WorkQuery query, @PathVariable("more") String more) {
+    @PostMapping("/workList")
+    public Page<WorkBack> workList(WorkQuery query) {
         try {
-            return workService.workList(query, more);
+            return workService.workList(query);
         } catch (Exception e) {
             log.error("workList exception:{}", e.getMessage());
             return new Page<>();
@@ -61,15 +61,20 @@ public class IndexController {
         }
     }
 
-    //作品详情
-    @ApiOperation("作品对应评论列表")
-    @PostMapping("/getWorkComment")
-    public ResultJson getWorkComment(Integer workId) {
+    /**
+     * 根据作品id获取用户详情
+     *
+     * @return
+     */
+    @GetMapping("/getUserInfoByWorkId")
+    @ApiOperation("获取用户详情接口")
+    public ResultJson getUserInfoByWorkId(Integer workId) {
         try {
-            return workService.getWorkComment(workId);
+            return workService.getUserInfoByWorkId(workId);
         } catch (Exception e) {
-            log.error("workList exception:{}", e.getMessage());
-            return ResultJson.buildError("获取作品详情发生异常");
+            log.error("获取用户详情接口:{}", e.getMessage());
+            e.printStackTrace();
+            return ResultJson.buildError("获取用户详情接口异常");
         }
     }
 
@@ -82,7 +87,7 @@ public class IndexController {
             return workService.other(query);
         } catch (Exception e) {
             log.error("workList exception:{}", e.getMessage());
-            return ResultJson.buildError("获取作品详情发生异常");
+            return ResultJson.buildError("获取其余作品发生异常");
         }
     }
 
@@ -127,20 +132,32 @@ public class IndexController {
 
     }
 
-    @ApiOperation("创作过往")
-    @PostMapping("/createHistory")
-    public ResultJson createHistory(String content) {
-        return workService.createHistory(content);
-    }
+//    @ApiOperation("创作过往")
+//    @PostMapping("/createHistory")
+//    public ResultJson createHistory(String content) {
+//        return workService.createHistory(content);
+//    }
+//
+//    @ApiOperation("常用网站")
+//    @PostMapping("/addWebsite")
+//    public ResultJson addWebsite(String website) {
+//        try {
+//            return workService.addWebsite(website);
+//        } catch (Exception e) {
+//            log.error("addWebsite exception:{}", e.getMessage());
+//            return ResultJson.buildError("添加常用网站发生异常");
+//        }
+//    }
 
-    @ApiOperation("常用网站")
-    @PostMapping("/addWebsite")
-    public ResultJson addWebsite(String website) {
+    //关注  对人进行关注
+    @ApiOperation("查询是否关注")
+    @PostMapping("/queryFocus")
+    public ResultJson queryFocus(Integer toUserId) {
         try {
-            return workService.addWebsite(website);
+            return workService.queryFocus(toUserId);
         } catch (Exception e) {
             log.error("addWebsite exception:{}", e.getMessage());
-            return ResultJson.buildError("添加常用网站发生异常");
+            return ResultJson.buildError("查询是否关注发生异常");
         }
     }
 
@@ -148,43 +165,31 @@ public class IndexController {
     //关注  对人进行关注
     @ApiOperation("关注")
     @PostMapping("/focus")
-    public ResultJson focus(String toUserId) {
+    public ResultJson focus(Integer toUserId) {
         try {
             return workService.focus(toUserId);
         } catch (Exception e) {
             log.error("addWebsite exception:{}", e.getMessage());
-            return ResultJson.buildError("添加常用网站发生异常");
-        }
-    }
-
-    //关注  对人进行关注
-    @ApiOperation("取消关注")
-    @PostMapping("/cancelFocus")
-    public ResultJson cancelFocus(String toUserId) {
-        try {
-            return workService.cancelFocus(toUserId);
-        } catch (Exception e) {
-            log.error("addWebsite exception:{}", e.getMessage());
-            return ResultJson.buildError("添加常用网站发生异常");
+            return ResultJson.buildError("关注异常");
         }
     }
 
     //点赞功能 对作品点赞
     @ApiOperation("点赞")
     @PostMapping("/like")
-    public ResultJson like(String workId, Integer fromUserId) {
+    public ResultJson like(Integer workId, Integer fromUserId) {
         try {
             return workService.like(workId, fromUserId);
         } catch (Exception e) {
             log.error("addWebsite exception:{}", e.getMessage());
-            return ResultJson.buildError("添加常用网站发生异常");
+            return ResultJson.buildError("点赞发生异常");
         }
     }
 
     //推荐给所有关注我的人
     @ApiOperation("推荐")
     @PostMapping("/recommend")
-    public ResultJson recommend(String workId) {
+    public ResultJson recommend(Integer workId) {
         try {
             return workService.recommend(workId);
         } catch (Exception e) {
@@ -199,11 +204,25 @@ public class IndexController {
     public ResultJson share(HttpServletRequest request, String workId) {
         try {
             StringBuffer requestURL = request.getRequestURL();
-            String text = requestURL.toString().substring(0, requestURL.lastIndexOf("/") - 12) + "logon?forwardParam=workDetail-" + workId;
+            String text = requestURL.toString().substring(0, requestURL.lastIndexOf("/") - 12) + "Loginpage.html?forwardParam=workDetail&workId=" + workId;
+            System.out.println("text:" + text);
             byte[] qrCodeImage = QRCodeUtil.getQRCodeImage(text, 300, 300);
-            return ResultJson.buildSuccess(qrCodeImage);
+            String result = Base64.getEncoder().encodeToString(qrCodeImage);
+            return ResultJson.buildSuccess(result);
         } catch (Exception e) {
             return ResultJson.buildError("生成二维码异常");
+        }
+    }
+
+    //评论列表
+    @ApiOperation("作品对应评论列表")
+    @PostMapping("/commentList")
+    public ResultJson commentList(Integer workId) {
+        try {
+            return workService.selectCommentList(workId);
+        } catch (Exception e) {
+            log.error("workList exception:{}", e.getMessage());
+            return ResultJson.buildError("获取作品详情发生异常");
         }
     }
 
@@ -214,7 +233,7 @@ public class IndexController {
         try {
             return workService.comment(commentQuery);
         } catch (Exception e) {
-            log.error("addWebsite exception:{}", e.getMessage());
+            log.error("comment exception:{}", e.getMessage());
             return ResultJson.buildError("评论异常");
         }
     }
@@ -245,9 +264,9 @@ public class IndexController {
     //举报
     @ApiOperation("举报")
     @PostMapping("/report")
-    public ResultJson report(String ids) {
+    public ResultJson report(String ids,Integer workId) {
         try {
-            return workService.report(ids);
+            return workService.report(ids,workId);
         } catch (Exception e) {
             log.error("举报失败:{}", e.getMessage());
             return ResultJson.buildError("举报失败");

@@ -18,8 +18,9 @@
         </foreach>
     </delete>
     <select id="selectForList" resultType="com.example.lixc.vo.back.VersionSpoBack">
-        select svs.id,svs.user_id,svs.content,svs.publish_time,su.nick_name as userName from sys_version_spo svs left
-        join sys_user su on svs.user_id = su.id
+        select svs.id,svs.user_id,svs.content,svs.publish_time,su.nick_name as userName ,sua.head_image ,svs.status from sys_version_spo svs
+            left join sys_user su on svs.user_id = su.id
+            left join  sys_user_attr sua on su.id = sua.user_id
         <where>
             <if test="startTime != null and startTime != '' ">
                 and svs.create_time &gt; #{startTime}

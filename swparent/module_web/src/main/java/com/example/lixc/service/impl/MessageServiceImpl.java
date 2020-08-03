@@ -9,6 +9,7 @@ import com.example.lixc.mapper.SysUserMessageMapper;
 import com.example.lixc.service.MessageService;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.query.MessageQuery;
+import com.example.lixc.vo.query.UserMessageQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.transaction.TransactionException;
@@ -38,34 +39,35 @@ public class MessageServiceImpl implements MessageService {
     @Autowired
     private SysUserMessageMapper userMessageMapper;
 
+    /**
+     * @param messageQuery messageQuery对象
+     * @param fromUserId   发送者id
+     * @param toUserIdList 接受者id集合
+     * @param isTimed      是否是定时发送，y:是  n:false
+     */
     @Async
     @Override
     @Transactional
-    public void create(List<MessageQuery> messageQueryList, boolean isTimed) {
+    public void create(MessageQuery messageQuery, Integer fromUserId, List<Integer> toUserIdList, boolean isTimed) {
         try {
-            if (!CollectionUtils.isEmpty(messageQueryList)) {
-                if (messageQueryList.size() == 1) {
-                    log.info("单点发送消息");
-                }
-                for (MessageQuery messageQuery : messageQueryList) {
-                    log.info("生成消息记录start");
-                    SysMessage message = changeToMessage(messageQuery);
-                    messageMapper.insertUseGeneratedKeys(message);
-                    log.info("生成消息记录end");
-                    if (!isTimed) {
-                        log.info("非定时发送");
-                        log.info(" send message  start");
-                        SysUserMessage userMessage = new SysUserMessage();
-                        userMessage.setIsRead("N");
-                        userMessage.setToUserId(messageQuery.getToUserId());
-                        userMessage.setMessageId(message.getId());
-                        userMessage.setFromUserId(messageQuery.getFromUserId());
-                        userMessage.setSendTime(new Date());
-                        userMessageMapper.insertSelective(userMessage);
-                        log.info(" send message end");
-                    } else {
-                        //TODO  定时发送
-                    }
+            log.info("生成消息记录start");
+            SysMessage message = changeToMessage(messageQuery);
+            messageMapper.insertUseGeneratedKeys(message);
+            log.info("生成消息记录end");
+            for (Integer toUserId : toUserIdList) {
+                if (!isTimed) {
+                    log.info("非定时发送");
+                    log.info(" send message  start");
+                    SysUserMessage userMessage = new SysUserMessage();
+                    userMessage.setIsRead("N");
+                    userMessage.setToUserId(toUserId);
+                    userMessage.setMessageId(message.getId());
+                    userMessage.setFromUserId(fromUserId);
+                    userMessage.setSendTime(new Date());
+                    userMessageMapper.insertSelective(userMessage);
+                    log.info(" send message end");
+                } else {
+                    //TODO  定时发送
                 }
             }
         } catch (Exception e) {
@@ -82,72 +84,76 @@ public class MessageServiceImpl implements MessageService {
         message.setAction(messageQuery.getAction());
         message.setType(messageQuery.getType());
         message.setContent(messageQuery.getContent());
-        message.setToUserId(messageQuery.getToUserId());
-        message.setFromUserId(messageQuery.getFromUserId());
         return message;
     }
 
     @Override
-    public SysMessage queryMessage(MessageQuery messageQuery) {
+    public SysMessage queryMessage(Integer messageId) {
         //查询消息详情
-        return messageMapper.selectByPrimaryKey(messageQuery.getMessageId());
+        return messageMapper.selectByPrimaryKey(messageId);
     }
 
-    @Override
-    @Transactional
-    public void send(MessageQuery messageQuery) {
-        //插入消息记录表
-        log.info(" send message  start");
-        SysUserMessage userMessage = new SysUserMessage();
-        userMessage.setIsRead("N");
-        userMessage.setToUserId(messageQuery.getToUserId());
-        userMessage.setMessageId(messageQuery.getMessageId());
-        userMessage.setFromUserId(messageQuery.getFromUserId());
-        userMessage.setSendTime(new Date());
-        userMessageMapper.insertSelective(userMessage);
-        log.info(" send message end");
-    }
+//    @Override
+//    @Transactional
+//    public void send(MessageQuery messageQuery) {
+//        //插入消息记录表
+//        log.info(" send message  start");
+//        SysUserMessage userMessage = new SysUserMessage();
+//        userMessage.setIsRead("N");
+//        userMessage.setToUserId(messageQuery.getToUserId());
+//        userMessage.setMessageId(messageQuery.getMessageId());
+//        userMessage.setFromUserId(messageQuery.getFromUserId());
+//        userMessage.setSendTime(new Date());
+//        userMessageMapper.insertSelective(userMessage);
+//        log.info(" send message end");
+//    }
 
     @Override
-    public List<SysMessage> queryNotRead(MessageQuery messageQuery) {
+    public List<SysMessage> queryNotRead(UserMessageQuery userMessageQuery) {
         int loginUserId = SysConfigUtil.getLoginUserId();
-        messageQuery.setToUserId(loginUserId);
-        messageQuery.setIsRead("N");
+        userMessageQuery.setToUserId(loginUserId);
+        userMessageQuery.setIsRead("N");
         //查询所有的未读消息
-        return userMessageMapper.query(messageQuery);
+        return userMessageMapper.query(userMessageQuery);
     }
 
     @Override
-    public int queryNotReadCount(MessageQuery messageQuery) {
+    public int queryNotReadCount(UserMessageQuery userMessageQuery) {
         int loginUserId = SysConfigUtil.getLoginUserId();
-        messageQuery.setToUserId(loginUserId);
-        messageQuery.setIsRead("N");
+        userMessageQuery.setToUserId(loginUserId);
+        userMessageQuery.setIsRead("N");
         //查询所有的未读消息
-        return userMessageMapper.queryCount(messageQuery);
+        return userMessageMapper.queryCount(userMessageQuery);
     }
 
     @Override
-    public List<SysMessage> querySystem(MessageQuery messageQuery) {
+    public List<SysMessage> querySystem(UserMessageQuery userMessageQuery) {
         //查询所有的系统消息
-        messageQuery.setType(MessageTypeEnum.MESSAGE_TYPE_ANN.getCode());
-        messageQuery.setIsRead("N");
+        userMessageQuery.setType(MessageTypeEnum.MESSAGE_TYPE_ANN.getCode());
+        userMessageQuery.setIsRead("N");
         int loginUserId = SysConfigUtil.getLoginUserId();
-        messageQuery.setToUserId(loginUserId);
-        return userMessageMapper.query(messageQuery);
+        userMessageQuery.setToUserId(loginUserId);
+        return userMessageMapper.query(userMessageQuery);
     }
 
     @Override
-    public List<SysMessage> queryDynamic(MessageQuery messageQuery) {
+    public List<SysMessage> queryDynamic(UserMessageQuery userMessageQuery) {
         //查询所有的系统消息
-        messageQuery.setType(MessageTypeEnum.MESSAGE_TYPE_REM.getCode());
-        messageQuery.setIsRead("N");
+        userMessageQuery.setType(MessageTypeEnum.MESSAGE_TYPE_REM.getCode());
+        userMessageQuery.setIsRead("N");
         int loginUserId = SysConfigUtil.getLoginUserId();
-        messageQuery.setToUserId(loginUserId);
-        return null;
+        userMessageQuery.setToUserId(loginUserId);
+        return userMessageMapper.query(userMessageQuery);
     }
 
     @Override
-    public void deleteById(MessageQuery messageQuery) {
+    public ResultJson deleteById(Integer messageId) {
+        if (messageId <= 0) {
+            log.error("消息id为空");
+            return ResultJson.buildError("消息id为空");
+        }
         //删除消息
+        userMessageMapper.deleteByPrimaryKey(messageId);
+        return ResultJson.buildSuccess();
     }
 }

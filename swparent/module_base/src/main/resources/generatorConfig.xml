@@ -36,7 +36,7 @@
 
         <!-- 指定数据库表 -->
         <!--        <table tableName="sys_message" domainObjectName="SysMessage" enableCountByExample="false"  enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <table tableName="sys_report_record" domainObjectName="SysReportRecord" enableCountByExample="false"
+        <table tableName="message_read_time" domainObjectName="MessageReadTime" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
     </context>

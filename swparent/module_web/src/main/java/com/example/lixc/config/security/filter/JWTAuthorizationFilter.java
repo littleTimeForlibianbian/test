@@ -18,7 +18,7 @@ import java.util.Collections;
 
 /**
  * @author lixc
- * @Description JWTAuthorizationFilter
+ * @Description 每一次需要权限的请求都需要检查该用户是否有该权限去操作该资源，当然这也是框架帮我们做的，那么我们需要做什么呢？很简单，只要告诉spring-security该用户是否已登录，是什么角色，拥有什么权限就可以了
  * @createTime 2020/6/14 16:58
  */
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {

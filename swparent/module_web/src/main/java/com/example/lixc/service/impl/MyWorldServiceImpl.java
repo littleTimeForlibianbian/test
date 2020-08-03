@@ -1,5 +1,6 @@
 package com.example.lixc.service.impl;
 
+import com.example.lixc.config.InitConfig;
 import com.example.lixc.config.security.utils.SysConfigUtil;
 import com.example.lixc.entity.*;
 import com.example.lixc.enums.MessageTypeEnum;
@@ -7,12 +8,17 @@ import com.example.lixc.mapper.*;
 import com.example.lixc.service.MyWorldService;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.back.UserBack;
+import com.example.lixc.vo.back.VersionSpoBack;
 import com.example.lixc.vo.back.WorkBack;
 import com.example.lixc.vo.query.MessageQuery;
+import com.example.lixc.vo.query.UserMessageQuery;
 import com.example.lixc.vo.query.UserQuery;
+import com.example.lixc.vo.query.VersionSpoQuery;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
@@ -21,6 +27,7 @@ import java.util.*;
  * @Description
  * @createTime 2020/7/1 17:39
  */
+@Slf4j
 @Service
 public class MyWorldServiceImpl implements MyWorldService {
     @Autowired
@@ -50,15 +57,15 @@ public class MyWorldServiceImpl implements MyWorldService {
     @Autowired
     private WFavoriteMapper wFavoriteMapper;
 
+    @Autowired
+    private SysVersionSpoMapper versionSpoMapper;
+
     @Override
     public ResultJson newMessage() {
         //查询我的消息中全部未读的消息 从这里能查到的用户 肯定都是存在的用户
-        int loginUserId = SysConfigUtil.getLoginUserId();
-        MessageQuery messageQuery = new MessageQuery();
-        messageQuery.setToUserId(loginUserId);
-        messageQuery.setIsRead("N");
+        int userId = SysConfigUtil.getLoginUserId();
         //查到了用户和消息的关联关系
-        List<SysUserMessage> sysUserMessages = userMessageMapper.selectList(messageQuery);
+        List<SysUserMessage> sysUserMessages = userMessageMapper.selectList(userId, "N");
         List<SysMessage> messageList = new ArrayList<>();
         for (SysUserMessage userMessage : sysUserMessages) {
             //最新消息一般是后台管理员所发，需要带有用户头像，所有管理员都是用默认头像
@@ -85,7 +92,6 @@ public class MyWorldServiceImpl implements MyWorldService {
         SysUserMessage userMessage = new SysUserMessage();
         userMessage.setMessageId(messageId);
         userMessage.setToUserId(userId);
-        //没有私心的话 应该不会有重发消息的场景   暂时确定一个人 一个消息只有一条记录
         SysUserMessage result = userMessageMapper.selectOne(userMessage);
         //设置已读
         result.setIsRead("Y");
@@ -102,7 +108,7 @@ public class MyWorldServiceImpl implements MyWorldService {
         List<WFavorite> list = favoriteMapper.select(favorite);
         List<WorkBack> result = new ArrayList<>();
         for (WFavorite w : list) {
-            WorkBack workBack = workMapper.selectById(w.getTargetID());
+            WorkBack workBack = workMapper.selectById(w.getTargetId());
             result.add(workBack);
         }
         return ResultJson.buildSuccess(result);
@@ -127,14 +133,11 @@ public class MyWorldServiceImpl implements MyWorldService {
 
     @Override
     public ResultJson news() {
-        int loginUserId = SysConfigUtil.getLoginUserId();
-        MessageQuery messageQuery = new MessageQuery();
-        messageQuery.setToUserId(loginUserId);
+        int userId = SysConfigUtil.getLoginUserId();
         //查到了用户和消息的关联关系
-        List<SysUserMessage> sysUserMessages = userMessageMapper.selectList(messageQuery);
+        List<SysUserMessage> sysUserMessages = userMessageMapper.selectList(userId, "N");
         List<SysMessage> messageList = new ArrayList<>();
         for (SysUserMessage userMessage : sysUserMessages) {
-            //最新消息一般是后台管理员所发，需要带有用户头像，所有管理员都是用默认头像
             Integer messageId = userMessage.getMessageId();
             SysMessage message = messageMapper.selectByPrimaryKey(messageId);
             if (MessageTypeEnum.MESSAGE_TYPE_ANN.getCode() != message.getType()) {
@@ -146,11 +149,9 @@ public class MyWorldServiceImpl implements MyWorldService {
 
     @Override
     public ResultJson systemMessage() {
-        int loginUserId = SysConfigUtil.getLoginUserId();
-        MessageQuery messageQuery = new MessageQuery();
-        messageQuery.setToUserId(loginUserId);
+        int userId = SysConfigUtil.getLoginUserId();
         //查到了用户和消息的关联关系
-        List<SysUserMessage> sysUserMessages = userMessageMapper.selectList(messageQuery);
+        List<SysUserMessage> sysUserMessages = userMessageMapper.selectList(userId, "N");
         List<SysMessage> messageList = new ArrayList<>();
         for (SysUserMessage userMessage : sysUserMessages) {
             //最新消息一般是后台管理员所发，需要带有用户头像，所有管理员都是用默认头像
@@ -173,6 +174,7 @@ public class MyWorldServiceImpl implements MyWorldService {
         suggest.setCreateTime(new Date());
         int loginUserId = SysConfigUtil.getLoginUserId();
         suggest.setUserId(loginUserId);
+        suggest.setUserName(InitConfig.getUserName(loginUserId));
         UserAttr userAttr = userAttrMapper.selectByUserId(loginUserId);
         suggest.setPraiseNum(0);
         suggest.setVersion(SysConfigUtil.selectCurrentVersion());
@@ -182,60 +184,118 @@ public class MyWorldServiceImpl implements MyWorldService {
     }
 
     @Override
-    //TODO
-    public ResultJson feedBackOpt() {
-        return null;
+    public ResultJson feedBackOptList(VersionSpoQuery versionSpoQuery) {
+        List<VersionSpoBack> versionSpoBacks = versionSpoMapper.selectForList(versionSpoQuery);
+        if (!CollectionUtils.isEmpty(versionSpoBacks)) {
+            for (VersionSpoBack back : versionSpoBacks) {
+                if (back.getStatus() == 0) {
+                    back.setStatusCH("待优化");
+                }
+                if (back.getStatus() == 1) {
+                    back.setStatusCH("优化中");
+                }
+                if (back.getStatus() == 2) {
+                    back.setStatusCH("优化完毕");
+                }
+            }
+        }
+        return ResultJson.buildSuccess(versionSpoBacks);
     }
 
     @Override
-    //TODO
-    public ResultJson versionSpoiler() {
-        return null;
+    public ResultJson versionSpoiler(VersionSpoQuery versionSpoQuery) {
+        List<VersionSpoBack> versionSpoBacks = versionSpoMapper.selectForList(versionSpoQuery);
+        return ResultJson.buildSuccess(versionSpoBacks);
     }
 
     @Override
-    //TODO
     public ResultJson allMessage() {
         return null;
     }
 
     @Override
-    public ResultJson queryCount() {
-        int userId = SysConfigUtil.getLoginUserId();
+    public ResultJson queryCount(Integer userId) {
         int workId = -1;
+        if (userId == null || userId <= 0) {
+            log.error("用户id为空");
+            return ResultJson.buildError("用户id为空");
+        }
+        //喜欢作品
         int myLikeCount = favoriteMapper.selectCountByWorkId(userId, workId);
 
+        //关注的人
         UFocus focus = new UFocus();
         focus.setUserId(userId);
         List<UFocus> select = focusMapper.select(focus);
         Map<String, Integer> result = new HashMap<>();
+        //动态消息
+        UserMessageQuery messageQuery = new UserMessageQuery();
+        messageQuery.setToUserId(userId);
+        messageQuery.setType(MessageTypeEnum.MESSAGE_TYPE_REM.getCode());
+
+        int newsCount = userMessageMapper.queryCount(messageQuery);
+        //系统消息
+        messageQuery.setType(MessageTypeEnum.MESSAGE_TYPE_ANN.getCode());
+        int sysCount = userMessageMapper.queryCount(messageQuery);
+
 
         result.put("myLikeCount", myLikeCount);
+        result.put("newsCount", newsCount);
+        result.put("sysCount", sysCount);
         result.put("myFocus", select.size());
 
         return ResultJson.buildSuccess(result);
     }
 
     @Override
-    public ResultJson feedBackLike(String id) {
+    public ResultJson feedBackLike(Integer id) {
         SysSuggest suggest = suggestMapper.selectByPrimaryKey(id);
-        if (suggest == null) {
+        if (suggest == null || id <= 0) {
             return ResultJson.buildError("对象不存在");
         }
         int userId = SysConfigUtil.getLoginUserId();
+        //根据点赞id和userId去记
         WFavorite wFavorite = new WFavorite();
-        wFavorite.setCreateTime(new Date());
-        wFavorite.setUserId(SysConfigUtil.getLoginUserId());
-        wFavorite.setTargetID(Integer.parseInt(id));
+        wFavorite.setUserId(userId);
+        wFavorite.setTargetId(id);
         wFavorite.setType("feedback");
-        wFavoriteMapper.insertSelective(wFavorite);
-        suggest.setPraiseNum(suggest.getPraiseNum() + 1);
-        suggestMapper.updateByPrimaryKeySelective(suggest);
-        return ResultJson.buildSuccess();
+
+        List<WFavorite> select = wFavoriteMapper.select(wFavorite);
+        if (!CollectionUtils.isEmpty(select)) {
+            //
+            wFavoriteMapper.delete(wFavorite);
+            suggest.setPraiseNum(suggest.getPraiseNum() - 1);
+            suggestMapper.updateByPrimaryKeySelective(suggest);
+            return ResultJson.buildSuccess("取消点赞成功");
+        } else {
+            wFavorite.setCreateTime(new Date());
+            wFavoriteMapper.insertSelective(wFavorite);
+            suggest.setPraiseNum(suggest.getPraiseNum() + 1);
+            suggestMapper.updateByPrimaryKeySelective(suggest);
+            return ResultJson.buildSuccess("点赞成功");
+        }
     }
 
     @Override
     public ResultJson feedBackList() {
-        return ResultJson.buildSuccess(suggestMapper.selectAll());
+        List<SysSuggest> data = suggestMapper.selectAll();
+        return ResultJson.buildSuccess(data);
+    }
+
+    /**
+     * 查询 我的世界主页中所有的推荐消息和关注的人发布作品消息
+     *
+     * @param userId 接受者id
+     * @return
+     */
+    @Override
+    public ResultJson recommendMessage(int userId) {
+        if (userId <= 0) {
+            log.error("当前登录用户为空");
+            return ResultJson.buildError("当前登录用户为空");
+        }
+        //查询到作品相关信息
+        List<SysMessage> messageList = userMessageMapper.queryHomeMessage(userId);
+        return ResultJson.buildSuccess(messageList);
     }
 }

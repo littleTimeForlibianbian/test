@@ -14,7 +14,9 @@ public enum MessageActionEnum {
 
     MESSAGE_ACTION_RECOMMEND("recommend", "推荐"),
 
-    MESSAGE_ACTION_FOCUS("focus", "关注");
+    MESSAGE_ACTION_FOCUS("focus", "关注"),
+    //发布新作品动作
+    MESSAGE_ACTION_PUBLISH("publish", "发布");
 
     private String code;
     private String message;

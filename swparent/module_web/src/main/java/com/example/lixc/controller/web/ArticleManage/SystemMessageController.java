@@ -1,9 +1,13 @@
 package com.example.lixc.controller.web.ArticleManage;
 
+import com.example.lixc.config.security.utils.SysConfigUtil;
+import com.example.lixc.entity.SysConfig;
 import com.example.lixc.entity.SysMessage;
 import com.example.lixc.service.MessageService;
+import com.example.lixc.service.UserPortalService;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.query.MessageQuery;
+import com.example.lixc.vo.query.UserMessageQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +32,9 @@ public class SystemMessageController {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private UserPortalService portalService;
+
     @ApiOperation("查询列表")
     @PostMapping("/selectForList")
     public ResultJson selectForList(MessageQuery messageQuery) {
@@ -39,9 +46,10 @@ public class SystemMessageController {
     @PostMapping("/add")
     public ResultJson add(MessageQuery messageQuery) {
         try {
-            List<MessageQuery> messageQueryList = new ArrayList<>();
-            messageQueryList.add(messageQuery);
-            messageService.create(messageQueryList, true);
+            int fromUserId = SysConfigUtil.getLoginUserId();
+            //查询所有的用户id；
+            List<Integer> toUserIdList = portalService.selectNormalUserIdList();
+            messageService.create(messageQuery, fromUserId, toUserIdList, true);
             return ResultJson.buildSuccess();
         } catch (Exception e) {
             log.error("添加消息异常:{}", e.getMessage());
@@ -51,18 +59,18 @@ public class SystemMessageController {
 
     @ApiOperation("详情")
     @PostMapping("/detail")
-    public ResultJson detail(MessageQuery messageQuery) {
-        SysMessage message = messageService.queryMessage(messageQuery);
+    public ResultJson detail(Integer messageId) {
+        SysMessage message = messageService.queryMessage(messageId);
         return ResultJson.buildSuccess(message);
     }
 
 
     @ApiOperation("单个删除")
     @PostMapping("/deleteById")
-    public ResultJson deleteById(MessageQuery messageQuery) {
+    public ResultJson deleteById(Integer messageId) {
         //删除系统消息
         try {
-            messageService.deleteById(messageQuery);
+            messageService.deleteById(messageId);
             return ResultJson.buildSuccess();
         } catch (Exception e) {
             log.error("添加消息异常:{}", e.getMessage());

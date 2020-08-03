@@ -62,7 +62,7 @@ create table `sys_image`
     `id`          int(11)      not null auto_increment comment '主键id',
     `name`        varchar(255) null comment '图片名称',
     `url`         varchar(255) not null comment '图片存储路径',
-    `thumb_url`   varchar(255)  null comment '缩略图存储路径',
+    `thumb_url`   varchar(255) null comment '缩略图存储路径',
     `create_time` datetime     NULL COMMENT '创建时间',
     primary key (`id`)
 ) Engine = InnoDB
@@ -100,7 +100,6 @@ create table `u_focus`
     `id`          int(10)  NOT NULL AUTO_INCREMENT COMMENT '主键id',
     `user_id`     int(10)  NULL COMMENT '用户id',
     `author_id`   int(10)  NULL COMMENT '被关注者id',
-    `is_cancel`   char(1)  NULL COMMENT '是否取消关注',
     `create_time` datetime NULL DEFAULT now() COMMENT '创建时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
@@ -108,18 +107,19 @@ create table `u_focus`
 
 
 -- 作品评论表
-drop table if exists `w_comment`;
-create table `w_comment`
+drop table if exists `sys_comment`;
+create table `sys_comment`
 (
     `id`            int(11)      NOT NULL AUTO_INCREMENT COMMENT '主键id',
-    `work_id`       int(11)      NOT NULL COMMENT '作品id',
+    `target_id`     int(11)      NOT NULL COMMENT '作品id',
+    `target_type`   varchar(10)  not null comment '来源类型  work 作品  ，other 其他',
     `user_id`       int(11)      NOT NULL COMMENT '评论人id',
-    `user_name`     varchar(255) null comment '评论人昵称',
+#     `user_name`     varchar(255) null comment '评论人昵称',  头像
     `content`       varchar(255) null comment '评论内容',
 #  `answer_id` int(10)  NULL    COMMENT '答复人id',
-    `comment_level` tinyint(4)   NULL DEFAULT '1' COMMENT '评论等级[ 1 一级评论 默认 ，2 二级评论]',
+    `comment_level` int(4)       NULL DEFAULT '1' COMMENT '评论等级[ 1 一级评论 默认 ，2 二级评论]',
     `parent_id`     int(11)      NULL COMMENT '父级id',
-    `top_status`    tinyint(4)   NULL DEFAULT 0 COMMENT '置顶状态[ 1 置顶，0 不置顶 默认 ]',
+    `top_status`    int(4)       NULL DEFAULT 0 COMMENT '置顶状态[ 1 置顶，0 不置顶 默认 ]',
     `praise_num`    int(11)      NULL DEFAULT '0' COMMENT '点赞数',
     `create_time`   datetime     NULL DEFAULT now() COMMENT '创建时间',
     PRIMARY KEY (`id`)
@@ -139,13 +139,13 @@ create table `w_reply`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-## 如果直接点击评论 则parentid为0  如果点击回复，则parentid为评论id
-#A评论very good 1表示A
-insert into w_comment (work_id, user_id, parent_id, praise_num, create_time, content)
-VALUES (1, 1, 0, 0, now(), 'very good');
-#B回复 nice 2表示B
-insert into w_comment (work_id, user_id, parent_id, praise_num, create_time, content)
-VALUES (1, 2, 1, 0, now(), 'nice');
+# ## 如果直接点击评论 则parentid为0  如果点击回复，则parentid为评论id
+# #A评论very good 1表示A
+# insert into w_comment (work_id, user_id, parent_id, praise_num, create_time, content)
+# VALUES (1, 1, 0, 0, now(), 'very good');
+# #B回复 nice 2表示B
+# insert into w_comment (work_id, user_id, parent_id, praise_num, create_time, content)
+# VALUES (1, 2, 1, 0, now(), 'nice');
 
 -- 字典表
 drop table if EXISTS `sys_dict`;
@@ -201,19 +201,19 @@ create table `sys_focus`
 drop table if exists `sys_message`;
 create table `sys_message`
 (
-    `id`           int(11)      not null auto_increment comment '主键id',
-    `content`      longtext     not null comment '消息内容',
-    `type`         int(10)      null comment '消息类型:announcement公告/remind提醒/message私信',
-    `action`       varchar(10)  null comment '用户动作触发的消息 comment评论，praise点赞，reply回复，recommend推荐',
-    `title`        varchar(255) null comment '消息标题',
-    `source_id`    int(11)      null comment '来源id  作品id或者评论id',
-    `source_type`  varchar(10)  null comment '来源类型  work 作品  ，comment 评论',
-    --  为什么要在消息表中增加  发送者和接受者呢？
-    `from_user_id` int(11) comment '发送者id  当前用户id',
-    `to_user_id`   int(11) comment '接受者id source_id 所属的作者id',
-    `create_time`  datetime     NULL DEFAULT now() COMMENT '创建时间',
-    `send_time`    datetime     NULL DEFAULT now() COMMENT '发送时间',
-    `is_delete`    char(1)      NULL DEFAULT 'N' COMMENT '是否删除',
+    `id`          int(11)      not null auto_increment comment '主键id',
+    `content`     longtext     not null comment '消息内容',
+    `type`        int(10)      null comment '消息类型:announcement公告/remind提醒/message私信',
+    `action`      varchar(10)  null comment '用户动作触发的消息 comment评论，praise点赞，reply回复，recommend推荐',
+    `title`       varchar(255) null comment '消息标题',
+    `source_id`   int(11)      null comment '来源id  作品id或者评论id',
+    `source_type` varchar(10)  null comment '来源类型  work 作品  ，comment 评论',
+    --  为什么要在消息表中增加  发送者和接受者呢？++
+#     `from_user_id` int(11) comment '发送者id  当前用户id',
+#     `to_user_id`   int(11) comment '接受者id source_id 所属的作者id',
+    `create_time` datetime     NULL DEFAULT now() COMMENT '创建时间',
+    `send_time`   datetime     NULL DEFAULT now() COMMENT '发送时间',
+    `is_delete`   char(1)      NULL DEFAULT 'N' COMMENT '是否删除',
     primary key (`id`)
 ) engine = InnoDB
   default charset = utf8;
@@ -238,6 +238,7 @@ create table `sys_suggest`
 (
     `id`          int(11) not null auto_increment comment '主键id',
     `user_id`     int(11) comment '用户id',
+    `user_name`   varchar(2000) comment '用户昵称',
     `content`     varchar(2000) comment '建议内容',
     `create_time` datetime comment '创建时间',
     `version`     int(5) comment '当前版本',
@@ -257,10 +258,10 @@ create table `sys_version_spo`
 (
     `id`           int(11) not null auto_increment comment '主键id',
     `user_id`      int(11) comment '用户id',
-    `status`       int(11) default -1 comment '状态',
+    `status`       int(11)  default -1 comment '状态',
     `content`      varchar(2000) comment '建议内容',
-    `publish_time` datetime comment '发布时间',
-    `create_time`  datetime comment '创建时间',
+    `publish_time` datetime default now() comment '发布时间',
+    `create_time`  datetime default now() comment '创建时间',
     `type`         varchar(10) comment '类型  版本剧透spo  反馈优化opt',
     `version`      int(5) comment '当前版本',
     primary key (`id`)
@@ -271,11 +272,10 @@ create table `sys_version_spo`
 drop table if exists `sys_report`;
 create table `sys_report`
 (
-    `id`           int(11) not null auto_increment comment '主键id',
-    `content`      varchar(255) comment '举报条件',
-    `content_ext1` varchar(255) comment '附加条件1',
-    `content_ext2` varchar(255) comment '附加条件2',
-    `create_time`  datetime comment '创建时间',
+    `id`          int(11) not null auto_increment comment '主键id',
+    `content`     varchar(255) comment '举报条件',
+    `content_ext` varchar(255) comment '附加条件',
+    `create_time` datetime comment '创建时间',
     primary key (`id`)
 ) engine = InnoDB
   default charset = utf8;
@@ -287,9 +287,19 @@ create table `sys_report_record`
     `id`          int(11) not null auto_increment comment '主键id',
     `report_id`   int(11) not null comment '举报id',
     `user_id`     int(11) not null comment '举报人id',
+    `work_id`     int(11) not null comment '被举报作品id',
     `create_time` datetime comment '创建时间',
     primary key (`id`)
 ) engine = InnoDB
   default charset = utf8;
 
-# 协议表
+# 已读消息时间记录表
+drop table if exists `message_read_time`;
+create table `message_read_time`
+(
+    `id`        int(11) not null auto_increment comment '主键id',
+    `user_id`   int(11) not null comment '用户id',
+    `read_time` datetime comment '最新消息阅读时间',
+    primary key (`id`)
+) engine = InnoDB
+  default charset = utf8;

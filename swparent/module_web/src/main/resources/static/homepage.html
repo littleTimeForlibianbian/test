@@ -14,7 +14,7 @@
             <img src="img/ES-logo-light.png">
         </div>
         <div class="pull-left ES-mywo" id="myworldcon">
-            <a href="#"><img src="img/homepage.png"><span class="text-center">我的世界</span></a>
+            <a href="myworld.html"><img src="img/homepage.png"><span class="text-center">我的世界</span></a>
         </div>
         <div class="pull-right connav">
             <ul>
@@ -207,7 +207,7 @@
     function show() {
         pages++;
         $.ajax({
-            url: basePath + "/portal/index/workList/N",//接口地址
+            url: basePath + "/portal/index/workList",//接口地址
             data: {//接口里必传的参数
                 "pageNo": pages,
                 "pageSize": pagesNum
@@ -221,15 +221,16 @@
                 var imgCon;
                 for (var i = 0; i < dataObj.length; i++) {
                     var imageList = dataObj[i].imageList;
-                    var tagList = dataObj[i].tags;
+                    var tagList = dataObj[i].dicts;
                     imgCon += "<li>" +
-                        "<a href=" + dataObj[i].imageList + ">" +
+                        "<a href='drawerdetails.html?id="+dataObj[i].id+"'>" +
                         "<img class='imgpicture' src=" + dataObj[i].imageList[0].url + ">" +
                         "</a>";
+                    imgCon += "<div class='labelhome'>";
                     for (var j = 0; j < tagList.length; j++) {
-                        imgCon += "<div class='labelhome'><span>" + tagList[j].dictValue + "</span></div>"
+                        imgCon += "<span>" + tagList[j].dictValue + "</span>"
                     }
-                    imgCon += "</li>";
+                    imgCon += "</div></li>";
                 }
                 $('#tab').append(imgCon);
             },

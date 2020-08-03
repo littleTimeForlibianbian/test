@@ -34,7 +34,7 @@ public class IdenCheckServiceImpl implements IdenCheckService {
         PageHelper.startPage(userQuery.getPageNo(), userQuery.getPageSize());
         userQuery.setPainter("N");
         //查询全部待审核数据
-        userQuery.setStatus(UserStatusEnum.USER_STATUS_STEP3.getCode());
+        userQuery.setStatus(UserStatusEnum.USER_STATUS_APPLY.getCode());
         List<UserBack> userBacks = userMapper.selectAllUser(userQuery);
         return (Page<UserBack>) userBacks;
     }

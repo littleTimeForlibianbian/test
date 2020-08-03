@@ -56,12 +56,13 @@
 
 </body>
 <script type="text/javascript">
+    var forwardParam = getQueryVariable("forwardParam");
+    var workId = getQueryVariable("workId");
     $(function () {
         $("#login_button").click(function () {
             loginClick();
         });
     })
-
     function loginClick() {
         var $username = $("#txt_account").val();
         var $password = $("#txt_password").val();
@@ -83,16 +84,17 @@
                     if (ret.status == 200) {
                         $("#login_button").find('a').html("登录成功，正在跳转...");
                         localStorage.setItem("userId", ret.data.user.id);
-                        var forwardParam = ret.data.forwardParam;
-                        if (typeof forwardParam == "undefined" || forwardParam == null || forwardParam.length == 0) {
+                        if (typeof forwardParam == "undefined" || forwardParam == null || forwardParam.length == 0 || forwardParam == false) {
                             if (ret.data.painter) {
                                 window.location.href = "homepage.html?a=0";//认证成功
                             } else {
                                 window.location.href = "homepage.html?a=1";//认证成功
                             }
                         } else {
-                            var workId = forwardParam.split("-")[1];
-                            window.location.href = "/portal/index/workDetail?workId=" + workId;//认证成功
+                            if ("workDetail" == forwardParam) {
+                                window.location.href = "drawerdetails.html?workId=" + workId + "&authorId=" + ret.data.user.id;//认证成功
+                            }
+
                         }
 
                     } else {

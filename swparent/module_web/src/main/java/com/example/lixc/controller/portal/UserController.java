@@ -135,7 +135,7 @@ public class UserController {
     }
 
     /**
-     * 个人主页获取用户详情接口
+     * 获取用户详情接口
      *
      * @return
      */
@@ -150,7 +150,6 @@ public class UserController {
             return ResultJson.buildError("获取用户详情接口异常");
         }
     }
-
 
     //设置用户名片
     @PostMapping("/updateUserAttr")
@@ -168,7 +167,7 @@ public class UserController {
     //设置用户头像
     @PostMapping("/updateUserHeadImage")
     @ApiOperation("设置用户头像")
-    public ResultJson updateUserHeadImage(@RequestParam("picString") String  picString, @RequestParam("userId") Integer userId) {
+    public ResultJson updateUserHeadImage(@RequestParam("picString") String picString, @RequestParam("userId") Integer userId) {
         return userPortalService.updateUserHeadImage(picString, userId);
     }
 

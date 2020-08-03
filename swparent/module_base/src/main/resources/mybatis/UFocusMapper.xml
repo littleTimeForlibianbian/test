@@ -5,8 +5,18 @@
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="user_id" property="userId" jdbcType="INTEGER"/>
         <result column="author_id" property="authorId" jdbcType="INTEGER"/>
-        <result column="is_cancel" property="cancel" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
     </resultMap>
+    <select id="selectCountById" resultType="java.lang.Integer">
+        select count(1) from u_focus uf
+        <where>
+            <if test="authorId>0">
+                and uf.author_id = #{authorId}
+            </if>
+            <if test="userId>0">
+                and uf.user_id = #{userId}
+            </if>
+        </where>
+    </select>
 
 </mapper>

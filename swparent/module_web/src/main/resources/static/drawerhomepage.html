@@ -252,6 +252,8 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
 <script>
+    //根据id判断是谁的个人主页
+    var userId = getQueryVariable("id");
     $(function () {
         $('#myModal').modal('hide');
         //页面初始化加载城市
@@ -278,7 +280,7 @@
         $.ajax({
             type: "get",
             url: basePath + "/public/user/getUserInfo",
-            data: {"userID": localStorage.getItem("userId")},
+            data: {"userID": userId},
             async: false,//同步  true ：异步
             dataType: "json",
             success: function (result) {
@@ -308,7 +310,7 @@
         //获取个人主页的作品集合
         $.ajax({
             type: "post",
-            url: basePath + "/portal/index/workList/Y",
+            url: basePath + "/portal/index/workList",
             data: {
                 "userID": localStorage.getItem("userId"),
                 "isNormal": "Y",
@@ -321,10 +323,10 @@
                 var imgCon = "";
                 for (var i = 0; i < dataObj.length; i++) {
                     imgCon += "<li>" +
-                        "<a href=drawerdetails.html?workId=" + dataObj[i].id + "&authorId="+dataObj[i].userId+">" +
+                        "<a href=drawerdetails.html?id=" + dataObj[i].id + ">" +
                         "<img class='imgpicture' src=" + dataObj[i].imageList[0].url + ">" +
                         "</a>";
-                    var tagList = dataObj[i].tags;
+                    var tagList = dataObj[i].dicts;
                     //标签只显示3个
                     var l = 3;
                     if (tagList.length <= 3) {
@@ -469,7 +471,7 @@
     function show() {
         pages++;
         $.ajax({
-            url: basePath + "/portal/index/workList/Y",//接口地址
+            url: basePath + "/portal/index/workList",//接口地址
             data: {//接口里必传的参数
                 "pageNo": pageNo,
                 "pageSize": pageSize,

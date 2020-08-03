@@ -186,8 +186,6 @@ public class UserPortalServiceImpl implements UserPortalService {
         if (StringUtils.isEmpty(userQuery.getPassword())) {
             return ResultJson.buildError("密码为空");
         }
-
-        String forwardParam = request.getParameter("forwardParam");
         //使用用户名和密码进行登录
         User user = userMapper.selectBaseByUserName(userQuery);
         if (user != null && user.getId() > 0) {
@@ -208,9 +206,6 @@ public class UserPortalServiceImpl implements UserPortalService {
         map.put("user", user);
         map.put("userAttr", userAttr);
         map.put("isPainter", "Y".equalsIgnoreCase(user.getPainter()));
-        if (!StringUtils.isEmpty(forwardParam)) {
-            map.put("forwardParam", forwardParam);
-        }
         //缓存redis
         RedisPoolUtil.set(RedisContents.USER_TOKEN + user.getId(), map, expireTime);
         return ResultJson.buildSuccess(map);
@@ -364,14 +359,13 @@ public class UserPortalServiceImpl implements UserPortalService {
 
     @Override
     public ResultJson getUserInfo(UserQuery userQuery) {
-        if (userQuery == null || userQuery.getUserID() <= 0) {
+        if (userQuery == null || userQuery.getUserID() == null || userQuery.getUserID() <= 0) {
             userQuery = new UserQuery();
             userQuery.setUserID(SysConfigUtil.getLoginUserId());
         }
         UserBack userBack = userMapper.selectByUserName(userQuery);
         return ResultJson.buildSuccess(userBack);
     }
-
 
 
     //更新名片信息
@@ -422,5 +416,10 @@ public class UserPortalServiceImpl implements UserPortalService {
             log.error(resultJson.toString());
             return resultJson;
         }
+    }
+
+    @Override
+    public List<Integer> selectNormalUserIdList() {
+        return userMapper.selectAllNormalUserIds();
     }
 }

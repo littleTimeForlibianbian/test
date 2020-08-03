@@ -1,14 +1,11 @@
 package com.example.lixc.service;
 
-import com.example.lixc.entity.WComment;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.back.WorkBack;
 import com.example.lixc.vo.query.WCommentQuery;
 import com.example.lixc.vo.query.WorkQuery;
 import com.github.pagehelper.Page;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 
 public interface WorkService {
 
@@ -18,20 +15,22 @@ public interface WorkService {
 
     ResultJson selectAllWorkLabels();
 
-    Page<WorkBack> workList(WorkQuery workQuery, String more);
+    Page<WorkBack> workList(WorkQuery workQuery);
 
     ResultJson workDetail(Integer workId);
 
-    ResultJson getWorkComment(Integer workId);
+    ResultJson selectCommentList(Integer workId);
 
-    ResultJson createHistory(String content);
-
-    ResultJson addWebsite(String website);
+//    ResultJson createHistory(String content);
+//
+//    ResultJson addWebsite(String website);
 
     //关注
-    ResultJson focus(String toUserId);
+    ResultJson focus(Integer toUserId);
 
-    ResultJson like(String workId, Integer fromUserId);
+    ResultJson queryFocus(Integer toUserId);
+
+    ResultJson like(Integer workId, Integer fromUserId);
 
     ResultJson comment(WCommentQuery commentQuery);
 
@@ -43,18 +42,18 @@ public interface WorkService {
 
     ResultJson other(WorkQuery query);
 
-    ResultJson cancelFocus(String toUserId);
-
     //向所有关注我的人 推荐此作品
-    ResultJson recommend(String workId);
+    ResultJson recommend(Integer workId);
 
     ResultJson reportList();
 
-    ResultJson report(String ids);
+    ResultJson report(String ids, Integer workId);
 
     //以base64的格式上传图片
     ResultJson uploadImageBase64(String data);
 
     //使用ftpUtil上传工具上传到图片服务器
     ResultJson uploadImageToServer(String base64);
+
+    ResultJson getUserInfoByWorkId(Integer workId);
 }

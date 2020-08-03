@@ -14,9 +14,7 @@ public class SysReport {
     //举报条件
     private String content;
     //附加条件1
-    private String contentExt1;
-    //附加条件2
-    private String contentExt2;
+    private String contentExt;
     //创建时间
     private Date createTime;
 }

@@ -16,10 +16,10 @@ class ModuleBaseApplicationTests {
     }
 
     @Test
-    void testSendEmail(){
-        String to  = "li_xianchun@itrus.com.cn";
+    void testSendEmail() {
+        String to = "li_xianchun@itrus.com.cn";
         String subject = "test send email ";
         String content = "1234";
-        mailService.sendHtmlMail(to,subject,content);
+        mailService.sendHtmlMail(to, subject, content);
     }
 }

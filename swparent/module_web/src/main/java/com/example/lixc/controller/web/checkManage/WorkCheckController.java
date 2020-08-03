@@ -47,7 +47,7 @@ public class WorkCheckController {
             WorkQuery workQuery = new WorkQuery();
             //查询所有待审核的作品
             workQuery.setStatus(WorkStatusEnum.WORK_STATUS_WAIT.getCode());
-            return workService.workList(workQuery, null);
+            return workService.workList(workQuery);
         } catch (Exception e) {
             log.error("workList exception:{}", e.getMessage());
             return new Page<>();

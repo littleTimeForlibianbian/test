@@ -2,6 +2,7 @@ package com.example.lixc.controller.portal;
 
 import com.example.lixc.service.MyWorldService;
 import com.example.lixc.util.ResultJson;
+import com.example.lixc.vo.query.VersionSpoQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -46,11 +47,23 @@ public class MyWorldController {
         return ResultJson.buildError("查询最新消息已读异常");
     }
 
+    @ApiOperation("我的世界主页显示推荐消息和关注的人发布作品的消息")
+    @PostMapping("/recommendMessage")
+    public ResultJson recommendMessage(int userId) {
+        try {
+            return service.recommendMessage(userId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return ResultJson.buildError("查询最新消息已读异常");
+    }
+
+
     @ApiOperation("查询数量")
     @PostMapping("/queryCount")
-    public ResultJson queryCount() {
+    public ResultJson queryCount(Integer userId) {
         try {
-            return service.queryCount();
+            return service.queryCount(userId);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -117,7 +130,7 @@ public class MyWorldController {
 
     @ApiOperation("点赞建议反馈")
     @PostMapping("/feedBackLike")
-    public ResultJson feedBackLike(String id) {
+    public ResultJson feedBackLike(Integer id) {
         try {
             return service.feedBackLike(id);
         } catch (Exception e) {
@@ -138,26 +151,26 @@ public class MyWorldController {
     }
 
 
-    @ApiOperation("反馈优化")
-    @PostMapping("/feedBackOpt")
-    public ResultJson feedBackOpt() {
+    @ApiOperation("反馈优化list")
+    @PostMapping("/feedBackOptList")
+    public ResultJson feedBackOptList(VersionSpoQuery versionSpoQuery) {
         try {
-            return service.feedBackOpt();
+            return service.feedBackOptList(versionSpoQuery);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        return ResultJson.buildError("查询最新消息已读异常");
+        return ResultJson.buildError("反馈优化异常");
     }
 
     @ApiOperation("版本剧透")
     @PostMapping("/versionSpoiler")
-    public ResultJson versionSpoiler() {
+    public ResultJson versionSpoiler(VersionSpoQuery versionSpoQuery) {
         try {
-            return service.versionSpoiler();
+            return service.versionSpoiler(versionSpoQuery);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        return ResultJson.buildError("查询最新消息已读异常");
+        return ResultJson.buildError("查询版本剧透异常");
     }
 
 

@@ -16,6 +16,33 @@
         <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
+    <resultMap id="UserBackMap" type="com.example.lixc.vo.back.UserBack">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="enable" jdbcType="VARCHAR" property="enable"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="painter" jdbcType="VARCHAR" property="painter"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+        <association property="userAttr" javaType="userAttr">
+            <result property="id" column="id"/>
+            <result property="userId" column="user_id"/>
+            <result property="uHistory" column="u_history"/>
+            <result property="website" column="website"/>
+            <result property="headImage" column="head_image"/>
+            <result property="createTime" column="create_time"/>
+        </association>
+        <collection property="tagList"
+                    select="com.example.lixc.mapper.SysUserTagMapper.selectTagsByUserId"
+                    javaType="java.util.ArrayList"
+                    ofType="com.example.lixc.entity.Tag"
+                    column="{userId=id}"/>
+    </resultMap>
     <resultMap id="WorkBackMap" type="com.example.lixc.vo.back.WorkBack">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
@@ -32,7 +59,7 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <!--        <association property="user" resultMap="com.example.lixc.mapper.UserMapper.UserBaseMap"/>-->
         <!--        <association property="userAttr" resultMap="com.example.lixc.mapper.UserAttrMapper.BaseResultMap"/>-->
-        <collection property="tags" column="id" ofType="com.example.lixc.entity.SysDict">
+        <collection property="dicts" column="id" ofType="com.example.lixc.entity.SysDict">
             <id column="sid" jdbcType="INTEGER" property="id"/>
             <result column="dict_key" jdbcType="VARCHAR" property="dictKey"/>
             <result column="dict_value" jdbcType="VARCHAR" property="dictValue"/>
@@ -53,7 +80,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         swork.id, swork.user_id, swork.`status`, swork.is_delete,swork.is_normal, swork.`name`, swork.content,  swork.praise_num,
-    swork.comment_num, swork.create_by, swork.create_time, swork.update_by, swork.update_time,sd.id sid,
+    swork.comment_num, swork.create_by, swork.update_by, swork.update_time,sd.id sid,
         sd.p_id,
         sd.dict_key,
         sd.dict_value,
@@ -115,7 +142,8 @@
     </select>
     <select id="selectById" resultMap="WorkBackMap">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List"/>,
+        DATE_FORMAT(swork.create_time,'%Y-%m-%d') create_time
         from sys_work swork
         left join sys_user u on swork.user_id = u.id
         left join sys_work_image swi on swi.work_id = swork.id
@@ -125,11 +153,9 @@
         left join sys_user_attr sua on u.id = sua.user_id
         where swork.is_delete='N'
         and swork.is_normal='Y'
-        <where>
-            <if test="workId> 0">
-                and swork.id = #{workId}
-            </if>
-        </where>
+        <if test="workId> 0">
+            and swork.id = #{workId}
+        </if>
     </select>
 
     <select id="selectOther" resultMap="WorkBackMap">
@@ -150,5 +176,12 @@
                 and swork.id != #{workId}
             </if>
         </where>
+    </select>
+    <select id="selectUserInfoByWorkId" resultMap="UserBackMap">
+        select su.nick_name, su.city, su.id, sua.head_image, sua.website, sua.u_history
+        from sys_user su
+                 left join sys_user_attr sua on su.id = sua.user_id
+                 left join sys_work swork on swork.user_id = su.id
+        where swork.id = #{workId}
     </select>
 </mapper>

@@ -257,4 +257,9 @@
         FROM sys_user su
                  LEFT JOIN sys_user_attr sua ON su.id = sua.user_id
     </select>
+    <select id="selectAllNormalUserIds" resultType="java.lang.Integer">
+        select id
+        from sys_user
+        where administrator = 'N'
+    </select>
 </mapper>

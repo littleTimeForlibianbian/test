@@ -33,7 +33,7 @@ public class WorkCheckFailController {
         try {
             WorkQuery workQuery = new WorkQuery();
             workQuery.setStatus(WorkStatusEnum.WORK_STATUS_FAIL.getCode());
-            return workService.workList(workQuery, null);
+            return workService.workList(workQuery);
         } catch (Exception e) {
             log.error("workList exception:{}", e.getMessage());
             return new Page<>();

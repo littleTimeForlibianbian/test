@@ -58,7 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
                 .csrf().disable()//禁用csrf
-                .antMatcher("/aa/**").authorizeRequests()//针对于此处请求的路径  匹配的采用下面的规则（withObjectPostProcessor）进行权限校验
+                .antMatcher("/portal/**").authorizeRequests()//针对于此处请求的路径  匹配的采用下面的规则（withObjectPostProcessor）进行权限校验
+//                .antMatchers("/admin/**","/web/**").authenticated()
 //                .antMatchers("/security/user/**").hasRole("ADMIN") //需要ADMIN角色才可以访问
 //                .antMatchers("/connect").hasIpAddress("127.0.0.1") //只有ip[127.0.0.1]可以访问'/connect'接口
                 //增加路径匹配
@@ -74,14 +75,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.DELETE, "/public1/**").hasRole("ADMIN")
                 .anyRequest().permitAll()//其余放行
                 .and()
-//                .rememberMe()
+//                .rememberMew()
 //                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
 //                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 // 不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new JWTAuthenticationEntryPoint())
-                .accessDeniedHandler(myAccessDeniedHandler);      //添加无权限时的处理
+                .accessDeniedHandler(myAccessDeniedHandler)
+                .and()
+                .rememberMe()
+                .and()
+                .formLogin().loginPage("/Loginpage.html").permitAll()
+                .and()
+                .logout().permitAll();
     }
 
     @Bean

@@ -18,7 +18,7 @@ public class WorkBack extends SysWork {
     //作品包含的图片集合
     private List<SysImage> imageList;
     //作品对应的画风
-    private List<Tag> tags;
+    private List<SysDict> dicts;
     //作品详情应该包含一个字段 是否被喜欢
     private Boolean isLike;
     //作者信息
@@ -26,6 +26,9 @@ public class WorkBack extends SysWork {
 
     //如果是推荐的话，记录推荐人的名称
     private String recommendName;
+
+    private String userName;
+    private String userHeadImage;
 
 //    private UserAttr userAttr;
 

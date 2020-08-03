@@ -36,7 +36,7 @@ public class WorkController {
     public Page<WorkBack> selectForList(WorkQuery workQuery) {
         try {
             workQuery.setIsNormal("N");
-            return workService.workList(workQuery, null);
+            return workService.workList(workQuery);
         } catch (Exception e) {
             log.error("获取作品列表异常：{}", e.getMessage());
             return new Page<>();
@@ -49,7 +49,7 @@ public class WorkController {
         try {
             //todo  确定什么样的作品是活跃作品
             workQuery.setPraiseNum(SwConstant.PRAISENUM);
-            return workService.workList(workQuery, null);
+            return workService.workList(workQuery);
         } catch (Exception e) {
             log.error("获取活跃作品列表异常：{}", e.getMessage());
             return new Page<>();

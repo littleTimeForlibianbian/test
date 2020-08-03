@@ -4,6 +4,8 @@
     <resultMap id="BaseResultMap" type="com.example.lixc.entity.SysReportRecord">
         <result column="id" property="id" jdbcType="INTEGER"/>
         <result column="report_id" property="reportId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="work_id" property="workId" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 </mapper>

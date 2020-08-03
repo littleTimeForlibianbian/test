@@ -103,9 +103,6 @@ public class UserQuery extends PageParam {
 
     private String uHistory;
 
-    //用户扫描二维码 携带参数
-    private String forwardParam;
-
     /**
      * 上次登录时间
      */

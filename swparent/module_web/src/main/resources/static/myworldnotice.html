@@ -153,41 +153,21 @@
         <ul>
             <li class="worldltabs-list">
                 <a href="myworldlike.html" class="categroies">
-                    <i class="nav-love"><img src="img/love.png"></i><span>喜欢(89)</span>
+                    <i class="nav-love"><img src="img/love.png"></i><span id="likeCount">喜欢(89)</span>
                 </a>
             </li>
             <li class="worldltabs-list worldltabs-list1">
                 <a href="##" class="categroyclick categroies">
-                    <i class="nav-love"><img src="img/carepeople1.png"></i><span>关注(89)</span></a>
-                <!--待定-->
-                <!--<div class="categorylist">
-                    <ul>
-                        <li><a href="myworldattention.html">画友(89)</a></li>
-                        <li><a href="myworldattention.html">合作过的人(89)</a></li>
-                        <li><a href="myworldattention.html">同事(89)</a></li>
-                        <li><a href="myworldattention.html">老板/上级(89)</a></li>
-                        <li><a href="myworldattention.html">合作过的搭档(89)</a></li>
-                    </ul>
-                </div>-->
+                    <i class="nav-love"><img src="img/carepeople1.png"></i><span id="focusCount">关注(89)</span></a>
             </li>
-            <!--<li class="worldltabs-list worldltabs-list1">
-                <a href="##" class="noticelist categroies">
-                    <i class="nav-love"><img src="img/nremaind.png"></i><span>消息(89)</span></a>
-                <div class="categorylist1">
-                    <ul>
-                        <li><a href="myworldnotice.html">动态消息(89)</a></li>
-                        <li><a href="systemMessage.html">系统消息(8)</a></li>
-                    </ul>
-                </div>
-            </li>-->
             <li class="worldltabs-list">
                 <a href="myworldlike.html" class="categroies">
-                    <i class="nav-love"><img src="img/dongtai.png"></i><span>动态消息(89)</span>
+                    <i class="nav-love"><img src="img/dongtai.png"></i><span id="newsCount">动态消息(89)</span>
                 </a>
             </li>
             <li class="worldltabs-list">
                 <a href="myworldlike.html" class="categroies">
-                    <i class="nav-love"><img src="img/xitong1.png"></i><span>系统消息(8)</span>
+                    <i class="nav-love"><img src="img/xitong1.png"></i><span id="sysCount">系统消息(8)</span>
                 </a>
             </li>
             <li class="worldltabs-list"><a href="adminvoice.html" class="categroies">
@@ -206,13 +186,39 @@
 </body>
 <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
 <!--<script type="text/javascript" src="../PictureEnlargement/jquery.mousewheel.js"></script>
 <script type="text/javascript" src="../PictureEnlargement/jquery.imgZoom.js"></script>
 <script type="text/javascript" src="../PictureEnlargement/jquery.drag.js"></script>-->
 <script>
     $(function () {
         $('#myModal').modal('hide')
+        initPage();
     });
+    function initPage() {
+        //获取各个消息数量
+        $.ajax({
+            type: "post",
+            url: basePath + "/portal/myWorld/queryCount",
+            data: {
+                "userId": localStorage.getItem("userId"),
+            },
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (ret) {
+                console.log(ret)
+                var data = ret.data;
+                $("#likeCount").html("喜欢(" + data.myLikeCount + ")")
+                $("#focusCount").html("关注(" + data.myFocus + ")")
+                $("#newsCount").html("动态消息(" + data.newsCount + ")")
+                $("#sysCount").html("系统消息(" + data.sysCount + ")")
+
+            },
+            error: function (data) {
+                alert("error")
+            }
+        })
+    }
 </script>
 <script type="text/javascript">
     $(".imgZoom").imgZoom();
@@ -225,5 +231,6 @@
     $('.newcreate').click(function () {
         $(".newcreateinput").slideToggle();
     });
+
 </script>
 </html>

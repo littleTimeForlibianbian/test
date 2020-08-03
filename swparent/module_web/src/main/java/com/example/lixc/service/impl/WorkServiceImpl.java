@@ -11,8 +11,11 @@ import com.example.lixc.service.MessageService;
 import com.example.lixc.service.WorkService;
 import com.example.lixc.template.SimpleMessageTemplate;
 import com.example.lixc.util.*;
+import com.example.lixc.vo.back.CommentBack;
+import com.example.lixc.vo.back.UserBack;
 import com.example.lixc.vo.back.WorkBack;
 import com.example.lixc.vo.query.MessageQuery;
+import com.example.lixc.vo.query.UserQuery;
 import com.example.lixc.vo.query.WCommentQuery;
 import com.example.lixc.vo.query.WorkQuery;
 import com.github.pagehelper.Page;
@@ -63,11 +66,9 @@ public class WorkServiceImpl implements WorkService {
     @Autowired
     private SysWorkDictMapper workDictMapper;
 
-    @Autowired
-    private WCommentMapper wCommentMapper;
 
     @Autowired
-    private WCommentMapper commentMapper;
+    private SysCommentMapper commentMapper;
     @Autowired
     private UFocusMapper uFocusMapper;
 
@@ -175,6 +176,7 @@ public class WorkServiceImpl implements WorkService {
         }
     }
 
+
     @Override
     @Transactional
     public ResultJson uploadWork(WorkQuery workQuery) {
@@ -224,13 +226,16 @@ public class WorkServiceImpl implements WorkService {
         work.setContent(workQuery.getContent());
         work.setIsDelete("N");
         work.setName(workQuery.getName());
+        //只有认证的作品才会有作品状态
         work.setStatus(WorkStatusEnum.WORK_STATUS_WAIT.getCode());
         work.setUserId(SysConfigUtil.getLoginUserId());
         work.setCreateBy(SysConfigUtil.getLoginUserId());
 //        work.setUserId(0);
 //        work.setCreateBy(0);
+
         work.setCreateTime(new Date());
         work.setPraiseNum(0);
+        //作品类型
         work.setIsNormal(StringUtils.isEmpty(workQuery.getIsNormal()) ? "Y" : workQuery.getIsNormal());
         workMapper.insertUseGeneratedKeys(work);
         int workId = work.getId();
@@ -266,9 +271,51 @@ public class WorkServiceImpl implements WorkService {
             userAttr.setUHistory(workQuery.getUHistory());
             userAttr.setWebsite(workQuery.getWebSite());
             userAttrMapper.updateByPrimaryKeySelective(userAttr);
+            return ResultJson.buildSuccess("上传作品成功");
+        }
+        //查询所有关注我的人  每人发送一条消息
+        //查询所有关注我的人
+        UFocus uFocus = new UFocus();
+        uFocus.setAuthorId(loginUserId);
+        List<UFocus> select = uFocusMapper.select(uFocus);
+        List<Integer> toUserList = new ArrayList<>();
+        for (UFocus u : select) {
+            toUserList.add(u.getUserId());
+        }
+        MessageQuery messageQuery = new MessageQuery();
+        messageQuery.setIsRead("N");
+        WorkBack workBack = workMapper.selectById(workId);
+        workBack.setUserName(user.getNickName());
+        workBack.setRecommendName(user.getNickName());
+        UserAttr userAttr = userAttrMapper.selectByUserId(user.getId());
+        workBack.setUserHeadImage(userAttr.getHeadImage());
+        messageQuery.setContent(JSON.toJSONString(workBack));
+        messageQuery.setSourceType(MessageSourceTypeEnum.message_type_work.getCode());
+        messageQuery.setSourceId(workId);
+        messageQuery.setAction(MessageActionEnum.MESSAGE_ACTION_PUBLISH.getCode());
+        //推荐的类型暂时归结为提醒类型中
+        messageQuery.setType(MessageTypeEnum.MESSAGE_TYPE_REM.getCode());
+        try {
+            messageService.create(messageQuery, loginUserId, toUserList, false);
+        } catch (Exception e) {
+            log.error("发布作品发送消息异常");
         }
         return ResultJson.buildSuccess("上传作品成功");
     }
+
+//    private WorkBack entityToWorkBack(SysWork work) {
+//        WorkBack workBack = new WorkBack();
+//        workBack.setCreateTime(work.getCreateTime());
+//        workBack.setPraiseNum(work.getPraiseNum());
+//        workBack.setStatus(work.getStatus());
+//        workBack.setCommentNum(work.getCommentNum());
+//        workBack.setContent(work.getContent());
+//        workBack.setIsDelete(work.getIsDelete());
+//        workBack.setUserId(work.getUserId());
+//        workBack.setIsNormal(work.getIsNormal());
+//        workBack.setName(work.getName());
+//        return workBack;
+//    }
 
     @Override
     public ResultJson selectAllWorkLabels() {
@@ -283,9 +330,9 @@ public class WorkServiceImpl implements WorkService {
      * @return
      */
     @Override
-    public Page<WorkBack> workList(WorkQuery workQuery, String more) {
+    public Page<WorkBack> workList(WorkQuery workQuery) {
         PageHelper.startPage(workQuery.getPageNo(), workQuery.getPageSize());
-        List<WorkBack> sysWorks = workMapper.selectForList(workQuery, more);
+        List<WorkBack> sysWorks = workMapper.selectForList(workQuery);
         return (Page<WorkBack>) sysWorks;
     }
 
@@ -307,14 +354,14 @@ public class WorkServiceImpl implements WorkService {
 
 
     @Override
-    public ResultJson getWorkComment(Integer workId) {
+    public ResultJson selectCommentList(Integer workId) {
         if (workId <= 0) {
             return ResultJson.buildError("传入id为空");
         }
         //获取评论列表
-        WComment comment = new WComment();
-        comment.setWorkId(workId);
-        List<WComment> select = wCommentMapper.select(comment);
+        SysComment comment = new SysComment();
+        comment.setTargetId(workId);
+        List<CommentBack> select = commentMapper.selectCommentList(comment);
         return ResultJson.buildSuccess(select);
 
     }
@@ -337,65 +384,65 @@ public class WorkServiceImpl implements WorkService {
         return ResultJson.buildSuccess(others);
     }
 
+//    @Override
+//    @Transactional
+//    public ResultJson createHistory(String content) {
+//        //获取当前登录的用户
+//        int loginUserId = SysConfigUtil.getLoginUserId();
+//        User user = userMapper.selectByPrimaryKey(loginUserId);
+//        if (user == null) {
+//            log.error("用戶{}不存在", loginUserId);
+//            return ResultJson.buildError("用戶不存在");
+//        }
+//        UserAttr userAttr = userAttrMapper.selectByUserId(loginUserId);
+//        if (userAttr == null) {
+//            UserAttr attr = new UserAttr();
+//            attr.setUserId(loginUserId);
+//            attr.setCreateTime(new Date());
+//            attr.setUHistory(content);
+//            userAttrMapper.insertSelective(attr);
+//        } else {
+//            userAttr.setUHistory(content);
+//            userAttrMapper.updateByPrimaryKey(userAttr);
+//        }
+//        user.setStatus(UserStatusEnum.USER_STATUS_STEP2.getCode());
+//        userMapper.updateByPrimaryKey(user);
+//        return ResultJson.buildSuccess("创作过往填写成功");
+//    }
+//
+//    @Override
+//    public ResultJson addWebsite(String website) {
+//        //获取当前登录的用户
+//        int loginUserId = SysConfigUtil.getLoginUserId();
+//        User user = userMapper.selectByPrimaryKey(loginUserId);
+//        if (user == null) {
+//            log.error("用戶{}不存在", loginUserId);
+//            return ResultJson.buildError("用戶不存在");
+//        }
+//        UserAttr userAttr = userAttrMapper.selectByUserId(loginUserId);
+//        if (userAttr == null) {
+//            UserAttr attr = new UserAttr();
+//            attr.setUserId(loginUserId);
+//            attr.setCreateTime(new Date());
+//            attr.setWebsite(website);
+//            userAttrMapper.insertSelective(attr);
+//        } else {
+//            userAttr.setWebsite(website);
+//            userAttrMapper.updateByPrimaryKey(userAttr);
+//        }
+//        user.setStatus(UserStatusEnum.USER_STATUS_STEP3.getCode());
+//        userMapper.updateByPrimaryKey(user);
+//        return ResultJson.buildSuccess("常用网站填写成功");
+//    }
+
+
     @Override
     @Transactional
-    public ResultJson createHistory(String content) {
-        //获取当前登录的用户
-        int loginUserId = SysConfigUtil.getLoginUserId();
-        User user = userMapper.selectByPrimaryKey(loginUserId);
-        if (user == null) {
-            log.error("用戶{}不存在", loginUserId);
-            return ResultJson.buildError("用戶不存在");
-        }
-        UserAttr userAttr = userAttrMapper.selectByUserId(loginUserId);
-        if (userAttr == null) {
-            UserAttr attr = new UserAttr();
-            attr.setUserId(loginUserId);
-            attr.setCreateTime(new Date());
-            attr.setUHistory(content);
-            userAttrMapper.insertSelective(attr);
-        } else {
-            userAttr.setUHistory(content);
-            userAttrMapper.updateByPrimaryKey(userAttr);
-        }
-        user.setStatus(UserStatusEnum.USER_STATUS_STEP2.getCode());
-        userMapper.updateByPrimaryKey(user);
-        return ResultJson.buildSuccess("创作过往填写成功");
-    }
-
-    @Override
-    public ResultJson addWebsite(String website) {
-        //获取当前登录的用户
-        int loginUserId = SysConfigUtil.getLoginUserId();
-        User user = userMapper.selectByPrimaryKey(loginUserId);
-        if (user == null) {
-            log.error("用戶{}不存在", loginUserId);
-            return ResultJson.buildError("用戶不存在");
-        }
-        UserAttr userAttr = userAttrMapper.selectByUserId(loginUserId);
-        if (userAttr == null) {
-            UserAttr attr = new UserAttr();
-            attr.setUserId(loginUserId);
-            attr.setCreateTime(new Date());
-            attr.setWebsite(website);
-            userAttrMapper.insertSelective(attr);
-        } else {
-            userAttr.setWebsite(website);
-            userAttrMapper.updateByPrimaryKey(userAttr);
-        }
-        user.setStatus(UserStatusEnum.USER_STATUS_STEP3.getCode());
-        userMapper.updateByPrimaryKey(user);
-        return ResultJson.buildSuccess("常用网站填写成功");
-    }
-
-
-    @Override
-    @Transactional
-    public ResultJson focus(String toUserId) {
-        if (StringUtils.isEmpty(toUserId)) {
+    public ResultJson focus(Integer authorId) {
+        if (StringUtils.isEmpty(authorId)) {
             return ResultJson.buildError("传入的参数为空");
         }
-        User user = userMapper.selectByPrimaryKey(toUserId);
+        User user = userMapper.selectByPrimaryKey(authorId);
         if (user == null) {
             return ResultJson.buildError("用户不存在");
         }
@@ -403,103 +450,107 @@ public class WorkServiceImpl implements WorkService {
         if (!"Y".equalsIgnoreCase(user.getPainter())) {
             return ResultJson.buildError("用户状态不合法");
         }
-        UFocus param = new UFocus();
-        param.setAuthorId(Integer.valueOf(toUserId));
-        param.setUserId(SysConfigUtil.getLoginUserId());
-        List<UFocus> uFocusList = uFocusMapper.select(param);
+        int userId = SysConfigUtil.getLoginUserId();
+        int count = uFocusMapper.selectCountById(userId, authorId);
         UFocus uFocus = new UFocus();
-        if (CollectionUtils.isEmpty(uFocusList)) {
-            uFocus.setAuthorId(Integer.valueOf(toUserId));
-            uFocus.setUserId(SysConfigUtil.getLoginUserId());
+        uFocus.setAuthorId(authorId);
+        uFocus.setUserId(userId);
+        List<Integer> toUserIdList = new ArrayList<>();
+        toUserIdList.add(authorId);
+        if (count <= 0) {
             uFocus.setCreateTime(new Date());
-            uFocus.setCancel("N");
             uFocusMapper.insertSelective(uFocus);
-        } else {
-            uFocus = uFocusList.get(0);
-            if ("Y".equalsIgnoreCase(uFocus.getCancel())) {
-                uFocus.setCancel("N");
-                uFocusMapper.updateByPrimaryKeySelective(uFocus);
+            try {
+                MessageQuery messageQuery = addFocusMessage(uFocus.getUserId());
+                messageService.create(messageQuery, userId, toUserIdList, false);
+            } catch (Exception e) {
+                e.printStackTrace();
+                log.error("发送消息异常:{}", e.getMessage());
             }
+        } else {
+            uFocusMapper.delete(uFocus);
         }
-        try {
-            MessageQuery messageQuery = addFocusMessage(uFocus.getUserId(), uFocus.getAuthorId());
-            List<MessageQuery> messageQueryList = new ArrayList<>();
-            messageQueryList.add(messageQuery);
-            messageService.create(messageQueryList, false);
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("发送消息异常:{}", e.getMessage());
-        }
-        return ResultJson.buildSuccess("关注成功");
+        return ResultJson.buildSuccess(count <= 0 ? "关注成功" : "取消关注成功");
     }
 
+
     @Override
-    public ResultJson cancelFocus(String toUserId) {
-        if (StringUtils.isEmpty(toUserId)) {
+    public ResultJson queryFocus(Integer authorId) {
+        if (authorId <= 0) {
             return ResultJson.buildError("传入的参数为空");
         }
-        User user = userMapper.selectByPrimaryKey(toUserId);
+        User user = userMapper.selectByPrimaryKey(authorId);
         if (user == null) {
             return ResultJson.buildError("用户不存在");
         }
-        UFocus param = new UFocus();
-        param.setAuthorId(Integer.valueOf(toUserId));
-        param.setUserId(SysConfigUtil.getLoginUserId());
-        List<UFocus> uFocusList = uFocusMapper.select(param);
-        if (CollectionUtils.isEmpty(uFocusList)) {
-            return ResultJson.buildError("记录不存在");
+        //校验被关注的人是否是画师
+        if (!"Y".equalsIgnoreCase(user.getPainter())) {
+            return ResultJson.buildError("用户状态不合法");
         }
-        UFocus uFocus = uFocusList.get(0);
-        uFocus.setCancel("Y");
-        uFocusMapper.updateByPrimaryKeySelective(uFocus);
-        return ResultJson.buildSuccess("取消关注成功");
+        int userId = SysConfigUtil.getLoginUserId();
+        int count = uFocusMapper.selectCountById(userId, authorId);
+        return ResultJson.buildSuccess(count > 0);
     }
 
     @Override
     //向所有关注我的人对于此作品进行推荐
-    public ResultJson recommend(String workId) {
-        if (StringUtils.isEmpty(workId) || Integer.parseInt(workId) <= 0) {
+    public ResultJson recommend(Integer workId) {
+        if (workId <= 0) {
+            log.error("作品id为空");
             return ResultJson.buildError("传入参数为空");
         }
         //查询所有关注我的人
         UFocus uFocus = new UFocus();
         int loginUserId = SysConfigUtil.getLoginUserId();
         uFocus.setAuthorId(loginUserId);
-        //未取消关注
-        uFocus.setCancel("N");
         List<UFocus> select = uFocusMapper.select(uFocus);
-        //产生一条转发消息  异步进行发送  //发送给所有关注我的人
+        //产生一条转发消息  异步进行发送
+        // 发送给所有关注我的人
         MessageQuery messageQuery = new MessageQuery();
         messageQuery.setIsRead("N");
-        messageQuery.setFromUserId(loginUserId);
-        WorkBack workBack = workMapper.selectById(Integer.parseInt(workId));
+        WorkBack workBack = workMapper.selectById(workId);
+        //查询作品作者用户信息
+        Integer userId = workBack.getUserId();
+        UserQuery userQuery = new UserQuery();
+        userQuery.setUserID(userId);
+        UserBack user = userMapper.selectByUserName(userQuery);
+        workBack.setUserName(user.getNickName());
+        workBack.setUserHeadImage(user.getUserAttr().getHeadImage());
+        //设置推荐人信息
+        String recommendName = userMapper.selectByPrimaryKey(loginUserId).getNickName();
+        workBack.setRecommendName(recommendName);
+
         messageQuery.setContent(JSON.toJSONString(workBack));
         messageQuery.setSourceType(MessageSourceTypeEnum.message_type_work.getCode());
-        messageQuery.setSourceId(Integer.parseInt(workId));
+        messageQuery.setSourceId(workId);
         messageQuery.setAction(MessageActionEnum.MESSAGE_ACTION_RECOMMEND.getCode());
         //推荐的类型暂时归结为提醒类型中
         messageQuery.setType(MessageTypeEnum.MESSAGE_TYPE_REM.getCode());
-        List<MessageQuery> messageQueryList = new ArrayList<>();
+        List<Integer> toUserList = new ArrayList<>();
         for (UFocus u : select) {
-            messageQuery.setToUserId(u.getUserId());
-            messageQueryList.add(messageQuery);
+            toUserList.add(u.getUserId());
         }
-        messageService.create(messageQueryList, false);
-        return null;
+        //增加给自己的发送消息
+        toUserList.add(loginUserId);
+        //发送消息
+        try {
+            messageService.create(messageQuery, loginUserId, toUserList, false);
+        } catch (Exception e) {
+            log.error("推荐作品发送消息异常");
+        }
+
+        return ResultJson.buildSuccess("推荐作品成功");
     }
 
     /**
      * 构建关注消息对象
      *
-     * @param toUserId    目标用户id
-     * @param fromIUserId 来源用户id
+     * @param toUserId 目标用户id
      * @return
      */
-    private MessageQuery addFocusMessage(Integer toUserId, Integer fromIUserId) {
+    private MessageQuery addFocusMessage(Integer toUserId) {
         MessageQuery messageQuery = new MessageQuery();
         messageQuery.setType(MessageTypeEnum.MESSAGE_TYPE_REM.getCode());
-        messageQuery.setToUserId(toUserId);
-        messageQuery.setFromUserId(fromIUserId);
         messageQuery.setIsRead("N");
         messageQuery.setAction(MessageActionEnum.MESSAGE_ACTION_FOCUS.getCode());
         Map<String, String> params = new HashMap<>();
@@ -518,12 +569,12 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     @Transactional
-    public ResultJson like(String workId, Integer fromUserId) {
-        if (StringUtils.isEmpty(workId)) {
+    public ResultJson like(Integer workId, Integer userId) {
+        if (workId <= 0) {
             log.error("作品id为空");
             return ResultJson.buildError("作品id为空");
         }
-        if (fromUserId <= 0) {
+        if (userId <= 0) {
             log.error("用户id为空");
             return ResultJson.buildError("用户id为空");
         }
@@ -531,25 +582,37 @@ public class WorkServiceImpl implements WorkService {
         if (work == null) {
             return ResultJson.buildError("作品不存在");
         }
+
         WFavorite wFavorite = new WFavorite();
-        wFavorite.setCreateTime(new Date());
-        wFavorite.setUserId(fromUserId);
-        wFavorite.setTargetID(Integer.parseInt(workId));
+        wFavorite.setUserId(userId);
+        wFavorite.setTargetId(workId);
         wFavorite.setType("work");
-        wFavoriteMapper.insertSelective(wFavorite);
-        //更新作品的点赞数量
-        work.setPraiseNum(work.getPraiseNum() + 1);
-        workMapper.updateByPrimaryKeySelective(work);
-        try {
-            MessageQuery messageQuery = makeCommentMessage(work, MessageActionEnum.MESSAGE_ACTION_PRAISE.getCode(), MessageTypeEnum.MESSAGE_TYPE_REM.getCode());
-            List<MessageQuery> list = new ArrayList<MessageQuery>();
-            list.add(messageQuery);
-            messageService.create(list, false);
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("点赞作品发送消息异常:{}", e.getMessage());
+        //查询，如果有 表示取消点赞  删除记录
+        int count = wFavoriteMapper.selectCountByWorkId(userId, workId);
+        if (count <= 0) {
+            //新增
+            wFavorite.setCreateTime(new Date());
+            //更新作品的点赞数量
+            work.setPraiseNum(work.getPraiseNum() + 1);
+            wFavoriteMapper.insertSelective(wFavorite);
+            workMapper.updateByPrimaryKeySelective(work);
+            try {
+                //查询作品所属用户
+                List<Integer> list = new ArrayList<>();
+                list.add(work.getUserId());
+                MessageQuery messageQuery = makeCommentMessage(work, MessageActionEnum.MESSAGE_ACTION_PRAISE.getCode(), MessageTypeEnum.MESSAGE_TYPE_REM.getCode());
+                messageService.create(messageQuery, userId, list, false);
+            } catch (Exception e) {
+                e.printStackTrace();
+                log.error("点赞作品发送消息异常:{}", e.getMessage());
+            }
+        } else {
+            wFavoriteMapper.delete(wFavorite);
+            //更新作品的点赞数量
+            work.setPraiseNum(work.getPraiseNum() - 1);
+            workMapper.updateByPrimaryKeySelective(work);
         }
-        return ResultJson.buildSuccess("点赞成功");
+        return ResultJson.buildSuccess(count <= 0 ? "点赞成功" : "取消点赞成功");
     }
 
     @Override
@@ -565,13 +628,13 @@ public class WorkServiceImpl implements WorkService {
         }
         int loginUserId = SysConfigUtil.getLoginUserId();
         User user = userMapper.selectByPrimaryKey(loginUserId);
-        WComment comment = new WComment();
-        comment.setWorkId(commentQuery.getWorkId());
+        SysComment comment = new SysComment();
+        comment.setTargetId(commentQuery.getWorkId());
+        comment.setTargetType(commentQuery.getTargetType());
         comment.setContent(commentQuery.getContent());
         comment.setCreateTime(new Date());
         comment.setPraiseNum(0);
         comment.setUserId(loginUserId);
-        comment.setUserName(user.getNickName());
         comment.setTopStatus(0);
         comment.setCommentLevel(commentQuery.getCommentLevel());
         comment.setParentId(commentQuery.getParentId());
@@ -583,10 +646,10 @@ public class WorkServiceImpl implements WorkService {
         int type = MessageTypeEnum.MESSAGE_TYPE_REM.getCode();
         String action = MessageActionEnum.MESSAGE_ACTION_COMMENT.getCode();
         try {
+            List<Integer> list = new ArrayList<>();
+            list.add(work.getUserId());
             MessageQuery messageQuery = makeCommentMessage(work, action, type);
-            List<MessageQuery> messageQueryList = new ArrayList<>();
-            messageQueryList.add(messageQuery);
-            messageService.create(messageQueryList, false);
+            messageService.create(messageQuery, loginUserId, list, false);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -609,19 +672,18 @@ public class WorkServiceImpl implements WorkService {
         message.setSourceId(work.getId());
         message.setSourceType(MessageSourceTypeEnum.message_type_work.getCode());
         Integer toUserId = work.getUserId();
-        message.setToUserId(toUserId);
-        message.setFromUserId(SysConfigUtil.getLoginUserId());
         message.setIsRead("N");
         message.setType(type);
         return message;
     }
 
     @Override
+    @Transactional
     public ResultJson commentLike(int id) {
         if (id < 0) {
             return ResultJson.buildError("传入参数为空");
         }
-        WComment comment = commentMapper.selectByPrimaryKey(id);
+        SysComment comment = commentMapper.selectByPrimaryKey(id);
         if (comment == null) {
             return ResultJson.buildError("对象不存在");
         }
@@ -632,16 +694,26 @@ public class WorkServiceImpl implements WorkService {
 
 
     @Override
+    @Transactional
     public ResultJson commentDel(int id) {
         if (id < 0) {
             return ResultJson.buildError("传入参数为空");
         }
-        WComment comment = commentMapper.selectByPrimaryKey(id);
+        SysComment comment = commentMapper.selectByPrimaryKey(id);
         if (comment == null) {
             return ResultJson.buildError("对象不存在");
         }
-        commentMapper.deleteByPrimaryKey(id);
-        return ResultJson.buildSuccess("删除成功");
+        if (comment.getCommentLevel() > 1 && comment.getParentId() > 0) {
+            //为子评论 删除自己既可
+            commentMapper.deleteByPrimaryKey(id);
+        }
+        if (comment.getCommentLevel() == 1 && comment.getParentId() == 0) {
+            //为父评论 删除自己以及全部的子评论  目前评论支持二级，
+            List<Integer> list = commentMapper.selectByParentId(id);
+            list.add(id);
+            commentMapper.deleteByBatch(list);
+        }
+        return ResultJson.buildSuccess("删除评论成功");
     }
 
     @Override
@@ -699,7 +771,7 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public ResultJson report(String ids) {
+    public ResultJson report(String ids, Integer workId) {
         if (StringUtils.isEmpty(ids)) {
             return ResultJson.buildError("传入参数为空");
         }
@@ -711,6 +783,7 @@ public class WorkServiceImpl implements WorkService {
             reportRecord.setUserId(SysConfigUtil.getLoginUserId());
             reportRecord.setReportId(report_id);
             reportRecord.setCreateTime(new Date());
+            reportRecord.setWorkId(workId);
             list.add(reportRecord);
         }
         reportRecordMapper.insertList(list);
@@ -718,4 +791,18 @@ public class WorkServiceImpl implements WorkService {
     }
 
 
+    @Override
+    public ResultJson getUserInfoByWorkId(Integer workId) {
+        if (workId== null ||workId <= 0) {
+            log.error("传入参数为空");
+            return ResultJson.buildError("传入参数为空");
+        }
+        SysWork work = workMapper.selectByPrimaryKey(workId);
+        if (work == null || work.getId() <= 0) {
+            log.error("对象不存在");
+            return ResultJson.buildError("对象不存在");
+        }
+        UserBack userBack = workMapper.selectUserInfoByWorkId(workId);
+        return ResultJson.buildSuccess(userBack);
+    }
 }

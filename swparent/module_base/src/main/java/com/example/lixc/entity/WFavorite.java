@@ -16,7 +16,7 @@ public class WFavorite {
     @Column(name = "user_id")
     private int userId;
     @Column(name = "target_id")
-    private int targetID;
+    private int targetId;
     //点赞的类型，作品为work，评论为comment
     private String type;
     private Date createTime;

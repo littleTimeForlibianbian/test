@@ -1,6 +1,7 @@
 package com.example.lixc.service;
 
 import com.example.lixc.util.ResultJson;
+import com.example.lixc.vo.query.VersionSpoQuery;
 
 /**
  * @author lixc
@@ -25,15 +26,27 @@ public interface MyWorldService {
 
     ResultJson addFeedBack(String content);
 
-    ResultJson feedBackOpt();
+    /**
+     * 查询反馈优化列表
+     * @return
+     */
+    ResultJson feedBackOptList(VersionSpoQuery versionSpoQuery);
 
-    ResultJson versionSpoiler();
+    ResultJson versionSpoiler(VersionSpoQuery versionSpoQuery);
 
     ResultJson allMessage();
 
-    ResultJson queryCount();
+    ResultJson queryCount(Integer userId);
 
-    ResultJson feedBackLike(String id);
+    ResultJson feedBackLike(Integer id);
 
     ResultJson feedBackList();
+
+    /**
+     * 查询 我的世界主页中所有的推荐消息和关注的人发布作品消息
+     *
+     * @param userId 接受者id
+     * @return
+     */
+    ResultJson recommendMessage(int userId);
 }

@@ -10,14 +10,14 @@ import java.util.Date;
  * @createTime 2020/7/1 11:11
  */
 @Data
-public class MessageQuery {
+public class MessageQuery implements Cloneable {
     //消息id
     private Integer messageId;
     //发送者id
-    private Integer fromUserId;
+//    private Integer fromUserId;
     //接受者id
-    private Integer toUserId;
-    private String toUserName;
+//    private Integer toUserId;
+//    private String toUserName;
     //类型  '消息类型:announcement公告/remind提醒/message私信',
     private Integer type;
     //动作 '用户动作触发的消息 comment评论，praise点赞，reply回复，recommend推荐 system 系统',
@@ -34,4 +34,15 @@ public class MessageQuery {
     private String content;
     //是否已读
     private String isRead;
+
+    @Override
+    public MessageQuery clone() throws CloneNotSupportedException {
+        MessageQuery messageQuery = null;
+        try {
+            messageQuery = (MessageQuery) super.clone();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return messageQuery;
+    }
 }

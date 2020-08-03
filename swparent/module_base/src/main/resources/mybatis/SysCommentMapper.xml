@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.lixc.mapper.SysCommentMapper">
+    <resultMap id="BaseResultMap" type="com.example.lixc.entity.SysComment">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="target_id" property="targetId" jdbcType="INTEGER"/>
+        <result column="target_type" property="targetType" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="comment_level" property="commentLevel" jdbcType="INTEGER"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="top_status" property="topStatus" jdbcType="INTEGER"/>
+        <result column="praise_num" property="praiseNum" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="CommentBackMap" type="com.example.lixc.vo.back.CommentBack">
+        <result column="id" property="commentId" jdbcType="INTEGER"/>
+        <result column="target_id" property="targetId" jdbcType="INTEGER"/>
+        <result column="target_type" property="targetType" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="comment_level" property="commentLevel" jdbcType="INTEGER"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="top_status" property="topStatus" jdbcType="INTEGER"/>
+        <result column="praise_num" property="praiseNum" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="head_image" property="headImageUrl" jdbcType="VARCHAR"/>
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <delete id="deleteByBatch">
+        delete
+        from sys_comment where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectCommentList" parameterType="com.example.lixc.entity.SysComment"
+            resultMap="CommentBackMap">
+        select sc.id,
+               sc.target_id,
+               sc.target_type,
+               sc.user_id,
+               sc.content,
+               sc.comment_level,
+               sc.parent_id,
+               sc.top_status,
+               sc.praise_num,
+               sc.create_time,
+               sua.head_image,
+               su.nick_name
+        from sys_comment sc
+                 left join sys_user su on sc.user_id = su.id
+                 left join sys_user_attr sua on su.id = sua.user_id
+        where su.status = 5
+    </select>
+    <select id="selectByParentId" resultType="java.lang.Integer">
+        select id
+        from sys_comment
+        where parent_id = #{parentId}
+    </select>
+</mapper>

@@ -27,6 +27,9 @@ public interface UserMapper extends SwBaseMapper<User> {
 
     //登录
     UserBack selectByUserName(UserQuery userQuery);
+
+    List<Integer>  selectAllNormalUserIds();
+
     UserBack selectByEmail(UserQuery userQuery);
 
 

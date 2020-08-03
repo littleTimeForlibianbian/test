@@ -20,6 +20,9 @@ public class WCommentQuery {
     //父级id  用于保存被评论的id
     private Integer parentId = 0;
 
+    //类型
+    private String targetType;
+
     public ResultJson checkParams() {
         if (workId < 0) {
             return ResultJson.buildError("作品id为空");

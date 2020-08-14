@@ -1,11 +1,13 @@
 package com.example.lixc.util;
 
 import com.example.lixc.constants.SwConstant;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -15,6 +17,7 @@ import java.io.InputStream;
  * @Author: Wilson
  * @createTime 2020/7/26 9:17
  */
+@Slf4j
 public class FtpUtil {
 
     /**
@@ -108,5 +111,42 @@ public class FtpUtil {
         return result;
     }
 
-}
 
+    public static boolean deleteFile(String filePath, String host, int port, String username, String password) {
+        boolean result = false;
+        FTPClient ftp = new FTPClient();
+        try {
+            int reply;
+            ftp.connect(host, port);// 连接FTP服务器
+            // 如果采用默认端口，可以使用ftp.connect(host)的方式直接连接FTP服务器
+            ftp.login(username, password);// 登录
+            reply = ftp.getReplyCode();
+            if (!FTPReply.isPositiveCompletion(reply)) {
+                ftp.disconnect();
+                return result;
+            }
+            if (ftp.changeWorkingDirectory(new File(filePath).getParent())) {
+                ftp.deleteFile(filePath);
+            } else {
+                log.error("进入目录失败，请检查目录是否存在:{}", filePath);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static boolean deleteFile(String filePath) {
+        return deleteFile(filePath, SwConstant.FTP_HOST, SwConstant.FTP_PORT, SwConstant.FTP_USERNAME, SwConstant.FTP_PASSWORD);
+    }
+
+    public static void main(String[] args) {
+        String imageStorePath = SwConstant.IMAGE_STORE_PATH;
+        String url = "http://192.168.244.129/images/20200728/737622379743809536.jpeg";
+//        String[] split = url.split("/");
+        String fileName = url.substring(url.lastIndexOf("/") - 8, url.length());
+        imageStorePath += fileName.split("/")[0];
+        deleteFile(imageStorePath + fileName.split("/")[1]);
+    }
+
+}

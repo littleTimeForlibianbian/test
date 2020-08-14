@@ -11,4 +11,6 @@ import java.util.Map;
 
 public interface LoginRecordMapper extends SwBaseMapper<LoginRecord> {
     List<UserBack> selectLoginRecord(UserQuery userQuery);
+    //查询是否有用户的登录记录
+    int  selectLoginRecordCount(UserQuery userQuery);
 }

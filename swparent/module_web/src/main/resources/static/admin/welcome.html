@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+    <head>
+        <meta charset="UTF-8">
+        <title>欢迎页面-X-admin2.2</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <link rel="stylesheet" href="./css/font.css">
+        <link rel="stylesheet" href="./css/xadmin.css">
+        <script src="./lib/layui/layui.js" charset="utf-8"></script>
+        <script type="text/javascript" src="./js/xadmin.js"></script>
+        <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+        <!--[if lt IE 9]>
+          <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+          <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-body ">
+                            <blockquote class="layui-elem-quote">欢迎管理员：
+                                <span class="x-red">test</span>！<span class="lastTime">上一次登录时间:2020-03-19</span>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">数据统计</div>
+                        <div class="layui-card-body ">
+                            <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                        <h3>访问数</h3>
+                                        <p>
+                                            <cite>66</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                        <h3>登录注册</h3>
+                                        <p>
+                                            <cite>12</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                        <h3>认证画师数</h3>
+                                        <p>
+                                            <cite>99</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                        <h3>上传作品数</h3>
+                                        <p>
+                                            <cite>67</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                        <h3>转发作品量</h3>
+                                        <p>
+                                            <cite>67</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-md2 layui-col-xs6 ">
+                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                        <h3>活跃用户量</h3>
+                                        <p>
+                                            <cite>6766</cite></p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12">
+                	<div class="layui-card">
+                        <div class="layui-card-header">用户所在城市比例</div>
+                        <div class="layui-card-body" style="min-height: 1000px;">
+                            <div id="main3" class="layui-col-sm12" style="height: 950px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="layui-col-sm6 layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-header">下载
+                            <span class="layui-badge layui-bg-cyan layuiadmin-badge">月</span></div>
+                        <div class="layui-card-body  ">
+                            <p class="layuiadmin-big-font">33,555</p>
+                            <p>新下载
+                                <span class="layuiadmin-span-color">10%
+                                    <i class="layui-inline layui-icon layui-icon-face-smile-b"></i></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>-->
+                <!--<div class="layui-col-sm6 layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-header">下载
+                            <span class="layui-badge layui-bg-cyan layuiadmin-badge">月</span></div>
+                        <div class="layui-card-body ">
+                            <p class="layuiadmin-big-font">33,555</p>
+                            <p>新下载
+                                <span class="layuiadmin-span-color">10%
+                                    <i class="layui-inline layui-icon layui-icon-face-smile-b"></i></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>-->
+                <!--<div class="layui-col-sm6 layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-header">下载
+                            <span class="layui-badge layui-bg-cyan layuiadmin-badge">月</span></div>
+                        <div class="layui-card-body ">
+                            <p class="layuiadmin-big-font">33,555</p>
+                            <p>新下载
+                                <span class="layuiadmin-span-color">10%
+                                    <i class="layui-inline layui-icon layui-icon-face-smile-b"></i></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>-->
+                <!--<div class="layui-col-sm6 layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-header">下载
+                            <span class="layui-badge layui-bg-cyan layuiadmin-badge">月</span></div>
+                        <div class="layui-card-body ">
+                            <p class="layuiadmin-big-font">33,555</p>
+                            <p>新下载
+                                <span class="layuiadmin-span-color">10%
+                                    <i class="layui-inline layui-icon layui-icon-face-smile-b"></i></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>-->
+                <!--<div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">系统信息</div>
+                        <div class="layui-card-body ">
+                            <table class="layui-table">
+                                <tbody>
+                                    <tr>
+                                        <th>xxx版本</th>
+                                        <td>1.0.180420</td></tr>
+                                    <tr>
+                                        <th>服务器地址</th>
+                                        <td>x.xuebingsi.com</td></tr>
+                                    <tr>
+                                        <th>操作系统</th>
+                                        <td>WINNT</td></tr>
+                                    <tr>
+                                        <th>运行环境</th>
+                                        <td>Apache/2.4.23 (Win32) OpenSSL/1.0.2j mod_fcgid/2.3.9</td></tr>
+                                    <tr>
+                                        <th>PHP版本</th>
+                                        <td>5.6.27</td></tr>
+                                    <tr>
+                                        <th>PHP运行方式</th>
+                                        <td>cgi-fcgi</td></tr>
+                                    <tr>
+                                        <th>MYSQL版本</th>
+                                        <td>5.5.53</td></tr>
+                                    <tr>
+                                        <th>ThinkPHP</th>
+                                        <td>5.0.18</td></tr>
+                                    <tr>
+                                        <th>上传附件限制</th>
+                                        <td>2M</td></tr>
+                                    <tr>
+                                        <th>执行时间限制</th>
+                                        <td>30s</td></tr>
+                                    <tr>
+                                        <th>剩余空间</th>
+                                        <td>86015.2M</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">开发团队</div>
+                        <div class="layui-card-body ">
+                            <table class="layui-table">
+                                <tbody>
+                                    <tr>
+                                        <th>版权所有</th>
+                                        <td>北京慢蜗科技有限公司</td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <style id="welcome_style"></style>
+                <!--<div class="layui-col-md12">
+                    <blockquote class="layui-elem-quote layui-quote-nm">感谢layui,百度Echarts,jquery,本系统由x-admin提供技术支持。</blockquote></div>-->
+            </div>
+        </div>
+        
+       <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+       <script src="https://gallery.echartsjs.com/dep/echarts/map/js/china.js"></script>
+        <script type="text/javascript">
+        	// 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main3'));
+        // 指定图表的配置项和数据
+        window.dataList = [{
+        name: "南海诸岛",
+        value: 0
+    },
+    {
+        name: '北京',
+        value: 54
+    },
+    {
+        name: '天津',
+        value: 13
+    },
+    {
+        name: '上海',
+        value: 40
+    },
+    {
+        name: '重庆',
+        value: 75
+    },
+    {
+        name: '河北',
+        value: 13
+    },
+    {
+        name: '河南',
+        value: 83
+    },
+    {
+        name: '云南',
+        value: 11
+    },
+    {
+        name: '辽宁',
+        value: 19
+    },
+    {
+        name: '黑龙江',
+        value: 15
+    },
+    {
+        name: '湖南',
+        value: 69
+    },
+    {
+        name: '安徽',
+        value: 60
+    },
+    {
+        name: '山东',
+        value: 39
+    },
+    {
+        name: '新疆',
+        value: 4
+    },
+    {
+        name: '江苏',
+        value: 31
+    },
+    {
+        name: '浙江',
+        value: 104
+    },
+    {
+        name: '江西',
+        value: 36
+    },
+    {
+        name: '湖北',
+        value: 1052
+    },
+    {
+        name: '广西',
+        value: 33
+    },
+    {
+        name: '甘肃',
+        value: 7
+    },
+    {
+        name: '山西',
+        value: 9
+    },
+    {
+        name: '内蒙古',
+        value: 7
+    },
+    {
+        name: '陕西',
+        value: 22
+    },
+    {
+        name: '吉林',
+        value: 4
+    },
+    {
+        name: '福建',
+        value: 18
+    },
+    {
+        name: '贵州',
+        value: 5
+    },
+    {
+        name: '广东',
+        value: 98
+    },
+    {
+        name: '青海',
+        value: 1
+    },
+    {
+        name: '西藏',
+        value: 0
+    },
+    {
+        name: '四川',
+        value: 44
+    },
+    {
+        name: '宁夏',
+        value: 4
+    },
+    {
+        name: '海南',
+        value: 22
+    },
+    {
+        name: '台湾',
+        value: 3
+    },
+    {
+        name: '香港',
+        value: 5
+    },
+    {
+        name: '澳门',
+        value: 5
+    }
+];
+option = {
+    tooltip: {
+        triggerOn: "click",
+        formatter: function(e, t, n) {
+            return .5 == e.value ? e.name + "：有疑似病例" : e.seriesName + "<br />" + e.name + "：" + e.value
+        }
+    },
+    visualMap: {
+        min: 0,
+        max: 1000,
+        left: 26,
+        bottom: 40,
+        showLabel: !0,
+        text: ["高", "低"],
+        pieces: [{
+            gt: 100,
+            label: "> 300 人",
+            color: "#3b5d8d"
+        }, {
+            gte: 10,
+            lte: 100,
+            label: "50 - 300 人",
+            color: "#0066ff"
+        }, {
+            gte: 1,
+            lt: 10,
+            label: "1 - 50 人",
+            color: "#009bf2"
+        }, {
+            gt: 0,
+            lt: 1,
+            label: "0人",
+            color: "#ffd768"
+        }, {
+            value: 0,
+            color: "#ffd768"
+        }],
+        show: !0
+    },
+    geo: {
+        map: "china",
+        roam: !1,
+        scaleLimit: {
+            min: 1,
+            max: 2
+        },
+        zoom: 1.23,
+        top: 120,
+        label: {
+            normal: {
+                show: !0,
+                fontSize: "14",
+                color: "rgba(0,0,0,0.7)"
+            }
+        },
+        itemStyle: {
+            normal: {
+                //shadowBlur: 50,
+                //shadowColor: 'rgba(0, 0, 0, 0.2)',
+                borderColor: "rgba(0,102,255,0.7)"
+            },
+            emphasis: {
+                areaColor: "#0066ff",
+                shadowOffsetX: 0,
+                shadowOffsetY: 0,
+                borderWidth: 0
+            }
+        }
+    },
+    series: [{
+        name: "画师分布",
+        type: "map",
+        geoIndex: 0,
+        data: window.dataList
+    }]
+};
+// 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+       	</script>
+       	<script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+    </body>
+</html>

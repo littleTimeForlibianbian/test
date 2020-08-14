@@ -8,6 +8,7 @@ import com.example.lixc.vo.query.AdminUserQuery;
 import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @createTime 2020/6/7 19:39
  */
 @Api("后台管理员管理类")
+@Slf4j
 @RestController
 @RequestMapping("/web/admin")
 public class AdminController {
@@ -50,15 +52,27 @@ public class AdminController {
     }
 
     /**
-     * 查询管理员详情
+     * 添加管理员
      *
      * @param adminUserQuery
      * @return
      */
+    @ApiOperation(value = "更新管理员密码")
+    @PostMapping("/updatePassword")
+    public ResultJson updatePassword(AdminUserQuery adminUserQuery) {
+        return userAdminService.updatePassword(adminUserQuery);
+    }
+
+    /**
+     * 查询管理员详情
+     *
+     * @param userId
+     * @return
+     */
     @ApiOperation(value = "查询管理员详情")
     @PostMapping("/detailAdminUser")
-    public ResultJson detailAdminUser(AdminUserQuery adminUserQuery) {
-        return userAdminService.detailAdminUser(adminUserQuery);
+    public ResultJson detailAdminUser(Integer userId) {
+        return userAdminService.detailAdminUser(userId);
     }
 
     /**
@@ -83,6 +97,23 @@ public class AdminController {
     @PostMapping("/delAdminUser")
     public ResultJson delAdminUser(AdminUserQuery adminUserQuery) {
         return userAdminService.delAdminUser(adminUserQuery);
+    }
+
+    /**
+     * 单个删除管理员
+     *
+     * @param adminUserQuery
+     * @return
+     */
+    @ApiOperation(value = "停用启用管理员")
+    @PostMapping("/enable")
+    public ResultJson enable(AdminUserQuery adminUserQuery) {
+        try {
+            return userAdminService.enable(adminUserQuery);
+        } catch (Exception e) {
+            log.error("停用启用管理员:{}", e.getMessage());
+            return ResultJson.buildError("停用启用管理员异常");
+        }
     }
 
     /**

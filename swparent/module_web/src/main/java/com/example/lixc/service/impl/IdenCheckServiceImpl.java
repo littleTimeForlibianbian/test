@@ -1,5 +1,7 @@
 package com.example.lixc.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.example.lixc.config.InitConfig;
 import com.example.lixc.entity.User;
 import com.example.lixc.enums.UserStatusEnum;
 import com.example.lixc.mapper.UserMapper;
@@ -10,9 +12,11 @@ import com.example.lixc.vo.query.UserQuery;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +34,6 @@ public class IdenCheckServiceImpl implements IdenCheckService {
 
     @Override
     public Page<UserBack> list(UserQuery userQuery) {
-        //
         PageHelper.startPage(userQuery.getPageNo(), userQuery.getPageSize());
         userQuery.setPainter("N");
         //查询全部待审核数据
@@ -60,7 +63,17 @@ public class IdenCheckServiceImpl implements IdenCheckService {
             return ResultJson.buildError("查询为空");
         }
         user.setStatus(status);
+        if (status == UserStatusEnum.USER_STATUS_PASS.getCode()) {
+            user.setPainter("Y");
+        }
         userMapper.updateByPrimaryKeySelective(user);
         return ResultJson.buildSuccess();
+    }
+
+    @Override
+    public Page<UserBack> focusPainterList(UserQuery userQuery) {
+        PageHelper.startPage(userQuery.getPageNo(), userQuery.getPageSize());
+        List<UserBack> list = userMapper.selectFocusPainterIds(userQuery);
+        return (Page<UserBack>) list;
     }
 }

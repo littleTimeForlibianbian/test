@@ -174,7 +174,7 @@ public class MyWorldServiceImpl implements MyWorldService {
         suggest.setCreateTime(new Date());
         int loginUserId = SysConfigUtil.getLoginUserId();
         suggest.setUserId(loginUserId);
-        suggest.setUserName(InitConfig.getUserName(loginUserId));
+        suggest.setUserName(InitConfig.getNickName(loginUserId));
         UserAttr userAttr = userAttrMapper.selectByUserId(loginUserId);
         suggest.setPraiseNum(0);
         suggest.setVersion(SysConfigUtil.selectCurrentVersion());

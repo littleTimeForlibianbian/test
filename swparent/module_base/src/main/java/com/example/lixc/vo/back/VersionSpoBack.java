@@ -2,6 +2,7 @@ package com.example.lixc.vo.back;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,8 @@ import java.util.Date;
  * @createTime 2020/7/7 22:59
  */
 @Data
-public class VersionSpoBack {
+public class VersionSpoBack implements Serializable {
+    private static final long serialVersionUID = -1366163190808702279L;
     private int versionSpoId;
     private String userName;
     private String healImage;

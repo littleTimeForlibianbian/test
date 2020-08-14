@@ -14,6 +14,15 @@
         from sys_role_privledge
         where role_id = #{roleId}
     </delete>
+
+    <delete id="deleteByRoleIdBatch">
+        delete
+        from sys_role_privledge
+        where role_id in
+        <foreach collection="array" item="index" open="(" separator="," close=")">
+            #{index}
+        </foreach>
+    </delete>
     <select id="getRolesByPrivilegeId" resultType="com.example.lixc.entity.Role">
         select * from sys_role sr ,sys_role_privledge srp where sr.id = srp.role_id
         and sr.enable='Y'
@@ -23,7 +32,7 @@
     </select>
 
     <select id="getPrivilegesByRoleId" resultType="com.example.lixc.entity.Privilege">
-        select * from sys_privledge sp ,sys_role_privledge srp where sp.id = srp.p_id
+        select distinct sp.* from sys_privilege sp ,sys_role_privledge srp where sp.id = srp.p_id
         <if test="roleId >0 ">
             and srp.p_id = #{roleId}
         </if>

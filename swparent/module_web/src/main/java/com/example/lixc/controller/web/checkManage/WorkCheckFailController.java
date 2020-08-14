@@ -22,17 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Api("作品审核失败")
 @Slf4j
 @RestController
-@RequestMapping("/web/admin/check/workFail")
+@RequestMapping("/web/manager/check/workFail")
 public class WorkCheckFailController {
     @Autowired
     private WorkService workService;
 
     @ApiOperation("作品审核失败")
     @PostMapping("/workCheckFail")
-    public Page<WorkBack> workCheckFail() {
+    public Page<WorkBack> workCheckFail(WorkQuery workQuery) {
         try {
-            WorkQuery workQuery = new WorkQuery();
-            workQuery.setStatus(WorkStatusEnum.WORK_STATUS_FAIL.getCode());
             return workService.workList(workQuery);
         } catch (Exception e) {
             log.error("workList exception:{}", e.getMessage());

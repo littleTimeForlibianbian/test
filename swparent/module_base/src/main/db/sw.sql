@@ -17,6 +17,7 @@ CREATE TABLE `sys_user`
     `painter`         char(1)      NULL     DEFAULT 'N' COMMENT '是否是画师',
     `invitation_code` varchar(100)          DEFAULT NULL COMMENT '邀请码',
     `create_by`       int(11)      NULL     DEFAULT '0' COMMENT '创建人',
+    `focus_count`     int(11)      NULL     DEFAULT '0' COMMENT '关注数量',
     `create_time`     datetime     NOT NULL DEFAULT now() COMMENT '创建时间',
     `update_by`       int(11)               DEFAULT NULL COMMENT '最后更新人',
     `update_time`     datetime              DEFAULT NULL COMMENT '最后更新时间',
@@ -141,10 +142,10 @@ CREATE TABLE `sys_user_role`
   DEFAULT CHARSET = utf8;
 
 --  权限表
-drop table if EXISTS `sys_privledge`;
-CREATE TABLE `sys_privledge`
+drop table if EXISTS `sys_privilege`;
+CREATE TABLE `sys_privilege`
 (
-    `id`     int(10)      NULL AUTO_INCREMENT COMMENT '主键id',
+    `id`     int(10)      NOT NULL AUTO_INCREMENT COMMENT '主键id',
     `name`   varchar(100) NULL COMMENT '权限名称',
     `url`    varchar(100) NULL COMMENT '权限路径',
     `type`   int(1)       NULL default 2 COMMENT '权限类型：1前台，2后台',
@@ -169,13 +170,14 @@ CREATE TABLE `sys_role_privledge`
 drop table if exists `sys_user_attr`;
 create table `sys_user_attr`
 (
-    `id`          int(11)      not null auto_increment comment '主键id',
-    `user_id`     int(11)      not null comment '用户id',
-    `u_history`   varchar(255) null comment '创作历史',
-    `website`     varchar(255) null comment '常用网站',
-    `head_image`  varchar(255) null comment '用户头像',
-    `create_time` datetime     NULL COMMENT '创建时间',
-    `update_time` datetime     NULL COMMENT '修改时间',
+    `id`                int(11)      not null auto_increment comment '主键id',
+    `user_id`           int(11)      not null comment '用户id',
+    `u_history`         varchar(255) null comment '创作历史',
+    `website`           varchar(255) null comment '常用网站',
+    `head_image`        varchar(255) null comment '用户头像',
+    `last_publish_time` dateTime     null comment '最新发布作品的时间',
+    `create_time`       datetime     NULL COMMENT '创建时间',
+    `update_time`       datetime     NULL COMMENT '修改时间',
     primary key (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;

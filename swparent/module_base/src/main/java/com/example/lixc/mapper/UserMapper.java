@@ -28,14 +28,20 @@ public interface UserMapper extends SwBaseMapper<User> {
     //登录
     UserBack selectByUserName(UserQuery userQuery);
 
-    List<Integer>  selectAllNormalUserIds();
+    List<Integer> selectAllNormalUserIds();
 
     UserBack selectByEmail(UserQuery userQuery);
+
+    //根据id查询用户详情 包含标签和属性
+    UserBack selectById(Integer userId);
 
 
     List<AdminUserBack> selectAllAdminUsers(AdminUserQuery adminUserQuery);
 
     int delByIds(String[] ids);
+
+    int delUserRoleRelationByUserId(String[] ids);
+
 
     int selectCountByRoleId(int roleId);
 
@@ -45,7 +51,11 @@ public interface UserMapper extends SwBaseMapper<User> {
     //用户基础信息
     User selectBaseByUserName(UserQuery userQuery);
 
+    //缓存用户信息
     List<UserInfoDTO> selectUserInfo();
 
+
+    //查询被关注的画师id
+    List<UserBack> selectFocusPainterIds(UserQuery userQuery);
 
 }

@@ -22,10 +22,11 @@ public class WorkQuery extends PageParam {
     private Integer[] imageIds;
     //作品名称
     private String name;
-    //要查询的标签
-    private String label;
+    //要查询的标签 或者用户昵称 或者作品名称
+    private String queryParam;
 
     private Integer status;
+    //昵称或者邮箱
     private String userName;
 
     private String content;
@@ -38,6 +39,9 @@ public class WorkQuery extends PageParam {
     private Integer[] styleLabelForAdd;
     //品类标签列表。多个之间以-分割
     private Integer[] categoryLabelForAdd;
+
+    //失败原因
+    private String failReason;
 
     //作品认证需要的用户信息
     private String uHistory;

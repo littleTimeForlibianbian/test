@@ -14,11 +14,11 @@ import java.util.Date;
 @Table(name = "sys_code")
 public class Code {
     @Id
-    private int id;
+    private Integer id;
     private String code;
     @Column(name = "used_num")
-    private int usedNum;
-    private int createBy;
+    private Integer usedNum;
+    private Integer createBy;
     private Date createTime;
 
 }

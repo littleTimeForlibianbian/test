@@ -34,6 +34,12 @@
             #{id}
         </foreach>
     </delete>
+    <delete id="deleteByWorkId">
+        delete
+        from sys_comment
+        where target_type = 'work'
+          and target_id = #{workId}
+    </delete>
     <select id="selectCommentList" parameterType="com.example.lixc.entity.SysComment"
             resultMap="CommentBackMap">
         select sc.id,

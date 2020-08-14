@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @Api("角色管理类")
 @RestController
-@RequestMapping("/web/role")
+@RequestMapping("/web/manager/role")
 public class RoleController {
 
     @Autowired
@@ -63,6 +63,18 @@ public class RoleController {
         }
     }
 
+    @ApiOperation("停用/启用角色")
+    @PostMapping("/enable")
+    public ResultJson enable(RoleQuery roleQuery) {
+        try {
+            return roleService.enable(roleQuery);
+        } catch (Exception e) {
+            log.error("停用/启用 角色异常：{}", e.getMessage());
+            e.printStackTrace();
+            return ResultJson.buildError("调整角色状态异常");
+        }
+    }
+
     @ApiOperation("删除角色")
     @PostMapping("/delete")
     public ResultJson delete(RoleQuery roleQuery) {
@@ -74,11 +86,12 @@ public class RoleController {
             return ResultJson.buildError("添加角色失败");
         }
     }
+    @ApiOperation("批量删除角色")
+    @PostMapping("/deleteBatch")
+    public ResultJson deleteBatch(String ids) {
+        return roleService.deleteBatch(ids);
+    }
 
-    //   @RequestMapping("/deleteBatch")
-//    public ResultJson deleteBatch(String ids) {
-//        return roleService.deleteBatch(ids);
-//    }
     @ApiOperation("查询所有权限")
     @PostMapping("/getAllPrivileges")
     public ResultJson getAllPrivileges() {

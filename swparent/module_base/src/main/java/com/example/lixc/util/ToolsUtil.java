@@ -91,6 +91,12 @@ public class ToolsUtil {
         return regex(idCode, regex);
     }
 
+
+    public static void main(String[] args) {
+        String email="121877388@qq.com";
+        boolean b = regexEmail(email);
+        System.out.println(b);
+    }
     /**
      * <p>Title: getObjectListIsNotNull</p>
      * <p>Description: 如果list不为空返回list第一个对象</p>

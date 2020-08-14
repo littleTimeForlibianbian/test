@@ -12,11 +12,13 @@ import com.example.lixc.vo.query.RoleQuery;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -46,9 +48,13 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Page<RoleBack> selectForList(RoleQuery roleQuery) {
         log.info("param:" + roleQuery.toString());
-        PageHelper.startPage(roleQuery.getPageNo(), roleQuery.getPageSize());
-        List<RoleBack> roleBacks = roleMapper.selectForList(roleQuery);
-//        List<RoleBack> roleBacks = roleMapper.selectForList(roleQuery);
+        List<RoleBack> roleBacks = null;
+        try {
+            PageHelper.startPage(roleQuery.getPageNo(), roleQuery.getPageSize());
+            roleBacks = roleMapper.selectForList(roleQuery);
+        } catch (Exception e) {
+            log.error("查询角色列表异常:{}", e.getMessage());
+        }
         return (Page<RoleBack>) roleBacks;
     }
 
@@ -74,7 +80,7 @@ public class RoleServiceImpl implements RoleService {
         if (roleQuery.getId() <= 0) {
             return ResultJson.buildError("传入对象id为空");
         }
-        Role role = roleMapper.selectByPrimaryKey(roleQuery.getId());
+        RoleBack role = roleMapper.selectRoleDetail(roleQuery);
         return ResultJson.buildSuccess(role);
     }
 
@@ -134,16 +140,51 @@ public class RoleServiceImpl implements RoleService {
         return ResultJson.buildSuccess();
     }
 
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    public ResultJson deleteBatch(String ids) {
-//        return null;
-//    }
-
     @Override
     public ResultJson getAllPrivileges() {
         return ResultJson.buildSuccess(privilegeMapper.selectAll());
     }
 
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultJson enable(RoleQuery roleQuery) {
+        if (roleQuery.getId() <= 0) {
+            log.error("传入对象id为空");
+            return ResultJson.buildError("传入对象id为空");
+        }
+        if (StringUtils.isEmpty(roleQuery.getEnable())) {
+            log.error("状态值为空");
+            return ResultJson.buildError("状态值为空");
+        }
+        String message = "";
+        if ("Y".equalsIgnoreCase(roleQuery.getEnable())) {
+            message = "启用";
+        } else {
+            message = "停用";
+        }
+        Role role = new Role();
+        role.setId(roleQuery.getId());
+        role.setEnable(roleQuery.getEnable());
+        roleMapper.updateByPrimaryKeySelective(role);
+        log.info(message + "角色成功");
+        return ResultJson.buildSuccess(message + "角色成功");
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultJson deleteBatch(String ids) {
+        if (StringUtils.isEmpty(ids)) {
+            log.error("传入对象id为空");
+            return ResultJson.buildError("传入对象id为空");
+        }
+
+        String[] split = ids.split(",");
+        roleMapper.deleteBatch(split);
+        //批量删除角色对应的权限
+        rolePrivledgeMapper.deleteByRoleIdBatch(split);
+        log.info("批量删除角色成功：{}", Arrays.toString(split));
+        return ResultJson.buildSuccess("批量删除角色成功");
+    }
 }

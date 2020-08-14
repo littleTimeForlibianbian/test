@@ -21,7 +21,7 @@
             <if test="endTime != null and endTime != ''">
                 and slr.create_time &lt;= #{endTime}
             </if>
-            <if test="nickName != null and nickName != ''">
+            <if test="nickName != null and nickName != ''.toString()">
                 and su.nick_name = #{nickName}
             </if>
         </where>
@@ -29,5 +29,11 @@
         <if test="activeCount > 0">
             having count > #{activeCount}
         </if>
+    </select>
+    <select id="selectLoginRecordCount" resultType="java.lang.Integer">
+        select count(1)
+        from sys_login_record slr
+                 left join sys_user su on
+            slr.user_id = su.id
     </select>
 </mapper>

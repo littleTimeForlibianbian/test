@@ -24,13 +24,15 @@ public class RoleQuery extends PageParam {
 
     @ApiModelProperty(value = "角色id")
     private int id;
-
     @ApiModelProperty(value = "角色名称")
     private String name;
     @ApiModelProperty(value = "角色描述")
     private String roleDescription;
+    @ApiModelProperty(value = "启用/停用")
     private String enable;
+    @ApiModelProperty(value = "开始时间")
     private String startTime;
+    @ApiModelProperty(value = "结束时间")
     private String endTime;
     @ApiModelProperty(value = "权限id集合")
     private String privilegeIds;

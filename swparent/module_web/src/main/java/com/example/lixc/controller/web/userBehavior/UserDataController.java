@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api("用户行为")
 @RestController
-@RequestMapping("/web/manager/user/data")
+@RequestMapping("/web/manager/userBehavior")
 public class UserDataController {
 
     private DataService dataService;

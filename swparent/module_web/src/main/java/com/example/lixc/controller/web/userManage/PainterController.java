@@ -36,7 +36,7 @@ public class PainterController {
 
 
     @ApiOperation("更改账号状态")
-    @RequestMapping("/enable")
+    @PostMapping("/enable")
     public ResultJson enable(UserQuery userQuery) {
         try {
             return selectUserService.enableUser(userQuery);
@@ -48,7 +48,7 @@ public class PainterController {
 
 
     @ApiOperation("查询画师风格")
-    @RequestMapping("/detail")
+    @PostMapping("/detail")
     public ResultJson detail(UserQuery userQuery) {
         try {
             return selectUserService.painterDetail(userQuery);

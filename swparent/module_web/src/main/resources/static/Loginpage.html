@@ -86,9 +86,9 @@
                         localStorage.setItem("userId", ret.data.user.id);
                         if (typeof forwardParam == "undefined" || forwardParam == null || forwardParam.length == 0 || forwardParam == false) {
                             if (ret.data.painter) {
-                                window.location.href = "homepage.html?a=0";//认证成功
-                            } else {
                                 window.location.href = "homepage.html?a=1";//认证成功
+                            } else {
+                                window.location.href = "homepage.html?a=0";//认证成功
                             }
                         } else {
                             if ("workDetail" == forwardParam) {

@@ -89,6 +89,7 @@ public class UserPortalServiceImpl implements UserPortalService {
     public ResultJson registerUser(UserQuery userQuery) {
         log.info("registerUser>>>输入参数：" + userQuery.toString());
         ResultJson verifyParams = userQuery.checkParams();
+        log.info("verifyParams:{},{}", verifyParams.getMessage(), verifyParams.toString());
         if (!ToolsUtil.verifyParams(verifyParams)) {
             log.info("用户注册输入参数错误,参数为：{}", JSON.toJSONString(userQuery));
             return verifyParams;
@@ -126,6 +127,7 @@ public class UserPortalServiceImpl implements UserPortalService {
         //添加用户
         User user = changeQueryToUser(userQuery);
         user.setEnable("Y");
+        user.setFocusCount(0);
         userMapper.insertUseGeneratedKeys(user);
         //添加用户角色表
         UserRole userRole = new UserRole();
@@ -147,8 +149,7 @@ public class UserPortalServiceImpl implements UserPortalService {
         //根据用户的id的base64值发送邮件，增加一个邮件记录表
 //        String params = Base64.getEncoder().encodeToString(userQuery.getNickName().getBytes());
 //        String content = "http://localhost:8080/public/user/activeRegister?param=" + params;
-        //TODO  填充登录页面的路径
-        String content = "";
+        String content = "http://pzydzu.natappfree.cc/Loginpage.html";
         Map<String, String> map = new HashMap<>();
         map.put("content", content);
         map.put("content1", content);
@@ -194,11 +195,21 @@ public class UserPortalServiceImpl implements UserPortalService {
         } else {
             return ResultJson.buildError("用户名或者密码错误");
         }
+        //设置一次登录时间
+        //查询登录记录表中是否存在数据，如果存在，表示非第一次登录，如果不存在,表示第一次登录，上次登录时间为null
+        int count = loginRecordMapper.selectLoginRecordCount(userQuery);
+        log.debug("是否第一次登录：{}", count > 0);
+        if (count > 0) {
+            user.setLastLoginTime(new Date());
+            userMapper.updateByPrimaryKeySelective(user);
+        }
         //插入登录记录表
         LoginRecord loginRecord = new LoginRecord();
         loginRecord.setCreateTime(new Date());
         loginRecord.setLoginIp(NetWorkUtil.getIpAddr(request));
         loginRecord.setUserId(user.getId());
+        // 调用ip地址转换接口 获取登录areaCode
+//        loginRecord.setLoginAreaCode();
         loginRecord.setUserName(StringUtils.isEmpty(user.getNickName()) ? user.getEmail() : user.getNickName());
         loginRecordMapper.insertSelective(loginRecord);
         UserAttr userAttr = userAttrMapper.selectByUserId(user.getId());
@@ -207,7 +218,7 @@ public class UserPortalServiceImpl implements UserPortalService {
         map.put("userAttr", userAttr);
         map.put("isPainter", "Y".equalsIgnoreCase(user.getPainter()));
         //缓存redis
-        RedisPoolUtil.set(RedisContents.USER_TOKEN + user.getId(), map, expireTime);
+//        RedisPoolUtil.set(RedisContents.USER_TOKEN + user.getId(), map, expireTime);
         return ResultJson.buildSuccess(map);
     }
 

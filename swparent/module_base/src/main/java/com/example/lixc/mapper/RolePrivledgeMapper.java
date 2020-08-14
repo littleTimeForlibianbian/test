@@ -12,6 +12,8 @@ public interface RolePrivledgeMapper extends SwBaseMapper<RolePrivilege> {
 
     int deleteByRoleId(int roleId);
 
+    int deleteByRoleIdBatch(String[] ids);
+
     //根据权限id 查询对应的角色信息
     List<Role> getRolesByPrivilegeId(@Param("id") int privilegeId);
 

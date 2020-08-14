@@ -26,4 +26,7 @@ public interface RoleService {
 
     ResultJson getAllPrivileges();
 
+    ResultJson enable(RoleQuery roleQuery);
+
+    ResultJson deleteBatch(String ids);
 }

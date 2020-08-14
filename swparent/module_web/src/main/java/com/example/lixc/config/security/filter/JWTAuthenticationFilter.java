@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -64,6 +65,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         System.out.println("jwtUser:" + jwtUser.toString());
         boolean isRemember = rememberMe.get() == 1;
 
+        //先随便写
         String role = "";
         Collection<? extends GrantedAuthority> authorities = jwtUser.getAuthorities();
         for (GrantedAuthority authority : authorities) {
@@ -71,7 +73,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
 
         String token = JwtTokenUtils.createToken(jwtUser.getUsername(), role, isRemember);
-//        String token = JwtTokenUtils.createToken(jwtUser.getUsername(), false);
         // 返回创建成功的token
         // 但是这里创建的token只是单纯的token
         // 按照jwt的规定，最后请求的时候应该是 `Bearer token`

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>活跃的作品</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/base.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="x-nav">
+    <!--<span class="layui-breadcrumb">
+      <a href="">首页</a>
+      <a href="">演示</a>
+      <a>
+        <cite>导航元素</cite></a>
+    </span>-->
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+</div>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form layui-col-space5">
+                        <div class="layui-inline layui-show-xs-block">
+                            <input class="layui-input" autocomplete="off" placeholder="开始日" name="start" id="start">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="end">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="username" id="userName" placeholder="请输入昵称" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn" lay-submit="" lay-filter="sreach" type="button"
+                                    onclick="initList()"><i
+                                    class="layui-icon">&#xe615;</i></button>
+                        </div>
+                        <!--<div class="layui-inline layui-show-xs-block">-->
+                            <!--<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除-->
+                            <!--</button>-->
+                        <!--</div>-->
+                    </form>
+                </div>
+                <div class="layui-card-body ">
+                    <table class="layui-table layui-form layui-sort">
+                        <thead>
+                        <tr>
+                            <!--<th>-->
+                                <!--<input type="checkbox" name="" lay-skin="primary">-->
+                            <!--</th>-->
+                            <th>ID</th>
+                            <th>昵称</th>
+                            <th>头像</th>
+                            <th>身份</th>
+                            <th>年代</th>
+                            <th>画风</th>
+                            <th>品类</th>
+                            <th>关注数量<a href="#"><img src="images/sort.png"></a></th>
+                        </thead>
+                        <tbody id="tbody">
+                        <!--<tr>-->
+                        <!--<td>-->
+                        <!--<input type="checkbox" name="" lay-skin="primary">-->
+                        <!--</td>-->
+                        <!--<td>1</td>-->
+                        <!--<td>胡凯233343</td>-->
+                        <!--<td><img src="images/bg.png"></td>-->
+                        <!--<td>自由画师</td>-->
+                        <!--<td>80后</td>-->
+                        <!--<td>中国风</td>-->
+                        <!--<td>插画</td>-->
+                        <!--<td>111</td>-->
+                        <!--</tr>-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="layui-card-body ">
+                    <div class="page">
+                        <div>
+                            <a class="prev" href="">&lt;&lt;</a>
+                            <a class="num" href="">1</a>
+                            <span class="current">2</span>
+                            <a class="num" href="">3</a>
+                            <a class="num" href="">489</a>
+                            <a class="next" href="">&gt;&gt;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    layui.use(['laydate', 'form'], function () {
+        var laydate = layui.laydate;
+        var form = layui.form;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+    });
+    $(function () {
+        initList();
+    })
+
+    function initList() {
+        $.ajax({
+            url: basePath + '/web/manager/work/attentionPainter',//地址
+            data: {
+                nickName: $("#userName").val(),
+                startTime: $("#start").val(),
+                endTime: $("#end").val()
+            },//传参数
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data);
+                var list = data;
+                var content = '';
+                var content_0 = '';
+                var content_1 = '';
+                var content_2 = '';
+                var content_3 = '';
+                for (var i = 0; i < list.length; i++) {
+                    var tagList = list[i].tagList;
+                    for (var j = 0; j < tagList.length; j++) {
+                        var obj = tagList[j];
+                        if (obj.parentId == 1) {//年代
+                            content_0 += obj.content + "、";
+                        }
+                        if (obj.parentId == 2) {//身份
+                            // content_0+=obj.
+                            content_1 += obj.content + "、";
+                        }
+                        if (obj.parentId == 3) {//画风
+                            // content_0+=obj.
+                            content_2 += obj.content + "、";
+                        }
+                        if (obj.parentId == 4) {//品类
+                            // content_0+=obj.
+                            content_3 += obj.content + "、";
+                        }
+                    }
+
+                    content += '<tr>\n' +
+                        // '                            <td>\n' +
+                        // '                                <input type="checkbox" name="" lay-skin="primary">\n' +
+                        // '                            </td>\n' +
+                        '                            <td>' + list[i].id + '</td>\n' +
+                        '                            <td>' + list[i].nickName + '</td>\n' +
+                        '                            <td><img src="' + list[i].userAttr.headImage + '"></td>\n' +
+                        '                            <td>' + content_0.substring(0, content_0.length - 1) + '</td>\n' +
+                        '                            <td>' + content_1.substring(0, content_1.length - 1) + '</td>\n' +
+                        '                            <td>' + content_2.substring(0, content_2.length - 1) + '</td>\n' +
+                        '                            <td>' + content_3.substring(0, content_3.length - 1) + '</td>\n' +
+                        '                            <td>' + list[i].focusCount + '</td>\n' +
+                        '                        </tr>'
+                }
+                $("#tbody").empty().append(content)
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //options.obj.value = "出错，请刷新页面重试";
+            },
+        });
+    }
+</script>
+<script>var _hmt = _hmt || [];
+(function () {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();</script>
+</html>

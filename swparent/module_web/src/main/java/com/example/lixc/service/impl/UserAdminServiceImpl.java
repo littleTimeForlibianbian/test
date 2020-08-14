@@ -9,10 +9,14 @@ import com.example.lixc.util.ResultJson;
 import com.example.lixc.util.ToolsUtil;
 import com.example.lixc.vo.back.AdminUserBack;
 import com.example.lixc.vo.query.AdminUserQuery;
+import com.example.lixc.vo.query.UserQuery;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -41,6 +45,13 @@ public class UserAdminServiceImpl implements UserAdminService {
         log.info("param:" + adminUserQuery.toString());
         PageHelper.startPage(adminUserQuery.getPageNo(), adminUserQuery.getPageSize());
         List<AdminUserBack> adminUserBacks = userMapper.selectAllAdminUsers(adminUserQuery);
+        for (AdminUserBack back : adminUserBacks) {
+            if ("Y".equalsIgnoreCase(back.getEnable())) {
+                back.setEnableCH("启用");
+            } else {
+                back.setEnableCH("停用");
+            }
+        }
         return (Page<AdminUserBack>) adminUserBacks;
     }
 
@@ -69,6 +80,7 @@ public class UserAdminServiceImpl implements UserAdminService {
             user.setLocation(adminUserQuery.getLocation());
             user.setPosition(adminUserQuery.getPosition());
             user.setCreateTime(new Date());
+            user.setNickName(adminUserQuery.getNickName());
 //            user.setRoleId(adminUserQuery.getRoleId());
             userMapper.insertUseGeneratedKeys(user);
             //添加用户角色关联表
@@ -87,19 +99,21 @@ public class UserAdminServiceImpl implements UserAdminService {
     /**
      * 查询管理员详情
      *
-     * @param adminUserQuery
+     * @param userId
      * @return
      */
     @Override
-    public ResultJson detailAdminUser(AdminUserQuery adminUserQuery) {
-        if (adminUserQuery.getId() <= 0) {
+    public ResultJson detailAdminUser(Integer userId) {
+        if (userId == null || userId <= 0) {
             return ResultJson.buildError("传入参数对象id为空");
         }
-        User user = userMapper.selectByPrimaryKey(adminUserQuery.getId());
-        if (user == null) {
-            return ResultJson.buildError("ID为{}的对象不存在", adminUserQuery.getId());
+        AdminUserQuery userQuery = new AdminUserQuery();
+        userQuery.setId(userId);
+        List<AdminUserBack> adminUserBacks = userMapper.selectAllAdminUsers(userQuery);
+        if (CollectionUtils.isEmpty(adminUserBacks)) {
+            return ResultJson.buildError("ID为{}的对象不存在", userId);
         }
-        return ResultJson.buildSuccess(user);
+        return ResultJson.buildSuccess(adminUserBacks.get(0));
     }
 
     /**
@@ -121,6 +135,7 @@ public class UserAdminServiceImpl implements UserAdminService {
             user.setPhone(adminUserQuery.getPhone());
             user.setPosition(adminUserQuery.getPosition());
             user.setLocation(adminUserQuery.getLocation());
+            user.setEnable(adminUserQuery.getEnable());
 //            user.setRoleId(adminUserQuery.getRoleId());
             userMapper.updateByPrimaryKeySelective(user);
             //TODO 更新完毕之后更新 用户角色表
@@ -142,6 +157,10 @@ public class UserAdminServiceImpl implements UserAdminService {
                 return ResultJson.buildError("传入参数对象id为空");
             }
             userMapper.deleteByPrimaryKey(adminUserQuery.getId());
+            //删除用户角色的关联数据
+            UserRole userRole = new UserRole();
+            userRole.setUserId(adminUserQuery.getId());
+            userRoleMapper.delete(userRole);
         } catch (Exception e) {
             log.error("delAdminUser exception: {}", e.getMessage());
             e.printStackTrace();
@@ -151,14 +170,59 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     @Override
+    @Transactional
     public ResultJson delAdminUserBatch(String ids) {
         try {
-            userMapper.delByIds(ids.split(","));
+            String[] split = ids.split(",");
+            userMapper.delByIds(split);
+            userMapper.delUserRoleRelationByUserId(split);
         } catch (Exception e) {
             log.error("delAdminUser exception: {}", e.getMessage());
             e.printStackTrace();
             return ResultJson.buildError(e.getMessage());
         }
         return ResultJson.buildSuccess();
+    }
+
+    @Override
+    public ResultJson updatePassword(AdminUserQuery adminUserQuery) {
+        if (adminUserQuery.getId() <= 0) {
+            log.error("传入参数对象id为空");
+            return ResultJson.buildError("传入参数对象id为空");
+        }
+        User user = new User();
+        user.setId(adminUserQuery.getId());
+        user.setPassword(adminUserQuery.getPassword());
+        user.setPwdUpdateDate(new Date());
+        userMapper.updateByPrimaryKeySelective(user);
+        log.info("更新管理员密码成功");
+        return ResultJson.buildSuccess("更新管理员密码成功");
+    }
+
+    @Override
+    public ResultJson enable(AdminUserQuery adminUserQuery) {
+        if (adminUserQuery.getId() <= 0) {
+            log.error("传入参数对象id为空");
+            return ResultJson.buildError("传入参数对象id为空");
+        }
+        if (StringUtils.isEmpty(adminUserQuery.getEnable())) {
+            log.error("停用启用状态为空");
+            return ResultJson.buildError("停用启用状态为空");
+        }
+        String message = "";
+        if ("Y".equalsIgnoreCase(adminUserQuery.getEnable())) {
+            message = "启用";
+        } else if ("N".equalsIgnoreCase(adminUserQuery.getEnable())) {
+            message = "停用";
+        } else {
+            log.error("停用启用状态不合法");
+            return ResultJson.buildError("停用启用状态不合法");
+        }
+        User user = new User();
+        user.setId(adminUserQuery.getId());
+        user.setEnable(adminUserQuery.getEnable());
+        user.setUpdateTime(new Date());
+        userMapper.updateByPrimaryKeySelective(user);
+        return ResultJson.buildSuccess(message + "管理员成功");
     }
 }

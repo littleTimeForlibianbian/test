@@ -56,4 +56,7 @@ public interface WorkService {
     ResultJson uploadImageToServer(String base64);
 
     ResultJson getUserInfoByWorkId(Integer workId);
+
+    ResultJson workDel(Integer workId);
+
 }

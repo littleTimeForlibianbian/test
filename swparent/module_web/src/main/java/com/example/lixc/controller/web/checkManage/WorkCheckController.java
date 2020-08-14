@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api("作品审核")
 @Slf4j
 @RestController
-@RequestMapping("/web/admin/check/work")
+@RequestMapping("/web/manager/check/work")
 public class WorkCheckController {
 
     @Autowired

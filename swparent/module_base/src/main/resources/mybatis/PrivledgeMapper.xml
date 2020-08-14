@@ -18,14 +18,10 @@
         <collection property="roles" column="{p_id = id}"
                     select="com.example.lixc.mapper.RolePrivledgeMapper.getRolesByPrivilegeId" fetchType="lazy"/>
     </resultMap>
-    <sql id="Base_Column_List">
-        id, name, parent
-    </sql>
-
     <!--查询权限表 以及权限所属角色-->
     <!--    <select id="findAllPrivilege" resultType="com.example.lixc.vo.back.PrivilegeBack">-->
     <select id="findAllPrivilege" resultMap="backResultMap">
         select sp.id, sp.name, sp.parent, sp.url
-        from sys_privledge sp
+        from sys_privilege sp
     </select>
 </mapper>

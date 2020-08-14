@@ -47,7 +47,7 @@ public class UserController {
     @ApiOperation("用户注册")
     public ResultJson registerUser(@RequestBody UserQuery user) {
         try {
-            return userPortalService.registerUser(user);
+             return userPortalService.registerUser(user);
         } catch (Exception e) {
             log.error("用户注册发生异常:{}", e.getMessage());
             e.printStackTrace();

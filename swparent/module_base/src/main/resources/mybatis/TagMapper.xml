@@ -8,6 +8,16 @@
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, type,parent_id,content
+        st.id, type,parent_id,content
     </sql>
+    <select id="selectListByPainterId" resultType="com.example.lixc.entity.Tag">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_tag st left join sys_user_tag sut on st.id = sut.tag_id
+        <where>
+            <if test="userId > 0">
+                and sut.user_id = #{userId}
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -19,6 +19,7 @@ public class AdminUserBack implements Serializable {
     private static final long serialVersionUID = -964116881894622836L;
     private int id;
     private String realName;
+    private String nickName;
     private String phone;
     private Role role;
     private String location;

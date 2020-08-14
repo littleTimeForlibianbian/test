@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -14,7 +15,8 @@ import java.util.List;
  */
 @Data
 @ToString
-public class PrivilegeBack {
+public class PrivilegeBack  implements Serializable {
+    private static final long serialVersionUID = -2835090875831348875L;
     @Id
     private Integer id;
     private String name;

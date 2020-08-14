@@ -5,6 +5,8 @@ import com.example.lixc.constants.RedisTimeConstant;
 import com.example.lixc.dto.UserInfoDTO;
 import com.example.lixc.mapper.UserMapper;
 import com.example.lixc.util.RedisPoolUtil;
+import com.example.lixc.vo.back.UserBack;
+import com.example.lixc.vo.query.UserQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -14,6 +16,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,23 +32,26 @@ import java.util.Map;
 public class InitConfig implements ApplicationRunner {
 
     //用户信息加载缓存
+    //用户信息变更或者新增时，更新此缓存内容
     public static Map<Integer, String> userBasicMap = new HashMap<>();
+    //用户list，单点使用
+    public static List<UserBack> userBackList;
 
     @Autowired
     private UserMapper userMapper;
 
     @Override
     public void run(ApplicationArguments args) {
-        List<UserInfoDTO> userInfoDTOS = userMapper.selectUserInfo();
-        if (!CollectionUtils.isEmpty(userInfoDTOS)) {
-            for (UserInfoDTO u : userInfoDTOS) {
-                userBasicMap.put(u.getUserId(), JSONObject.toJSONString(u));
+        userBackList = userMapper.selectAllUser(new UserQuery());
+        if (!CollectionUtils.isEmpty(userBackList)) {
+            for (UserBack u : userBackList) {
+                userBasicMap.put(u.getId(), JSONObject.toJSONString(u));
             }
         }
-        RedisPoolUtil.set(RedisTimeConstant.USER_INFO, userBasicMap, RedisTimeConstant.CACHE_5_MINUTE);
+        RedisPoolUtil.set(RedisTimeConstant.USER_INFO, userBasicMap);
     }
 
-    public static String getUserName(Integer userId) {
+    public static String getNickName(Integer userId) {
         String result = null;
         if (userId == null || userId <= 0) {
             log.info("result:{}", result);
@@ -53,11 +59,12 @@ public class InitConfig implements ApplicationRunner {
         }
         String jsonString = userBasicMap.get(userId);
         try {
-            UserInfoDTO userInfoDTO = JSONObject.parseObject(jsonString, UserInfoDTO.class);
-            result = userInfoDTO.getUserName();
+            UserBack userInfoDTO = JSONObject.parseObject(jsonString, UserBack.class);
+            result = userInfoDTO.getNickName();
         } catch (Exception e) {
             log.error("转换用户数据异常:{}" + e.getMessage());
         }
         return result;
     }
+
 }

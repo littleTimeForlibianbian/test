@@ -8,6 +8,7 @@ import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,9 @@ public class NoAuthController {
     @PostMapping("/selectForList")
     public Page<UserBack> selectForList(UserQuery userQuery) {
         try {
+            if (StringUtils.isEmpty(userQuery.getPainter())) {
+                userQuery.setPainter("N");
+            }
             return selectUserService.selectForList(userQuery);
         } catch (Exception e) {
             log.error("查询列表异常：{}", e.getMessage());

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api("身份审核")
 @Slf4j
 @RestController
-@RequestMapping("/web/admin/check/iden")
+@RequestMapping("/web/manager/check/iden")
 public class IdenCheckController {
 
 
@@ -36,7 +36,7 @@ public class IdenCheckController {
         try {
             return checkService.identifyCheck(userQuery);
         } catch (Exception e) {
-            log.error("role  insert  exception：{}", e.getMessage());
+            log.error("【审核管理】身份审核异常：{}", e.getMessage());
             e.printStackTrace();
             return ResultJson.buildError("身份审核失败");
         }

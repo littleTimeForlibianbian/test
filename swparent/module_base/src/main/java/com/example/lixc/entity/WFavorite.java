@@ -12,11 +12,11 @@ import java.util.Date;
 @Table(name = "w_favorite")
 public class WFavorite {
     @Id
-    private int id;
+    private Integer id;
     @Column(name = "user_id")
-    private int userId;
+    private Integer userId;
     @Column(name = "target_id")
-    private int targetId;
+    private Integer targetId;
     //点赞的类型，作品为work，评论为comment
     private String type;
     private Date createTime;

@@ -1,6 +1,8 @@
 package com.example.lixc.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.example.lixc.config.InitConfig;
 import com.example.lixc.config.security.utils.SysConfigUtil;
 import com.example.lixc.constants.SwConstant;
 import com.example.lixc.entity.*;
@@ -226,17 +228,19 @@ public class WorkServiceImpl implements WorkService {
         work.setContent(workQuery.getContent());
         work.setIsDelete("N");
         work.setName(workQuery.getName());
-        //只有认证的作品才会有作品状态
-        work.setStatus(WorkStatusEnum.WORK_STATUS_WAIT.getCode());
         work.setUserId(SysConfigUtil.getLoginUserId());
         work.setCreateBy(SysConfigUtil.getLoginUserId());
-//        work.setUserId(0);
-//        work.setCreateBy(0);
-
         work.setCreateTime(new Date());
         work.setPraiseNum(0);
+        work.setCommentNum(0);
+        work.setShareNum(0);
+        work.setRecommendNum(0);
         //作品类型
         work.setIsNormal(StringUtils.isEmpty(workQuery.getIsNormal()) ? "Y" : workQuery.getIsNormal());
+        if ("Y".equalsIgnoreCase(workQuery.getIsNormal())) {
+            //只有认证的作品才会有作品状态
+            work.setStatus(WorkStatusEnum.WORK_STATUS_WAIT.getCode());
+        }
         workMapper.insertUseGeneratedKeys(work);
         int workId = work.getId();
         //添加作品图片关联
@@ -273,6 +277,10 @@ public class WorkServiceImpl implements WorkService {
             userAttrMapper.updateByPrimaryKeySelective(userAttr);
             return ResultJson.buildSuccess("上传作品成功");
         }
+        //更新作品发布时间
+        UserAttr userAttr = userAttrMapper.selectByUserId(user.getId());
+        userAttr.setLastPublishTime(new Date());
+        userAttrMapper.updateByPrimaryKeySelective(userAttr);
         //查询所有关注我的人  每人发送一条消息
         //查询所有关注我的人
         UFocus uFocus = new UFocus();
@@ -285,9 +293,8 @@ public class WorkServiceImpl implements WorkService {
         MessageQuery messageQuery = new MessageQuery();
         messageQuery.setIsRead("N");
         WorkBack workBack = workMapper.selectById(workId);
-        workBack.setUserName(user.getNickName());
+        workBack.setNickName(user.getNickName());
         workBack.setRecommendName(user.getNickName());
-        UserAttr userAttr = userAttrMapper.selectByUserId(user.getId());
         workBack.setUserHeadImage(userAttr.getHeadImage());
         messageQuery.setContent(JSON.toJSONString(workBack));
         messageQuery.setSourceType(MessageSourceTypeEnum.message_type_work.getCode());
@@ -326,13 +333,17 @@ public class WorkServiceImpl implements WorkService {
      * 查询首页的作品列表
      *
      * @param workQuery
-     * @param more
      * @return
      */
     @Override
     public Page<WorkBack> workList(WorkQuery workQuery) {
         PageHelper.startPage(workQuery.getPageNo(), workQuery.getPageSize());
         List<WorkBack> sysWorks = workMapper.selectForList(workQuery);
+        for (WorkBack back : sysWorks) {
+            //从缓存中取出用户信息
+            back.setUser(JSONObject.parseObject(InitConfig.userBasicMap.get(back.getUserId()), UserBack.class));
+        }
+        log.info("查询作品列表成功，当前集合中元素个数：{}", sysWorks.size());
         return (Page<WorkBack>) sysWorks;
     }
 
@@ -460,6 +471,10 @@ public class WorkServiceImpl implements WorkService {
         if (count <= 0) {
             uFocus.setCreateTime(new Date());
             uFocusMapper.insertSelective(uFocus);
+            //更新用户关注数量
+            User updateUser = new User();
+            updateUser.setId(authorId);
+            updateUser.setFocusCount(user.getFocusCount() + 1);
             try {
                 MessageQuery messageQuery = addFocusMessage(uFocus.getUserId());
                 messageService.create(messageQuery, userId, toUserIdList, false);
@@ -514,7 +529,7 @@ public class WorkServiceImpl implements WorkService {
         UserQuery userQuery = new UserQuery();
         userQuery.setUserID(userId);
         UserBack user = userMapper.selectByUserName(userQuery);
-        workBack.setUserName(user.getNickName());
+        workBack.setNickName(user.getNickName());
         workBack.setUserHeadImage(user.getUserAttr().getHeadImage());
         //设置推荐人信息
         String recommendName = userMapper.selectByPrimaryKey(loginUserId).getNickName();
@@ -732,6 +747,9 @@ public class WorkServiceImpl implements WorkService {
             return ResultJson.buildError("对象不存在");
         }
         work.setStatus(workQuery.getStatus());
+        if (WorkStatusEnum.WORK_STATUS_FAIL.getCode() == workQuery.getStatus()) {
+            work.setFailReason(workQuery.getFailReason());
+        }
         workMapper.updateByPrimaryKeySelective(work);
         return ResultJson.buildSuccess();
     }
@@ -793,7 +811,7 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     public ResultJson getUserInfoByWorkId(Integer workId) {
-        if (workId== null ||workId <= 0) {
+        if (workId == null || workId <= 0) {
             log.error("传入参数为空");
             return ResultJson.buildError("传入参数为空");
         }
@@ -804,5 +822,46 @@ public class WorkServiceImpl implements WorkService {
         }
         UserBack userBack = workMapper.selectUserInfoByWorkId(workId);
         return ResultJson.buildSuccess(userBack);
+    }
+
+
+    @Override
+    @Transactional
+    public ResultJson workDel(Integer workId) {
+        if (workId == null || workId <= 0) {
+            log.error("传入参数为空");
+            return ResultJson.buildError("传入参数为空");
+        }
+        SysWork work = workMapper.selectByPrimaryKey(workId);
+        if (work == null || work.getId() <= 0) {
+            log.error("对象不存在");
+            return ResultJson.buildError("对象不存在");
+        }
+        work.setIsDelete("Y");
+        work.setUpdateTime(new Date());
+        workMapper.updateByPrimaryKeySelective(work);
+        //删除作品标签关联
+        workDictMapper.deleteTagsByWork(workId);
+        //删除作品评论
+        commentMapper.deleteByWorkId(workId);
+        //删除点赞作品
+        wFavoriteMapper.deleteByWorkId(null, workId);
+        //删除作品关联
+        SysWorkImage workImage = new SysWorkImage();
+        workImage.setWorkId(workId);
+        //查询所有图片
+        List<SysImage> sysImages = workImageMapper.selectImagesByWorkId(workId);
+        Integer[] ids = null;
+        if (!CollectionUtils.isEmpty(sysImages)) {
+            ids = new Integer[sysImages.size()];
+            for (int i = 0; i < sysImages.size(); i++) {
+                ids[i] = sysImages.get(i).getId();
+            }
+        }
+        workImageMapper.delete(workImage);
+        //删除图片表
+        imageMapper.deletByIds(ids);
+        //删除服务器上图片
+        return ResultJson.buildSuccess();
     }
 }

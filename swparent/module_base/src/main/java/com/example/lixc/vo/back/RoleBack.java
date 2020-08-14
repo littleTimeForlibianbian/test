@@ -4,6 +4,7 @@ import com.example.lixc.entity.Privilege;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,8 @@ import java.util.List;
  */
 @Data
 @ToString
-public class RoleBack {
+public class RoleBack implements Serializable {
+    private static final long serialVersionUID = -1554941716661018400L;
     private Integer id;
 
     private String name;

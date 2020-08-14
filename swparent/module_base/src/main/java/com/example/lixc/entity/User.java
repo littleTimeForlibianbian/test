@@ -89,6 +89,8 @@ public class User {
 
     private Integer updateBy;
 
+    private Integer focusCount;
+
     private Date updateTime;
 
     /**

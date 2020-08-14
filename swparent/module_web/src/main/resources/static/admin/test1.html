@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript" src="js/jquery.min.js" ></script>
+<script type="text/javascript" src="js/base.js" ></script>
+<script type="text/javascript">
+    $(function () {
+        initList();
+    })
+    function initList(){
+        $.ajax({
+            url: basePath+'/web/role/selectForList',//地址
+            //data: '{startTime: startime, endTime: endtime,email:username}',//传参数
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //options.obj.value = "出错，请刷新页面重试";
+            },
+        });
+    }
+</script>
+</html>

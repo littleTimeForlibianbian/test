@@ -1,5 +1,6 @@
-package com.example.lixc.config.security.exception;
+package com.example.lixc.config.security.config;
 
+import com.example.lixc.enums.UserSecurityEnum;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -30,9 +31,9 @@ public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
 //        response.getWriter().write(new ObjectMapper().writeValueAsString(reason));
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        Map<String, String> result = new HashMap<>();
-        result.put("status", "403");
-        result.put("message", "权限不足");
+        Map<String, Object> result = new HashMap<>();
+        result.put("status", UserSecurityEnum.USER_NEED_AUTHORITIES.getCode());
+        result.put("message", UserSecurityEnum.USER_NEED_AUTHORITIES.getMessage());
         result.put("data", authException.getMessage());
         out.write(new ObjectMapper().writeValueAsString(result));
         out.flush();

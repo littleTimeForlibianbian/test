@@ -7,8 +7,19 @@
         <result column="target_id" property="targetId" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
     </resultMap>
+    <delete id="deleteByWorkId">
+        delete from w_favorite
+        <where>
+            <if test="workId > 0">
+                and target_id = #{workId}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+        </where>
+    </delete>
     <select id="selectCountByWorkId" resultType="java.lang.Integer">
-        select count(1) from w_favorite wf where type='work'
+        select count(1) from w_favorite wf ,sys_work swork where wf.type='work' and swork.is_delete = 'N'
         <if test="workId > 0">
             and wf.target_id = #{workId}
         </if>

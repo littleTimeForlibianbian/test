@@ -36,6 +36,8 @@ public class AdminUserQuery extends PageParam {
     //用户名
     @ApiModelProperty("用户名（邮箱）")
     private String email;
+    @ApiModelProperty("昵称")
+    private String nickName;
     //真是姓名
     @ApiModelProperty("真实姓名")
     private String realName;
@@ -56,6 +58,8 @@ public class AdminUserQuery extends PageParam {
     private String password;
 
     private Date createTime;
+    @ApiModelProperty("停用：N 启用:Y")
+    private String enable;
 
 
     public ResultJson checkParams() {

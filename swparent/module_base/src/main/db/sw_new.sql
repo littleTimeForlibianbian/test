@@ -14,21 +14,24 @@ create table `sys_user_tag`
 drop table if exists `sys_work`;
 create table `sys_work`
 (
-    `id`          int(11)      NOT NULL AUTO_INCREMENT COMMENT '主键id',
-    `user_id`     int(11)      NOT NULL COMMENT '作者id',
-    `status`      int(1)       NOT NULL COMMENT '审核状态',
-    `is_delete`   char(1)      not null default 'N' comment '是否删除',
-    `is_normal`   char(1)      not null default 'Y' comment '是否是普通作品上传',
-    `name`        varchar(255) null comment '作品名称',
-    `content`     varchar(255) null comment '作品内容/作品描述',
-#     `work_style`    varchar(255) not null comment '画风',
-#     `work_category` varchar(255) not null comment '品类',
-    `praise_num`  int(11)      not NULL DEFAULT 0 COMMENT '点赞数',
-    `comment_num` int(11)      not NULL DEFAULT 0 COMMENT '评论数',
-    `create_by`   int(11) COMMENT '创建人',
-    `create_time` datetime     NULL     DEFAULT now() COMMENT '创建时间',
-    `update_by`   int(11)               DEFAULT NULL COMMENT '更新人',
-    `update_time` datetime              DEFAULT NULL COMMENT '更新时间',
+    `id`            int(11)      NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `user_id`       int(11)      NOT NULL COMMENT '作者id',
+    `status`        int(1)       NOT NULL COMMENT '审核状态',
+    `is_delete`     char(1)      not null default 'N' comment '是否删除',
+    `is_normal`     char(1)      not null default 'Y' comment '是否是普通作品上传',
+    `name`          varchar(255) null comment '作品名称',
+    `check_id`      int(11)      null comment '审核人id',
+    `check_time`    datetime comment '审核时间',
+    `fail_reason`   varchar(255) null comment '失败原因',
+    `content`       varchar(255) null comment '作品内容/作品描述',
+    `praise_num`    int(11)               DEFAULT 0 COMMENT '点赞数',
+    `comment_num`   int(11)               DEFAULT 0 COMMENT '评论数',
+    `recommend_num` int(11)               DEFAULT 0 COMMENT '推荐数',
+    `share_num`     int(11)               DEFAULT 0 COMMENT '分享数',
+    `create_by`     int(11) COMMENT '创建人',
+    `create_time`   datetime              DEFAULT now() COMMENT '创建时间',
+    `update_by`     int(11)               DEFAULT NULL COMMENT '更新人',
+    `update_time`   datetime              DEFAULT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
 ) engine = InnoDB
   default charset = utf8;
@@ -42,7 +45,15 @@ create table `sys_work_dict`
     PRIMARY KEY (`id`)
 ) engine = InnoDB comment '作品字典关联表'
   default charset = utf8;
-
+#作品审核表
+# drop table if exists `sys_work_check`;
+# create table `sys_work_check`
+# (
+#     `id`      int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+#     `work_id` int(11) NOT NULL COMMENT '作品id',
+#     `user_id` int(11) not null comment '审核人id',
+#     `create_time` datetime default  now()  comment '审核时间'
+# )
 
 # # 作品品类表
 # drop table if exists `sys_work_category`;
@@ -202,7 +213,8 @@ drop table if exists `sys_message`;
 create table `sys_message`
 (
     `id`          int(11)      not null auto_increment comment '主键id',
-    `content`     longtext     not null comment '消息内容',
+    `content`     longtext     not null comment '消息内容  普通操作的内容',
+    `content_ext` longtext     not null comment '附加内容，推荐作品的json数据',
     `type`        int(10)      null comment '消息类型:announcement公告/remind提醒/message私信',
     `action`      varchar(10)  null comment '用户动作触发的消息 comment评论，praise点赞，reply回复，recommend推荐',
     `title`       varchar(255) null comment '消息标题',

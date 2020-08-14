@@ -39,42 +39,42 @@
             <div class="attention">
                 <h3 style="margin-top: 0px;margin-bottom: 10px;margin-left: 20px;">关注的人</h3>
                 <ul id="contentp">
-                    <li>
-                        <div class="pull-left">
-                            <img src="img/header-img-comment_03.png">
-                        </div>
-                        <div class="pull-left attentioncon">
-                            <p>我叫网卡和太子呀</p>
-                            <p>2019.07.18 <span>更新</span></p>
-                        </div>
-                        <div class="pull-left attentionclose">
-                            <a href="" onclick="deleteuser()"><img src="img/close.png"></a>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="pull-left">
-                            <img src="img/header-img-comment_03.png">
-                        </div>
-                        <div class="pull-left attentioncon">
-                            <p>我叫网卡和太子呀</p>
-                            <p>2019.07.18 <span>更新</span></p>
-                        </div>
-                        <div class="pull-left attentionclose">
-                            <a href=""><img src="img/close.png"></a>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="pull-left">
-                            <img src="img/header-img-comment_03.png">
-                        </div>
-                        <div class="pull-left attentioncon">
-                            <p>我叫网卡和太子呀</p>
-                            <p>3天前<span>更新</span></p>
-                        </div>
-                        <div class="pull-left attentionclose">
-                            <a href=""><img src="img/close.png"></a>
-                        </div>
-                    </li>
+<!--                    <li>-->
+                    <!--                        <div class="pull-left">-->
+                    <!--                            <img src="img/header-img-comment_03.png">-->
+                    <!--                        </div>-->
+                    <!--                        <div class="pull-left attentioncon">-->
+                    <!--                            <p>我叫网卡和太子呀</p>-->
+                    <!--                            <p>2019.07.18 <span>更新</span></p>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="pull-left attentionclose">-->
+                    <!--                            <a href="" onclick="deleteuser()"><img src="img/close.png"></a>-->
+                    <!--                        </div>-->
+                    <!--                    </li>-->
+                    <!--                    <li>-->
+                    <!--                        <div class="pull-left">-->
+                    <!--                            <img src="img/header-img-comment_03.png">-->
+                    <!--                        </div>-->
+                    <!--                        <div class="pull-left attentioncon">-->
+                    <!--                            <p>我叫网卡和太子呀</p>-->
+                    <!--                            <p>2019.07.18 <span>更新</span></p>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="pull-left attentionclose">-->
+                    <!--                            <a href=""><img src="img/close.png"></a>-->
+                    <!--                        </div>-->
+                    <!--                    </li>-->
+                    <!--                    <li>-->
+                    <!--                        <div class="pull-left">-->
+                    <!--                            <img src="img/header-img-comment_03.png">-->
+                    <!--                        </div>-->
+                    <!--                        <div class="pull-left attentioncon">-->
+                    <!--                            <p>我叫网卡和太子呀</p>-->
+                    <!--                            <p>3天前<span>更新</span></p>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="pull-left attentionclose">-->
+                    <!--                            <a href=""><img src="img/close.png"></a>-->
+                    <!--                        </div>-->
+                    <!--                    </li>-->
                 </ul>
             </div>
 
@@ -127,6 +127,7 @@
         $('#myModal').modal('hide')
         initPage();
     });
+
     function initPage() {
         //获取各个消息数量
         $.ajax({
@@ -146,6 +147,45 @@
                 $("#sysCount").html("系统消息(" + data.sysCount + ")")
 
             },
+            error: function (data) {
+                alert("error")
+            }
+        })
+        //获取关注的人
+        $.ajax({
+            type: "post",
+            url: basePath + "/portal/myWorld/myFocus",
+            async: false,//同步  true ：异步
+            dataType: "json",
+            success: function (ret) {
+                console.log(ret)
+                var list = ret.data;
+                var content = '';
+                for (var i = 0; i < list.length; i++) {
+                    var diffDays;
+                    var startDate = Date.parse(list[i].createTime)
+                    var endDate = new Date();
+                    if ((endDate - startDate) / (1 * 24 * 60 * 60 * 1000) > 3) {
+                        diffDays = "3天前";
+                    } else {
+                        diffDays = new Date(list[i].createTime).format("yyyy-MM-dd")
+                    }
+                    content += ' <li>\n' +
+                        '                        <div class="pull-left">\n' +
+                        '                            <img src="' + list[i].userAttr.headImage + '">\n' +
+                        '                        </div>\n' +
+                        '                        <div class="pull-left attentioncon">\n' +
+                        '                            <p>' + list[i].nickName + '</p>\n' +
+                        '                            <p>' + diffDays + '<span>更新</span></p>\n' +
+                        '                        </div>\n' +
+                        '                        <div class="pull-left attentionclose">\n' +
+                        '                            <a href=""><img src="img/close.png"></a>\n' +
+                        '                        </div>\n' +
+                        '                    </li>'
+                }
+                $("#contentp").append(content);
+            },
+
             error: function (data) {
                 alert("error")
             }

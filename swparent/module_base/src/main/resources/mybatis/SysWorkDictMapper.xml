@@ -9,6 +9,11 @@
     <sql id="Base_Column_List">
         id, work_id, dict_id
     </sql>
+    <delete id="deleteTagsByWork">
+        delete
+        from sys_work_dict
+        where work_id = #{workId}
+    </delete>
     <select id="selectTagsByWork" resultType="com.example.lixc.entity.SysDict">
         select
         <include refid="Base_Column_List"/>

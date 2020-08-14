@@ -11,4 +11,10 @@
     <sql id="Base_Column_List">
         id, name, url, thumb_url, create_time
     </sql>
+    <delete id="deletByIds">
+        delete from sys_image si where id in
+        <foreach collection="array" separator="," item="index" open="(" close=")">
+            #{index}
+        </foreach>
+    </delete>
 </mapper>

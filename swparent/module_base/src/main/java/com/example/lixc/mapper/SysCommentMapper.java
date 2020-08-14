@@ -14,4 +14,7 @@ public interface SysCommentMapper extends SwBaseMapper<SysComment> {
     List<Integer> selectByParentId(@Param("parentId") int parentId);
 
     int deleteByBatch(@Param("ids") List<Integer> ids);
+
+
+    int deleteByWorkId(@Param("workId") Integer workId);
 }

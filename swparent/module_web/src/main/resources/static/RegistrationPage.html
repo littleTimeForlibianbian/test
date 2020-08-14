@@ -9,6 +9,7 @@
     <script src="js/jquery-2.1.0.min.js"></script>
     <script src="js/jquery.validate.min.js"></script>
     <script type="text/javascript" src="js/jquery.md5.js"></script>
+    <script type="text/javascript" src="js/base.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -216,7 +217,7 @@
         var password = $("#F_UserPassword").val();
         var data = {
             "nickName": nickname,
-            "password": $.md5($.trim($password)),
+            "password": $.md5($.trim(password)),
             "email": nickemail,
             "phone": nickePhone,
             "invitationCode": nickeCode,
@@ -225,7 +226,7 @@
 
 
         $.ajax({
-            url: 'http://localhost:8080/public/user/registerUser',//地址
+            url: basePath+'/public/user/registerUser',//地址
             data: JSON.stringify(data),//传参数
             type: "post",
             contentType: "application/json; charset=utf-8",

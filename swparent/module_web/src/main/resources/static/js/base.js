@@ -1,5 +1,5 @@
-// var basePath = 'http://192.168.103.186:8080';
-var basePath = 'http://localhost:80';
+var basePath = 'http://sxs62w.natappfree.cc';
+// var basePath = 'http://localhost';
 var cityMap = new Map();
 
 // ($(initCityMap()))
@@ -51,4 +51,10 @@ Date.prototype.format = function(fmt) {
         }
     }
     return fmt;
+}
+
+//退出功能
+function logout(){
+    //请求登出的接口
+    //重新跳转到登录页面
 }

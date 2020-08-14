@@ -1,12 +1,8 @@
 package com.example.lixc.config.security.config;
 
-import com.example.lixc.config.security.exception.JWTAuthenticationEntryPoint;
-import com.example.lixc.config.security.filter.JWTAuthenticationFilter;
-import com.example.lixc.config.security.filter.JWTAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -58,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
                 .csrf().disable()//禁用csrf
-                .antMatcher("/portal/**").authorizeRequests()//针对于此处请求的路径  匹配的采用下面的规则（withObjectPostProcessor）进行权限校验
+                .antMatcher("/aa/**").authorizeRequests()//针对于此处请求的路径  匹配的采用下面的规则（withObjectPostProcessor）进行权限校验
 //                .antMatchers("/admin/**","/web/**").authenticated()
 //                .antMatchers("/security/user/**").hasRole("ADMIN") //需要ADMIN角色才可以访问
 //                .antMatchers("/connect").hasIpAddress("127.0.0.1") //只有ip[127.0.0.1]可以访问'/connect'接口

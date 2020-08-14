@@ -14,4 +14,6 @@ public interface IdenCheckService {
     Page<UserBack> list(UserQuery userQuery);
 
     ResultJson identifyCheck(UserQuery userQuery);
+
+    Page<UserBack> focusPainterList(UserQuery userQuery);
 }

@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Id;
@@ -91,7 +92,10 @@ public class UserQuery extends PageParam {
 
     private Integer activeCount;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startTime;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endTime;
 
     private Integer rememberMe;
@@ -118,9 +122,10 @@ public class UserQuery extends PageParam {
         if (StringUtils.isEmpty(password)) {
             return ResultJson.buildError("密码为空");
         }
-        if (!ToolsUtil.regexPass(password)) {
-            return ResultJson.buildError("密码由最多8位中文、英文、下划线、数字组成");
-        }
+        //由于前段传入md5数据 此处的密码校验去掉
+//        if (!ToolsUtil.regexPass(password)) {
+//            return ResultJson.buildError("密码由最多8位中文、英文、下划线、数字组成");
+//        }
         if (StringUtils.isEmpty(email)) {
             return ResultJson.buildError("邮箱为空");
         }

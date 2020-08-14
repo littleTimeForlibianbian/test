@@ -3,6 +3,7 @@ package com.example.lixc.vo.back;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,7 +14,8 @@ import java.util.Date;
  */
 @Data
 @ToString
-public class CommentBack {
+public class CommentBack implements Serializable {
+    private static final long serialVersionUID = -3192472545313689522L;
     //评论id
     private Integer commentId;
     //评论内容

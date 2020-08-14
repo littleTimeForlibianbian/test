@@ -15,7 +15,7 @@ import java.util.Iterator;
 
 /**
  * @author lixc
- * @Description
+ * @Description  认证管理器
  * @createTime 2020/6/14 22:54
  */
 @Component

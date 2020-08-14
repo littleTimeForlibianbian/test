@@ -11,10 +11,14 @@
         <result column="is_normal" jdbcType="CHAR" property="isNormal"/>
         <result column="praise_num" jdbcType="INTEGER" property="praiseNum"/>
         <result column="comment_num" jdbcType="INTEGER" property="commentNum"/>
+        <result column="share_num" jdbcType="INTEGER" property="shareNum"/>
+        <result column="recommend_num" jdbcType="INTEGER" property="recommendNum"/>
         <result column="create_by" jdbcType="INTEGER" property="createBy"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
-        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="check_id" jdbcType="INTEGER" property="checkId"/>
+        <result column="check_time" jdbcType="INTEGER" property="checkTime"/>
+        <result column="fail_reason" jdbcType="VARCHAR" property="failReason"/>
     </resultMap>
     <resultMap id="UserBackMap" type="com.example.lixc.vo.back.UserBack">
         <id column="id" jdbcType="INTEGER" property="id"/>
@@ -49,15 +53,23 @@
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="is_delete" jdbcType="CHAR" property="isDelete"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
         <result column="is_normal" jdbcType="CHAR" property="isNormal"/>
         <result column="praise_num" jdbcType="INTEGER" property="praiseNum"/>
         <result column="comment_num" jdbcType="INTEGER" property="commentNum"/>
+        <result column="share_num" jdbcType="INTEGER" property="shareNum"/>
+        <result column="recommend_num" jdbcType="INTEGER" property="recommendNum"/>
         <result column="create_by" jdbcType="INTEGER" property="createBy"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <!--        <association property="user" resultMap="com.example.lixc.mapper.UserMapper.UserBaseMap"/>-->
+        <result column="check_id" jdbcType="INTEGER" property="checkId"/>
+        <result column="check_time" jdbcType="INTEGER" property="checkTime"/>
+        <result column="fail_reason" jdbcType="VARCHAR" property="failReason"/>
+        <!--        <association property="user" select="com.example.lixc.mapper.UserMapper.selectById"-->
+        <!--                     column="{userId = user_id }"/>-->
+        <!--        resultMap="com.example.lixc.mapper.UserMapper.UserBackMap"-->
         <!--        <association property="userAttr" resultMap="com.example.lixc.mapper.UserAttrMapper.BaseResultMap"/>-->
         <collection property="dicts" column="id" ofType="com.example.lixc.entity.SysDict">
             <id column="sid" jdbcType="INTEGER" property="id"/>
@@ -72,15 +84,10 @@
             <result column="thumb_url" jdbcType="VARCHAR" property="thumbUrl"/>
             <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         </collection>
-        <!-- 此种循环方式会先查询 work  然后再去查询 imageList  会发生两次查询-->
-        <!--        <collection property="imageList" select="com.example.lixc.mapper.SysWorkImageMapper.selectImagesByWorkId"-->
-        <!--                    column="${work_id = id}" fetchType="lazy" ofType="sysImage"/>-->
-        <!--        <collection property="tags" select="com.example.lixc.mapper.SysWorkDictMapper.selectTagsByWork"-->
-        <!--                    column="${work_id = id}" fetchType="lazy" ofType="sysDict"/>-->
     </resultMap>
     <sql id="Base_Column_List">
-        swork.id, swork.user_id, swork.`status`, swork.is_delete,swork.is_normal, swork.`name`, swork.content,  swork.praise_num,
-    swork.comment_num, swork.create_by, swork.update_by, swork.update_time,sd.id sid,
+        swork.id, swork.user_id, swork.`status`, swork.is_delete,swork.is_normal, swork.`name`, swork.content,  swork.praise_num,swork.share_num,swork.recommend_num,
+    swork.comment_num, swork.create_by, swork.update_by, swork.update_time,sd.id sid, swork.check_id,swork.check_time,swork.fail_reason,
         sd.p_id,
         sd.dict_key,
         sd.dict_value,
@@ -96,25 +103,33 @@
         swork.is_delete,
         swork.name ,
         swork.content,
+        swork.create_time,
+        swork.praise_num,
+        swork.comment_num,
+        swork.recommend_num,
+        swork.share_num,
+        swork.fail_reason,
         sd.id sid,
         sd.p_id,
         sd.dict_key,
         sd.dict_value,
         si.id siid,
         si.thumb_url ,
-        si.url
+        si.url,
+        u.*,
+        <!--u.email,-->
         <!-- # u.nick_name,-->
-        <!--   # sua.head_image,-->
-        <!-- # sua.website,-->
-        <!--  # sua.u_history,-->
+        sua.*
+        <!--sua.website,-->
+        <!-- sua.u_history-->
         <!-- # sua.id suaid-->
         from sys_work swork
         left join sys_work_image swi on swi.work_id = swork.id
         left join sys_image si on swi.image_id = si.id
         left join sys_work_dict swd on swd.work_id = swork.id
         left join sys_dict sd on swd.dict_id = sd.id
-        <!--  left join sys_user u on swork.user_id = u.id -->
-        <!-- left join sys_user_attr sua on u.id = sua.user_id -->
+        left join sys_user u on swork.user_id = u.id
+        left join sys_user_attr sua on u.id = sua.user_id
         where swork.is_delete='N'
         <!--  # and u.enable='Y'-->
         <if test="workQuery.id > 0">
@@ -126,19 +141,27 @@
         <if test="workQuery.status > 0">
             and swork.status = #{workQuery.status}
         </if>
-        <!--        <if test="workQuery.userName!=null and workQuery.userName !=''">-->
-        <!--            and (u.email = #{workQuery.userName} or u.nick_name=#{workQuery.userName})-->
-        <!--        </if>-->
+        <if test="workQuery.userName!=null and workQuery.userName !=''">
+            and (u.email = #{workQuery.userName} or u.nick_name like concat('%',#{workQuery.userName},'%'))
+        </if>
         <if test="workQuery.isNormal!=null and workQuery.isNormal !=''">
             and swork.is_normal = #{workQuery.isNormal}
         </if>
         <if test="workQuery.name!=null and workQuery.name !=''">
             and swork.name like concat('%',#{workQuery.name},'%')
         </if>
-        <if test="workQuery.praiseNum > 0">
-            and praise_num = #{workQuery.praiseNum}
+        <if test="workQuery.userName!=null and workQuery.userName !=''">
+            and u.nick_name like concat('%',#{workQuery.userName},'%')
         </if>
-        order by swork.create_time desc
+        <if test="workQuery.queryParam!=null and workQuery.queryParam !=''">
+            and (swork.name like concat('%',#{workQuery.queryParam},'%') or sd.dict_value = #{workQuery.queryParam} or
+            u.nick_name like concat('%',#{workQuery.queryParam},'%'))
+        </if>
+        <if test="workQuery.praiseNum > 0">
+            and praise_num &gt;= #{workQuery.praiseNum}
+            order by swork.praise_num desc
+        </if>
+
     </select>
     <select id="selectById" resultMap="WorkBackMap">
         select

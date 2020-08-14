@@ -18,23 +18,60 @@
         <result column="role_description" jdbcType="VARCHAR" property="roleDescription"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <collection property="privilegeList" select="com.example.lixc.mapper.RolePrivledgeMapper.getPrivilegesByRoleId"
-                    column="{role_id = id}" fetchType="lazy">
+                    column="{role_id = id}">
+        </collection>
+    </resultMap>
+    <resultMap id="RoleBackMap" type="com.example.lixc.vo.back.RoleBack">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="enable" jdbcType="CHAR" property="enable"/>
+        <result column="role_description" jdbcType="VARCHAR" property="roleDescription"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <collection property="privilegeList" ofType="com.example.lixc.entity.Privilege">
+            <result column="pid" property="id"></result>
+            <result column="pName" property="name"></result>
         </collection>
     </resultMap>
     <sql id="Base_Column_List">
-        id, `name`, `enable`, `role_description`, `create_by`, `create_time`, `update_by`, `update_time`
+        sr.id, sr.`name`, `enable`, `role_description`, `create_by`, `create_time`, `update_by`, `update_time`
     </sql>
+    <delete id="deleteBatch">
+        delete from sys_role where id in
+        <foreach collection="array" item="index" separator="," open="(" close=")">
+            #{index}
+        </foreach>
+    </delete>
     <!--    查询所有的角色列表，其中包含每个角色对应的权限集合-->
     <select id="selectForList" parameterType="com.example.lixc.vo.query.RoleQuery" resultMap="roleBackMap">
         select
         <include refid="Base_Column_List"/>
-        from sys_role sr where sr.enable='Y'
-        <if test="startTime != null and startTime != ''">
-            and sr.create_time &gt;= #{startTime}
-        </if>
-        <if test="endTime != null and endTime != ''">
-            and sr.create_time &lt;= #{endTime}
-        </if>
-
+        from sys_role sr
+        <where>
+            <if test="startTime != null and startTime != ''.toString()">
+                and DATE_FORMAT(sr.create_time,'%y-%M-%d') &gt;= DATE_FORMAT(#{startTime},'%y-%M-%d')
+            </if>
+            <if test="endTime != null and endTime != ''.toString()">
+                and DATE_FORMAT(sr.create_time,'%y-%M-%d') &lt;= DATE_FORMAT(#{endTime},'%y-%M-%d')
+            </if>
+            <if test="name != null and name != ''">
+                and sr.name = #{name}
+            </if>
+            <if test="id >0">
+                and sr.id = #{id}
+            </if>
+        </where>
+    </select>
+    <select id="selectRoleDetail" resultMap="RoleBackMap">
+        select
+        sp.id pid,
+        sp.name pName,
+        <include refid="Base_Column_List"/>
+        from sys_role sr left join sys_role_privledge srp on sr.id = srp.role_id
+        left join sys_privilege sp on srp.p_id = sp.id
+        <where>
+            <if test="id>0">
+                and sr.id=#{id}
+            </if>
+        </where>
     </select>
 </mapper>

@@ -28,7 +28,8 @@
                         </div>
                     </form>
                 </li>
-                <li><a href="adminLogin.html">注册</a>&nbsp;<span>|</span>&nbsp;<a href="Loginpage.html">登录</a></li>
+                <!--                <li><a href="adminLogin.html">注册</a>&nbsp;<span>|</span>&nbsp;<a href="Loginpage.html">登录</a></li>-->
+                <li><a onclick="logout()" href="#">退出</a></li>
             </ul>
         </div>
     </div>
@@ -38,47 +39,47 @@
 </div>
 <div class="container contentpage">
     <ul id="tab">
-        <li>
-            <a href="">
-                <img class="imgpicture" src="img/page4.jpg">
-            </a>
-            <div class="labelhome">
-                <span>少女漫画</span><span>少女漫画</span><span>钢笔画</span>
-            </div>
+        <!--        <li>-->
+        <!--            <a href="">-->
+        <!--                <img class="imgpicture" src="img/page4.jpg">-->
+        <!--            </a>-->
+        <!--            <div class="labelhome">-->
+        <!--                <span>少女漫画</span><span>少女漫画</span><span>钢笔画</span>-->
+        <!--            </div>-->
 
-        </li>
-        <li>
-            <a href="drawerdetails.html">
-                <img class="imgpicture" src="img/12.jpg">
-            </a>
-            <div class="labelhome">
-                <span>少女漫画</span><span>漫画</span><span>萌系</span>
-            </div>
-        </li>
-        <li>
-            <a href="">
-                <img class="imgpicture" src="img/page5.jpg">
-            </a>
-            <div class="labelhome">
-                <span>少女漫画</span><span>漫画</span><span>萌系</span>
-            </div>
-        </li>
-        <li>
-            <a href="">
-                <img class="imgpicture" src="img/page2.jpg">
-            </a>
-            <div class="labelhome">
-                <span>少女漫画</span><span>漫画</span><span>萌系</span>
-            </div>
-        </li>
-        <li>
-            <a href="">
-                <img class="imgpicture" src="img/page6.jpg">
-            </a>
-            <div class="labelhome">
-                <span>少女漫画</span><span>漫画</span><span>萌系</span>
-            </div>
-        </li>
+        <!--        </li>-->
+        <!--        <li>-->
+        <!--            <a href="drawerdetails.html">-->
+        <!--                <img class="imgpicture" src="img/12.jpg">-->
+        <!--            </a>-->
+        <!--            <div class="labelhome">-->
+        <!--                <span>少女漫画</span><span>漫画</span><span>萌系</span>-->
+        <!--            </div>-->
+        <!--        </li>-->
+        <!--        <li>-->
+        <!--            <a href="">-->
+        <!--                <img class="imgpicture" src="img/page5.jpg">-->
+        <!--            </a>-->
+        <!--            <div class="labelhome">-->
+        <!--                <span>少女漫画</span><span>漫画</span><span>萌系</span>-->
+        <!--            </div>-->
+        <!--        </li>-->
+        <!--        <li>-->
+        <!--            <a href="">-->
+        <!--                <img class="imgpicture" src="img/page2.jpg">-->
+        <!--            </a>-->
+        <!--            <div class="labelhome">-->
+        <!--                <span>少女漫画</span><span>漫画</span><span>萌系</span>-->
+        <!--            </div>-->
+        <!--        </li>-->
+        <!--        <li>-->
+        <!--            <a href="">-->
+        <!--                <img class="imgpicture" src="img/page6.jpg">-->
+        <!--            </a>-->
+        <!--            <div class="labelhome">-->
+        <!--                <span>少女漫画</span><span>漫画</span><span>萌系</span>-->
+        <!--            </div>-->
+        <!--        </li>-->
     </ul>
 </div>
 <div class="more text-center"><a href="" class="btn-more" onclick="show()">查看更多</a></div>
@@ -165,13 +166,12 @@
     var pagesNum = 10;//每页显示的条数
     $(function () {
         show();
-//	var urlinfo = window.location.href;
-//	var urlinfourl=urlinfo.charAt(urlinfo.length – 1);
-//	if(urlinfourl==1){
-//		$("#myworldcon").hide()
-//	}else{
-//		$("#myworldcon").show()
-//	}
+        var urlinfourl = getQueryVariable("a");
+        if (urlinfourl == 1) {
+            $("#myworldcon").hide()
+        } else {
+            $("#myworldcon").show()
+        }
     })
 
     //搜索功能
@@ -223,7 +223,7 @@
                     var imageList = dataObj[i].imageList;
                     var tagList = dataObj[i].dicts;
                     imgCon += "<li>" +
-                        "<a href='drawerdetails.html?id="+dataObj[i].id+"'>" +
+                        "<a href='drawerdetails.html?id=" + dataObj[i].id + "'>" +
                         "<img class='imgpicture' src=" + dataObj[i].imageList[0].url + ">" +
                         "</a>";
                     imgCon += "<div class='labelhome'>";

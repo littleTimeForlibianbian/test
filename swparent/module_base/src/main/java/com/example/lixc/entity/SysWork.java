@@ -27,6 +27,10 @@ public class SysWork {
 
     private Integer commentNum;
 
+    private Integer shareNum;
+
+    private Integer recommendNum;
+
     private Integer createBy;
 
     private Date createTime;
@@ -36,6 +40,12 @@ public class SysWork {
     private Date updateTime;
 
     private String isNormal;
+    //失败原因，只有失败时有值
+    private String failReason;
+    //审核人id
+    private Integer checkId;
+    //审核时间
+    private Date checkTime;
 
     public String getIsNormal() {
         return isNormal;

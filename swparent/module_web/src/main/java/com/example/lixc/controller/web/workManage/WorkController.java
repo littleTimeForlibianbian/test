@@ -1,9 +1,14 @@
 package com.example.lixc.controller.web.workManage;
 
 import com.example.lixc.constants.SwConstant;
+import com.example.lixc.service.IdenCheckService;
+import com.example.lixc.service.UserAdminService;
+import com.example.lixc.service.UserPortalService;
 import com.example.lixc.service.WorkService;
 import com.example.lixc.util.ResultJson;
+import com.example.lixc.vo.back.UserBack;
 import com.example.lixc.vo.back.WorkBack;
+import com.example.lixc.vo.query.UserQuery;
 import com.example.lixc.vo.query.WorkQuery;
 import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
@@ -22,11 +27,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Api("作品管理")
 @Slf4j
 @RestController
-@RequestMapping("/web/admin/check/")
+@RequestMapping("/web/manager/work")
 public class WorkController {
 
     @Autowired
     private WorkService workService;
+
+    @Autowired
+    private IdenCheckService idenCheckService;
 
     @ApiOperation("作品列表")
     @PostMapping("/selectForList")
@@ -35,7 +43,7 @@ public class WorkController {
     //作品图  显示第一张作品的缩略图
     public Page<WorkBack> selectForList(WorkQuery workQuery) {
         try {
-            workQuery.setIsNormal("N");
+            workQuery.setIsNormal("Y");
             return workService.workList(workQuery);
         } catch (Exception e) {
             log.error("获取作品列表异常：{}", e.getMessage());
@@ -43,11 +51,34 @@ public class WorkController {
         }
     }
 
+    @ApiOperation("作品详情")
+    @PostMapping("/detail")
+    public ResultJson detail(Integer workId) {
+        try {
+            return workService.workDetail(workId);
+        } catch (Exception e) {
+            log.error("【作品管理】获取作品详情异常：{}", e.getMessage());
+            return ResultJson.buildError("【作品管理】获取作品详情异常");
+        }
+    }
+
+
+    @ApiOperation("删除作品")
+    @PostMapping("/delete")
+    public ResultJson delete(Integer workId) {
+        try {
+            return workService.workDel(workId);
+        } catch (Exception e) {
+            log.error("【作品管理】获取作品详情异常：{}", e.getMessage());
+            return ResultJson.buildError("【作品管理】获取作品详情异常");
+        }
+    }
+
+
     @ApiOperation("活跃作品")
     @PostMapping("/active")
     public Page<WorkBack> active(WorkQuery workQuery) {
         try {
-            //todo  确定什么样的作品是活跃作品
             workQuery.setPraiseNum(SwConstant.PRAISENUM);
             return workService.workList(workQuery);
         } catch (Exception e) {
@@ -59,9 +90,15 @@ public class WorkController {
 
     @ApiOperation("关注的画师")
     @PostMapping("/attentionPainter")
-    public ResultJson attentionPainter() {
-        System.out.println("关注的画师");
-        return null;
+    public Page<UserBack> attentionPainter(UserQuery userQuery) {
+        Page<UserBack> userBacks = null;
+        try {
+            userBacks = idenCheckService.focusPainterList(userQuery);
+        } catch (Exception e) {
+            log.error("查询关注的画师异常:{}", e.getMessage());
+            userBacks = new Page<>();
+        }
+        return userBacks;
     }
 
 }

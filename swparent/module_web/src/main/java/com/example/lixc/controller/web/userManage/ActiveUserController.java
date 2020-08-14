@@ -28,6 +28,7 @@ public class ActiveUserController {
 
     @ApiOperation("查询活跃用户列表")
     @PostMapping("/selectForList")
+    //15天内  上传作品数量超过规定即为定义为活跃用户
     public PageData<UserBack> selectForList(UserQuery userQuery) {
         return selectUserService.selectForActiveList(userQuery);
     }

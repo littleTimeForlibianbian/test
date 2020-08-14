@@ -23,5 +23,7 @@ public class UserAttr {
     @Column(name = "head_image")
     private String headImage;
     private Date createTime;
+    //最后一次更新作品时间
+    private Date lastPublishTime;
     private Date updateTime;
 }

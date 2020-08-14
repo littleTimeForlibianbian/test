@@ -31,10 +31,10 @@ public interface UserAdminService {
     /**
      * 查询管理员详情
      *
-     * @param adminUserQuery
+     * @param userId
      * @return
      */
-    ResultJson detailAdminUser(AdminUserQuery adminUserQuery);
+    ResultJson detailAdminUser(Integer userId);
 
     /**
      * 更新管理员  用户名不能更新
@@ -59,4 +59,8 @@ public interface UserAdminService {
      * @return
      */
     ResultJson delAdminUserBatch(String ids);
+
+    ResultJson updatePassword(AdminUserQuery adminUserQuery);
+
+    ResultJson enable(AdminUserQuery adminUserQuery);
 }

@@ -8,6 +8,7 @@ import com.example.lixc.entity.SysConfig;
 import com.example.lixc.entity.Tag;
 import com.example.lixc.entity.User;
 import com.example.lixc.mapper.LoginRecordMapper;
+import com.example.lixc.mapper.TagMapper;
 import com.example.lixc.mapper.UserMapper;
 import com.example.lixc.service.SelectUserService;
 import com.example.lixc.util.ResultJson;
@@ -17,6 +18,7 @@ import com.example.lixc.vo.query.UserQuery;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -40,20 +42,24 @@ public class SelectUserServiceImpl implements SelectUserService {
     @Autowired
     private LoginRecordMapper loginRecordMapper;
 
+    @Autowired
+    private TagMapper tagMapper;
+
     @Override
     public Page<UserBack> selectForList(UserQuery userQuery) {
         PageHelper.startPage(userQuery.getPageNo(), userQuery.getPageSize());
         List<UserBack> userBacks = userMapper.selectAllUser(userQuery);
+        log.info("return:{}", JSONObject.toJSONString(userBacks));
         return (Page<UserBack>) userBacks;
     }
 
     @Override
     public ResultJson enableUser(UserQuery userQuery) {
-        if (userQuery.getUserID() < 0) {
+        if (userQuery.getUserID() == null || userQuery.getUserID() <= 0) {
             return ResultJson.buildError("传入参数错误");
         }
         String enable = userQuery.getEnable();
-        if (enable == null) {
+        if (StringUtils.isEmpty(enable)) {
             return ResultJson.buildError("状态为空");
         }
         String message = "N".equalsIgnoreCase(enable) ? "停用" : "启用";
@@ -61,27 +67,26 @@ public class SelectUserServiceImpl implements SelectUserService {
         if (user == null) {
             return ResultJson.buildError("对象不存在");
         }
-        user.setEnable("");
+        user.setEnable(userQuery.getEnable());
         userMapper.updateByPrimaryKeySelective(user);
         return ResultJson.buildSuccess(message + "成功");
     }
 
     @Override
     public ResultJson painterDetail(UserQuery userQuery) {
-        if (userQuery.getUserID() < 0) {
+        if (userQuery.getUserID() == null || userQuery.getUserID() <= 0) {
             return ResultJson.buildError("传入参数错误");
         }
-        List<UserBack> userList = userMapper.selectAllUser(userQuery);
-        if (CollectionUtils.isEmpty(userList)) {
+        User user = userMapper.selectByPrimaryKey(userQuery.getUserID());
+        if (user == null || user.getId() == 0) {
             return ResultJson.buildError("对象不存在");
         }
-        UserBack userBack = userList.get(0);
-        if ("N".equalsIgnoreCase(userBack.getPainter())) {
+        if ("N".equalsIgnoreCase(user.getPainter())) {
             log.error("用户id;{},尚未认证画师", userQuery.getUserID());
             return ResultJson.buildError("此用户尚未认证画师");
         }
         //获取所有的标签
-        List<Tag> tagList = userBack.getTagList();
+        List<Tag> tagList = tagMapper.selectListByPainterId(userQuery.getUserID());
         return ResultJson.buildSuccess(tagList);
     }
 

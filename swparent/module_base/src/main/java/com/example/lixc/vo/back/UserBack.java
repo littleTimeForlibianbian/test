@@ -5,6 +5,7 @@ import com.example.lixc.entity.Tag;
 import com.example.lixc.entity.UserAttr;
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -28,6 +29,7 @@ public class UserBack implements Serializable {
     //用户所在城市中文
     private String locationCN;
     private String phone;
+//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date createTime;
     private Date lastLoginTime;
     private String enable;
@@ -36,5 +38,7 @@ public class UserBack implements Serializable {
     private List<Role> roleList;
     private List<Tag> tagList;
     private UserAttr userAttr;
+    //关注数量
+    private int  focusCount;
 
 }

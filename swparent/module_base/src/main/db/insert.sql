@@ -143,3 +143,10 @@ INSERT INTO `sw`.`sys_tag`(`type`, `content`, `parent_id`)
 VALUES (4, '像素画', 4);
 INSERT INTO `sw`.`sys_tag`(`type`, `content`, `parent_id`)
 VALUES (4, '素描', 4);
+
+#初始化权限数据
+insert into sys_privilege(name, url, type) values ('用户管理','/web/manager/user/**',2);
+insert into sys_privilege(name, url, type) values ('审核管理','/web/manager/check/**',2);
+insert into sys_privilege(name, url, type) values ('作品管理','/web/manager/work/**',2);
+insert into sys_privilege(name, url, type) values ('用户行为','/web/manager/userBehavior/**',2);
+insert into sys_privilege(name, url, type) values ('文章管理','/web/manager/article/**',2);

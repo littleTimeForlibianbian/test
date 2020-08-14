@@ -6,13 +6,16 @@ import com.example.lixc.entity.SysWorkDict;
 import com.example.lixc.entity.User;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author lixc
  * @Description
  * @createTime 2020/7/1 22:28
  */
 @Data
-public class MessageBack {
+public class MessageBack implements Serializable {
+    private static final long serialVersionUID = -7911491702950811545L;
     //消息id
     private SysMessage message;
     //发送消息的用户信息

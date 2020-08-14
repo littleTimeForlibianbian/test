@@ -5,21 +5,25 @@
         <!-- 定义结果集，column表示sql查询列,property表示映射到实体的属性 -->
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
         <result column="position" jdbcType="VARCHAR" property="position"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="enable" jdbcType="VARCHAR" property="enable"/>
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="administrator" jdbcType="CHAR" property="administrator"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <association property="role" javaType="com.example.lixc.entity.Role">
-            <result property="id" column="id"/>
-            <result property="name" column="name"/>
+            <result property="id" column="sid"/>
+            <result property="name" column="sname"/>
             <result property="roleDescription" column="role_description"/>
+            <result property="createTime" column="screate_time"/>
         </association>
     </resultMap>
     <resultMap id="UserBackMap" type="com.example.lixc.vo.back.UserBack">
         <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="focus_count" jdbcType="INTEGER" property="focusCount"/>
         <id column="enable" jdbcType="VARCHAR" property="enable"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
@@ -38,6 +42,7 @@
             <result property="website" column="website"/>
             <result property="headImage" column="head_image"/>
             <result property="createTime" column="create_time"/>
+            <result property="lastPublishTime" column="last_publish_time"/>
         </association>
         <!--        <collection property="roleList"-->
         <!--                    select="com.example.lixc.mapper.UserRoleMapper.selectListByUserId"-->
@@ -70,7 +75,8 @@
         sua.`website` website,
         sua.`u_history` u_history,
         sua.`head_image` head_image,
-        sua.`create_time` createTime
+        sua.`create_time` createTime,
+        sua.`last_publish_time` lastPublishTime
     </sql>
     <sql id="Base_Column_List">
         su.id,
@@ -93,15 +99,16 @@
         su.update_time,
         su.pwd_update_date,
         su.last_login_time,
-        su.last_login_ip
+        su.last_login_ip,
+        su.focus_count
     </sql>
     <select id="existsWithPhone" parameterType="java.lang.String" resultType="java.lang.Integer">
         select count(1) from sys_user su
         <where>
-            <if test="phone != null and phone != ''">
+            <if test="phone != null and phone != ''.toString()">
                 and su.phone = #{phone}
             </if>
-            <if test="isManager != null and isManager != ''">
+            <if test="isManager != null and isManager != ''.toString()">
                 and su.administrator = #{isManager}
             </if>
         </where>
@@ -109,10 +116,10 @@
     <select id="existsWithEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
         select count(1) from sys_user su
         <where>
-            <if test="email != null and email != ''">
+            <if test="email != null and email != ''.toString()">
                 and su.email = #{email}
             </if>
-            <if test="isManager != null and isManager != ''">
+            <if test="isManager != null and isManager != ''.toString()">
                 and su.administrator = #{isManager}
             </if>
         </where>
@@ -121,10 +128,10 @@
     <select id="existsWithNickName" parameterType="java.lang.String" resultType="java.lang.Integer">
         select count(1) from sys_user su
         <where>
-            <if test="nickName != null and nickName != ''">
+            <if test="nickName != null and nickName != ''.toString()">
                 and su.nick_name = #{nickName}
             </if>
-            <if test="isManager != null and isManager != ''">
+            <if test="isManager != null and isManager != ''.toString()">
                 and su.administrator = #{isManager}
             </if>
         </where>
@@ -136,10 +143,10 @@
         <include refid="Base_Column_List"/>
         from sys_user su
         <where>
-            <if test="password != null and password != ''">
+            <if test="password != null and password != ''.toString()">
                 and su.password = #{password}
             </if>
-            <if test="userName != null and userName != ''">
+            <if test="userName != null and userName != ''.toString()">
                 and (su.nick_name = #{userName} or su.email = #{userName})
             </if>
         </where>
@@ -152,10 +159,10 @@
         from sys_user su
         left join sys_user_attr sua on su.id = sua.user_id
         <where>
-            <if test="password != null and password != ''">
+            <if test="password != null and password != ''.toString()">
                 and su.password = #{password}
             </if>
-            <if test="userName != null and userName != ''">
+            <if test="userName != null and userName != ''.toString()">
                 and (su.nick_name = #{userName} or su.email = #{userName})
             </if>
             <if test="userID > 0">
@@ -172,37 +179,59 @@
         from sys_user su
         left join sys_user_attr sua on su.id = sua.user_id
         <where>
-            <if test="email != null and email != ''">
+            <if test="email != null and email != ''.toString()">
                 and su.email = #{email}
             </if>
         </where>
     </select>
 
+    <select id="selectById" resultMap="UserBackMap">
+        select
+        <include refid="Base_Column_List"/>,
+        <include refid="userAttrSql"/>,
+        st.*
+        from sys_user su
+        left join sys_user_attr sua on su.id = sua.user_id
+        left join sys_user_tag sut on su.id = sut.user_id
+        left join sys_tag st on st.id = sut.tag_id
+        and su.id = #{userId}
+    </select>
+
     <select id="selectAllAdminUsers" parameterType="com.example.lixc.vo.query.AdminUserQuery"
             resultMap="AdminUserBackMap">
         select
+        sr.id sid,
+        sr.name sname,
+        sr.role_description ,
+        sr.create_time screate_time,
         <include refid="Base_Column_List"/>
-        from sys_user su where su.administrator = 'Y'
-        <where>
-            <if test="id > 0 ">
-                and id = #{id}
-            </if>
-            <if test="startTime != null  and startTime != ''">
-                and su.create_time >= #{startTime}
-            </if>
-            <if test="endTime != null  and endTime != ''">
-                and su.create_time >= #{endTime}
-            </if>
-            <if test="email != null  and email != ''">
-                and su.email = #{email}
-            </if>
-        </where>
-        order by create_time,id desc
+        from sys_user su left join sys_user_role sur on su.id = sur.user_id
+        left join sys_role sr on sur.role_id = sr.id
+        where su.administrator = 'Y'
+        <if test="id > 0 ">
+            and su.id = #{id}
+        </if>
+        <if test="startTime != null  and startTime != ''.toString()">
+            and su.create_time >= #{startTime}
+        </if>
+        <if test="endTime != null  and endTime != ''.toString()">
+            and su.create_time >= #{endTime}
+        </if>
+        <if test="email != null  and email != ''.toString()">
+            and su.email = #{email}
+        </if>
+        order by create_time,su.id desc
     </select>
     <delete id="delByIds">
         delete
         from sys_user where id in
-        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="delUserRoleRelationByUserId">
+        delete from sys_user_role where user_id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>
     </delete>
@@ -216,9 +245,9 @@
     <select id="selectAllUser" resultMap="UserBackMap">
         select
         <include refid="Base_Column_List"/>
-        from sys_user
+        from sys_user su
         <where>
-            <if test="painter != null and painter != '' and painter == 'Y'">
+            <if test="painter != null and painter != ''">
                 and painter = #{painter}
             </if>
             <if test="phone != null and phone != '' ">
@@ -227,21 +256,19 @@
             <if test="email != null and email != '' ">
                 and email = #{email}
             </if>
-            /*前台输入查询参数 可能是邮箱 也可能是用户户名*/
             <if test="userName != null and userName != '' ">
-                and(nickName like concat('%',#{userName},'%') or email = #{userName} )
+                and(nick_name like concat('%',#{userName},'%') or email = #{userName} )
             </if>
             <if test="nickName != null and nickName != '' ">
-                and nickName like concat('%',#{nickName},'%')
+                and nick_name like concat('%',#{nickName},'%')
             </if>
-            <if test="userId >0 ">
-                and id = #{userId}
+            <if test="userID >0 ">
+                and id = #{userID}
             </if>
-            # 用户状态
             <if test=" status > 0">
                 and status = #{status}
             </if>
-            <if test=" enable > 0">
+            <if test="enable != null and enable != ''">
                 and enable = #{enable}
             </if>
         </where>
@@ -262,4 +289,25 @@
         from sys_user
         where administrator = 'N'
     </select>
+    <select id="selectFocusPainterIds" resultMap="UserBackMap" parameterType="com.example.lixc.vo.query.UserQuery">
+        select
+        <include refid="Base_Column_List"/>,
+        <include refid="userAttrSql"/>
+        from u_focus uf
+        left join sys_user su on uf.author_id = su.id
+        left join sys_user_attr sua on su.id = sua.user_id
+        where su.enable = 'Y'
+        and su.painter = 'Y'
+        <if test="nickName != null and nickName!= ''">
+            and su.nick_name = #{nickName}
+        </if>
+        <if test="startTime != null ">
+            and date_format(su.create_time,'%y-%M-%d') &gt;= date_format(#{startTime},'%y-%M-%d')
+        </if>
+        <if test="endTime != null  ">
+            and date_format(su.create_time,'%y-%M-%d') &lt;= date_format(#{endTime},'%y-%M-%d')
+        </if>
+    </select>
+
+
 </mapper>

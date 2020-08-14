@@ -101,7 +101,41 @@
                 <div style="display: inline-block;">
                     <div class="Introduction">
                         <img src="img/tuij.png" style="width: 36px;height: 36px;">
-                        <div class="Introductiondiv">来自画友：<a href="#">网卡</a>推荐</div>
+                        <div class="Introductiondiv">来自画友：<a href="javascript:void(0)">网卡</a>推荐</div>
+                    </div>
+                    <div class="namecontent">
+                        <img src="img/header-img-comment_03.png"><span>我叫网卡和太子呀</span>
+                        <a href="#" data-toggle="modal" data-target="#myModaladd1"><img src="img/ES-add.png"></a>
+                    </div>
+                    <div class="imgcontent">
+                        <img src="img/page2.jpg" class='imgZoom'>
+                    </div>
+
+                </div>
+                <div class="mworldcontent" style="display: inline-block;">
+                    <h3>wangka</h3>
+                    <p style="word-wrap: break-word;width: 350px;">xxx无法相见的两人，存着一丝温暖的联系，从噩梦中逃离，白色的晨光即将洒下。</p>
+                </div>
+            </div>
+            <div>
+                <div class="labelhome" style="display: inline-block;">
+                    <span>少女漫画</span><span>少女漫画</span><span>钢笔画</span>
+                </div>
+                <div class="pinglunlist">
+                    <ul>
+                        <li><a href=""><img src="img/recommend.png"><span>推荐作品</span></a></li>
+                        <li><a href=""><img src="img/care.png"><span>喜欢</span></a></li>
+                        <li><a href=""><img src="img/sharecooperate.png"><span>已分享</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="squarelist">
+            <div>
+                <div style="display: inline-block;">
+                    <div class="Introduction">
+                        <img src="img/tuij.png" style="width: 36px;height: 36px;">
+                        <div class="Introductiondiv">来自画友：<a href="javascript:void(0)">网卡</a>推荐</div>
                     </div>
                     <div class="namecontent">
                         <img src="img/header-img-comment_03.png"><span>我叫网卡和太子呀</span>
@@ -139,11 +173,11 @@
                 </a>
             </li>
             <li class="worldltabs-list worldltabs-list1">
-                <a href="##" class="categroyclick categroies">
+                <a href="myworldattention.html" class="categroyclick categroies">
                     <i class="nav-love"><img src="img/carepeople1.png"></i><span id="focusCount">关注(89)</span></a>
             </li>
             <li class="worldltabs-list">
-                <a href="myworldlike.html" class="categroies">
+                <a href="myworldnotice.html" class="categroies">
                     <i class="nav-love"><img src="img/dongtai.png"></i><span id="newsCount">动态消息(89)</span>
                 </a>
             </li>
@@ -195,18 +229,14 @@
 <script type="text/javascript" src="js/base.js"></script>
 
 <script>
-    $(".btn-best").click(function () {
-        $(".td-boxbest").hide();
-        $(".tccg-boxbest").show();
-    })
-    $(".jy-a-click").click(function () {
-        $(this).toggleClass("active");
-    })
 </script>
 <script>
     $(function () {
-        $('#myModal').modal('hide')
+        $('#myModal').modal('hide');
         initPage();
+        $(".jy-a-click").click(function () {
+            $(this).toggleClass("active");
+        })
     });
 
     //页面数据初始化
@@ -219,6 +249,7 @@
             },
             type: "post",
             dataType: "json",
+            async: false,
             success: function (ret) {
                 var contentStr = '';
                 var list = ret.data;
@@ -255,9 +286,8 @@
                         '                    <h3>' + jsonObj.name + '</h3>\n' +
                         '                    <p style="word-wrap: break-word;width: 350px;">' + jsonObj.content + '</p>\n' +
                         '                </div>\n' +
-                        '            </div>\n' +
-                        '            <div>\n';
-
+                        '            </div>\n'
+                    dictContent += '<div>'
                     dictContent += '  <div class="labelhome" style="display: inline-block;">'
                     for (var j = 0; j < jsonObj.dicts.length; j++) {
                         dictContent += '<span>' + jsonObj.dicts[j].dictValue + '</span>'
@@ -269,14 +299,14 @@
                         '                    <ul>\n';
                     contentStr +=
                         '                        <li><a href="#" onclick="clickRecommend(' + jsonObj.id + ')" ><img src="img/recommend.png"><span>' + flag + '</span></a></li>\n' +
-                        '                        <li><a href="#" onclick="clickLike(' + jsonObj.id + ')"><img src="img/care.png"><span>喜欢</span></a></li>\n' +
+                        '                        <li><a  class="jy-a-click" onclick="clickLike(' + jsonObj.id + ')"><span>喜欢</span></a></li>\n' +
                         // '                        <li><a href=""><img src="img/sharecooperate.png"><span>已分享</span></a></li>\n' +
                         '                    </ul>\n' +
                         '                </div>\n' +
                         '            </div>'
                     contentStr += '</div>'
                 }
-                $(".squarelist").append(contentStr);
+                $(".worldcontent").append(contentStr);
             },
             error: function (jqXHR, textStatus, errorThrown) {
             }
@@ -307,17 +337,6 @@
             }
         })
     }
-</script>
-<script>
-    $('.newcreate').click(function () {
-        $(".newcreateinput").slideToggle();
-    });
-    $('.noticelist').click(function () {
-        $(".categorylist1").slideToggle();
-    });
-    $('.weknow').click(function () {
-        $('.activitylist').addClass('knownone');
-    });
 
     function clickLike(id) {
         $.ajax({
@@ -357,6 +376,23 @@
             }
         })
     }
+</script>
+<script>
+    $('.newcreate').click(function () {
+        $(".newcreateinput").slideToggle();
+    });
+    $('.noticelist').click(function () {
+        $(".categorylist1").slideToggle();
+    });
+    $('.weknow').click(function () {
+        $('.activitylist').addClass('knownone');
+    });
+
+    $(".btn-best").click(function () {
+        $(".td-boxbest").hide();
+        $(".tccg-boxbest").show();
+    })
+
 </script>
 
 </html>

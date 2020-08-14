@@ -8,10 +8,12 @@
         <id column="u_history" property="uHistory" jdbcType="VARCHAR"/>
         <id column="head_image" property="headImage" jdbcType="VARCHAR"/>
         <id column="create_time" property="createTime" jdbcType="DATE"/>
+        <id column="last_publish_time" property="lastPublishTime" jdbcType="DATE"/>
         <id column="update_time" property="updateTime" jdbcType="DATE"/>
     </resultMap>
     <select id="selectByUserId" resultType="com.example.lixc.entity.UserAttr">
-        select `id`,`user_id`,`website`,`u_history`,`head_image`,`create_time` from sys_user_attr sua
+        select `id`,`user_id`,`website`,`u_history`,`head_image`,`create_time`,`last_publish_time` from sys_user_attr
+        sua
         <where>
             <if test="userId > 0">
                 and user_id = #{userId}

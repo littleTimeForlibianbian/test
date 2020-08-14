@@ -11,5 +11,8 @@ import java.util.List;
 
 public interface RoleMapper extends SwBaseMapper<Role> {
     List<RoleBack> selectForList(RoleQuery roleQuery);
-//    int deleteBatch(String[] ids);
+    int deleteBatch(String[] ids);
+
+    RoleBack selectRoleDetail(RoleQuery roleQuery);
+
 }

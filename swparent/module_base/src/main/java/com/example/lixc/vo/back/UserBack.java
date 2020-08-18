@@ -1,5 +1,6 @@
 package com.example.lixc.vo.back;
 
+import com.example.lixc.entity.Privilege;
 import com.example.lixc.entity.Role;
 import com.example.lixc.entity.Tag;
 import com.example.lixc.entity.UserAttr;
@@ -26,10 +27,13 @@ public class UserBack implements Serializable {
     private String email;
     private String location;
     private String city;
-    //用户所在城市中文
+    /**
+     * 用户所在城市中文
+     */
     private String locationCN;
+
     private String phone;
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
     private Date lastLoginTime;
     private String enable;
@@ -38,7 +42,11 @@ public class UserBack implements Serializable {
     private List<Role> roleList;
     private List<Tag> tagList;
     private UserAttr userAttr;
-    //关注数量
-    private int  focusCount;
+    /**
+     * 关注数量
+     */
+    private int focusCount;
+
+    private List<Privilege> privilegeList;
 
 }

@@ -62,7 +62,7 @@ public class InitConfig implements ApplicationRunner {
             UserBack userInfoDTO = JSONObject.parseObject(jsonString, UserBack.class);
             result = userInfoDTO.getNickName();
         } catch (Exception e) {
-            log.error("转换用户数据异常:{}" + e.getMessage());
+            log.error("转换用户数据异常:{}" + e.getLocalizedMessage());
         }
         return result;
     }

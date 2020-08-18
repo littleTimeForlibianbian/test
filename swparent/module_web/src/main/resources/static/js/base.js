@@ -1,5 +1,5 @@
-var basePath = 'http://sxs62w.natappfree.cc';
-// var basePath = 'http://localhost';
+// var basePath = 'http://j27xrj.natappfree.cc';
+var basePath = 'http://localhost';
 var cityMap = new Map();
 
 // ($(initCityMap()))

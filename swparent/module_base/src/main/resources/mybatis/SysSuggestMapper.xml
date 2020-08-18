@@ -12,21 +12,23 @@
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="url" property="url" jdbcType="VARCHAR"/>
     </resultMap>
+    <sql id="baseColumn">
+        id, user_id, user_name, content, create_time, version, url, praise_num, priority, status
+    </sql>
     <select id="selectForList" parameterType="com.example.lixc.vo.query.SuggestQuery"
-            resultType="com.example.lixc.entity.SysSuggest">
-        select * from sys_suggest
+            resultMap="BaseResultMap">
+        select
+        <include refid="baseColumn"/>
+        from sys_suggest
         <where>
-            <if test="version > 0">
-                and version = #{version}
-            </if>
             <if test="userId > 0">
                 and user_id = #{userId}
             </if>
-            <if test="startTime ！= null  and startTime != ''">
-                and create_time &gt; #{startTime}
+            <if test="startTime != null ">
+                and date_format(create_time,'%y-%m-%d') &gt;= date_format( #{startTime},'%y-%m-%d')
             </if>
-            <if test="endTime ！= null  and endTime != ''">
-                and create_time &lt; #{endTime}
+            <if test="endTime != null ">
+                and date_format(create_time,'%y-%m-%d') &lt;= date_format( #{endTime},'%y-%m-%d')
             </if>
         </where>
     </select>
@@ -34,7 +36,7 @@
     <delete id="delByIds">
         delete
         from sys_suggest where id in
-        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>
     </delete>

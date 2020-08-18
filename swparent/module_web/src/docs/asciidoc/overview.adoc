@@ -1,0 +1,45 @@
+= 利用swagger2构建的API文档
+
+
+[[_overview]]
+== Overview
+用restful风格写接口
+
+
+=== Version information
+[%hardbreaks]
+__Version__ : 1.0
+
+
+=== URI scheme
+[%hardbreaks]
+__Host__ : localhost:8080
+__BasePath__ : /
+
+
+=== Tags
+
+* active-user-controller : Active User Controller
+* admin-controller : Admin Controller
+* code-controller : Code Controller
+* feed-back-controller : Feed Back Controller
+* feed-back-option-controller : Feed Back Option Controller
+* iden-check-controller : Iden Check Controller
+* index-controller : Index Controller
+* my-world-controller : My World Controller
+* no-auth-controller : No Auth Controller
+* painter-controller : Painter Controller
+* policy-controller : Policy Controller
+* report-condition-controller : Report Condition Controller
+* role-controller : Role Controller
+* system-controller : System Controller
+* system-message-controller : System Message Controller
+* user-controller : User Controller
+* user-data-controller : User Data Controller
+* version-spoilers-controller : Version Spoilers Controller
+* work-check-controller : Work Check Controller
+* work-check-fail-controller : Work Check Fail Controller
+* work-controller : Work Controller
+
+
+

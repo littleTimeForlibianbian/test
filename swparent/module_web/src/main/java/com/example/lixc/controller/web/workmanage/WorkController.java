@@ -1,9 +1,7 @@
-package com.example.lixc.controller.web.workManage;
+package com.example.lixc.controller.web.workmanage;
 
 import com.example.lixc.constants.SwConstant;
 import com.example.lixc.service.IdenCheckService;
-import com.example.lixc.service.UserAdminService;
-import com.example.lixc.service.UserPortalService;
 import com.example.lixc.service.WorkService;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.back.UserBack;

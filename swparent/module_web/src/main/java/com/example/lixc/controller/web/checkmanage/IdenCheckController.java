@@ -1,6 +1,5 @@
-package com.example.lixc.controller.web.checkManage;
+package com.example.lixc.controller.web.checkmanage;
 
-import com.example.lixc.mapper.UserMapper;
 import com.example.lixc.service.IdenCheckService;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.back.UserBack;

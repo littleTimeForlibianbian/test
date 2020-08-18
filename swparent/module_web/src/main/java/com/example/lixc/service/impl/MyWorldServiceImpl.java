@@ -177,6 +177,10 @@ public class MyWorldServiceImpl implements MyWorldService {
         suggest.setUserName(InitConfig.getNickName(loginUserId));
         UserAttr userAttr = userAttrMapper.selectByUserId(loginUserId);
         suggest.setPraiseNum(0);
+        //设置优先级为最低
+        suggest.setPriority(0);
+        //1表示待优化 2表示优化中  3 表示 优化完毕
+        suggest.setStatus(1);
         suggest.setVersion(SysConfigUtil.selectCurrentVersion());
         suggest.setUrl(userAttr.getHeadImage());
         suggestMapper.insertSelective(suggest);
@@ -189,13 +193,13 @@ public class MyWorldServiceImpl implements MyWorldService {
         if (!CollectionUtils.isEmpty(versionSpoBacks)) {
             for (VersionSpoBack back : versionSpoBacks) {
                 if (back.getStatus() == 0) {
-                    back.setStatusCH("待优化");
+                    back.setStatusCh("待优化");
                 }
                 if (back.getStatus() == 1) {
-                    back.setStatusCH("优化中");
+                    back.setStatusCh("优化中");
                 }
                 if (back.getStatus() == 2) {
-                    back.setStatusCH("优化完毕");
+                    back.setStatusCh("优化完毕");
                 }
             }
         }

@@ -1,0 +1,432 @@
+
+[[_definitions]]
+== Definitions
+
+[[_adminuserback]]
+=== AdminUserBack
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**administrator** +
+__optional__|string
+|**createTime** +
+__optional__|string (date-time)
+|**email** +
+__optional__|string
+|**enable** +
+__optional__|string
+|**enableCH** +
+__optional__|string
+|**id** +
+__optional__|integer (int32)
+|**location** +
+__optional__|string
+|**phone** +
+__optional__|string
+|**position** +
+__optional__|string
+|**realName** +
+__optional__|string
+|**role** +
+__optional__|<<_role,Role>>
+|**status** +
+__optional__|string
+|**statusCH** +
+__optional__|string
+|===
+
+
+[[_111b4988aec129a9a0096e12cc00f504]]
+=== PageData«UserBack»
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**count** +
+__optional__|integer (int64)
+|**data** +
+__optional__|< <<_userback,UserBack>> > array
+|**message** +
+__optional__|string
+|**pageNo** +
+__optional__|integer (int32)
+|**pageSize** +
+__optional__|integer (int32)
+|**status** +
+__optional__|integer (int32)
+|===
+
+
+[[_privilege]]
+=== Privilege
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**id** +
+__optional__|integer (int32)
+|**name** +
+__optional__|string
+|**parent** +
+__optional__|integer (int32)
+|**type** +
+__optional__|integer (int32)
+|**url** +
+__optional__|string
+|===
+
+
+[[_resultjson]]
+=== ResultJson
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**data** +
+__optional__|object
+|**message** +
+__optional__|string
+|**status** +
+__optional__|integer (int32)
+|===
+
+
+[[_role]]
+=== Role
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**createBy** +
+__optional__|integer (int32)
+|**createTime** +
+__optional__|string (date-time)
+|**enable** +
+__optional__|string
+|**id** +
+__optional__|integer (int32)
+|**name** +
+__optional__|string
+|**roleDescription** +
+__optional__|string
+|**updateBy** +
+__optional__|integer (int32)
+|**updateTime** +
+__optional__|string (date-time)
+|===
+
+
+[[_roleback]]
+=== RoleBack
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**createTime** +
+__optional__|string (date-time)
+|**enable** +
+__optional__|string
+|**id** +
+__optional__|integer (int32)
+|**name** +
+__optional__|string
+|**privilegeList** +
+__optional__|< <<_privilege,Privilege>> > array
+|**roleDescription** +
+__optional__|string
+|===
+
+
+[[_sysimage]]
+=== SysImage
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**createTime** +
+__optional__|string (date-time)
+|**id** +
+__optional__|integer (int32)
+|**name** +
+__optional__|string
+|**thumbUrl** +
+__optional__|string
+|**url** +
+__optional__|string
+|===
+
+
+[[_sysreport]]
+=== SysReport
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**content** +
+__optional__|string
+|**contentExt** +
+__optional__|string
+|**createTime** +
+__optional__|string (date-time)
+|**id** +
+__optional__|integer (int32)
+|===
+
+
+[[_tag]]
+=== Tag
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**content** +
+__optional__|string
+|**id** +
+__optional__|integer (int32)
+|**parentId** +
+__optional__|integer (int32)
+|**type** +
+__optional__|string
+|===
+
+
+[[_user]]
+=== User
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**administrator** +
+__optional__|string
+|**city** +
+__optional__|string
+|**createBy** +
+__optional__|integer (int32)
+|**createTime** +
+__optional__|string (date-time)
+|**email** +
+__optional__|string
+|**enable** +
+__optional__|string
+|**id** +
+__optional__|integer (int32)
+|**invitationCode** +
+__optional__|string
+|**lastLoginIp** +
+__optional__|string
+|**lastLoginTime** +
+__optional__|string (date-time)
+|**location** +
+__optional__|string
+|**nickName** +
+__optional__|string
+|**painter** +
+__optional__|string
+|**password** +
+__optional__|string
+|**phone** +
+__optional__|string
+|**position** +
+__optional__|string
+|**pwdUpdateDate** +
+__optional__|string (date-time)
+|**realName** +
+__optional__|string
+|**status** +
+__optional__|integer (int32)
+|**updateBy** +
+__optional__|integer (int32)
+|**updateTime** +
+__optional__|string (date-time)
+|===
+
+
+[[_userattr]]
+=== UserAttr
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**createTime** +
+__optional__|string (date-time)
+|**headImage** +
+__optional__|string
+|**id** +
+__optional__|integer (int32)
+|**uhistory** +
+__optional__|string
+|**userId** +
+__optional__|integer (int32)
+|**website** +
+__optional__|string
+|===
+
+
+[[_userback]]
+=== UserBack
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**createTime** +
+__optional__|string (date-time)
+|**email** +
+__optional__|string
+|**enable** +
+__optional__|string
+|**id** +
+__optional__|integer (int32)
+|**lastLoginTime** +
+__optional__|string (date-time)
+|**location** +
+__optional__|string
+|**locationCN** +
+__optional__|string
+|**nickName** +
+__optional__|string
+|**painter** +
+__optional__|string
+|**password** +
+__optional__|string
+|**phone** +
+__optional__|string
+|**realName** +
+__optional__|string
+|**roleList** +
+__optional__|< <<_role,Role>> > array
+|**tagList** +
+__optional__|< <<_tag,Tag>> > array
+|**userAttr** +
+__optional__|<<_userattr,UserAttr>>
+|===
+
+
+[[_versionspoback]]
+=== VersionSpoBack
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**content** +
+__optional__|string
+|**createTime** +
+__optional__|string (date-time)
+|**userId** +
+__optional__|integer (int32)
+|**userName** +
+__optional__|string
+|**versionSpoId** +
+__optional__|integer (int32)
+|===
+
+
+[[_workback]]
+=== WorkBack
+
+[options="header", cols=".^3,.^4"]
+|===
+|Name|Schema
+|**commentNum** +
+__optional__|integer (int32)
+|**content** +
+__optional__|string
+|**createBy** +
+__optional__|integer (int32)
+|**createTime** +
+__optional__|string (date-time)
+|**id** +
+__optional__|integer (int32)
+|**imageList** +
+__optional__|< <<_sysimage,SysImage>> > array
+|**isDelete** +
+__optional__|string
+|**isLike** +
+__optional__|boolean
+|**isNormal** +
+__optional__|string
+|**name** +
+__optional__|string
+|**praiseNum** +
+__optional__|integer (int32)
+|**status** +
+__optional__|integer (int32)
+|**tags** +
+__optional__|< <<_tag,Tag>> > array
+|**updateBy** +
+__optional__|integer (int32)
+|**updateTime** +
+__optional__|string (date-time)
+|**user** +
+__optional__|<<_user,User>>
+|**userAttr** +
+__optional__|<<_userattr,UserAttr>>
+|**userId** +
+__optional__|integer (int32)
+|===
+
+
+[[_de67bf6912a9090b1ed67f124bb09aa9]]
+=== 用户参数类
+用户请求参数描述
+
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|**activeCount** +
+__optional__||integer (int32)
+|**city** +
+__optional__|用户注册所选城市|string
+|**createBy** +
+__optional__||integer (int32)
+|**email** +
+__optional__|邮箱|string
+|**enable** +
+__optional__||string
+|**endTime** +
+__optional__||string (date-time)
+|**invitationCode** +
+__optional__|邀请码|string
+|**lastLoginIp** +
+__optional__||string
+|**lastLoginTime** +
+__optional__||string (date-time)
+|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**pageNo** +
+__optional__||integer (int32)
+|**pageSize** +
+__optional__||integer (int32)
+|**painter** +
+__optional__||string
+|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**phone** +
+__optional__|手机号|string
+|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**rememberMe** +
+__optional__||integer (int32)
+|**resetPasswordToken** +
+__optional__||string
+|**roleId** +
+__optional__||integer (int32)
+|**sqlLimit** +
+__optional__||string
+|**startTime** +
+__optional__||string (date-time)
+|**status** +
+__optional__||integer (int32)
+|**updateBy** +
+__optional__||integer (int32)
+|**updateTime** +
+__optional__||string (date-time)
+|**userID** +
+__optional__||integer (int32)
+|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+

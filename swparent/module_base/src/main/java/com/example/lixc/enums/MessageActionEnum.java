@@ -16,7 +16,9 @@ public enum MessageActionEnum {
 
     MESSAGE_ACTION_FOCUS("focus", "关注"),
     //发布新作品动作
-    MESSAGE_ACTION_PUBLISH("publish", "发布");
+    MESSAGE_ACTION_PUBLISH("publish", "发布"),
+
+    MESSAGE_ACTION_MESSAGE("message", "系统消息");
 
     private String code;
     private String message;

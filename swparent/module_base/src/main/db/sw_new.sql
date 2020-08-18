@@ -220,10 +220,8 @@ create table `sys_message`
     `title`       varchar(255) null comment '消息标题',
     `source_id`   int(11)      null comment '来源id  作品id或者评论id',
     `source_type` varchar(10)  null comment '来源类型  work 作品  ，comment 评论',
-    --  为什么要在消息表中增加  发送者和接受者呢？++
-#     `from_user_id` int(11) comment '发送者id  当前用户id',
-#     `to_user_id`   int(11) comment '接受者id source_id 所属的作者id',
     `create_time` datetime     NULL DEFAULT now() COMMENT '创建时间',
+    `create_by`   int(11)      NULL DEFAULT now() COMMENT '创建人/消息发送人',
     `send_time`   datetime     NULL DEFAULT now() COMMENT '发送时间',
     `is_delete`   char(1)      NULL DEFAULT 'N' COMMENT '是否删除',
     primary key (`id`)

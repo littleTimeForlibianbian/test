@@ -1,4 +1,4 @@
-package com.example.lixc.controller.web.userManage;
+package com.example.lixc.controller.web.usermanage;
 
 import com.example.lixc.service.SelectUserService;
 import com.example.lixc.util.ResultJson;

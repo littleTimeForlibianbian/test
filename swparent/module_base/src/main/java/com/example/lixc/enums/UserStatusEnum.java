@@ -6,6 +6,9 @@ package com.example.lixc.enums;
  * @createTime 2020/6/7 12:05
  */
 public enum UserStatusEnum {
+    /**
+     * 1.已注册
+     */
     USER_STATUS_REG(1, "已注册"),
     USER_STATUS_ACTIVE(2, "已激活"),
     USER_STATUS_CHOOSE(3, "已选择标签"),

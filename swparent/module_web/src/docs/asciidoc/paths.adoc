@@ -1,0 +1,7489 @@
+
+[[_paths]]
+== Paths
+
+[[_addwebsiteusingpost]]
+=== 常用网站
+....
+POST /portal/index/addWebsite
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**website** +
+__optional__|website|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* index-controller
+
+
+[[_commentusingpost]]
+=== 评论
+....
+POST /portal/index/comment
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**commentLevel** +
+__optional__|integer (int32)
+|**Query**|**content** +
+__optional__|string
+|**Query**|**parentId** +
+__optional__|integer (int32)
+|**Query**|**workId** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* index-controller
+
+
+[[_commentdelusingpost]]
+=== 评论删除
+....
+POST /portal/index/commentDel
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**id** +
+__optional__|id|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* index-controller
+
+
+[[_commentlikeusingpost]]
+=== 评论点赞
+....
+POST /portal/index/commentLike
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**id** +
+__optional__|id|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* index-controller
+
+
+[[_createhistoryusingpost]]
+=== 创作过往
+....
+POST /portal/index/createHistory
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**content** +
+__optional__|content|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* index-controller
+
+
+[[_focususingpost]]
+=== 关注
+....
+POST /portal/index/focus
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**toUserId** +
+__optional__|toUserId|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* index-controller
+
+
+[[_likeusingpost_1]]
+=== 点赞
+....
+POST /portal/index/like
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**workId** +
+__optional__|workId|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* index-controller
+
+
+[[_recommendusingpost]]
+=== 推荐
+....
+POST /portal/index/recommend
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* index-controller
+
+
+[[_reportusingpost]]
+=== 举报
+....
+POST /portal/index/report
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* index-controller
+
+
+[[_selectallworklabelsusingpost]]
+=== 获取作品标签
+....
+POST /portal/index/selectAllWorkLabels
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* index-controller
+
+
+[[_shareusingpost]]
+=== 分享
+....
+POST /portal/index/share
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* index-controller
+
+
+[[_uploadimageusingpost]]
+=== 上传图片
+....
+POST /portal/index/uploadImage
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**FormData**|**file** +
+__required__|file|file
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `multipart/form-data`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* index-controller
+
+
+[[_uploadworkusingpost]]
+=== 上传作品
+....
+POST /portal/index/uploadWork
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**categoryLabelForAdd** +
+__optional__|string
+|**Query**|**content** +
+__optional__|string
+|**Query**|**id** +
+__optional__|integer (int32)
+|**Query**|**imageIds** +
+__optional__|string
+|**Query**|**isNormal** +
+__optional__|string
+|**Query**|**label** +
+__optional__|string
+|**Query**|**name** +
+__optional__|string
+|**Query**|**pageNo** +
+__optional__|integer (int32)
+|**Query**|**pageSize** +
+__optional__|integer (int32)
+|**Query**|**praiseNum** +
+__optional__|integer (int32)
+|**Query**|**status** +
+__optional__|integer (int32)
+|**Query**|**styleLabelForAdd** +
+__optional__|string
+|**Query**|**userId** +
+__optional__|integer (int32)
+|**Query**|**userName** +
+__optional__|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* index-controller
+
+
+[[_workdetailusingpost]]
+=== 作品详情
+....
+POST /portal/index/workDetail
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**categoryLabelForAdd** +
+__optional__|string
+|**Query**|**content** +
+__optional__|string
+|**Query**|**id** +
+__optional__|integer (int32)
+|**Query**|**imageIds** +
+__optional__|string
+|**Query**|**isNormal** +
+__optional__|string
+|**Query**|**label** +
+__optional__|string
+|**Query**|**name** +
+__optional__|string
+|**Query**|**pageNo** +
+__optional__|integer (int32)
+|**Query**|**pageSize** +
+__optional__|integer (int32)
+|**Query**|**praiseNum** +
+__optional__|integer (int32)
+|**Query**|**status** +
+__optional__|integer (int32)
+|**Query**|**styleLabelForAdd** +
+__optional__|string
+|**Query**|**userId** +
+__optional__|integer (int32)
+|**Query**|**userName** +
+__optional__|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* index-controller
+
+
+[[_worklistusingpost]]
+=== 查询作品列表
+....
+POST /portal/index/workList/{more}
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Path**|**more** +
+__required__|more|string
+|**Query**|**categoryLabelForAdd** +
+__optional__||string
+|**Query**|**content** +
+__optional__||string
+|**Query**|**id** +
+__optional__||integer (int32)
+|**Query**|**imageIds** +
+__optional__||string
+|**Query**|**isNormal** +
+__optional__||string
+|**Query**|**label** +
+__optional__||string
+|**Query**|**name** +
+__optional__||string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**praiseNum** +
+__optional__||integer (int32)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**styleLabelForAdd** +
+__optional__||string
+|**Query**|**userId** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__||string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_workback,WorkBack>> > array
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* index-controller
+
+
+[[_addfeedbackusingpost]]
+=== 添加建议反馈
+....
+POST /portal/myWorld/addFeedBack
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**content** +
+__optional__|content|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* my-world-controller
+
+
+[[_allmessageusingpost]]
+=== 全部消息
+....
+POST /portal/myWorld/allMessage
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* my-world-controller
+
+
+[[_feedbacklikeusingpost]]
+=== 点赞建议反馈
+....
+POST /portal/myWorld/feedBackLike
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**id** +
+__optional__|id|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* my-world-controller
+
+
+[[_feedbacklistusingpost]]
+=== 查询建议反馈
+....
+POST /portal/myWorld/feedBackList
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* my-world-controller
+
+
+[[_feedbackoptusingpost]]
+=== 反馈优化
+....
+POST /portal/myWorld/feedBackOpt
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* my-world-controller
+
+
+[[_invitefriendsusingpost]]
+=== 邀请好友
+....
+POST /portal/myWorld/inviteFriends
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* my-world-controller
+
+
+[[_myfocususingpost]]
+=== 关注
+....
+POST /portal/myWorld/myFocus
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* my-world-controller
+
+
+[[_mylikeusingpost]]
+=== 喜欢
+....
+POST /portal/myWorld/myLike
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* my-world-controller
+
+
+[[_newmessageusingpost]]
+=== 最新消息
+....
+POST /portal/myWorld/newMessage
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* my-world-controller
+
+
+[[_newmessagereadusingpost]]
+=== 最新消息已读
+....
+POST /portal/myWorld/newMessageRead
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**messageId** +
+__optional__|messageId|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* my-world-controller
+
+
+[[_newsusingpost]]
+=== 动态消息
+....
+POST /portal/myWorld/news
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* my-world-controller
+
+
+[[_querycountusingpost]]
+=== 查询数量
+....
+POST /portal/myWorld/queryCount
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* my-world-controller
+
+
+[[_systemmessageusingpost]]
+=== 系统消息
+....
+POST /portal/myWorld/systemMessage
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* my-world-controller
+
+
+[[_versionspoilerusingpost]]
+=== 版本剧透
+....
+POST /portal/myWorld/versionSpoiler
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* my-world-controller
+
+
+[[_activeregisterusingget]]
+=== 用户注册-激活
+....
+GET /public/user/activeRegister
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**param** +
+__optional__|param|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-controller
+
+
+[[_alltagsusingpost]]
+=== 查询所有标签
+....
+POST /public/user/allTags
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-controller
+
+
+[[_choosetagsusingpost]]
+=== 选择标签
+....
+POST /public/user/chooseTags
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**ids** +
+__optional__|ids|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-controller
+
+
+[[_forgetpasswordusingpost]]
+=== 用户登录
+....
+POST /public/user/forgetPassword
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**email** +
+__optional__|email|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-controller
+
+
+[[_ispainterusingpost]]
+=== 是否是画师
+....
+POST /public/user/isPainter
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-controller
+
+
+[[_logonusingpost]]
+=== 用户登录
+....
+POST /public/user/logon
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-controller
+
+
+[[_registeruserusingpost]]
+=== 用户注册
+....
+POST /public/user/registerUser
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Body**|**user** +
+__required__|user|<<_de67bf6912a9090b1ed67f124bb09aa9,用户参数类>>
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-controller
+
+
+[[_resetpasswordusingpost]]
+=== 忘记密码
+....
+POST /public/user/resetPassword
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-controller
+
+
+[[_testusingget]]
+=== test
+....
+GET /public/user/test
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-controller
+
+
+[[_getsysconfigusingpost]]
+=== getSysConfig
+....
+POST /sys/getSysConfig
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* system-controller
+
+
+[[_getsysconfigusingget]]
+=== getSysConfig
+....
+GET /sys/getSysConfig
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* system-controller
+
+
+[[_getsysconfigusingput]]
+=== getSysConfig
+....
+PUT /sys/getSysConfig
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* system-controller
+
+
+[[_getsysconfigusingdelete]]
+=== getSysConfig
+....
+DELETE /sys/getSysConfig
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* system-controller
+
+
+[[_getsysconfigusingpatch]]
+=== getSysConfig
+....
+PATCH /sys/getSysConfig
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* system-controller
+
+
+[[_getsysconfigusinghead]]
+=== getSysConfig
+....
+HEAD /sys/getSysConfig
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* system-controller
+
+
+[[_getsysconfigusingoptions]]
+=== getSysConfig
+....
+OPTIONS /sys/getSysConfig
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* system-controller
+
+
+[[_geninvitationcodeusingpost]]
+=== 生成邀请码
+....
+POST /user/code/genInvitationCode
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* code-controller
+
+
+[[_addadminuserusingpost]]
+=== 添加管理员
+....
+POST /web/admin/addAdminUser
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**createTime** +
+__optional__||string (date-time)
+|**Query**|**email** +
+__optional__|用户名（邮箱）|string
+|**Query**|**endTime** +
+__optional__|结束时间|string
+|**Query**|**id** +
+__optional__||integer (int32)
+|**Query**|**location** +
+__optional__|所在地|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**password** +
+__optional__|密码|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**position** +
+__optional__|职位|string
+|**Query**|**realName** +
+__optional__|真实姓名|string
+|**Query**|**roleId** +
+__optional__|角色id|integer (int32)
+|**Query**|**startTime** +
+__optional__|开始时间|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* admin-controller
+
+
+[[_activeusingpost]]
+=== 活跃作品
+....
+POST /web/admin/check/active
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**categoryLabelForAdd** +
+__optional__|string
+|**Query**|**content** +
+__optional__|string
+|**Query**|**id** +
+__optional__|integer (int32)
+|**Query**|**imageIds** +
+__optional__|string
+|**Query**|**isNormal** +
+__optional__|string
+|**Query**|**label** +
+__optional__|string
+|**Query**|**name** +
+__optional__|string
+|**Query**|**pageNo** +
+__optional__|integer (int32)
+|**Query**|**pageSize** +
+__optional__|integer (int32)
+|**Query**|**praiseNum** +
+__optional__|integer (int32)
+|**Query**|**status** +
+__optional__|integer (int32)
+|**Query**|**styleLabelForAdd** +
+__optional__|string
+|**Query**|**userId** +
+__optional__|integer (int32)
+|**Query**|**userName** +
+__optional__|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_workback,WorkBack>> > array
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* work-controller
+
+
+[[_attentionpainterusingpost]]
+=== 关注的画师
+....
+POST /web/admin/check/attentionPainter
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* work-controller
+
+
+[[_identifycheckusingpost]]
+=== 身份审核
+....
+POST /web/admin/check/iden/identifyCheck
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* iden-check-controller
+
+
+[[_listusingpost]]
+=== 查询列表
+....
+POST /web/admin/check/iden/list
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_userback,UserBack>> > array
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* iden-check-controller
+
+
+[[_selectforlistusingpost_9]]
+=== 作品列表
+....
+POST /web/admin/check/selectForList
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**categoryLabelForAdd** +
+__optional__|string
+|**Query**|**content** +
+__optional__|string
+|**Query**|**id** +
+__optional__|integer (int32)
+|**Query**|**imageIds** +
+__optional__|string
+|**Query**|**isNormal** +
+__optional__|string
+|**Query**|**label** +
+__optional__|string
+|**Query**|**name** +
+__optional__|string
+|**Query**|**pageNo** +
+__optional__|integer (int32)
+|**Query**|**pageSize** +
+__optional__|integer (int32)
+|**Query**|**praiseNum** +
+__optional__|integer (int32)
+|**Query**|**status** +
+__optional__|integer (int32)
+|**Query**|**styleLabelForAdd** +
+__optional__|string
+|**Query**|**userId** +
+__optional__|integer (int32)
+|**Query**|**userName** +
+__optional__|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_workback,WorkBack>> > array
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* work-controller
+
+
+[[_listusingpost_1]]
+=== 作品审核列表
+....
+POST /web/admin/check/work/list
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_workback,WorkBack>> > array
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* work-check-controller
+
+
+[[_workcheckusingpost]]
+=== 作品审核
+....
+POST /web/admin/check/work/workCheck
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**categoryLabelForAdd** +
+__optional__|string
+|**Query**|**content** +
+__optional__|string
+|**Query**|**id** +
+__optional__|integer (int32)
+|**Query**|**imageIds** +
+__optional__|string
+|**Query**|**isNormal** +
+__optional__|string
+|**Query**|**label** +
+__optional__|string
+|**Query**|**name** +
+__optional__|string
+|**Query**|**pageNo** +
+__optional__|integer (int32)
+|**Query**|**pageSize** +
+__optional__|integer (int32)
+|**Query**|**praiseNum** +
+__optional__|integer (int32)
+|**Query**|**status** +
+__optional__|integer (int32)
+|**Query**|**styleLabelForAdd** +
+__optional__|string
+|**Query**|**userId** +
+__optional__|integer (int32)
+|**Query**|**userName** +
+__optional__|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* work-check-controller
+
+
+[[_workcheckfailusingpost]]
+=== 作品审核失败
+....
+POST /web/admin/check/workFail/workCheckFail
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_workback,WorkBack>> > array
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* work-check-fail-controller
+
+
+[[_deladminuserusingpost]]
+=== 单个删除管理员
+....
+POST /web/admin/delAdminUser
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**createTime** +
+__optional__||string (date-time)
+|**Query**|**email** +
+__optional__|用户名（邮箱）|string
+|**Query**|**endTime** +
+__optional__|结束时间|string
+|**Query**|**id** +
+__optional__||integer (int32)
+|**Query**|**location** +
+__optional__|所在地|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**password** +
+__optional__|密码|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**position** +
+__optional__|职位|string
+|**Query**|**realName** +
+__optional__|真实姓名|string
+|**Query**|**roleId** +
+__optional__|角色id|integer (int32)
+|**Query**|**startTime** +
+__optional__|开始时间|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* admin-controller
+
+
+[[_deladminuserbatchusingpost]]
+=== 批量删除管理员
+....
+POST /web/admin/delAdminUserBatch
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**ids** +
+__optional__|ids|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* admin-controller
+
+
+[[_detailadminuserusingpost]]
+=== 查询管理员详情
+....
+POST /web/admin/detailAdminUser
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**createTime** +
+__optional__||string (date-time)
+|**Query**|**email** +
+__optional__|用户名（邮箱）|string
+|**Query**|**endTime** +
+__optional__|结束时间|string
+|**Query**|**id** +
+__optional__||integer (int32)
+|**Query**|**location** +
+__optional__|所在地|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**password** +
+__optional__|密码|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**position** +
+__optional__|职位|string
+|**Query**|**realName** +
+__optional__|真实姓名|string
+|**Query**|**roleId** +
+__optional__|角色id|integer (int32)
+|**Query**|**startTime** +
+__optional__|开始时间|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* admin-controller
+
+
+[[_getalladminuserusingpost]]
+=== 获取所有的管理员
+....
+POST /web/admin/getAllAdminUser
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**createTime** +
+__optional__||string (date-time)
+|**Query**|**email** +
+__optional__|用户名（邮箱）|string
+|**Query**|**endTime** +
+__optional__|结束时间|string
+|**Query**|**id** +
+__optional__||integer (int32)
+|**Query**|**location** +
+__optional__|所在地|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**password** +
+__optional__|密码|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**position** +
+__optional__|职位|string
+|**Query**|**realName** +
+__optional__|真实姓名|string
+|**Query**|**roleId** +
+__optional__|角色id|integer (int32)
+|**Query**|**startTime** +
+__optional__|开始时间|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_adminuserback,AdminUserBack>> > array
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* admin-controller
+
+
+[[_addusingpost]]
+=== 添加协议
+....
+POST /web/admin/policy/add
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* policy-controller
+
+
+[[_addusingpost_1]]
+=== 添加
+....
+POST /web/admin/report/add
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**content** +
+__optional__|string
+|**Query**|**contentExt** +
+__optional__|string
+|**Query**|**createTime** +
+__optional__|string (date-time)
+|**Query**|**id** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* report-condition-controller
+
+
+[[_deletebybatchusingpost]]
+=== 批量删除
+....
+POST /web/admin/report/deleteByBatch
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**ids** +
+__optional__|ids|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* report-condition-controller
+
+
+[[_deletebyidusingpost_2]]
+=== 单个删除
+....
+POST /web/admin/report/deleteById
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**id** +
+__optional__|id|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* report-condition-controller
+
+
+[[_detailusingpost_2]]
+=== 详情
+....
+POST /web/admin/report/detail
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**content** +
+__optional__|string
+|**Query**|**contentExt** +
+__optional__|string
+|**Query**|**createTime** +
+__optional__|string (date-time)
+|**Query**|**id** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* report-condition-controller
+
+
+[[_editusingpost_1]]
+=== 编辑
+....
+POST /web/admin/report/edit
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**content** +
+__optional__|string
+|**Query**|**contentExt** +
+__optional__|string
+|**Query**|**createTime** +
+__optional__|string (date-time)
+|**Query**|**id** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* report-condition-controller
+
+
+[[_selectforlistusingpost_5]]
+=== 查询列表
+....
+POST /web/admin/report/selectForList
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**content** +
+__optional__|string
+|**Query**|**contentExt** +
+__optional__|string
+|**Query**|**createTime** +
+__optional__|string (date-time)
+|**Query**|**id** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_sysreport,SysReport>> > array
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* report-condition-controller
+
+
+[[_updateadminuserusingpost]]
+=== 更新管理员
+....
+POST /web/admin/updateAdminUser
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**createTime** +
+__optional__||string (date-time)
+|**Query**|**email** +
+__optional__|用户名（邮箱）|string
+|**Query**|**endTime** +
+__optional__|结束时间|string
+|**Query**|**id** +
+__optional__||integer (int32)
+|**Query**|**location** +
+__optional__|所在地|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**password** +
+__optional__|密码|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**position** +
+__optional__|职位|string
+|**Query**|**realName** +
+__optional__|真实姓名|string
+|**Query**|**roleId** +
+__optional__|角色id|integer (int32)
+|**Query**|**startTime** +
+__optional__|开始时间|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* admin-controller
+
+
+[[_addusingpost_2]]
+=== 添加
+....
+POST /web/manager/article/add
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**action** +
+__optional__|string
+|**Query**|**content** +
+__optional__|string
+|**Query**|**createTime** +
+__optional__|string (date-time)
+|**Query**|**fromUserId** +
+__optional__|integer (int32)
+|**Query**|**fromUserName** +
+__optional__|string
+|**Query**|**id** +
+__optional__|integer (int32)
+|**Query**|**isRead** +
+__optional__|string
+|**Query**|**sourceId** +
+__optional__|integer (int32)
+|**Query**|**sourceType** +
+__optional__|string
+|**Query**|**title** +
+__optional__|string
+|**Query**|**toUserId** +
+__optional__|integer (int32)
+|**Query**|**toUserName** +
+__optional__|string
+|**Query**|**type** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* system-message-controller
+
+
+[[_deletebybatchusingpost_1]]
+=== 批量删除
+....
+POST /web/manager/article/deleteByBatch
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**ids** +
+__optional__|ids|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* system-message-controller
+
+
+[[_deletebyidusingpost_3]]
+=== 单个删除
+....
+POST /web/manager/article/deleteById
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**action** +
+__optional__|string
+|**Query**|**content** +
+__optional__|string
+|**Query**|**createTime** +
+__optional__|string (date-time)
+|**Query**|**fromUserId** +
+__optional__|integer (int32)
+|**Query**|**fromUserName** +
+__optional__|string
+|**Query**|**id** +
+__optional__|integer (int32)
+|**Query**|**isRead** +
+__optional__|string
+|**Query**|**sourceId** +
+__optional__|integer (int32)
+|**Query**|**sourceType** +
+__optional__|string
+|**Query**|**title** +
+__optional__|string
+|**Query**|**toUserId** +
+__optional__|integer (int32)
+|**Query**|**toUserName** +
+__optional__|string
+|**Query**|**type** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* system-message-controller
+
+
+[[_detailusingpost_4]]
+=== 详情
+....
+POST /web/manager/article/detail
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**action** +
+__optional__|string
+|**Query**|**content** +
+__optional__|string
+|**Query**|**createTime** +
+__optional__|string (date-time)
+|**Query**|**fromUserId** +
+__optional__|integer (int32)
+|**Query**|**fromUserName** +
+__optional__|string
+|**Query**|**id** +
+__optional__|integer (int32)
+|**Query**|**isRead** +
+__optional__|string
+|**Query**|**sourceId** +
+__optional__|integer (int32)
+|**Query**|**sourceType** +
+__optional__|string
+|**Query**|**title** +
+__optional__|string
+|**Query**|**toUserId** +
+__optional__|integer (int32)
+|**Query**|**toUserName** +
+__optional__|string
+|**Query**|**type** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* system-message-controller
+
+
+[[_selectforlistusingpost_7]]
+=== 查询列表
+....
+POST /web/manager/article/selectForList
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**action** +
+__optional__|string
+|**Query**|**content** +
+__optional__|string
+|**Query**|**createTime** +
+__optional__|string (date-time)
+|**Query**|**fromUserId** +
+__optional__|integer (int32)
+|**Query**|**fromUserName** +
+__optional__|string
+|**Query**|**id** +
+__optional__|integer (int32)
+|**Query**|**isRead** +
+__optional__|string
+|**Query**|**sourceId** +
+__optional__|integer (int32)
+|**Query**|**sourceType** +
+__optional__|string
+|**Query**|**title** +
+__optional__|string
+|**Query**|**toUserId** +
+__optional__|integer (int32)
+|**Query**|**toUserName** +
+__optional__|string
+|**Query**|**type** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* system-message-controller
+
+
+[[_selectforlistusingpost]]
+=== 查询活跃用户列表
+....
+POST /web/manager/user/active/selectForList
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_111b4988aec129a9a0096e12cc00f504,PageData«UserBack»>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* active-user-controller
+
+
+[[_logondatausingpost]]
+=== 登录注册数据
+....
+POST /web/manager/user/data/logonData
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**days** +
+__required__|days|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_logondatausingget]]
+=== 登录注册数据
+....
+GET /web/manager/user/data/logonData
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**days** +
+__required__|days|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_logondatausingput]]
+=== 登录注册数据
+....
+PUT /web/manager/user/data/logonData
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**days** +
+__required__|days|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_logondatausingdelete]]
+=== 登录注册数据
+....
+DELETE /web/manager/user/data/logonData
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**days** +
+__required__|days|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_logondatausingpatch]]
+=== 登录注册数据
+....
+PATCH /web/manager/user/data/logonData
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**days** +
+__required__|days|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_logondatausinghead]]
+=== 登录注册数据
+....
+HEAD /web/manager/user/data/logonData
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**days** +
+__required__|days|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_logondatausingoptions]]
+=== 登录注册数据
+....
+OPTIONS /web/manager/user/data/logonData
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**days** +
+__required__|days|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_painterusingpost]]
+=== 画师认证数据
+....
+POST /web/manager/user/data/painter
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**days** +
+__required__|days|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_painterusingget]]
+=== 画师认证数据
+....
+GET /web/manager/user/data/painter
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**days** +
+__required__|days|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_painterusingput]]
+=== 画师认证数据
+....
+PUT /web/manager/user/data/painter
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**days** +
+__required__|days|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_painterusingdelete]]
+=== 画师认证数据
+....
+DELETE /web/manager/user/data/painter
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**days** +
+__required__|days|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_painterusingpatch]]
+=== 画师认证数据
+....
+PATCH /web/manager/user/data/painter
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**days** +
+__required__|days|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_painterusinghead]]
+=== 画师认证数据
+....
+HEAD /web/manager/user/data/painter
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**days** +
+__required__|days|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_painterusingoptions]]
+=== 画师认证数据
+....
+OPTIONS /web/manager/user/data/painter
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**days** +
+__required__|days|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_paintgerareadistributedusingpost]]
+=== 登录注册数据
+....
+POST /web/manager/user/data/paintgerAreaDistributed
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_paintgerareadistributedusingget]]
+=== 登录注册数据
+....
+GET /web/manager/user/data/paintgerAreaDistributed
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_paintgerareadistributedusingput]]
+=== 登录注册数据
+....
+PUT /web/manager/user/data/paintgerAreaDistributed
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_paintgerareadistributedusingdelete]]
+=== 登录注册数据
+....
+DELETE /web/manager/user/data/paintgerAreaDistributed
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_paintgerareadistributedusingpatch]]
+=== 登录注册数据
+....
+PATCH /web/manager/user/data/paintgerAreaDistributed
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_paintgerareadistributedusinghead]]
+=== 登录注册数据
+....
+HEAD /web/manager/user/data/paintgerAreaDistributed
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_paintgerareadistributedusingoptions]]
+=== 登录注册数据
+....
+OPTIONS /web/manager/user/data/paintgerAreaDistributed
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_userareadistributedusingpost]]
+=== 登录注册数据
+....
+POST /web/manager/user/data/userAreaDistributed
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_userareadistributedusingget]]
+=== 登录注册数据
+....
+GET /web/manager/user/data/userAreaDistributed
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_userareadistributedusingput]]
+=== 登录注册数据
+....
+PUT /web/manager/user/data/userAreaDistributed
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_userareadistributedusingdelete]]
+=== 登录注册数据
+....
+DELETE /web/manager/user/data/userAreaDistributed
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_userareadistributedusingpatch]]
+=== 登录注册数据
+....
+PATCH /web/manager/user/data/userAreaDistributed
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_userareadistributedusinghead]]
+=== 登录注册数据
+....
+HEAD /web/manager/user/data/userAreaDistributed
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_userareadistributedusingoptions]]
+=== 登录注册数据
+....
+OPTIONS /web/manager/user/data/userAreaDistributed
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_visitorsusingpost]]
+=== 游客访问量
+....
+POST /web/manager/user/data/visitors
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_workforwardingusingpost]]
+=== 作品转发数据
+....
+POST /web/manager/user/data/workForwarding
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* user-data-controller
+
+
+[[_enableuserusingpost]]
+=== 更改账号状态
+....
+POST /web/manager/user/noAuth/enableUser
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* no-auth-controller
+
+
+[[_selectforlistusingpost_3]]
+=== 查询列表
+....
+POST /web/manager/user/noAuth/selectForList
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_userback,UserBack>> > array
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* no-auth-controller
+
+
+[[_detailusingpost_1]]
+=== 查询画师风格
+....
+POST /web/manager/user/painter/detail
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* painter-controller
+
+
+[[_detailusingget]]
+=== 查询画师风格
+....
+GET /web/manager/user/painter/detail
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* painter-controller
+
+
+[[_detailusingput]]
+=== 查询画师风格
+....
+PUT /web/manager/user/painter/detail
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* painter-controller
+
+
+[[_detailusingdelete]]
+=== 查询画师风格
+....
+DELETE /web/manager/user/painter/detail
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* painter-controller
+
+
+[[_detailusingpatch]]
+=== 查询画师风格
+....
+PATCH /web/manager/user/painter/detail
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* painter-controller
+
+
+[[_detailusinghead]]
+=== 查询画师风格
+....
+HEAD /web/manager/user/painter/detail
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* painter-controller
+
+
+[[_detailusingoptions]]
+=== 查询画师风格
+....
+OPTIONS /web/manager/user/painter/detail
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* painter-controller
+
+
+[[_enableusingpost]]
+=== 更改账号状态
+....
+POST /web/manager/user/painter/enable
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* painter-controller
+
+
+[[_enableusingget]]
+=== 更改账号状态
+....
+GET /web/manager/user/painter/enable
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* painter-controller
+
+
+[[_enableusingput]]
+=== 更改账号状态
+....
+PUT /web/manager/user/painter/enable
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* painter-controller
+
+
+[[_enableusingdelete]]
+=== 更改账号状态
+....
+DELETE /web/manager/user/painter/enable
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* painter-controller
+
+
+[[_enableusingpatch]]
+=== 更改账号状态
+....
+PATCH /web/manager/user/painter/enable
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* painter-controller
+
+
+[[_enableusinghead]]
+=== 更改账号状态
+....
+HEAD /web/manager/user/painter/enable
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* painter-controller
+
+
+[[_enableusingoptions]]
+=== 更改账号状态
+....
+OPTIONS /web/manager/user/painter/enable
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**204**|No Content|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* painter-controller
+
+
+[[_selectforlistusingpost_4]]
+=== 查询列表
+....
+POST /web/manager/user/painter/selectForList
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**activeCount** +
+__optional__||integer (int32)
+|**Query**|**city** +
+__optional__|用户注册所选城市|string
+|**Query**|**createBy** +
+__optional__||integer (int32)
+|**Query**|**email** +
+__optional__|邮箱|string
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string (date-time)
+|**Query**|**invitationCode** +
+__optional__|邀请码|string
+|**Query**|**lastLoginIp** +
+__optional__||string
+|**Query**|**lastLoginTime** +
+__optional__||string (date-time)
+|**Query**|**nickName** +
+__optional__|昵称 由最多8位中文、英文、下划线、数字组成|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**painter** +
+__optional__||string
+|**Query**|**password** +
+__optional__|密码 由至少8位英文和数字组成|string
+|**Query**|**phone** +
+__optional__|手机号|string
+|**Query**|**pwdUpdateDate** +
+__optional__||string (date-time)
+|**Query**|**rememberMe** +
+__optional__||integer (int32)
+|**Query**|**resetPasswordToken** +
+__optional__||string
+|**Query**|**roleId** +
+__optional__||integer (int32)
+|**Query**|**startTime** +
+__optional__||string (date-time)
+|**Query**|**status** +
+__optional__||integer (int32)
+|**Query**|**updateBy** +
+__optional__||integer (int32)
+|**Query**|**updateTime** +
+__optional__||string (date-time)
+|**Query**|**userID** +
+__optional__||integer (int32)
+|**Query**|**userName** +
+__optional__|用户名（邮箱）|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_userback,UserBack>> > array
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* painter-controller
+
+
+[[_addusingpost_3]]
+=== 添加版本剧透
+....
+POST /web/manager/user/voice/VerSpo/add
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**content** +
+__optional__|string
+|**Query**|**endTime** +
+__optional__|string
+|**Query**|**id** +
+__optional__|integer (int32)
+|**Query**|**pageNo** +
+__optional__|integer (int32)
+|**Query**|**pageSize** +
+__optional__|integer (int32)
+|**Query**|**publishTime** +
+__optional__|string (date-time)
+|**Query**|**startTime** +
+__optional__|string
+|**Query**|**status** +
+__optional__|integer (int32)
+|**Query**|**type** +
+__optional__|string
+|**Query**|**userId** +
+__optional__|integer (int32)
+|**Query**|**version** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* version-spoilers-controller
+
+
+[[_deletebybatchusingpost_2]]
+=== 批量删除版本剧透
+....
+POST /web/manager/user/voice/VerSpo/deleteByBatch
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**ids** +
+__optional__|ids|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* version-spoilers-controller
+
+
+[[_deletebyidusingpost_4]]
+=== 单个删除版本剧透
+....
+POST /web/manager/user/voice/VerSpo/deleteById
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**id** +
+__optional__|id|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* version-spoilers-controller
+
+
+[[_detailusingpost_5]]
+=== 查询版本剧透
+....
+POST /web/manager/user/voice/VerSpo/detail
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**content** +
+__optional__|string
+|**Query**|**endTime** +
+__optional__|string
+|**Query**|**id** +
+__optional__|integer (int32)
+|**Query**|**pageNo** +
+__optional__|integer (int32)
+|**Query**|**pageSize** +
+__optional__|integer (int32)
+|**Query**|**publishTime** +
+__optional__|string (date-time)
+|**Query**|**startTime** +
+__optional__|string
+|**Query**|**status** +
+__optional__|integer (int32)
+|**Query**|**type** +
+__optional__|string
+|**Query**|**userId** +
+__optional__|integer (int32)
+|**Query**|**version** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* version-spoilers-controller
+
+
+[[_editusingpost_2]]
+=== 修改版本剧透
+....
+POST /web/manager/user/voice/VerSpo/edit
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**content** +
+__optional__|string
+|**Query**|**endTime** +
+__optional__|string
+|**Query**|**id** +
+__optional__|integer (int32)
+|**Query**|**pageNo** +
+__optional__|integer (int32)
+|**Query**|**pageSize** +
+__optional__|integer (int32)
+|**Query**|**publishTime** +
+__optional__|string (date-time)
+|**Query**|**startTime** +
+__optional__|string
+|**Query**|**status** +
+__optional__|integer (int32)
+|**Query**|**type** +
+__optional__|string
+|**Query**|**userId** +
+__optional__|integer (int32)
+|**Query**|**version** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* version-spoilers-controller
+
+
+[[_selectforlistusingpost_8]]
+=== 查询版本剧透列表
+....
+POST /web/manager/user/voice/VerSpo/selectForList
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**content** +
+__optional__|string
+|**Query**|**endTime** +
+__optional__|string
+|**Query**|**id** +
+__optional__|integer (int32)
+|**Query**|**pageNo** +
+__optional__|integer (int32)
+|**Query**|**pageSize** +
+__optional__|integer (int32)
+|**Query**|**publishTime** +
+__optional__|string (date-time)
+|**Query**|**startTime** +
+__optional__|string
+|**Query**|**status** +
+__optional__|integer (int32)
+|**Query**|**type** +
+__optional__|string
+|**Query**|**userId** +
+__optional__|integer (int32)
+|**Query**|**version** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_versionspoback,VersionSpoBack>> > array
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* version-spoilers-controller
+
+
+[[_deletebatchusingpost]]
+=== 建议反馈批量删除
+....
+POST /web/manager/user/voice/feedback/deleteBatch
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**ids** +
+__optional__|ids|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* feed-back-controller
+
+
+[[_deletebyidusingpost]]
+=== 建议反馈单个删除
+....
+POST /web/manager/user/voice/feedback/deleteById
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**endTime** +
+__optional__|string
+|**Query**|**key** +
+__optional__|string
+|**Query**|**pageNo** +
+__optional__|integer (int32)
+|**Query**|**pageSize** +
+__optional__|integer (int32)
+|**Query**|**startTime** +
+__optional__|string
+|**Query**|**suggestId** +
+__optional__|integer (int32)
+|**Query**|**userId** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* feed-back-controller
+
+
+[[_likeusingpost]]
+=== 建议反馈点赞
+....
+POST /web/manager/user/voice/feedback/like
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**endTime** +
+__optional__|string
+|**Query**|**key** +
+__optional__|string
+|**Query**|**pageNo** +
+__optional__|integer (int32)
+|**Query**|**pageSize** +
+__optional__|integer (int32)
+|**Query**|**startTime** +
+__optional__|string
+|**Query**|**suggestId** +
+__optional__|integer (int32)
+|**Query**|**userId** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* feed-back-controller
+
+
+[[_selectforlistusingpost_1]]
+=== 建议反馈列表集合
+....
+POST /web/manager/user/voice/feedback/selectForList
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**endTime** +
+__optional__|string
+|**Query**|**key** +
+__optional__|string
+|**Query**|**pageNo** +
+__optional__|integer (int32)
+|**Query**|**pageSize** +
+__optional__|integer (int32)
+|**Query**|**startTime** +
+__optional__|string
+|**Query**|**suggestId** +
+__optional__|integer (int32)
+|**Query**|**userId** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* feed-back-controller
+
+
+[[_deletebatchusingpost_1]]
+=== 反馈优化批量删除
+....
+POST /web/manager/user/voice/feedbackOpt/deleteBatch
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**ids** +
+__optional__|ids|string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* feed-back-option-controller
+
+
+[[_deletebyidusingpost_1]]
+=== 反馈优化单个删除
+....
+POST /web/manager/user/voice/feedbackOpt/deleteById
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* feed-back-option-controller
+
+
+[[_detailusingpost]]
+=== 查询反馈优化
+....
+POST /web/manager/user/voice/feedbackOpt/detail
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* feed-back-option-controller
+
+
+[[_editusingpost]]
+=== 反馈优化编辑
+....
+POST /web/manager/user/voice/feedbackOpt/edit
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* feed-back-option-controller
+
+
+[[_selectforlistusingpost_2]]
+=== 反馈优化列表集合
+....
+POST /web/manager/user/voice/feedbackOpt/selectForList
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^4"]
+|===
+|Type|Name|Schema
+|**Query**|**content** +
+__optional__|string
+|**Query**|**endTime** +
+__optional__|string
+|**Query**|**id** +
+__optional__|integer (int32)
+|**Query**|**pageNo** +
+__optional__|integer (int32)
+|**Query**|**pageSize** +
+__optional__|integer (int32)
+|**Query**|**publishTime** +
+__optional__|string (date-time)
+|**Query**|**startTime** +
+__optional__|string
+|**Query**|**status** +
+__optional__|integer (int32)
+|**Query**|**type** +
+__optional__|string
+|**Query**|**userId** +
+__optional__|integer (int32)
+|**Query**|**version** +
+__optional__|integer (int32)
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_versionspoback,VersionSpoBack>> > array
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* feed-back-option-controller
+
+
+[[_deleteusingpost]]
+=== 删除角色
+....
+POST /web/role/delete
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string
+|**Query**|**id** +
+__optional__|角色id|integer (int32)
+|**Query**|**name** +
+__optional__|角色名称|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**privilegeIds** +
+__optional__|权限id集合|string
+|**Query**|**roleDescription** +
+__optional__|角色描述|string
+|**Query**|**startTime** +
+__optional__||string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* role-controller
+
+
+[[_detailusingpost_3]]
+=== 角色详情
+....
+POST /web/role/detail
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string
+|**Query**|**id** +
+__optional__|角色id|integer (int32)
+|**Query**|**name** +
+__optional__|角色名称|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**privilegeIds** +
+__optional__|权限id集合|string
+|**Query**|**roleDescription** +
+__optional__|角色描述|string
+|**Query**|**startTime** +
+__optional__||string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* role-controller
+
+
+[[_getallprivilegesusingpost]]
+=== 查询所有权限
+....
+POST /web/role/getAllPrivileges
+....
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* role-controller
+
+
+[[_insertusingpost]]
+=== 添加角色
+....
+POST /web/role/insert
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string
+|**Query**|**id** +
+__optional__|角色id|integer (int32)
+|**Query**|**name** +
+__optional__|角色名称|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**privilegeIds** +
+__optional__|权限id集合|string
+|**Query**|**roleDescription** +
+__optional__|角色描述|string
+|**Query**|**startTime** +
+__optional__||string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* role-controller
+
+
+[[_selectforlistusingpost_6]]
+=== 查询角色列表
+....
+POST /web/role/selectForList
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string
+|**Query**|**id** +
+__optional__|角色id|integer (int32)
+|**Query**|**name** +
+__optional__|角色名称|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**privilegeIds** +
+__optional__|权限id集合|string
+|**Query**|**roleDescription** +
+__optional__|角色描述|string
+|**Query**|**startTime** +
+__optional__||string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|< <<_roleback,RoleBack>> > array
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* role-controller
+
+
+[[_updateusingpost]]
+=== 更新角色
+....
+POST /web/role/update
+....
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4"]
+|===
+|Type|Name|Description|Schema
+|**Query**|**enable** +
+__optional__||string
+|**Query**|**endTime** +
+__optional__||string
+|**Query**|**id** +
+__optional__|角色id|integer (int32)
+|**Query**|**name** +
+__optional__|角色名称|string
+|**Query**|**pageNo** +
+__optional__||integer (int32)
+|**Query**|**pageSize** +
+__optional__||integer (int32)
+|**Query**|**privilegeIds** +
+__optional__|权限id集合|string
+|**Query**|**roleDescription** +
+__optional__|角色描述|string
+|**Query**|**startTime** +
+__optional__||string
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|**200**|OK|<<_resultjson,ResultJson>>
+|**201**|Created|No Content
+|**401**|Unauthorized|No Content
+|**403**|Forbidden|No Content
+|**404**|Not Found|No Content
+|===
+
+
+==== Consumes
+
+* `application/json`
+
+
+==== Produces
+
+* `*/*`
+
+
+==== Tags
+
+* role-controller
+
+
+

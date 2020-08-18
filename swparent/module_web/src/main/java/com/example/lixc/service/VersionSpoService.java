@@ -19,7 +19,7 @@ public interface VersionSpoService {
 
     ResultJson edit(VersionSpoQuery sysVersionSpo);
 
-    ResultJson deleteById(String id);
+    ResultJson deleteById(Integer id);
 
     ResultJson deleteByBatch(String ids);
 

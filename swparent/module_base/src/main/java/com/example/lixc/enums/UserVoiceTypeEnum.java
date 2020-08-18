@@ -6,6 +6,9 @@ package com.example.lixc.enums;
  * @createTime 2020/7/7 23:17
  */
 public enum UserVoiceTypeEnum {
+    /**
+     *版本剧透
+     */
     TYPE_VERSIONSPO("spo", "版本剧透"),
 
     TYPE_FEEDBACKOPT("opt", "反馈优化");

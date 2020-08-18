@@ -21,7 +21,14 @@ import java.util.regex.Pattern;
 @Configuration
 public class ToolsUtil {
 
-    //昵称校验 由最多8位中文、英文、下划线、数字组成
+    private static Pattern linePattern = Pattern.compile("_(\\w)");
+    private static Pattern humpPattern = Pattern.compile("[A-Z]");
+
+    /**
+     * 昵称校验 由最多8位中文、英文、下划线、数字组成
+     * @param name 输入昵称
+     * @return
+     */
     public static boolean regexNickName(String name) {
         //子账户名称验证
         String regex = "^[\u4e00-\u9fa5a-zA-Z0-9_]{1,8}$";
@@ -93,10 +100,11 @@ public class ToolsUtil {
 
 
     public static void main(String[] args) {
-        String email="121877388@qq.com";
+        String email = "121877388@qq.com";
         boolean b = regexEmail(email);
         System.out.println(b);
     }
+
     /**
      * <p>Title: getObjectListIsNotNull</p>
      * <p>Description: 如果list不为空返回list第一个对象</p>
@@ -345,7 +353,6 @@ public class ToolsUtil {
     }
 
 
-
     /**
      * URL编码之后的参数，转换为正常的参数
      *
@@ -419,6 +426,20 @@ public class ToolsUtil {
             daysList.add(format);
         }
         return daysList;
+    }
+
+
+    /**
+     * 驼峰转下划线
+     */
+    public static String humpToLine2(String str) {
+        Matcher matcher = humpPattern.matcher(str);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
     }
 
 }

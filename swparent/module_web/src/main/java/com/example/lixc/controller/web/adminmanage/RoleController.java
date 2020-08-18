@@ -1,4 +1,4 @@
-package com.example.lixc.controller.web.adminManage;
+package com.example.lixc.controller.web.adminmanage;
 
 import com.example.lixc.service.RoleService;
 import com.example.lixc.util.ResultJson;

@@ -198,7 +198,7 @@ public class UserPortalServiceImpl implements UserPortalService {
         //设置一次登录时间
         //查询登录记录表中是否存在数据，如果存在，表示非第一次登录，如果不存在,表示第一次登录，上次登录时间为null
         int count = loginRecordMapper.selectLoginRecordCount(userQuery);
-        log.debug("是否第一次登录：{}", count > 0);
+        log.debug("是否第一次登录：{}", count == 0);
         if (count > 0) {
             user.setLastLoginTime(new Date());
             userMapper.updateByPrimaryKeySelective(user);

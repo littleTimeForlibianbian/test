@@ -1,4 +1,4 @@
-package com.example.lixc.controller.web.userBehavior;
+package com.example.lixc.controller.web.userbehavior;
 
 import com.example.lixc.service.DataService;
 import com.example.lixc.util.ResultJson;

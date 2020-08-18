@@ -15,14 +15,17 @@ import java.util.List;
  */
 @Data
 @ToString
-public class PrivilegeBack  implements Serializable {
+public class PrivilegeBack implements Serializable {
     private static final long serialVersionUID = -2835090875831348875L;
     @Id
     private Integer id;
     private String name;
     private String url;
+    private String tag;
     private Integer type;
     private Integer parent;
-    //存储所属角色  一个权限可能属于多个角色
+    /**
+     * 存储所属角色  一个权限可能属于多个角色
+     */
     private List<Role> roles;
 }

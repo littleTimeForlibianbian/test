@@ -14,16 +14,10 @@ import java.io.Serializable;
  * @createTime 2020/7/1 22:28
  */
 @Data
-public class MessageBack implements Serializable {
+public class MessageBack extends SysMessage implements Serializable {
     private static final long serialVersionUID = -7911491702950811545L;
-    //消息id
-    private SysMessage message;
-    //发送消息的用户信息
-    private User fromUser;
-    //推荐部分的作品信息
-    private SysWork work;
-    //作品所属标签
-    private SysWorkDict dicts;
 
+    //添加人的昵称
+    private String nickName;
 
 }

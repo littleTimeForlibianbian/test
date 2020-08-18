@@ -308,6 +308,14 @@
             and date_format(su.create_time,'%y-%M-%d') &lt;= date_format(#{endTime},'%y-%M-%d')
         </if>
     </select>
+    <select id="selectPrivilegeListByUserName" resultType="com.example.lixc.entity.Privilege">
+        select sp.*
+        from sys_user su,
+             sys_user_role,
+             sys_role_privledge,
+             sys_privilege sp
+        where su.nick_name = #{userName}
+    </select>
 
 
 </mapper>

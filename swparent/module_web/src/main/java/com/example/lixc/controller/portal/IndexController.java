@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.List;
 
+/**
+ * @author 11930
+ */
 @Api("首页管理类")
 @RestController
 @RequestMapping("/portal/index")
@@ -36,7 +39,11 @@ public class IndexController {
     @Autowired
     private SysDictService dictService;
 
-    //查询作品列表  按照时间进行倒叙排序
+    /**
+     * 查询作品列表  按照时间进行倒叙排序
+     * @param query
+     * @return
+     */
     @ApiOperation("查询作品列表")
     @PostMapping("/workList")
     public Page<WorkBack> workList(WorkQuery query) {
@@ -49,7 +56,11 @@ public class IndexController {
     }
 
 
-    //作品详情
+    /**
+     * 作品详情
+     * @param workId
+     * @return
+     */
     @ApiOperation("作品详情")
     @GetMapping("/workDetail")
     public ResultJson workDetail(Integer workId) {
@@ -79,7 +90,11 @@ public class IndexController {
     }
 
 
-    //作品详情
+    /**
+     * 其余作品
+     * @param query
+     * @return
+     */
     @ApiOperation("其余作品")
     @PostMapping("/other")
     public ResultJson other(WorkQuery query) {
@@ -92,7 +107,11 @@ public class IndexController {
     }
 
 
-    //上传图片 file
+    /**
+     * 上传图片 file
+     * @param file
+     * @return
+     */
     @ApiOperation("上传图片")
     @PostMapping("/uploadImage")
     public ResultJson uploadImage(@RequestParam("file") MultipartFile file) {

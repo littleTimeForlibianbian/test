@@ -1,8 +1,10 @@
-package com.example.lixc.controller.web.userVoice;
+package com.example.lixc.controller.web.uservoice;
 
+import com.example.lixc.entity.SysSuggest;
 import com.example.lixc.service.FeedbackService;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.query.SuggestQuery;
+import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,8 @@ public class FeedBackController {
 
     @ApiOperation("建议反馈列表集合")
     @PostMapping("/selectForList")
-    public ResultJson selectForList(SuggestQuery suggestQuery) {
-        return ResultJson.buildSuccess(service.selectForList(suggestQuery));
+    public Page<SysSuggest> selectForList(SuggestQuery suggestQuery) {
+        return service.selectForList(suggestQuery);
     }
 
     @ApiOperation("建议反馈单个删除")

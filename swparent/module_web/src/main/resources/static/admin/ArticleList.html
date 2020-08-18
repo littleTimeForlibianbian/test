@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="./css/xadmin.css">
     <script src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/base.js"></script>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -45,15 +47,15 @@
                                    class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i
+                            <button class="layui-btn" lay-submit="" lay-filter="sreach" type="button" onclick="initList()"><i
                                     class="layui-icon">&#xe615;</i></button>
 
                         </div>
                     </form>
                 </div>
                 <div class="layui-card-header">
-                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
-                    </button>
+                    <!--<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除-->
+                    <!--</button>-->
                     <button class="layui-btn" onclick="xadmin.open('添加系统消息','./Article-add.html',1000,600)"><i
                             class="layui-icon"></i>添加
                     </button>
@@ -62,9 +64,9 @@
                     <table class="layui-table layui-form">
                         <thead>
                         <tr>
-                            <th>
-                                <input type="checkbox" name="" lay-skin="primary">
-                            </th>
+                            <!--<th>-->
+                            <!--<input type="checkbox" name="" lay-skin="primary">-->
+                            <!--</th>-->
                             <th>ID</th>
                             <th>名称</th>
                             <th>创建人</th>
@@ -72,27 +74,27 @@
                             <th>内容简介（关键字）</th>
                             <th>操作</th>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="" lay-skin="primary">
-                            </td>
-                            <td>1</td>
-                            <td>胡凯233343</td>
-                            <td>Xxxxxx</td>
-                            <td><img src="images/bg.png"></td>
-                            <td>2020-1-19</td>
-                            <td>XxxxxxXxxxxxXxxxxx</td>
-                            <td class="td-manage">
-                                <a title="查看" onclick="xadmin.open('查看','ArticleDetails.html',600,650)"
-                                   href="javascript:;">
-                                    <img src="images/see.png" style="margin-top: -3px;">
-                                </a>
-                                <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                                    <i class="layui-icon">&#xe640;</i>
-                                </a>
-                            </td>
-                        </tr>
+                        <tbody id="tbody">
+                        <!--<tr>-->
+                        <!--<td>-->
+                        <!--<input type="checkbox" name="" lay-skin="primary">-->
+                        <!--</td>-->
+                        <!--<td>1</td>-->
+                        <!--<td>胡凯233343</td>-->
+                        <!--<td>Xxxxxx</td>-->
+                        <!--<td><img src="images/bg.png"></td>-->
+                        <!--<td>2020-1-19</td>-->
+                        <!--<td>XxxxxxXxxxxxXxxxxx</td>-->
+                        <!--<td class="td-manage">-->
+                        <!--<a title="查看" onclick="xadmin.open('查看','ArticleDetails.html',600,650)"-->
+                        <!--href="javascript:;">-->
+                        <!--<img src="images/see.png" style="margin-top: -3px;">-->
+                        <!--</a>-->
+                        <!--<a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">-->
+                        <!--<i class="layui-icon">&#xe640;</i>-->
+                        <!--</a>-->
+                        <!--</td>-->
+                        <!--</tr>-->
                         </tbody>
                     </table>
                 </div>
@@ -128,37 +130,90 @@
             elem: '#end' //指定元素
         });
     });
+    $(function () {
+        initList();
+    })
 
-    /*用户-停用*/
-    function member_stop(obj, id) {
-        layer.confirm('确认要停用吗？', function (index) {
+    function initList() {
+        $.ajax({
+            url: basePath + '/web/manager/article/selectForList',//地址
+            data: {
+                type: 1,
+                startTime: $("#start").val(),
+                endTime: $("#end").val(),
+            },//1公告  2提醒 3私信
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data)
+                if (data.status == 200) {
+                    if (data.data.length > 0) {
+                        var list = data.data;
+                        var content = '';
+                        for (var i = 0; i < list.length; i++) {
+                            var obj = list[i];
+                            content += '<tr>\n' +
+                                // '                            <td>\n' +
+                                // '                                <input type="checkbox" name="" lay-skin="primary">\n' +
+                                // '                            </td>\n' +
+                                '                            <td>' + obj.id + '</td>\n' +
+                                '                            <td>' + obj.title + '</td>\n' +
+                                '                            <td>' + obj.nickName + '</td>\n' +
+                                // '                            <td><img src="images/bg.png"></td>\n' +
+                                '                            <td>' + new Date(obj.createTime).format("yyyy-MM-dd") + '</td>\n' +
+                                '                            <td></td>\n' +
+                                '                            <td class="td-manage">\n' +
+                                '                                <a title="查看" onclick="xadmin.open(\'查看\',\'ArticleDetails.html?id=' + obj.id + '\',1000,650)"\n' +
+                                '                                   href="javascript:void(0);">\n' +
+                                '                                    <img src="images/see.png" style="margin-top: -3px;">\n' +
+                                '                                </a>\n' +
+                                '                                <a title="删除" onclick="member_del(this,\'' + obj.id + '\')" href="javascript:void(0);">\n' +
+                                '                                    <i class="layui-icon">&#xe640;</i>\n' +
+                                '                                </a>\n' +
+                                '                            </td>\n' +
+                                '                        </tr>'
+                        }
+                        $("#tbody").empty().append(content);
+                    }else {
+                        $("#tbody").empty();
+                    }
 
-            if ($(obj).attr('title') == '启用') {
-
-                //发异步把用户状态进行更改
-                $(obj).attr('title', '停用')
-                $(obj).find('i').html('&#xe62f;');
-
-                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!', {icon: 5, time: 1000});
-
-            } else {
-                $(obj).attr('title', '启用')
-                $(obj).find('i').html('&#xe601;');
-
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!', {icon: 5, time: 1000});
-            }
-
+                } else {
+                  alert("未知异常")
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //options.obj.value = "出错，请刷新页面重试";
+                alert('error')
+            },
         });
     }
 
     /*用户-删除*/
     function member_del(obj, id) {
         layer.confirm('确认要删除吗？', function (index) {
-            //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!', {icon: 1, time: 1000});
+            $.ajax({
+                url: basePath + '/web/manager/article/deleteById',//地址
+                data: {id: id},//传参数
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.status == 200) {
+                        window.location.reload();
+                        layer.msg('删除成功', {icon: 1});
+                        $(".layui-form-checked").not('.header').parents('tr').remove();
+                    } else {
+                        layer.msg('删除失败', {icon: 1});
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //options.obj.value = "出错，请刷新页面重试";
+                    alert('error')
+                },
+            });
+
         });
     }
 

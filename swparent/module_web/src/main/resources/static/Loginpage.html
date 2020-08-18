@@ -5,12 +5,12 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=width-device,initial-scale=1.0">
     <title>登录页面</title>
-    <link rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet" href="css/bootstrap.css"/>
-    <link rel="stylesheet" href="css/framework-font.css"/>
-    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
-    <script type="text/javascript" src="js/jquery.md5.js"></script>
-    <script type="text/javascript" src="js/base.js"></script>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/framework-font.css"/>
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/js/base.js"></script>
 </head>
 
 <body>
@@ -56,13 +56,18 @@
 
 </body>
 <script type="text/javascript">
-    var forwardParam = getQueryVariable("forwardParam");
-    var workId = getQueryVariable("workId");
+    var forwardParam;
+    var workId;
+    if (window.location.href.charAt("?") != -1) {
+        forwardParam = getQueryVariable("forwardParam");
+        workId = getQueryVariable("workId");
+    }
     $(function () {
         $("#login_button").click(function () {
             loginClick();
         });
     })
+
     function loginClick() {
         var $username = $("#txt_account").val();
         var $password = $("#txt_password").val();

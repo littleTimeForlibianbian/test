@@ -5,6 +5,8 @@ import com.example.lixc.mapper.SysSuggestMapper;
 import com.example.lixc.service.FeedbackService;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.query.SuggestQuery;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +27,15 @@ public class FeedbackServiceImpl implements FeedbackService {
     private SysSuggestMapper suggestMapper;
 
     @Override
-    public List<SysSuggest> selectForList(SuggestQuery suggestQuery) {
-        return suggestMapper.selectForList(suggestQuery);
-
+    public Page<SysSuggest> selectForList(SuggestQuery suggestQuery) {
+        try {
+            PageHelper.startPage(suggestQuery.getPageNo(), suggestQuery.getPageSize(), suggestQuery.getKey());
+            List<SysSuggest> sysSuggests = suggestMapper.selectForList(suggestQuery);
+            return (Page<SysSuggest>) sysSuggests;
+        } catch (Exception e) {
+            log.error("查询建议反馈列表异常：{}", e.getLocalizedMessage());
+            return new Page<>();
+        }
     }
 
     @Override

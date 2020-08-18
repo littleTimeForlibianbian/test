@@ -30,7 +30,7 @@ import java.util.Arrays;
  * @createTime 2020/8/5 17:24
  */
 @Slf4j
-//@Component
+@Component
 public class TokenFilter extends OncePerRequestFilter {
 
     @Resource

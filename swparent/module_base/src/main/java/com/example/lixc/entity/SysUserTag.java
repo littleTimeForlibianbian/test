@@ -5,6 +5,9 @@ import lombok.Data;
 import javax.persistence.Table;
 import javax.persistence.Id;
 
+/**
+ * @author 11930
+ */
 @Data
 @Table(name = "sys_user_tag")
 public class SysUserTag {

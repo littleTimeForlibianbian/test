@@ -6,6 +6,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
+/**
+ * @author 11930
+ */
 @Data
 @Table(name = "sys_suggest")
 public class SysSuggest {

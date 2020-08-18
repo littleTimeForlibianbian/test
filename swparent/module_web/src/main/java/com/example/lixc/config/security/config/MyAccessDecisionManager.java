@@ -15,7 +15,7 @@ import java.util.Iterator;
 
 /**
  * @author lixc
- * @Description  认证管理器
+ * @Description 认证管理器
  * @createTime 2020/6/14 22:54
  */
 @Component
@@ -32,7 +32,9 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
                 //判断是否登陆，没有登陆则authentication是AnonymousAuthenticationToken接口实现类的对象
                 if (authentication instanceof AnonymousAuthenticationToken) {
                     throw new BadCredentialsException("未登录");
-                } else return;
+                } else {
+                    return;
+                }
             }
             //如果匹配上了资源信息，就拿登陆用户的权限信息来对比是否存在于已匹配的角色集合中
             for (GrantedAuthority authority : authentication.getAuthorities()) {

@@ -4,6 +4,7 @@ import com.example.lixc.config.security.entity.JwtUser;
 import com.example.lixc.config.security.utils.JwtTokenUtils;
 import com.example.lixc.vo.query.UserQuery;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,13 +27,12 @@ import java.util.Collection;
  * 该拦截器用于获取用户登录的信息，只需创建一个token并调用authenticationManager.authenticate()让spring-security去进行验证就可以了，不用自己查数据库再对比密码了，这一步交给spring去操作。 这个操作有点像是shiro的subject.login(new UsernamePasswordToken())，验证的事情交给框架。
  * @createTime 2020/6/14 16:58
  */
+@Component
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private ThreadLocal<Integer> rememberMe = new ThreadLocal<>();
-    private AuthenticationManager authenticationManager;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
+    public JWTAuthenticationFilter() {
         super.setFilterProcessesUrl("/auth/login");
     }
 
@@ -44,7 +44,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             UserQuery loginUser = new ObjectMapper().readValue(request.getInputStream(), UserQuery.class);
             rememberMe.set(loginUser.getRememberMe() == null ? 0 : loginUser.getRememberMe());
-            return authenticationManager.authenticate(
+            return this.getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(loginUser.getUserName(), loginUser.getPassword(), new ArrayList<>())
             );
         } catch (IOException e) {

@@ -9,8 +9,60 @@
         <result column="source_id" property="sourceId" jdbcType="INTEGER"/>
         <result column="source_type" property="sourceType" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="send_time" property="sendTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="MessageBackMap" type="com.example.lixc.vo.back.MessageBack">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="action" property="action" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="source_id" property="sourceId" jdbcType="INTEGER"/>
+        <result column="source_type" property="sourceType" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="send_time" property="sendTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="INTEGER"/>
+        <result column="content" property="content" jdbcType="LONGVARCHAR"/>
     </resultMap>
     <resultMap id="ResultMapWithBLOBs" type="com.example.lixc.entity.SysMessage" extends="BaseResultMap">
         <result column="content" property="content" jdbcType="LONGVARCHAR"/>
     </resultMap>
+    <sql id="baseColumn">
+        id, content, type, action, title, source_id, source_type, create_time,send_time ,create_by
+    </sql>
+    <!--    <delete id="deleteBatch">-->
+    <!--        delete from sys_message-->
+    <!--    </delete>-->
+    <select id="selectList" resultType="com.example.lixc.vo.back.MessageBack"
+            parameterType="com.example.lixc.vo.query.MessageQuery">
+        select
+        <include refid="baseColumn"/>
+        from
+        sys_message
+        <where>
+            <if test="messageId > 0">
+                and id = #{messageId}
+            </if>
+            <if test="type > 0">
+                and type = #{type}
+            </if>
+            <if test="action !=null  and  action != ''">
+                and action = #{action}
+            </if>
+            <if test="startTime !=null">
+                and date_format(create_time,'%y-%M-%d') &gt;= date_format(#{startTime},'%y-%M-%d')
+            </if>
+            <if test="endTime !=null">
+                and date_format(create_time,'%y-%M-%d') &lt;= date_format(#{endTime},'%y-%M-%d')
+            </if>
+
+        </where>
+    </select>
+    <select id="selectDetail" resultMap="MessageBackMap">
+        select
+        <include refid="baseColumn"/>
+        from
+        sys_message where id= #{id}
+    </select>
 </mapper>

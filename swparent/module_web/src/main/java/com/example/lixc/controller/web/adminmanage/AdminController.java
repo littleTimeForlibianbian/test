@@ -1,7 +1,6 @@
-package com.example.lixc.controller.web.adminManage;
+package com.example.lixc.controller.web.adminmanage;
 
 import com.example.lixc.service.UserAdminService;
-import com.example.lixc.service.UserPortalService;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.back.AdminUserBack;
 import com.example.lixc.vo.query.AdminUserQuery;

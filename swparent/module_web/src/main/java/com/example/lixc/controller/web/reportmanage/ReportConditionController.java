@@ -1,4 +1,4 @@
-package com.example.lixc.controller.web.reportManage;
+package com.example.lixc.controller.web.reportmanage;
 
 import com.example.lixc.entity.SysReport;
 import com.example.lixc.service.ReportService;
@@ -22,22 +22,27 @@ import java.util.List;
 @Api("作品举报条件")
 @Slf4j
 @RestController
-@RequestMapping("/web/admin/report/")
+@RequestMapping("/web/manager/report")
 public class ReportConditionController {
 
     @Autowired
     private ReportService reportService;
 
+    /**
+     * 默认查询全部
+     *
+     * @param sysReport
+     * @return
+     */
     @ApiOperation("查询列表")
     @PostMapping("/selectForList")
-    //默认查询全部
-    public Page<SysReport> selectForList(SysReport sysReport) {
+    public ResultJson selectForList(SysReport sysReport) {
         List<SysReport> sysReports = reportService.selectForList(sysReport);
         try {
-            return (Page<SysReport>) sysReports;
+            return ResultJson.buildSuccess(sysReports);
         } catch (Exception e) {
             log.error("查询列表异常：{}", e.getMessage());
-            return new Page<SysReport>();
+            return ResultJson.buildError("查询举报列表异常");
         }
     }
 

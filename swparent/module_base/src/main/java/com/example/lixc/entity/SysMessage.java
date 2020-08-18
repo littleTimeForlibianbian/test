@@ -24,12 +24,11 @@ public class SysMessage {
     private String sourceType;
 
     private Date createTime;
+    
+    private Integer createBy;
+
+    private Date sendTime;
 
     private String content;
-
-    //发送者id
-    private Integer fromUserId;
-    //接受者id
-    private Integer toUserId;
 
 }

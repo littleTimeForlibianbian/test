@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
+/**
+ * @author 11930
+ */
 @Data
 @ToString
 @Table(name = "sys_privilege")
@@ -18,6 +21,7 @@ public class Privilege implements Serializable {
     private Integer id;
     private String name;
     private String url;
+    private String tag;
     private Integer type;
     private Integer parent;
 }

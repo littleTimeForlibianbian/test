@@ -8,12 +8,12 @@ package com.example.lixc.enums;
  */
 public enum ResultJsonEnum implements BaseEnum {
     SUCCESS_CODE(200, "成功"),
-    ERROR_CODE(400, "失败"),
+    ERROR_CODE(500, "失败"),
     LOGINOUT_CODE(440, "温馨提示：请使用对应的账号登录");
     private int code;
     private String name;
 
-    private ResultJsonEnum(int code, String name) {
+    ResultJsonEnum(int code, String name) {
         this.code = code;
         this.name = name;
     }

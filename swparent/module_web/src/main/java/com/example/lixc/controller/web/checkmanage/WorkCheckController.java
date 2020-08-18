@@ -1,6 +1,5 @@
-package com.example.lixc.controller.web.checkManage;
+package com.example.lixc.controller.web.checkmanage;
 
-import com.example.lixc.common.PageData;
 import com.example.lixc.enums.WorkStatusEnum;
 import com.example.lixc.service.WorkService;
 import com.example.lixc.util.ResultJson;

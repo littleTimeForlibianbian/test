@@ -51,12 +51,12 @@ public class ReportServiceImpl implements ReportService {
         return ResultJson.buildSuccess();
     }
 
-    @Override
-    public ResultJson edit(SysReport sysReport) {
-        if (sysReport.getId() < 0) {
-            return ResultJson.buildError("id为空");
-        }
-        reportMapper.updateByPrimaryKeySelective(sysReport);
+        @Override
+        public ResultJson edit(SysReport sysReport) {
+            if (sysReport.getId() < 0) {
+                return ResultJson.buildError("id为空");
+            }
+            reportMapper.updateByPrimaryKeySelective(sysReport);
         return ResultJson.buildSuccess();
     }
 

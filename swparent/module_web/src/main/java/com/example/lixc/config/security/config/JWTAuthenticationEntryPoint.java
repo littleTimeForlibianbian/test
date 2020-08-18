@@ -24,11 +24,6 @@ public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
 
-//        response.setCharacterEncoding("UTF-8");
-//        response.setContentType("application/json; charset=utf-8");
-//        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-//        String reason = "统一处理，原因：" + authException.getMessage();
-//        response.getWriter().write(new ObjectMapper().writeValueAsString(reason));
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Map<String, Object> result = new HashMap<>();

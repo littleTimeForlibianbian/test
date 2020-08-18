@@ -738,7 +738,7 @@ public class WorkServiceImpl implements WorkService {
             log.error("传入参数id错误:{}", workQuery.getId());
             return ResultJson.buildError("传入参数错误");
         }
-        if (workQuery.getStatus() <= 0 || workQuery.getStatus() != WorkStatusEnum.WORK_STATUS_WAIT.getCode()) {
+        if (workQuery.getStatus() <= 0 ) {
             log.error("传入参数status错误:{}", workQuery.getStatus());
             return ResultJson.buildError("传入参数错误");
         }

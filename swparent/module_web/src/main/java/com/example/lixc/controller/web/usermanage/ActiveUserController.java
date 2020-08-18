@@ -1,10 +1,9 @@
-package com.example.lixc.controller.web.userManage;
+package com.example.lixc.controller.web.usermanage;
 
 import com.example.lixc.common.PageData;
 import com.example.lixc.service.SelectUserService;
 import com.example.lixc.vo.back.UserBack;
 import com.example.lixc.vo.query.UserQuery;
-import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

@@ -3,6 +3,7 @@ package com.example.lixc.service.impl;
 import com.example.lixc.config.security.utils.SysConfigUtil;
 import com.example.lixc.entity.SysVersionSpo;
 import com.example.lixc.enums.UserVoiceTypeEnum;
+import com.example.lixc.enums.VersionSpoStatusEnum;
 import com.example.lixc.mapper.SysVersionSpoMapper;
 import com.example.lixc.service.VersionSpoService;
 import com.example.lixc.util.ResultJson;
@@ -32,12 +33,14 @@ public class VersionSpoImpl implements VersionSpoService {
     private SysVersionSpoMapper mapper;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ResultJson add(VersionSpoQuery versionSpoQuery) {
         if (StringUtils.isEmpty(versionSpoQuery.getContent())) {
+            log.error("内容为空");
             return ResultJson.buildError("内容为空");
         }
-        if (versionSpoQuery.getPublishTime() == null || versionSpoQuery.getPublishTime().getTime() < new Date().getTime()) {
+        if (versionSpoQuery.getPublishTime() == null || versionSpoQuery.getPublishTime().getTime() < System.currentTimeMillis()) {
+            log.error("发布时间不合法");
             return ResultJson.buildError("发布时间不合法");
         }
         SysVersionSpo versionSpo = new SysVersionSpo();
@@ -63,12 +66,21 @@ public class VersionSpoImpl implements VersionSpoService {
         if (versionSpoQuery.getId() < 0) {
             return ResultJson.buildError("id为空");
         }
-        SysVersionSpo sysVersionSpo = mapper.selectByPrimaryKey(versionSpoQuery.getId());
-        return ResultJson.buildSuccess(sysVersionSpo);
+        VersionSpoBack back = mapper.detail(versionSpoQuery.getId());
+        if (back.getStatus() == VersionSpoStatusEnum.SPO_STATUS_APPLY.getCode()) {
+            back.setStatusCh("待优化");
+        } else if (back.getStatus() == VersionSpoStatusEnum.SPO_STATUS_IN.getCode()) {
+            back.setStatusCh("优化中");
+        } else if (back.getStatus() == VersionSpoStatusEnum.SPO_STATUS_END.getCode()) {
+            back.setStatusCh("优化完毕");
+        } else {
+            back.setStatusCh("未知状态");
+        }
+        return ResultJson.buildSuccess(back);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ResultJson edit(VersionSpoQuery versionSpoQuery) {
         if (versionSpoQuery.getId() < 0) {
             return ResultJson.buildError("id为空");
@@ -76,20 +88,23 @@ public class VersionSpoImpl implements VersionSpoService {
         SysVersionSpo sysVersionSpo = mapper.selectByPrimaryKey(versionSpoQuery.getId());
         sysVersionSpo.setContent(versionSpoQuery.getContent());
         sysVersionSpo.setPublishTime(versionSpoQuery.getPublishTime());
+        sysVersionSpo.setStatus(versionSpoQuery.getStatus());
         mapper.updateByPrimaryKeySelective(sysVersionSpo);
-        return ResultJson.buildSuccess();
+        return ResultJson.buildSuccess("编辑成功");
     }
 
     @Override
-    public ResultJson deleteById(String id) {
-        if (StringUtils.isEmpty(id)) {
+    @Transactional(rollbackFor = Exception.class)
+    public ResultJson deleteById(Integer id) {
+        if (id == null || id <= 0) {
             return ResultJson.buildError("传入参数对象id为空");
         }
         mapper.deleteByPrimaryKey(id);
-        return ResultJson.buildSuccess();
+        return ResultJson.buildSuccess("删除成功");
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResultJson deleteByBatch(String ids) {
         if (StringUtils.isEmpty(ids)) {
             return ResultJson.buildError("传入参数为空");
@@ -100,13 +115,24 @@ public class VersionSpoImpl implements VersionSpoService {
             log.error("deleteByBatch exception: {}", e.getMessage());
             return ResultJson.buildError(e.getMessage());
         }
-        return ResultJson.buildSuccess();
+        return ResultJson.buildSuccess("批量删除成功");
     }
 
     @Override
     public Page<VersionSpoBack> selectForList(VersionSpoQuery versionSpoQuery) {
         PageHelper.startPage(versionSpoQuery.getPageNo(), versionSpoQuery.getPageSize());
         List<VersionSpoBack> versionSpoBacks = mapper.selectForList(versionSpoQuery);
+        for (VersionSpoBack back : versionSpoBacks) {
+            if (back.getStatus() == VersionSpoStatusEnum.SPO_STATUS_APPLY.getCode()) {
+                back.setStatusCh("待优化");
+            } else if (back.getStatus() == VersionSpoStatusEnum.SPO_STATUS_IN.getCode()) {
+                back.setStatusCh("优化中");
+            } else if (back.getStatus() == VersionSpoStatusEnum.SPO_STATUS_END.getCode()) {
+                back.setStatusCh("优化完毕");
+            } else {
+                back.setStatusCh("未知状态");
+            }
+        }
         return (Page<VersionSpoBack>) versionSpoBacks;
     }
 }

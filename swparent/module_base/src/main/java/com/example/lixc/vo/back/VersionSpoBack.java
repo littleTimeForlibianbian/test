@@ -13,14 +13,16 @@ import java.util.Date;
 @Data
 public class VersionSpoBack implements Serializable {
     private static final long serialVersionUID = -1366163190808702279L;
-    private int versionSpoId;
-    private String userName;
+    private int id;
+    private String nickName;
     private String healImage;
     private int userId;
     private String content;
     private Date createTime;
     private Date publishTime;
-    // 0 待优化  1优化中  2优化完毕
+    /**
+     * 0 待优化  1优化中  2优化完毕
+     */
     private int status;
-    private String statusCH;
+    private String statusCh;
 }

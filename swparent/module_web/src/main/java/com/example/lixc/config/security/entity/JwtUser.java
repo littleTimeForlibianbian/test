@@ -1,5 +1,6 @@
 package com.example.lixc.config.security.entity;
 
+import com.example.lixc.entity.Privilege;
 import com.example.lixc.entity.Role;
 import com.example.lixc.entity.User;
 import com.example.lixc.vo.back.UserBack;
@@ -25,22 +26,27 @@ public class JwtUser implements UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    // 写一个能直接使用user创建jwtUser的构造器GrantedAuthority
+    /**
+     * 写一个能直接使用user创建jwtUser的构造器GrantedAuthority
+     *
+     * @param user
+     */
     public JwtUser(UserBack user) {
         id = user.getId();
         username = user.getNickName();
         password = user.getPassword();
         Set<SimpleGrantedAuthority> singleton = new HashSet<>(Collections.singleton(new SimpleGrantedAuthority("default")));
-        singleton.remove(singleton.stream().findFirst().get());//去掉默认的，重新从角色中添加
-        for (Role role : user.getRoleList()) {
-            singleton.add(new SimpleGrantedAuthority(role.getName()));
+        singleton.remove(singleton.stream().findFirst().get());
+        //去掉默认的，重新从角色中添加
+        for (Privilege p : user.getPrivilegeList()) {
+            singleton.add(new SimpleGrantedAuthority(p.getTag()));
         }
         authorities = singleton;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override

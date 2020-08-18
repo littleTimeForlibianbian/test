@@ -1,6 +1,5 @@
-package com.example.lixc.controller.web.userVoice;
+package com.example.lixc.controller.web.uservoice;
 
-import com.example.lixc.entity.SysVersionSpo;
 import com.example.lixc.enums.UserVoiceTypeEnum;
 import com.example.lixc.service.VersionSpoService;
 import com.example.lixc.util.ResultJson;
@@ -34,6 +33,7 @@ public class VersionSpoilersController {
     @PostMapping("/add")
     public ResultJson add(VersionSpoQuery sysVersionSpo) {
         try {
+            sysVersionSpo.setType(UserVoiceTypeEnum.TYPE_VERSIONSPO.getCode());
             return service.add(sysVersionSpo);
         } catch (Exception e) {
             log.error("添加版本剧透 exception:{}", e.getMessage());
@@ -45,6 +45,7 @@ public class VersionSpoilersController {
     @PostMapping("/detail")
     public ResultJson detail(VersionSpoQuery sysVersionSpo) {
         try {
+            sysVersionSpo.setType(UserVoiceTypeEnum.TYPE_VERSIONSPO.getCode());
             return service.detail(sysVersionSpo);
         } catch (Exception e) {
             log.error("添加版本剧透 exception:{}", e.getMessage());
@@ -56,6 +57,7 @@ public class VersionSpoilersController {
     @PostMapping("/edit")
     public ResultJson edit(VersionSpoQuery sysVersionSpo) {
         try {
+            sysVersionSpo.setType(UserVoiceTypeEnum.TYPE_VERSIONSPO.getCode());
             return service.edit(sysVersionSpo);
         } catch (Exception e) {
             log.error("修改版本剧透 exception:{}", e.getMessage());
@@ -65,7 +67,7 @@ public class VersionSpoilersController {
 
     @ApiOperation("单个删除版本剧透")
     @PostMapping("/deleteById")
-    public ResultJson deleteById(String id) {
+    public ResultJson deleteById(Integer id) {
         try {
             return service.deleteById(id);
         } catch (Exception e) {
@@ -89,7 +91,7 @@ public class VersionSpoilersController {
     @PostMapping("/selectForList")
     public Page<VersionSpoBack> selectForList(VersionSpoQuery sysVersionSpo) {
         try {
-//            sysVersionSpo.setType(UserVoiceTypeEnum.TYPE_VERSIONSPO.getCode());
+            sysVersionSpo.setType(UserVoiceTypeEnum.TYPE_VERSIONSPO.getCode());
             return service.selectForList(sysVersionSpo);
         } catch (Exception e) {
             log.error("查询版本剧透列表 exception:{}", e.getMessage());

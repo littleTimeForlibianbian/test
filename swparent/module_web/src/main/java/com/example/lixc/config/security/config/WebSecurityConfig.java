@@ -1,13 +1,16 @@
 package com.example.lixc.config.security.config;
 
+import com.example.lixc.config.security.filter.TokenFilter;
 import com.example.lixc.mapper.PrivilegeMapper;
 import com.example.lixc.vo.back.PrivilegeBack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +20,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -30,6 +34,7 @@ import java.util.List;
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -38,6 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private MyAccessDecisionManager myAccessDecisionManager;
     @Autowired
     private MyAccessDeniedHandler myAccessDeniedHandler;
+
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -49,9 +55,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
+
         web.ignoring().antMatchers("/public/**");
+        web.ignoring().antMatchers("/*.html");
+        web.ignoring().antMatchers("/favicon.ico");
+        web.ignoring().antMatchers("/**/*.html");
+        web.ignoring().antMatchers("/**/*.css");
+        web.ignoring().antMatchers("/**/*.json");
+        web.ignoring().antMatchers("/**/*.js");
     }
 
     @Override
@@ -97,18 +116,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().permitAll();
     }
 
+    @Bean
+    public TokenFilter tokenFilterBean() throws Exception {
+        return new TokenFilter();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        // 添加JWT filter
+        http.addFilterBefore(tokenFilterBean(), UsernamePasswordAuthenticationFilter.class)
+                .csrf().disable()
+                .cors().and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry expressionInterceptUrlRegistry = http.authorizeRequests();
-        expressionInterceptUrlRegistry.antMatchers(HttpMethod.GET,
-                "/",
-                "/*.html",
-                "/favicon.ico",
-                "/**/*.html",
-                "/**/*.css",
-                "/**/*.js").permitAll();
         List<PrivilegeBack> allPrivilege = privilegeMapper.findAllPrivilege();
         for (PrivilegeBack back : allPrivilege) {
             expressionInterceptUrlRegistry.antMatchers(back.getUrl()).hasAnyAuthority(back.getTag());
@@ -128,6 +148,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().loginPage("/Loginpage.html").permitAll()
                 .and()
                 .logout().permitAll();
+        // 禁用缓存
+        http.headers().cacheControl();
     }
 
     @Bean

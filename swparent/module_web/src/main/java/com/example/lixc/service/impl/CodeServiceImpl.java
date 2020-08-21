@@ -33,17 +33,19 @@ public class CodeServiceImpl implements CodeService {
      *
      * @return
      */
+    @Override
     public ResultJson genInvitationCode() {
         String word = ToolsUtil.generateWord(0, length);
         Code code = new Code();
         code.setCode(word);
         code.setUsedNum(0);
-        code.setCreateBy(SysConfigUtil.getLoginUserId());
+//        code.setCreateBy(SysConfigUtil.getLoginUserId());
         code.setCreateTime(new Date());
         codeMapper.insertUseGeneratedKeys(code);
         return ResultJson.buildSuccess(code, "生成邀请码成功");
     }
 
+    @Override
     public int selectCountByCode(String code) {
         return codeMapper.selectCountByCode(code);
     }

@@ -1,5 +1,5 @@
-// var basePath = 'http://si4csc.natappfree.cc';
-var basePath = 'http://localhost';
+var basePath = 'http://b98udp.natappfree.cc ';
+// var basePath = 'http://localhost';
 var cityMap = new Map();
 
 // ($(initCityMap()))

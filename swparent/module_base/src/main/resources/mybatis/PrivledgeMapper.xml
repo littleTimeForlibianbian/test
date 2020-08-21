@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.example.lixc.entity.Privilege">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="tag" jdbcType="VARCHAR" property="tag"/>
         <result column="url" jdbcType="VARCHAR" property="url"/>
         <result column="type" jdbcType="INTEGER" property="type"/>
         <result column="parent" jdbcType="INTEGER" property="parent"/>
@@ -11,6 +12,7 @@
     <resultMap id="backResultMap" type="com.example.lixc.vo.back.PrivilegeBack">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="tag" jdbcType="VARCHAR" property="tag"/>
         <result column="url" jdbcType="VARCHAR" property="url"/>
         <result column="type" jdbcType="INTEGER" property="type"/>
         <result column="parent" jdbcType="INTEGER" property="parent"/>
@@ -21,7 +23,7 @@
     <!--查询权限表 以及权限所属角色-->
     <!--    <select id="findAllPrivilege" resultType="com.example.lixc.vo.back.PrivilegeBack">-->
     <select id="findAllPrivilege" resultMap="backResultMap">
-        select sp.id, sp.name, sp.parent, sp.url
+        select sp.id, sp.name, sp.parent, sp.url,sp.tag
         from sys_privilege sp
     </select>
 </mapper>

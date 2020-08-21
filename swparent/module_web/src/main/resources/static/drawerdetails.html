@@ -15,31 +15,7 @@
     <![endif]-->
 </head>
 <body>
-<div class="headernav1">
-    <div class="container">
-        <div class="pull-left navlogo">
-            <img src="img/ES-logo-light.png">
-        </div>
-        <div class="pull-left ES-mywo">
-            <a href="myworld.html"><img src="img/homepage.png"><span class="text-center">我的世界</span></a>
-        </div>
-        <div class="pull-right connav">
-            <ul>
-                <li><a href="Authentication.html"><img src="img/upload1.png"></a></li>
-                <li class="seachli">
-                    <form class="bs-example bs-example-form" role="form" style="width: 240px;">
-                        <div class="input-group input-group-lg">
-                            <input type="text" class="form-control" placeholder="作品、昵称">
-                            <span class="input-group-addon"><img src="img/icon-ss.png"></span>
-                        </div>
-                    </form>
-                </li>
-                <li><a href="drawerhomepage.html"><img src="img/code.jpg"
-                                                       style="width: 40px;height: 40px;border-radius:50%;"></a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+<div class="headernav"></div>
 <div class="container drawercards">
     <div class="cardsicon" align="center" id="cardshidden">
         <img src="img/cards.png">
@@ -65,21 +41,10 @@
             </div>
             <div><span class="pull-left" style="margin-top: 5px;">标签：</span>
                 <ul class="pull-left" id="tags">
-                    <!--                    <li>插画原创派</li>-->
-                    <!--                    <li>90后</li>-->
-                    <!--                    <li>少女漫画</li>-->
-                    <!--                    <li>卡通动漫</li>-->
-                    <!--                    <li>卡通动漫</li>-->
-                    <!--                    <li>卡通动漫</li>-->
-                    <!--                    <li>卡通动漫</li>-->
-                    <!--                    <li>卡通动漫</li>-->
                 </ul>
 
             </div>
             <div>创作经历：
-                <!--                <p>1.与XXX合作/独立创作出版过《纸糖屋》</p>-->
-                <!--                <p>2.获得过安徒生创作大奖</p>-->
-                <!--                <p>3.美国XXX插画创作金奖</p>-->
                 <span id="uHistory"></span>
             </div>
         </div>
@@ -89,14 +54,8 @@
 <div class="ES-window container">
     <div class="copyright" style="overflow: hidden;">
         <div class="pull-left"><a href="" title="禁止匿名转载，禁止商用，禁止个人使用；">©</a><span id="createTime"></span></div>
-        <!--增加阅读数待定-->
-        <!--<div class="pull-right adminvioce">
-            <img src="img/readDate.png" style="margin-right: 10px;"><span>9999</span>
-        </div>-->
     </div>
     <div class="picturearea" align="center" id="picturearea">
-        <!--        <img src="img/W.jpeg">-->
-        <!--        <img src="img/W.jpeg">-->
     </div>
     <div class="picturecon">
         <div class="picturecontent pull-left">
@@ -104,25 +63,23 @@
             <div><p id="content1"></p></div>
             <div class="labelshow cardscontent">
                 <ul id="workTags">
-                    <!--                    <li>插画原创派</li>-->
-                    <!--                    <li>90后</li>-->
-                    <!--                    <li>少女漫画</li>-->
                 </ul>
             </div>
         </div>
         <div class="pull-right operation like">
             <ul>
                 <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal"><img src="img/report.png"
-                                                                                style="margin-top: -4px;"
-                                                                                class="reportimg"><span>举报</span></a>
+                                                                                                 style="margin-top: -4px;"
+                                                                                                 class="reportimg"><span>举报</span></a>
                 </li>
                 <li><a role="button" class="jy-a-click" id="likeword"></a><span>喜欢</span></li>
-                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModalrecommendimg"><img src="img/recommend.png"
-                                                                                            class="recommendimg"><span
+                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModalrecommendimg"><img
+                        src="img/recommend.png"
+                        class="recommendimg"><span
                         id="recommend">推荐</span></a>
                 </li>
                 <li><a href="javascript:void(0)" data-toggle="modal" data-target="#myModalcode"><img src="img/share.png"
-                                                                                    class="shareimg"><span>分享</span></a>
+                                                                                                     class="shareimg"><span>分享</span></a>
                 </li>
                 <li><a role="button" onclick="makeComment()"><img src="img/advice.png"
                                                                   class="recommendimg"><span>评论</span></a></li>
@@ -147,36 +104,6 @@
                 <div id="four_flash">
                     <div class="flashBg">
                         <ul class="mobile">
-                            <!--                            <a href="#">-->
-                            <!--                                <li>-->
-                            <!--                                    <img src="img/senke_xy00.jpeg"/>-->
-                            <!--                                </li>-->
-                            <!--                            </a>-->
-                            <!--                            <a href="#">-->
-                            <!--                                <li>-->
-                            <!--                                    <img src="img/senke_xy00.jpeg"/>-->
-                            <!--                                </li>-->
-                            <!--                            </a>-->
-                            <!--                            <a href="#">-->
-                            <!--                                <li>-->
-                            <!--                                    <img src="img/senke_xy02.jpeg"/>-->
-                            <!--                                </li>-->
-                            <!--                            </a>-->
-                            <!--                            <a href="#">-->
-                            <!--                                <li>-->
-                            <!--                                    <img src="img/senke_xy03.jpeg"/>-->
-                            <!--                                </li>-->
-                            <!--                            </a>-->
-                            <!--                            <a href="#">-->
-                            <!--                                <li>-->
-                            <!--                                    <img src="img/senke_xy02.jpeg"/>-->
-                            <!--                                </li>-->
-                            <!--                            </a>-->
-                            <!--                            <a href="#">-->
-                            <!--                                <li>-->
-                            <!--                                    <img src="img/senke_xy04.jpeg"/>-->
-                            <!--                                </li>-->
-                            <!--                            </a>-->
 
                         </ul>
                     </div>
@@ -199,26 +126,6 @@
             </div>
             <div class="td-box">
                 <div class="modal-body" id="reportContent">
-                    <!--                    <div class="text-center jubaocontent">-->
-                    <!--                        <div><input type="checkbox" class="newinput"><span>抄袭他人作品（局部或者整体）；</span></div>-->
-                    <!--                        <div><input type="checkbox" class="newinput1"><span>临摹/改动他人作品；</span></div>-->
-                    <!--                        <div class="newpicture" style="display: none;">-->
-                    <!--                            <div><span-->
-                    <!--                                    style="font-size: 14px;float: left;line-height: 40px;margin-left: 23px;width: 60px;text-align: right;">原作链接</span><input-->
-                    <!--                                    type="text" placeholder="第一时间发布的原作链接"-->
-                    <!--                                    style="width: 450px;height: 40px;margin-left: 10px;"/></div>-->
-                    <!--                            <div><span-->
-                    <!--                                    style="font-size: 14px;float: left;line-height: 40px;margin-left: 23px;width: 60px;text-align: right;">QQ号</span><input-->
-                    <!--                                    type="text" placeholder="" style="height: 40px;margin-left: 10px;"/></div>-->
-                    <!--                        </div>-->
-
-                    <!--                        <div><input type="checkbox"><span>作品涉及政治、黄赌毒等信息；</span></div>-->
-                    <!--                        <div><input type="checkbox"><span>作品带有丑化国家领导人/国家形象、人身攻击、人格污蔑等；</span></div>-->
-                    <!--                        <div><input type="checkbox"><span>作品带有很浓非正式（不被所在国正式认可的）宗教宣传等；</span></div>-->
-                    <!--                        <div><input type="checkbox"><span>作品带有性暗示的；</span></div>-->
-                    <!--                        <div><input type="checkbox"><span>作品带有极端主义色彩等；</span></div>-->
-                    <!--                        <div><input type="checkbox"><span>作品违反中国法律的其他情况。</span></div>-->
-                    <!--                    </div>-->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-td" style="background: #0066ff!important;color: white;">提交
@@ -278,7 +185,10 @@
 <script type="text/javascript" src="js/comment.js"></script>
 <script type="text/javascript" src="js/jquery.flexText.js"></script>
 <script>
-
+    $(function(){
+        // $(".footer").load("footer.html")
+        $(".headernav").load("header.html")
+    })
     $("#cardshidden").click(function () {
         $(".drawerdetails").slideToggle();
     });
@@ -289,6 +199,7 @@
 
         $(this).toggleClass("active");
     })
+
 
     function makeComment() {
         $.ajax({
@@ -364,24 +275,55 @@
 <script type="text/javascript">
     //初始化数据
     var arr = [
-        {id:1,img:"img/reply.png",replyName:"胡凯",beReplyName:"匿名",content:"同学聚会xxxxxxxxx。",time:"2017-10-17 11:42:53",replyBody:[]},
-        {id:2,img:"img/reply.png",replyName:"李xx",beReplyName:"",content:"到菜市场买菜，看到一个孩子在看摊同学聚会xxxxxxxxx到菜市场买菜，看到一个孩子在看摊同学聚会xxxxxxxxx到菜市场买菜，看到一个孩子在看摊同学聚会xxxxxxxxx到菜市场买菜，看到一个孩子在看摊同学聚会xxxxxxxxx到菜市场买菜，看到一个孩子在看摊同学聚会xxxxxxxxx”",time:"2017-10-17 11:42:53",replyBody:[{id:3,img:"",replyName:"胡凯",beReplyName:"匿名",content:"作品太赞了",time:"2017-10-17 11:42:53"}]},
-        {id:3,img:"img/reply.png",replyName:"啧啧啧",beReplyName:"匿名",content:"到菜市场买菜，看到一个孩子在看摊同学聚会xxxxxxxxx",time:"2017-10-17 11:42:53",replyBody:[]}
+        {
+            id: 1,
+            img: "img/reply.png",
+            replyName: "胡凯",
+            beReplyName: "匿名",
+            content: "同学聚会xxxxxxxxx。",
+            time: "2017-10-17 11:42:53",
+            replyBody: []
+        },
+        {
+            id: 2,
+            img: "img/reply.png",
+            replyName: "李xx",
+            beReplyName: "",
+            content: "到菜市场买菜，看到一个孩子在看摊同学聚会xxxxxxxxx到菜市场买菜，看到一个孩子在看摊同学聚会xxxxxxxxx到菜市场买菜，看到一个孩子在看摊同学聚会xxxxxxxxx到菜市场买菜，看到一个孩子在看摊同学聚会xxxxxxxxx到菜市场买菜，看到一个孩子在看摊同学聚会xxxxxxxxx”",
+            time: "2017-10-17 11:42:53",
+            replyBody: [{
+                id: 3,
+                img: "",
+                replyName: "胡凯",
+                beReplyName: "匿名",
+                content: "作品太赞了",
+                time: "2017-10-17 11:42:53"
+            }]
+        },
+        {
+            id: 3,
+            img: "img/reply.png",
+            replyName: "啧啧啧",
+            beReplyName: "匿名",
+            content: "到菜市场买菜，看到一个孩子在看摊同学聚会xxxxxxxxx",
+            time: "2017-10-17 11:42:53",
+            replyBody: []
+        }
     ];
     var workId = getQueryVariable("id");
     var authorId = "";
     $(function () {
         initCityMap();
-        $(".comment-list").addCommentList({data:arr,add:""});
-        $("#comment").click(function(){
+        $(".comment-list").addCommentList({data: arr, add: ""});
+        $("#comment").click(function () {
             var obj = new Object();
-            obj.img="./images/img.jpg";
-            obj.replyName="匿名";
-            obj.content=$("#content").val();
+            obj.img = "./images/img.jpg";
+            obj.replyName = "匿名";
+            obj.content = $("#content").val();
             //obj.browse="深圳";
             //obj.osname="win10";
-            obj.replyBody="";
-            $(".comment-list").addCommentList({data:[],add:obj});
+            obj.replyBody = "";
+            $(".comment-list").addCommentList({data: [], add: obj});
         });
         //获取用户详情
         $.ajax({
@@ -420,9 +362,9 @@
         //查询是否关注
         $.ajax({
             type: "post",
-            url: basePath + "/portal/index/queryFocus",
+            url: basePath + "/portal/index/",
             data: {
-                "toUserId": authorId,
+                "toUserId": authorId,queryFocus
             },
             async: false,//同步  true ：异步
             dataType: "json",
@@ -502,7 +444,6 @@
                 alert("error")
             }
         })
-        //$('.content').flexText();
     });
 </script>
 <!--textarea限制字数-->

@@ -3,7 +3,10 @@ package com.example.lixc.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.lixc.config.InitConfig;
+import com.example.lixc.config.security.entity.JwtUser;
+import com.example.lixc.config.security.utils.JwtTokenUtils;
 import com.example.lixc.config.security.utils.SysConfigUtil;
+import com.example.lixc.config.token.TokenUtils;
 import com.example.lixc.constants.RedisTimeConstant;
 import com.example.lixc.entity.*;
 import com.example.lixc.enums.UserStatusEnum;
@@ -18,6 +21,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +48,11 @@ import java.util.*;
 @Service
 @Slf4j
 public class UserPortalServiceImpl implements UserPortalService {
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Resource
     private UserMapper userMapper;
@@ -72,6 +87,10 @@ public class UserPortalServiceImpl implements UserPortalService {
     @Autowired
     private SysUserTagMapper userTagMapper;
 
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @Value("${sw.redis.expireTime}")
     private long expireTime;
     @Value("${sw.mail.subject}")
@@ -79,12 +98,16 @@ public class UserPortalServiceImpl implements UserPortalService {
     @Value("${sw.mail.content}")
     private String content;
 
+    @Autowired
+    private TokenUtils tokenUtils;
+
     /**
      * 注册用户
      *
      * @param userQuery
      * @return
      */
+    @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public ResultJson registerUser(UserQuery userQuery) {
         log.info("registerUser>>>输入参数：" + userQuery.toString());
@@ -160,7 +183,7 @@ public class UserPortalServiceImpl implements UserPortalService {
     private User changeQueryToUser(UserQuery userQuery) {
         User user = new User();
         user.setNickName(userQuery.getNickName());
-        user.setPassword(userQuery.getPassword());
+        user.setPassword(passwordEncoder.encode(userQuery.getPassword()));
         user.setStatus(UserStatusEnum.USER_STATUS_REG.getCode());
         user.setEmail(userQuery.getEmail());
         user.setPhone(userQuery.getPhone());
@@ -179,6 +202,7 @@ public class UserPortalServiceImpl implements UserPortalService {
      * @param userQuery 用户对象
      * @return
      */
+    @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public ResultJson logon(UserQuery userQuery, HttpServletRequest request) {
         if (StringUtils.isEmpty(userQuery.getUserName())) {
@@ -187,14 +211,22 @@ public class UserPortalServiceImpl implements UserPortalService {
         if (StringUtils.isEmpty(userQuery.getPassword())) {
             return ResultJson.buildError("密码为空");
         }
-        //使用用户名和密码进行登录
-        User user = userMapper.selectBaseByUserName(userQuery);
-        if (user != null && user.getId() > 0) {
-            log.info("登录成功");
-            RedisPoolUtil.set(RedisContents.USER_TOKEN + user.getId(), JSONObject.toJSONString(user), expireTime);
-        } else {
+        String username = userQuery.getUserName();
+        String password = userQuery.getPassword();
+        UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
+        final Authentication authentication = authenticationManager.authenticate(upToken);
+        JwtUser principal = (JwtUser) authentication.getPrincipal();
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        final String token = tokenUtils.createToken(userDetails.getUsername());
+        if (principal.getId() == null || principal.getId() <= 0) {
             return ResultJson.buildError("用户名或者密码错误");
+        } else {
+            log.info("登录成功");
+            RedisPoolUtil.set(RedisContents.USER_TOKEN + principal.getId(), JSONObject.toJSONString(principal), expireTime);
         }
+        User user = userMapper.selectByPrimaryKey(principal.getId());
         //设置一次登录时间
         //查询登录记录表中是否存在数据，如果存在，表示非第一次登录，如果不存在,表示第一次登录，上次登录时间为null
         int count = loginRecordMapper.selectLoginRecordCount(userQuery);
@@ -216,9 +248,8 @@ public class UserPortalServiceImpl implements UserPortalService {
         Map<String, Object> map = new HashMap<>();
         map.put("user", user);
         map.put("userAttr", userAttr);
+        map.put("token", token);
         map.put("isPainter", "Y".equalsIgnoreCase(user.getPainter()));
-        //缓存redis
-//        RedisPoolUtil.set(RedisContents.USER_TOKEN + user.getId(), map, expireTime);
         return ResultJson.buildSuccess(map);
     }
 
@@ -258,6 +289,7 @@ public class UserPortalServiceImpl implements UserPortalService {
      * @param email 邮箱
      * @return
      */
+    @Override
     public ResultJson forgetPassword(String email) {
         if (StringUtils.isEmpty(email)) {
             return ResultJson.buildError("邮箱参数为空");
@@ -327,23 +359,23 @@ public class UserPortalServiceImpl implements UserPortalService {
         return ResultJson.buildSuccess("重置密码成功");
     }
 
-    @Override
-    public ResultJson isPainter() {
-        int loginUserId = -1;
-        try {
-            loginUserId = SysConfigUtil.getLoginUserId();
-        } catch (Exception e) {
-            log.error("获取当前用户异常：{}", e.getMessage());
-        }
-        if (loginUserId <= 0) {
-            return ResultJson.buildSuccess(false, "尚未认证画师");
-        }
-        User user = userMapper.selectByPrimaryKey(loginUserId);
-        if ("Y".equals(user.getPainter())) {
-            return ResultJson.buildSuccess(true, "已认证画师");
-        }
-        return ResultJson.buildSuccess(false, "尚未认证画师");
-    }
+//    @Override
+//    public ResultJson isPainter() {
+//        int loginUserId = -1;
+//        try {
+//            loginUserId = SysConfigUtil.getLoginUserId();
+//        } catch (Exception e) {
+//            log.error("获取当前用户异常：{}", e.getMessage());
+//        }
+//        if (loginUserId <= 0) {
+//            return ResultJson.buildSuccess(false, "尚未认证画师");
+//        }
+//        User user = userMapper.selectByPrimaryKey(loginUserId);
+//        if ("Y".equals(user.getPainter())) {
+//            return ResultJson.buildSuccess(true, "已认证画师");
+//        }
+//        return ResultJson.buildSuccess(false, "尚未认证画师");
+//    }
 
     @Override
     public ResultJson chooseTags(String tags) {

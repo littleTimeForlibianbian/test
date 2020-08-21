@@ -7,6 +7,7 @@ import com.example.lixc.enums.MessageTypeEnum;
 import com.example.lixc.mapper.*;
 import com.example.lixc.service.MyWorldService;
 import com.example.lixc.util.ResultJson;
+import com.example.lixc.vo.back.MessageBack;
 import com.example.lixc.vo.back.UserBack;
 import com.example.lixc.vo.back.VersionSpoBack;
 import com.example.lixc.vo.back.WorkBack;
@@ -149,19 +150,24 @@ public class MyWorldServiceImpl implements MyWorldService {
 
     @Override
     public ResultJson systemMessage() {
-        int userId = SysConfigUtil.getLoginUserId();
-        //查到了用户和消息的关联关系
-        List<SysUserMessage> sysUserMessages = userMessageMapper.selectList(userId, "N");
-        List<SysMessage> messageList = new ArrayList<>();
-        for (SysUserMessage userMessage : sysUserMessages) {
-            //最新消息一般是后台管理员所发，需要带有用户头像，所有管理员都是用默认头像
-            Integer messageId = userMessage.getMessageId();
-            SysMessage message = messageMapper.selectByPrimaryKey(messageId);
-            if (MessageTypeEnum.MESSAGE_TYPE_ANN.getCode() == message.getType()) {
-                messageList.add(message);
-            }
-        }
-        return ResultJson.buildSuccess(messageList);
+//        int userId = SysConfigUtil.getLoginUserId();
+//        //查到了用户和消息的关联关系
+//        List<SysUserMessage> sysUserMessages = userMessageMapper.selectList(userId, "N");
+//        List<SysMessage> messageList = new ArrayList<>();
+//        for (SysUserMessage userMessage : sysUserMessages) {
+//            //最新消息一般是后台管理员所发，需要带有用户头像，所有管理员都是用默认头像
+//            Integer messageId = userMessage.getMessageId();
+//            SysMessage message = messageMapper.selectByPrimaryKey(messageId);
+//            if (MessageTypeEnum.MESSAGE_TYPE_ANN.getCode() == message.getType()) {
+//                messageList.add(message);
+//            }
+//        }
+        //系统消息面向所有的用户，所以查询消息表中的系统消息就好 按照时间倒序排序
+        MessageQuery messageQuery = new MessageQuery();
+        messageQuery.setType(MessageTypeEnum.MESSAGE_TYPE_ANN.getCode());
+        messageQuery.setAction("message");
+        List<MessageBack> messageBacks = messageMapper.selectList(messageQuery);
+        return ResultJson.buildSuccess(messageBacks);
     }
 
     @Override
@@ -301,5 +307,10 @@ public class MyWorldServiceImpl implements MyWorldService {
         //查询到作品相关信息
         List<SysMessage> messageList = userMessageMapper.queryHomeMessage(userId);
         return ResultJson.buildSuccess(messageList);
+    }
+
+    @Override
+    public ResultJson systemMessageDetail(int id) {
+        return ResultJson.buildSuccess(messageMapper.selectDetail(id));
     }
 }

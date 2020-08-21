@@ -81,8 +81,7 @@ public class TokenUtils implements Serializable {
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = validationToken(token);
-        return (
-                username.equals(userDetails.getUsername()));
+        return username.equals(userDetails.getUsername());
     }
 
     public static void main(String[] args) {

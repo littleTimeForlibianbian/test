@@ -8,11 +8,15 @@ import com.example.lixc.dto.UserInfoDTO;
 import com.example.lixc.mapper.UserMapper;
 import com.example.lixc.service.IAsyncService;
 import com.example.lixc.service.UserPortalService;
+import com.example.lixc.service.WorkService;
 import com.example.lixc.util.RedisContents;
 import com.example.lixc.util.RedisPoolUtil;
 import com.example.lixc.util.ResultJson;
 import com.example.lixc.vo.back.UserBack;
+import com.example.lixc.vo.back.WorkBack;
 import com.example.lixc.vo.query.UserQuery;
+import com.example.lixc.vo.query.WorkQuery;
+import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +41,9 @@ public class UserController {
     private UserPortalService userPortalService;
 
 
+    @Autowired
+    private WorkService workService;
+
     /**
      * 用户注册接口
      *
@@ -56,13 +63,8 @@ public class UserController {
 
     }
 
-    @Autowired
-    private IAsyncService asyncService;
-    @Autowired
-    private UserMapper userMapper;
-
     @GetMapping("/test")
-    public ResultJson test(int userId) {
+    public ResultJson test() {
         return ResultJson.buildSuccess(SysConfigUtil.getLoginUserId());
     }
 
@@ -220,6 +222,23 @@ public class UserController {
             log.error("查询所有标签异常:{}", e.getMessage());
             e.printStackTrace();
             return ResultJson.buildError("查询所有标签异常");
+        }
+    }
+
+
+    /**
+     * 查询作品列表  按照时间进行倒叙排序
+     * @param query
+     * @return
+     */
+    @ApiOperation("查询作品列表")
+    @PostMapping("/workList")
+    public Page<WorkBack> workList(WorkQuery query) {
+        try {
+            return workService.workList(query);
+        } catch (Exception e) {
+            log.error("workList exception:{}", e.getMessage());
+            return new Page<>();
         }
     }
 

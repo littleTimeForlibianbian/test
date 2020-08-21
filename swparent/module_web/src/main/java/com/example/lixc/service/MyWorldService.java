@@ -28,6 +28,7 @@ public interface MyWorldService {
 
     /**
      * 查询反馈优化列表
+     *
      * @return
      */
     ResultJson feedBackOptList(VersionSpoQuery versionSpoQuery);
@@ -49,4 +50,6 @@ public interface MyWorldService {
      * @return
      */
     ResultJson recommendMessage(int userId);
+
+    ResultJson systemMessageDetail(int id);
 }

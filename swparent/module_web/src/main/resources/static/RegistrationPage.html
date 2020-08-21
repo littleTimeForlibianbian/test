@@ -22,14 +22,14 @@
         <div>
             <form class="form-horizontal" id="form1">
                 <div class="form-group regicontent">
-                    <label for="firstname" class="col-sm-2 control-label">昵称</label>
+                    <label for="F_RealName" class="col-sm-2 control-label">昵称</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="F_RealName" name="F_RealName" maxlength="8"
                                placeholder="由8位中文、英文、数字和下划线组成">
                         <label generated="true" class="error" id="UserRealNameTs"
                                style="color:red;display:none"></label>
                     </div>
-                    <label for="firstcontruy" class="col-sm-2 control-label">城市</label>
+                    <label for="nickcity" class="col-sm-2 control-label">城市</label>
                     <div class="col-sm-3" id="nickcity">
                         <select class="form-control">
                             <option value="">请选择</option>
@@ -226,7 +226,7 @@
 
 
         $.ajax({
-            url: basePath+'/public/user/registerUser',//地址
+            url: basePath + '/public/user/registerUser',//地址
             data: JSON.stringify(data),//传参数
             type: "post",
             contentType: "application/json; charset=utf-8",
@@ -244,15 +244,7 @@
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                //options.obj.value = "出错，请刷新页面重试";
             },
-//              beforeSend: function () {
-//                  options.obj.setAttribute("disabled", true);
-//
-//              },
-//              complete: function () {
-//                  options.obj.value = "已提交，请稍等...";
-//              }
         });
     }
 

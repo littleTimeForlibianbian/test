@@ -1,12 +1,16 @@
 package com.example.lixc.config.security.filter;
 
+import com.example.lixc.config.security.entity.JwtUser;
 import com.example.lixc.config.security.utils.JwtTokenUtils;
 import com.example.lixc.config.token.TokenUtils;
 import io.jsonwebtoken.Jwt;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.servlet.OncePerRequestFilter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,6 +42,9 @@ public class TokenFilter extends OncePerRequestFilter {
     @Resource
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
     @Override
     protected void doFilterInternal(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws ServletException, IOException {
         String token = ((HttpServletRequest) servletRequest).getHeader(JwtTokenUtils.TOKEN_HEADER);
@@ -46,10 +53,13 @@ public class TokenFilter extends OncePerRequestFilter {
             userName = tokenUtils.validationToken(token);
         }
         if (!StringUtils.isEmpty(userName) && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-            if (tokenUtils.validateToken(token, userDetails)) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails((HttpServletRequest) servletRequest));
+            JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(userName);
+            if (tokenUtils.validateToken(token, jwtUser)) {
+                //验证规则
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        jwtUser, null, jwtUser.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
+                        (HttpServletRequest) servletRequest));
                 log.info("authenticated user " + userName + ", setting security context");
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

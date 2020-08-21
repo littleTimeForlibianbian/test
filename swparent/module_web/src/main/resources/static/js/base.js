@@ -1,5 +1,8 @@
-// var basePath = 'http://j27xrj.natappfree.cc';
-var basePath = 'http://localhost';
+$(function(){
+    initCityMap();
+})
+var basePath = 'http://b98udp.natappfree.cc';
+// var basePath = 'http://localhost';
 var cityMap = new Map();
 
 // ($(initCityMap()))
@@ -16,10 +19,12 @@ function getQueryVariable(variable) {
     return (false);
 }
 
+
 function initCityMap() {
+    if (cityMap.length > 0) return cityMap;
     $.ajax({
         type: "get",
-        url: "static/city.json",
+        url: "js/city.json",
         async: false,//同步  true ：异步
         dataType: "json",
         success: function (result) {
@@ -32,29 +37,29 @@ function initCityMap() {
     });
 }
 
-Date.prototype.format = function(fmt) {
+Date.prototype.format = function (fmt) {
     var o = {
-        "M+" : this.getMonth()+1,                 //月份
-        "d+" : this.getDate(),                    //日
-        "h+" : this.getHours(),                   //小时
-        "m+" : this.getMinutes(),                 //分
-        "s+" : this.getSeconds(),                 //秒
-        "q+" : Math.floor((this.getMonth()+3)/3), //季度
-        "S"  : this.getMilliseconds()             //毫秒
+        "M+": this.getMonth() + 1,                 //月份
+        "d+": this.getDate(),                    //日
+        "h+": this.getHours(),                   //小时
+        "m+": this.getMinutes(),                 //分
+        "s+": this.getSeconds(),                 //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds()             //毫秒
     };
-    if(/(y+)/.test(fmt)) {
-        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+    if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
     }
-    for(var k in o) {
-        if(new RegExp("("+ k +")").test(fmt)){
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+    for (var k in o) {
+        if (new RegExp("(" + k + ")").test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         }
     }
     return fmt;
 }
 
 //退出功能
-function logout(){
+function logout() {
     //请求登出的接口
     //重新跳转到登录页面
 }

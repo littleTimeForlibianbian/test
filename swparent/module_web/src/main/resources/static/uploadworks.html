@@ -107,6 +107,9 @@
         type: "post",
         dataType: "json",
         async: false,
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", localStorage.getItem("token"));
+        },
         success: function (data) {
             console.log(data);
             if (data.status == 200) {
@@ -129,6 +132,9 @@
         type: "post",
         dataType: "json",
         async: false,
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", localStorage.getItem("token"));
+        },
         success: function (data) {
             // console.log(data);
             var dataObj = data.data;//json集合的名字dataObj[i].url
@@ -252,6 +258,9 @@
             type: "post",
             dataType: "json",
             async: false,
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (data) {
                 // console.log(data);
                 //请求成功跳转页面

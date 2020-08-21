@@ -60,9 +60,8 @@ public class SysConfigUtil {
      * @return
      */
     public static int getLoginUserId() {
-//        JwtUser loginUser = getLoginUser();
-//        return loginUser.getId();
-        return 1;
+        JwtUser loginUser = getLoginUser();
+        return loginUser.getId();
     }
 
     /**

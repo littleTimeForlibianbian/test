@@ -105,30 +105,6 @@
                 </div>
                 <div class="loginvoicelist">
                     <ul id="htmloptimise">
-                        <!--                        <li>-->
-                        <!--                            <div class="pull-left attentioncon">-->
-                        <!--                                <span>网卡</span>在作品<span>《萝莉与小蚂蚁》</span>中，评论了你：画的真不错！很喜欢。。。-->
-                        <!--                            </div>-->
-                        <!--                            <div class="pull-right">-->
-                        <!--                                <span>优化中</span>-->
-                        <!--                            </div>-->
-                        <!--                        </li>-->
-                        <!--                        <li>-->
-                        <!--                            <div class="pull-left attentioncon">-->
-                        <!--                                <span>网卡</span>在作品<span>《萝莉与小蚂蚁》</span>中，评论了你：画的真不错！很喜欢。。。-->
-                        <!--                            </div>-->
-                        <!--                            <div class="pull-right">-->
-                        <!--                                <span>待优化</span>-->
-                        <!--                            </div>-->
-                        <!--                        </li>-->
-                        <!--                        <li>-->
-                        <!--                            <div class="pull-left attentioncon">-->
-                        <!--                                <span>网卡</span>在作品<span>《萝莉与小蚂蚁》</span>中，评论了你：画的真不错！很喜欢。。。-->
-                        <!--                            </div>-->
-                        <!--                            <div class="pull-right">-->
-                        <!--                                <span>优化完毕</span>-->
-                        <!--                            </div>-->
-                        <!--                        </li>-->
                     </ul>
                 </div>
             </div>
@@ -144,7 +120,7 @@
 <script type="text/javascript" src="js/base.js"></script>
 <!--<script type="text/javascript" src="js/jquery.imgZoom.js"></script>-->
 <script>
-
+    $(".headernav1").load("header.html")
     //$(".imgZoom").imgZoom();
     //点赞功能
     $(".jy-a-click").click(function () {
@@ -171,6 +147,9 @@
             type: "post",
             dataType: "json",
             async: false,
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (data) {
                 console.log(data)
                 initData();
@@ -189,6 +168,9 @@
             type: "post",
             dataType: "json",
             async: false,
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (data) {
                 console.log(data)
             },
@@ -206,6 +188,9 @@
             type: "post",
             dataType: "json",
             async: false,
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (ret) {
                 console.log(ret);
                 var content = '';
@@ -242,6 +227,9 @@
             type: "post",
             dataType: "json",
             async: false,
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (ret) {
                 console.log(ret);
                 var dataObj = ret.data[0];
@@ -270,6 +258,9 @@
             type: "post",
             dataType: "json",
             async: false,
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (ret) {
                 console.log("建议反馈：")
                 console.log(ret)

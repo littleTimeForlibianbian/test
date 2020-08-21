@@ -11,6 +11,8 @@
         <link rel="stylesheet" href="./css/xadmin.css">
         <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="./js/xadmin.js"></script>
+        <script type="text/javascript" src="js/jquery.min.js" ></script>
+        <script type="text/javascript" src="./js/base.js"></script>
         <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
         <!--[if lt IE 9]>
             <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -24,25 +26,65 @@
                 	<div class="layui-form-item">
                       <label class="layui-form-label"><span class="x-red">*</span>状态</label>
                       <div class="layui-input-block" style="height: 35px;">
-                        <select>
-                        	<option>未优化</option>
-                        	<option>优化中</option>
-                        	<option>优化完毕</option>
+                        <select id="select1">
+                        	<option value="1">待优化</option>
+                        	<option value="2">优化中</option>
+                        	<option value="3">优化完毕</option>
                         </select>
                       </div>
                   </div>
                 <div class="layui-form-item failureinput">
                   	<label class="layui-form-label"><span class="x-red">*</span>优化内容</label>
-                  	<textarea type="text" placeholder="输入版本剧透内容" style="width: 48%;height: 80px;"/></textarea>
+                  	<textarea id="youhuacontent" type="text" placeholder="输入版本剧透内容" style="width: 48%;height: 80px;"/></textarea>
                 </div>
                   <div class="layui-form-item examine-btn">
-                      <button  class="layui-btn" lay-filter="add" lay-submit="">确认</button>
+                      <button type="button" onclick="feedbacksure()" class="layui-btn" lay-filter="add" lay-submit="">确认</button>
                       <button  class="layui-btn" lay-filter="cancel" lay-submit="">取消</button>
                   </div>
               </form>
             </div>
         </div>
-        <script>layui.use(['form', 'layer'],
+        <script>
+        	//获取id
+        	function getUrlParam(name){
+				var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if (r!=null) return unescape(r[2]); return null;
+			}
+        	var adminId = getUrlParam('adminid');
+        	$.ajax({
+            	 	url:basePath+'/web/manager/user/voice/feedbackOpt/detail',
+            	 	data: {id:adminId},
+            	 	dataType: "json",
+            	 	type: "post",
+                	async: false,
+                	success: function (data) {
+                	 console.log(data);
+                	 //$('#select1').attr('value',data.data.statusCh)
+                	 $('#select1').val(data.data.status);
+                	 $('#youhuacontent').val(data.data.content)
+                	}
+            	 })
+        	
+        	 //提交编辑
+        	 function feedbacksure(){
+        	 	var select1=$("#select1 option:selected").val();
+        	 	var youhuacontent=$('#youhuacontent').val();
+        	 	console.log(select1);
+        	 	console.log(youhuacontent);
+        	 	$.ajax({
+        	 	url: basePath+'/web/manager/user/voice/feedbackOpt/edit',
+        	 	data: {id:adminId,content:youhuacontent,status:select1},
+            	 	dataType: "json",
+            	 	type: "post",
+                	async: false,
+                	success: function (data) {
+                	 console.log(data);
+                	}
+        	 	})
+        	 }
+        	 
+        	layui.use(['form', 'layer'],
             function() {
                 $ = layui.jquery;
                 var form = layui.form,
@@ -68,7 +110,7 @@
                 function(data) {
                     console.log(data);
                     //发异步，把数据提交给php
-                    layer.alert("增加成功", {
+                    layer.alert("编辑成功", {
                         icon: 6
                     },
                     function() {

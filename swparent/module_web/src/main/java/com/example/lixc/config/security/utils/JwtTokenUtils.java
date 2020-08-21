@@ -4,6 +4,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -13,6 +16,7 @@ import java.util.HashMap;
  * @Description JwtTokenUtils
  * @createTime 2020/6/14 16:58
  */
+@Component
 public class JwtTokenUtils {
 
     public static final String TOKEN_HEADER = "Authorization";
@@ -45,6 +49,24 @@ public class JwtTokenUtils {
                 .compact();
     }
 
+    /**
+     * 创建token
+     * TODO  设置map
+     * @param userDetails
+     * @return
+     */
+    public static String createToken(UserDetails userDetails) {
+        HashMap<String, Object> map = new HashMap<>();
+        return Jwts.builder()
+                .signWith(SignatureAlgorithm.HS512, SECRET)
+                .setClaims(map)
+                .setIssuer(ISS)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_REMEMBER))
+                .compact();
+    }
+
     // 从token中获取用户名
     public static String getUsername(String token) {
         return getTokenBody(token).getSubject();
@@ -69,5 +91,11 @@ public class JwtTokenUtils {
                 .setSigningKey(SECRET)
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public static void main(String[] args) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encode = encoder.encode("8a8bb7cd343aa2ad99b7d762030857a2");
+        System.out.println(encode);
     }
 }

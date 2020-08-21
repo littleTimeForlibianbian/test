@@ -48,7 +48,7 @@
             and sm.type = #{type}
         </if>
         <if test="toUserId > 0">
-            and sm.to_user_id = #{toUserId}
+            and sum.to_user_id = #{toUserId}
         </if>
     </select>
     <select id="queryHomeMessage" resultType="com.example.lixc.entity.SysMessage">

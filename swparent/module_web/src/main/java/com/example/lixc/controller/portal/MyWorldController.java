@@ -117,6 +117,18 @@ public class MyWorldController {
         return ResultJson.buildError("查询最新消息已读异常");
     }
 
+    @ApiOperation("系统消息详情")
+    @PostMapping("/systemMessageDetail")
+    public ResultJson systemMessageDetail(Integer id) {
+        try {
+            //查询消息类型为announcement公告的，公告为后台管理员发送，为系统消息
+            return service.systemMessageDetail(id);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return ResultJson.buildError("查询最新消息已读异常");
+    }
+
     @ApiOperation("添加建议反馈")
     @PostMapping("/addFeedBack")
     public ResultJson addFeedBack(String content) {
@@ -192,6 +204,5 @@ public class MyWorldController {
         }
         return ResultJson.buildError("查询最新消息已读异常");
     }
-
 
 }

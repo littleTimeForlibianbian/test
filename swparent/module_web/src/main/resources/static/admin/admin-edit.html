@@ -11,6 +11,9 @@
         <link rel="stylesheet" href="./css/xadmin.css">
         <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="./js/xadmin.js"></script>
+        <script type="text/javascript" src="js/jquery-2.1.0.min.js" ></script>
+
+        <script type="text/javascript" src="./js/base.js"></script>
         <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
         <!--[if lt IE 9]>
             <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -30,7 +33,7 @@
                           autocomplete="off" class="layui-input" value="内部邮箱">
                       </div>
                       <div class="layui-form-mid layui-word-aux">
-                          <span class="x-red">*</span>将会成为您唯一的登录名
+                          <span class="x-red">*</span>将会成为您唯一的登录名，不可更改
                       </div>
                   </div>
                   <div class="layui-form-item">
@@ -47,7 +50,7 @@
                           <span class="x-red">*</span>所在地
                       </label>
                       <div class="layui-input-inline">
-                          <input type="text" id="phone" name="phone" required="" lay-verify="phone"
+                          <input type="text" id="address" name="address" required="" lay-verify="address"
                           autocomplete="off" class="layui-input">
                       </div>
                   </div>
@@ -56,41 +59,66 @@
                           <span class="x-red">*</span>职位
                       </label>
                       <div class="layui-input-inline">
-                          <input type="text" id="phone" name="phone" required="" lay-verify="phone"
+                          <input type="text" id="po" name="po" required="" lay-verify="po"
                           autocomplete="off" class="layui-input">
                       </div>
                   </div>
-                  <!--<div class="layui-form-item">
-                      <label for="L_email" class="layui-form-label">
-                          <span class="x-red">*</span>邮箱
-                      </label>
-                      <div class="layui-input-inline">
-                          <input type="text" id="L_email" name="email" required="" lay-verify="email"
-                          autocomplete="off" class="layui-input">
-                      </div>
-                      <div class="layui-form-mid layui-word-aux">
-                          <span class="x-red">*</span>
-                      </div>
-                  </div>-->
                   <div class="layui-form-item">
                       <label class="layui-form-label"><span class="x-red">*</span>角色</label>
-                      <div class="layui-input-block">
-                        <input type="checkbox" name="like1[write]" lay-skin="primary" title="超级管理员" checked="">
-                        <input type="checkbox" name="like1[read]" lay-skin="primary" title="管理人员">
-                        <!--<input type="checkbox" name="like1[write]" lay-skin="primary" title="宣传人员">-->
+                      <div class="layui-input-block" id="radiocon">
                       </div>
                   </div>
                   <div class="layui-form-item">
                       <label for="L_repass" class="layui-form-label">
                       </label>
-                      <button  class="layui-btn" lay-filter="add" lay-submit="">
-                          确认
+                      <button type="button" onclick="sure()" class="layui-btn" lay-filter="add" lay-submit="">
+                          	确认
                       </button>
                   </div>
               </form>
             </div>
         </div>
-        <script>layui.use(['form', 'layer'],
+        <script>
+        	//获取用户名
+        	function getUrlParam(name){
+				var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if (r!=null) return unescape(r[2]); return null;
+			}
+        	var adminxx = getUrlParam('loginame');
+        	$("#username").val(adminxx);
+        	var adminId = getUrlParam('adminid');
+        	//获取角色信息
+        		$.ajax({
+            	 	url: basePath+'/web/manager/role/selectForList',
+            	 	dataType: "json",
+            	 	type: "post",
+                	async: false,
+                	success: function (data) {
+                	 radiocon="";
+                	 for(var i=0;i<data.length;i++) {
+                   		radiocon+='<input id="'+data[i].name+'" type="radio" name="role" lay-skin="primary" title='+data[i].name+'>'
+                    		}
+                  		$('#radiocon').append(radiocon);
+                		}
+            	 })
+        		//查询管理员信息
+        		$.ajax({
+            	 	url: basePath+'/web/admin/detailAdminUser',
+            	 	data: {userId:adminId},
+            	 	dataType: "json",
+            	 	type: "post",
+                	async: false,
+                	success: function (data) {
+                	 $("#phone").val(data.data.phone)
+                	 $("#address").val(data.data.location)
+                	 $("#po").val(data.data.position)
+                	 
+                	 $("#"+data.data.role.name+"").attr("checked","checked");  
+                	}
+            	 })
+        	
+        	layui.use(['form', 'layer'],
             function() {
                 $ = layui.jquery;
                 var form = layui.form,
@@ -112,30 +140,57 @@
                 });
 
                 //监听提交
-                form.on('submit(add)',
-                function(data) {
-                    console.log(data);
-                    //发异步，把数据提交给php
-                    layer.alert("增加成功", {
-                        icon: 6
-                    },
-                    function() {
-                        //关闭当前frame
-                        xadmin.close();
+//              form.on('submit(add)',
+//              function(data) {
+//                  console.log(data);
+//                  //发异步，把数据提交给php
+//                  layer.alert("增加成功", {
+//                      icon: 6
+//                  },
+//                  function() {
+//                      //关闭当前frame
+//                      xadmin.close();
+//
+//                      // 可以对父窗口进行刷新 
+//                      xadmin.father_reload();
+//                  });
+//                  return false;
+//              });
 
-                        // 可以对父窗口进行刷新 
-                        xadmin.father_reload();
-                    });
-                    return false;
-                });
-
-            });</script>
+            });
+			//编辑管理员信息
+			function sure () {
+      			var phone=$("#phone").val();
+      			var po=$("#po").val();
+      			var address=$("#address").val();
+      			var boxes = $("input[type='radio']:checked").attr("id");
+      	 		$.ajax({
+           		url: basePath+'/web/admin/updateAdminUser',//地址
+                data: {
+                	phone:phone,
+                	position:po,
+                	location:address,
+                	roleId:boxes
+                	},
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                   //window.parent.location.reload();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //options.obj.value = "出错，请刷新页面重试";
+                },
+           });
+    }
+        </script>
         <script>var _hmt = _hmt || []; (function() {
                 var hm = document.createElement("script");
                 hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
                 var s = document.getElementsByTagName("script")[0];
                 s.parentNode.insertBefore(hm, s);
-            })();</script>
+            })();
+        </script>
     </body>
 
 </html>

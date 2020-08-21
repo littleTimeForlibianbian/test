@@ -9,6 +9,7 @@ import com.example.lixc.entity.*;
 import com.example.lixc.enums.*;
 import com.example.lixc.mapper.*;
 import com.example.lixc.service.FtpService;
+import com.example.lixc.service.IAsyncService;
 import com.example.lixc.service.MessageService;
 import com.example.lixc.service.WorkService;
 import com.example.lixc.template.SimpleMessageTemplate;
@@ -42,6 +43,9 @@ import java.util.*;
 @Service
 @Slf4j
 public class WorkServiceImpl implements WorkService {
+
+    @Autowired
+    private IAsyncService asyncService;
 
     @Autowired
     private MessageService messageService;
@@ -732,13 +736,13 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ResultJson workCheck(WorkQuery workQuery) {
         if (workQuery.getId() <= 0) {
             log.error("传入参数id错误:{}", workQuery.getId());
             return ResultJson.buildError("传入参数错误");
         }
-        if (workQuery.getStatus() <= 0 ) {
+        if (workQuery.getStatus() <= 0) {
             log.error("传入参数status错误:{}", workQuery.getStatus());
             return ResultJson.buildError("传入参数错误");
         }
@@ -751,6 +755,23 @@ public class WorkServiceImpl implements WorkService {
             work.setFailReason(workQuery.getFailReason());
         }
         workMapper.updateByPrimaryKeySelective(work);
+        try {
+            String to = String.valueOf(work.getUserId());
+            String subject = "审核结果通知";
+            String content = "<html><p class=\"text-center\">亲爱的<span style=\"color: #0066FF;\">{nickName}</span></p><p class=\"text-center\">小蜗为原创而生</p><p class=\"text-center\">点击<a href=\"{path}\">{path}</a>进行登录，<br/>就可以重新在原创的世界里游玩啦。</p><p class=\"text-center\">期待你的精彩艺术人生！</p></html>";
+            //审核通过或者失败以后 发送邮件
+//            asyncService.sendHtmlEmailAsync();
+            Map<String, String> map = new HashMap<>();
+            map.put("nickName", InitConfig.getNickName(work.getUserId()));
+            map.put("path", "http://b98udp.natappfree.cc/Loginpage.html");
+            String content1 = ToolsUtil.replaceTemplate(content, map);
+            asyncService.sendHtmlEmailAsync(to, subject, content1);
+        } catch (Exception e) {
+            //捕获发送邮件异常
+            log.error("发送邮件异常:{}", e.getLocalizedMessage());
+            e.printStackTrace();
+        }
+
         return ResultJson.buildSuccess();
     }
 

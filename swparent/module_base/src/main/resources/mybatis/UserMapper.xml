@@ -310,10 +310,10 @@
     </select>
     <select id="selectPrivilegeListByUserName" resultType="com.example.lixc.entity.Privilege">
         select sp.*
-        from sys_user su,
-             sys_user_role,
-             sys_role_privledge,
-             sys_privilege sp
+        from sys_privilege sp
+                 INNER JOIN sys_role_privledge srp on srp.p_id = sp.id
+                 INNER JOIN sys_user_role sur on sur.role_id = srp.role_id
+                 INNER JOIN sys_user su on sur.user_id = su.id
         where su.nick_name = #{userName}
     </select>
 

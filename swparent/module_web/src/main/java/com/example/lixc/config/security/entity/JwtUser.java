@@ -24,6 +24,7 @@ public class JwtUser implements UserDetails {
     private Integer id;
     private String username;
     private String password;
+    private UserBack userBack;
     private Collection<? extends GrantedAuthority> authorities;
 
     /**
@@ -35,6 +36,7 @@ public class JwtUser implements UserDetails {
         id = user.getId();
         username = user.getNickName();
         password = user.getPassword();
+        userBack = user;
         Set<SimpleGrantedAuthority> singleton = new HashSet<>(Collections.singleton(new SimpleGrantedAuthority("default")));
         singleton.remove(singleton.stream().findFirst().get());
         //去掉默认的，重新从角色中添加
@@ -88,4 +90,4 @@ public class JwtUser implements UserDetails {
                 ", authorities=" + authorities +
                 '}';
     }
-}
+}   

@@ -9,29 +9,29 @@
 </head>
 <body>
 <div class="headernav1">
-    <div class="container">
-        <div class="pull-left navlogo">
-            <img src="img/ES-logo-light.png">
-        </div>
-        <div class="pull-left ES-mywo">
-            <a href="myworld.html"><img src="img/homepage.png"><span class="text-center">我的世界</span></a>
-        </div>
-        <div class="pull-right connav">
-            <ul>
-                <li><a href="Authentication.html"><img src="img/upload1.png"></a></li>
-                <li class="seachli">
-                    <form class="bs-example bs-example-form" role="form" style="width: 240px;">
-                        <div class="input-group input-group-lg">
-                            <input type="text" class="form-control" placeholder="作品、昵称">
-                            <span class="input-group-addon"><img src="img/icon-ss.png"></span>
-                        </div>
-                    </form>
-                </li>
-                <li><a href="drawerhomepage.html"><img src="img/code.jpg"
-                                                       style="width: 40px;height: 40px;border-radius:50%;"></a></li>
-            </ul>
-        </div>
-    </div>
+    <!--<div class="container">-->
+        <!--<div class="pull-left navlogo">-->
+            <!--<img src="img/ES-logo-light.png">-->
+        <!--</div>-->
+        <!--<div class="pull-left ES-mywo">-->
+            <!--<a href="myworld.html"><img src="img/homepage.png"><span class="text-center">我的世界</span></a>-->
+        <!--</div>-->
+        <!--<div class="pull-right connav">-->
+            <!--<ul>-->
+                <!--<li><a href="Authentication.html"><img src="img/upload1.png"></a></li>-->
+                <!--<li class="seachli">-->
+                    <!--<form class="bs-example bs-example-form" role="form" style="width: 240px;">-->
+                        <!--<div class="input-group input-group-lg">-->
+                            <!--<input type="text" class="form-control" placeholder="作品、昵称">-->
+                            <!--<span class="input-group-addon"><img src="img/icon-ss.png"></span>-->
+                        <!--</div>-->
+                    <!--</form>-->
+                <!--</li>-->
+                <!--<li><a href="drawerhomepage.html"><img src="img/code.jpg"-->
+                                                       <!--style="width: 40px;height: 40px;border-radius:50%;"></a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
 </div>
 <div class="myworld-content container">
     <div class="worldcontent pull-left" style="margin-top: 0px;">
@@ -43,10 +43,10 @@
                         <img src="img/youxiangyanzheng.png">
                     </div>
                     <div class="inventname">
-                        <span>北京市</span>&nbsp;|&nbsp;<span>恋恨乱心</span>
+                        <span id="city">北京市</span>&nbsp;|&nbsp;<span id="nickName">恋恨乱心</span>
                     </div>
                     <div class="yaoqingmacode">
-                        <span style="font-size: 24px;">邀请码</span><br><span>11111111111</span>
+                        <span style="font-size: 24px;">邀请码</span><br><span id="code">11111111111</span>
                     </div>
                     <div class="erweicode">
                         <img src="img/code.jpg">
@@ -100,6 +100,7 @@
 <script>
     $(function () {
         $('#myModal').modal('hide');
+        $(".headernav1").load("header.html")
         initPage();
     });
 
@@ -113,6 +114,9 @@
             },
             async: false,//同步  true ：异步
             dataType: "json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (ret) {
                 console.log(ret)
                 var data = ret.data;
@@ -135,8 +139,15 @@
             },
             async: false,//同步  true ：异步
             dataType: "json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (ret) {
                 console.log(ret)
+                if (ret.status == 200) {
+                    $("#city").html(ret.data.city);
+                    $("#nickName").html(ret.data.nickName)
+                }
             },
             error: function (data) {
                 alert("获取当前用户信息error")
@@ -147,6 +158,9 @@
             type: "post",
             url: basePath + "/user/code/genInvitationCode",
             data: {},
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             async: false,//同步  true ：异步
             dataType: "json",
             success: function (ret) {

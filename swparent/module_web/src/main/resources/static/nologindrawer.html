@@ -14,7 +14,7 @@
             <img src="img/ES-logo-light.png">
         </div>
         <!--<div class="pull-left ES-mywo">
-            <a href="#"><img src="img/homepage.png"><span class="text-center">我的世界</span></a>
+            <a href="#"><img src="img/ homepage.png"><span class="text-center">我的世界</span></a>
         </div>-->
         <div class="pull-right connav">
             <ul>
@@ -37,7 +37,7 @@
         <a href="" title="禁止匿名转载，禁止商用，禁止个人使用；">©</a>2019-08-18
     </div>
     <div class="picturearea" align="center">
-        <img src="img/12.jpg">
+        <!--<img src="img/12.jpg">-->
     </div>
     <div class="otherspin" style="margin-top: 80px;">
         <p style="font-size: 20px;">作者相关作品</p>
@@ -131,6 +131,76 @@
         }
         _index5--;
         $("#four_flash .flashBg ul.mobile").stop().animate({left: -_index5 * 326}, 1000);
+    });
+    //作品详情
+    $.ajax({
+        //获取作品详情
+        type: "get",
+        url: basePath + "/portal/index/workDetail",
+        data: {
+            "workId": workId,
+        },
+        async: false,//同步  true ：异步
+        dataType: "json",
+        success: function (result) {
+            console.log(result);
+            var imageList = result.data.imageList;
+            var imageStr = '';
+            for (var i = 0; i < imageList.length; i++) {
+                imageStr += '<img src="' + imageList[i].url + '"/>';
+            }
+            // $("#picturearea").append('<img src="http://192.168.244.129/images/20200728/737632883241521152.jpg"/>');
+            $("#picturearea").append(imageStr);
+            // //作品名称
+            // $("#workName").html(result.data.name);
+            // //创作初心`
+            // $("#content1").html(result.data.content);
+            // //创建时间
+            // var createDate = new Date(result.data.createTime).format("yyyy-MM-dd");
+            // $("#createTime").html(createDate);
+            // //作品标签
+            // var workTagStr = "";
+            // var tagContent = "";
+            // var workTagList = result.data.dicts;
+            // for (var j = 0; j < workTagList.length; j++) {
+            //     tagContent += "<span>" + workTagList[j].dictValue + "</span>";
+            // }
+            // workTagStr += "<div class='labelhome'>" + tagContent + "</span></div>"
+            // $("#workTags").append(workTagStr);
+
+        },
+        error: function (data) {
+            alert("error")
+        }
+    })
+    //其余作品
+    $.ajax({
+        type: "post",
+        url: basePath + "/portal/index/other",
+        data: {
+            "id": workId,
+            "userId": authorId,
+            "isNormal": "Y",
+        },
+        async: false,//同步  true ：异步
+        dataType: "json",
+        success: function (result) {
+            console.log(result)
+            var workList = result.data
+            var workStr = "";
+            for (var i = 0; i < workList.length; i++) {
+                workStr += " <a href=\"#\">" +
+                    "                                <li>" +
+                    "                                    <img src=" + workList[i].imageList[0].thumbUrl + "/>" +
+                    "                                </li>" +
+                    "                            </a>"
+            }
+            $(".mobile").append(workStr)
+        },
+        error: function (data) {
+            alert("error")
+        }
+    })
     });
 </script>
 </html>

@@ -63,8 +63,6 @@ public interface UserPortalService {
     ResultJson resetPassword(UserQuery userQuery);
 
 
-    ResultJson isPainter();
-
     /**
      * 选择标签
      *
@@ -73,6 +71,10 @@ public interface UserPortalService {
      */
     ResultJson chooseTags(String tags);
 
+    /**
+     * 查询所有的用户标签
+     * @return
+     */
     ResultJson allTags();
 
     /**

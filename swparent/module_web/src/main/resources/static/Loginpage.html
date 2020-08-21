@@ -5,12 +5,12 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=width-device,initial-scale=1.0">
     <title>登录页面</title>
-    <link rel="stylesheet" href="/css/style.css"/>
-    <link rel="stylesheet" href="/css/bootstrap.css"/>
-    <link rel="stylesheet" href="/css/framework-font.css"/>
-    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.md5.js"></script>
-    <script type="text/javascript" src="/js/base.js"></script>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/framework-font.css"/>
+    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery.md5.js"></script>
+    <script type="text/javascript" src="js/base.js"></script>
 </head>
 
 <body>
@@ -89,6 +89,8 @@
                     if (ret.status == 200) {
                         $("#login_button").find('a').html("登录成功，正在跳转...");
                         localStorage.setItem("userId", ret.data.user.id);
+                        localStorage.setItem("isPainter", ret.data.isPainter);
+                        localStorage.setItem("token", ret.data.token);
                         if (typeof forwardParam == "undefined" || forwardParam == null || forwardParam.length == 0 || forwardParam == false) {
                             if (ret.data.painter) {
                                 window.location.href = "homepage.html?a=1";//认证成功

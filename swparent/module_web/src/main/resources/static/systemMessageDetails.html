@@ -40,7 +40,7 @@
         <img src="img/news.jpeg">
     </div>
     <div class="newscontent">
-        <p>
+        <p id="content">
             中新网黄石9月11日电 (梁婷 南艳群 丁捷菲)第八届中国创新创业大赛(湖北赛区)决赛11日在湖北黄石举行，经过角逐，排序靠前的22家成长组企业和9家初创组企业将代表湖北进军全国行业总决赛。
 
             中国创新创业大赛是一项以“科技创新、成就大业”为主题的全国性双创赛事。赛事分为地方赛和全国行业总决赛两个赛程。
@@ -54,19 +54,50 @@
 
 
 </body>
-<script type="text/javascript" src="scripts/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript" src="../PictureEnlargement/jquery.mousewheel.js"></script>
-<script type="text/javascript" src="../PictureEnlargement/jquery.imgZoom.js"></script>
-<script type="text/javascript" src="../PictureEnlargement/jquery.drag.js"></script>
+<!--<script type="text/javascript" src="scripts/jquery-1.10.2.min.js"></script>-->
+<!--<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>-->
+<!--<script type="text/javascript" src="../PictureEnlargement/jquery.mousewheel.js"></script>-->
+<!--<script type="text/javascript" src="../PictureEnlargement/jquery.imgZoom.js"></script>-->
+<!--<script type="text/javascript" src="../PictureEnlargement/jquery.drag.js"></script>-->
+<script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
 <script>
+    var id = getQueryVariable("id");
     $(function () {
         $('#myModal').modal('hide')
+        $(".headernav").load("header.html")
+        initPage();
     });
+
+    function initPage() {
+        $.ajax({
+            type: "post",
+            url: basePath + "/portal/myWorld/systemMessageDetail",
+            data: {
+                "id": id
+            },
+            async: false,//同步  true ：异步
+            dataType: "json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
+            success: function (ret) {
+                console.log(ret)
+                if (ret.status == 200) {
+                    $("#content").html(ret.data.content)
+                }
+
+            },
+            error: function (data) {
+                alert("error")
+            }
+        })
+    }
 </script>
-<script type="text/javascript">
-    $(".imgZoom").imgZoom();
-</script>
+<!--<script type="text/javascript">-->
+<!--$(".imgZoom").imgZoom();-->
+<!--</script>-->
 <script>
     $(".recominput").click(function () {
         $(".reminput").slideToggle();

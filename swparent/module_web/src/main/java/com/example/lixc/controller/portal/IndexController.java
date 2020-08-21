@@ -40,23 +40,6 @@ public class IndexController {
     private SysDictService dictService;
 
     /**
-     * 查询作品列表  按照时间进行倒叙排序
-     * @param query
-     * @return
-     */
-    @ApiOperation("查询作品列表")
-    @PostMapping("/workList")
-    public Page<WorkBack> workList(WorkQuery query) {
-        try {
-            return workService.workList(query);
-        } catch (Exception e) {
-            log.error("workList exception:{}", e.getMessage());
-            return new Page<>();
-        }
-    }
-
-
-    /**
      * 作品详情
      * @param workId
      * @return

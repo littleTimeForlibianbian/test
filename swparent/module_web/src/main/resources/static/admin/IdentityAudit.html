@@ -10,6 +10,8 @@
         <link rel="stylesheet" href="./css/xadmin.css">
         <script src="./lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="./js/xadmin.js"></script>
+        <script type="text/javascript" src="js/jquery-2.1.0.min.js" ></script>
+        <script type="text/javascript" src="./js/base.js"></script>
         <!--[if lt IE 9]>
           <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
           <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -39,10 +41,10 @@
                                     <input class="layui-input"  autocomplete="off" placeholder="截止日" name="end" id="end">
                                 </div>-->
                                 <div class="layui-inline layui-show-xs-block">
-                                    <input type="text" name="username"  placeholder="请输入用户名或者邮箱" autocomplete="off" class="layui-input">
+                                    <input type="text" name="username" id="checkname"  placeholder="请输入用户名或者邮箱" autocomplete="off" class="layui-input">
                                 </div>
                                 <div class="layui-inline layui-show-xs-block">
-                                    <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                                    <button type="button" class="layui-btn" onclick="checkide()"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
                                 </div>
                             </form>
                         </div>
@@ -54,9 +56,6 @@
                             <table class="layui-table layui-form">
                               <thead>
                                 <tr>
-                                  <th>
-                                    <input type="checkbox" name=""  lay-skin="primary">
-                                  </th>
                                   <th>ID</th>
                                   <th>昵称</th>
                                   <th>邮箱</th>
@@ -64,25 +63,9 @@
                                   <th>年代（一个）</th>
                                   <th>画风（三个）</th>
                                   <th>品类（三个）</th>
-                                  <th>审核状态</th>
                               </thead>
-                              <tbody>
-                                <tr>
-                                  <td>
-                                    <input type="checkbox" name=""  lay-skin="primary">
-                                  </td>
-                                  <td>1</td>
-                                  <td>胡凯23333</td>
-                                  <td>113664000@qq.com</td>
-                                  <td>自由画师</td>
-                                  <td>80后</td>
-                                  <td>111111111111111111</td>
-                                  <td>111111111111111111</td>
-                                  <td>
-                                    <input type="checkbox" name="switch"  lay-text="成功|失败"  checked="" lay-skin="switch">
-                                  </td>
-                                  
-                                </tr>
+                              <tbody id="identity-admin">
+                                
                               </tbody>
                             </table>
                         </div>
@@ -104,6 +87,120 @@
         </div> 
     </body>
     <script>
+    	$(function(){
+    		$.ajax({
+           		url: basePath+'/web/manager/check/iden/list',//地址
+                //data: '{startTime: startime, endTime: endtime,email:username}',//传参数
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                   console.log(data);
+                   var dataObj=data;
+                   identityadmin="";
+                   identitytagList="";
+                   for(var i=0;i<dataObj.length;i++) {
+                   	identityadmin='<tr>\n' +
+    '                                  <td id="adminid">'+dataObj[i].id+'</td>\n' +
+    '                                  <td>'+dataObj[i].nickName+'</td>\n' +
+    '                                  <td>'+dataObj[i].email+'</td>\n'+
+    '                                  <td id="ad1'+i+'"></td>\n'+
+    '                                  <td id="ad2'+i+'"></td>\n'+
+    '                                  <td id="ad3'+i+'"></td>\n'+
+    '                                  <td id="ad4'+i+'"></td>\n'+
+	'                                </tr>'
+	 					$('#identity-admin').append(identityadmin);
+	 					var ad1='';
+	 					var ad2='';
+	 					var ad3='';
+	 					var ad4='';
+						for(var j =0;j<dataObj[i].tagList.length;j++)
+	                   	{
+	                   		if(dataObj[i].tagList[j].parentId==1)
+	                   		{
+	                   			 ad1+=dataObj[i].tagList[j].content;
+							}else if(dataObj[i].tagList[j].parentId==2){
+								 ad2+=dataObj[i].tagList[j].content;
+							}
+							else if(dataObj[i].tagList[j].parentId==3){
+								 ad3+=dataObj[i].tagList[j].content+',';
+							}
+							else if(dataObj[i].tagList[j].parentId==4){
+								 ad4+=dataObj[i].tagList[j].content+',';
+							}
+	                   }
+						ad3=ad3.substr(0, ad3.length - 1);
+						ad4=ad4.substr(0, ad4.length - 1);
+	                   	$("#ad1"+i+"").html(ad1);
+	                   	$("#ad2"+i+"").html(ad2);
+	                   	$("#ad3"+i+"").html(ad3);
+	                   	$("#ad4"+i+"").html(ad4);
+                   }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //options.obj.value = "出错，请刷新页面重试";
+                },
+           });
+           
+    	})
+    	
+    	function checkide(){
+    		var checkname=$("#checkname").val();
+    		$.ajax({
+           		url: basePath+'/web/manager/check/iden/list',
+                data: '{username:checkname}',
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                   console.log(data);
+                   $("tbody").empty();
+                   var dataObj=data;
+                   identityadmin="";
+                   identitytagList="";
+                   for(var i=0;i<dataObj.length;i++) {
+                   	identityadmin+='<tr>\n' +
+    '                                  <td id="adminid">'+dataObj[i].id+'</td>\n' +
+    '                                  <td>'+dataObj[i].nickName+'</td>\n' +
+    '                                  <td>'+dataObj[i].email+'</td>\n'+
+    '                                  <td id="ad1'+i+'"></td>\n'+
+    '                                  <td id="ad2'+i+'"></td>\n'+
+    '                                  <td id="ad3'+i+'"></td>\n'+
+    '                                  <td id="ad4'+i+'"></td>\n'+
+	'                                </tr>'
+	 					$('#identity-admin').append(identityadmin);
+	 					var ad1='';
+	 					var ad2='';
+	 					var ad3='';
+	 					var ad4='';
+						for(var j =0;j<dataObj[i].tagList.length;j++)
+	                   	{
+	                   		if(dataObj[i].tagList[j].parentId==1)
+	                   		{
+	                   			 ad1+=dataObj[i].tagList[j].content;
+							}else if(dataObj[i].tagList[j].parentId==2){
+								 ad2+=dataObj[i].tagList[j].content;
+							}
+							else if(dataObj[i].tagList[j].parentId==3){
+								 ad3+=dataObj[i].tagList[j].content+',';
+							}
+							else if(dataObj[i].tagList[j].parentId==4){
+								 ad4+=dataObj[i].tagList[j].content+',';
+							}
+	                   }
+						ad3=ad3.substr(0, ad3.length - 1);
+						ad4=ad4.substr(0, ad4.length - 1);
+	                   	$("#ad1"+i+"").html(ad1);
+	                   	$("#ad2"+i+"").html(ad2);
+	                   	$("#ad3"+i+"").html(ad3);
+	                   	$("#ad4"+i+"").html(ad4);
+                   }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //options.obj.value = "出错，请刷新页面重试";
+                },
+           });
+    	}
       layui.use(['laydate','form'], function(){
         var laydate = layui.laydate;
         var form = layui.form;
@@ -119,56 +216,12 @@
         });
       });
 
-       /*用户-停用*/
-      function member_stop(obj,id){
-          layer.confirm('确认要停用吗？',function(index){
-
-              if($(obj).attr('title')=='启用'){
-
-                //发异步把用户状态进行更改
-                $(obj).attr('title','停用')
-                $(obj).find('i').html('&#xe62f;');
-
-                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!',{icon: 5,time:1000});
-
-              }else{
-                $(obj).attr('title','启用')
-                $(obj).find('i').html('&#xe601;');
-
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!',{icon: 5,time:1000});
-              }
-              
-          });
-      }
-
-      /*用户-删除*/
-      function member_del(obj,id){
-          layer.confirm('确认要删除吗？',function(index){
-              //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
-          });
-      }
-
-
-
-      function delAll (argument) {
-
-        var data = tableCheck.getData();
-  
-        layer.confirm('确认要删除吗？'+data,function(index){
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
-      }
+      
     </script>
-    <script>var _hmt = _hmt || []; (function() {
+    <!--<script>var _hmt = _hmt || []; (function() {
         var hm = document.createElement("script");
         hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
-      })();</script>
+      })();</script>-->
 </html>

@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="./css/xadmin.css">
         <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="./js/xadmin.js"></script>
+        <script type="text/javascript" src="js/jquery-2.1.0.min.js" ></script>
         <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
         <!--[if lt IE 9]>
             <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -25,36 +26,82 @@
                       <label for="phone" class="layui-form-label workblock">
                          	 作品图：
                       </label>
-                      <span class="layui-span"><img src="images/bg.png"></span>
+                      <span class="layui-span"><img id="spa1"></span>
                   </div>
                   <div class="layui-form-item">
                       <label class="layui-form-label workblock">创作过往：</label>
-                      <span class="layui-span">、插画、手绘、国画、插画\插画、手绘、国画、插画、手绘、国画、插画、手绘、国画、插画、手绘、国画、插画、手绘、国画插画、手绘、国画、插画、手绘、国画、插画、手绘、国画</span>
+                      <span class="layui-span" id="uhistroy"></span>
                   </div>
                   <div class="layui-form-item">
                       <label class="layui-form-label workblock">常用网址：</label>
-                      <span class="layui-span">
-                      	<ul>
-                      		<li>www.baidu.com</li>
-                      		<li>www.baidu.com</li>
-                      		<li>www.baidu.com</li>
-                      	</ul>
+                      <span class="layui-span" id="#layui-span">
+                      	
                       </span>
                   </div>
                   <div class="layui-form-item failureinput">
                   	<label class="layui-form-label workblock">审核失败的原因：（选填）</label>
-                  	<textarea type="text" placeholder="输入审核失败的原因"/></textarea>
+                  	<textarea type="text" id="workblock" placeholder="输入审核失败的原因"/></textarea>
                   </div>
                   <div class="layui-form-item examine-btn">
                       <!--<label for="L_repass" class="layui-form-label">
                       </label>-->
-                      <button  class="layui-btn" lay-filter="add" lay-submit="">审核</button>
+                      <button type="button" onclick="workblocks()"  class="layui-btn" lay-filter="add" lay-submit="">审核</button>
                       <button  class="layui-btn" lay-filter="add" lay-submit="">取消</button>
                   </div>
               </form>
             </div>
         </div>
-        <script>layui.use(['form', 'layer'],
+        <script>
+        	//获取用户名
+        	function getUrlParam(name){
+				var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if (r!=null) return unescape(r[2]); return null;
+			}
+        	var adminId = getUrlParam('adminid');
+        	console.log(adminId);
+        	$.ajax({
+     			url: 'http://58hpz2.natappfree.cc/web/manager/check/work/list',
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                   console.log(data);
+                 	for(var i=0;i<data.length;i++) {
+                 		if(adminId==data[i].id){
+                 			console.log(data[i].id);
+                 			for(var s=0;s<data[i].imageList.length;s++){
+                 				$("#spa1").attr('src',data[i].imageList[s].url);
+                 				$("#uhistroy").val(data[i].updateBy);
+                 				$("#layui-span").attr('p',data[i].user.userAttr.website);
+                 			}
+                 		}
+                 	}
+                 	
+                }
+     		})
+        	
+        	function workblocks(){
+        		var failworks=$("#workblock").val();
+        		alert(failworks)
+        		var worksuccess;
+        		if(failworks==""){
+        			worksuccess="5"
+        		}else(
+        			worksuccess="6"
+        		)
+        		$.ajax({
+        			url: 'http://58hpz2.natappfree.cc/web/manager/check/work/workCheck',
+        			type: "post",
+     				data: {id: adminId,status:worksuccess,failReason:failworks},
+        			dataType: "json",
+                	async: false,
+                	success: function (data) {
+                		console.log(data);	
+                	}
+        		})
+        	}
+        	layui.use(['form', 'layer'],
             function() {
                 $ = layui.jquery;
                 var form = layui.form,
@@ -76,22 +123,22 @@
                 });
 
                 //监听提交
-                form.on('submit(add)',
-                function(data) {
-                    console.log(data);
-                    //发异步，把数据提交给php
-                    layer.alert("增加成功", {
-                        icon: 6
-                    },
-                    function() {
-                        //关闭当前frame
-                        xadmin.close();
-
-                        // 可以对父窗口进行刷新 
-                        xadmin.father_reload();
-                    });
-                    return false;
-                });
+//              form.on('submit(add)',
+//              function(data) {
+//                  console.log(data);
+//                  //发异步，把数据提交给php
+//                  layer.alert("增加成功", {
+//                      icon: 6
+//                  },
+//                  function() {
+//                      //关闭当前frame
+//                      xadmin.close();
+//
+//                      // 可以对父窗口进行刷新 
+//                      xadmin.father_reload();
+//                  });
+//                  return false;
+//              });
 
             });</script>
         <script>var _hmt = _hmt || []; (function() {

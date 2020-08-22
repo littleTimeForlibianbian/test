@@ -90,7 +90,7 @@
         </div>
     </div>
     <div class="Tourist">
-        <button type="submit" class="btn">加入慢蜗社区，与ta一起互动</button>
+        <button type="submit" class="btn"><a href="RegistrationPage.html"> 加入慢蜗社区，与ta一起互动</a></button>
     </div>
 </div>
 
@@ -110,6 +110,7 @@
 </body>
 <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript">
     //作品推荐
     var _index5 = 0;
@@ -132,6 +133,7 @@
         _index5--;
         $("#four_flash .flashBg ul.mobile").stop().animate({left: -_index5 * 326}, 1000);
     });
+    var workId = getQueryVariable("id");
     //作品详情
     $.ajax({
         //获取作品详情
@@ -200,7 +202,6 @@
         error: function (data) {
             alert("error")
         }
-    })
     });
 </script>
 </html>

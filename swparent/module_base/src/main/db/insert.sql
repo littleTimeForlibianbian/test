@@ -145,8 +145,18 @@ INSERT INTO `sw`.`sys_tag`(`type`, `content`, `parent_id`)
 VALUES (4, '素描', 4);
 
 #初始化权限数据
-insert into sys_privilege(name, url, type) values ('用户管理','/web/manager/user/**',2);
-insert into sys_privilege(name, url, type) values ('审核管理','/web/manager/check/**',2);
-insert into sys_privilege(name, url, type) values ('作品管理','/web/manager/work/**',2);
-insert into sys_privilege(name, url, type) values ('用户行为','/web/manager/userBehavior/**',2);
-insert into sys_privilege(name, url, type) values ('文章管理','/web/manager/article/**',2);
+INSERT INTO `sw`.`sys_privilege`(`id`, `name`, `tag`, `url`, `type`, `parent`) VALUES (1, '用户管理', '/web/manager/user', '/web/manager/user/**', 2, NULL);
+INSERT INTO `sw`.`sys_privilege`(`id`, `name`, `tag`, `url`, `type`, `parent`) VALUES (2, '审核管理', '/web/manager/check', '/web/manager/check/**', 2, NULL);
+INSERT INTO `sw`.`sys_privilege`(`id`, `name`, `tag`, `url`, `type`, `parent`) VALUES (3, '作品管理', '/web/manager/work', '/web/manager/work/**', 2, NULL);
+INSERT INTO `sw`.`sys_privilege`(`id`, `name`, `tag`, `url`, `type`, `parent`) VALUES (4, '用户行为', '/web/manager/userBehavior', '/web/manager/userBehavior/**', 2, NULL);
+INSERT INTO `sw`.`sys_privilege`(`id`, `name`, `tag`, `url`, `type`, `parent`) VALUES (5, '文章管理', '/web/manager/article', '/web/manager/article/**', 2, NULL);
+INSERT INTO `sw`.`sys_privilege`(`id`, `name`, `tag`, `url`, `type`, `parent`) VALUES (6, '我的世界', '/portal/myWorld', '/portal/myWorld/**', 1, NULL);
+INSERT INTO `sw`.`sys_privilege`(`id`, `name`, `tag`, `url`, `type`, `parent`) VALUES (7, '首页权限', '/portal/index', '/portal/index/**', 1, NULL);
+
+
+INSERT INTO `sw`.`sys_role`(id, `name`, `role_description`, `enable`, `create_by`, `create_time`, `update_by`, `update_time`,`type`,`tag`) VALUES (11,'画师角色', '系统默认画师角色', 'Y', NULL, now(), NULL, NULL,1,'painter');
+INSERT INTO `sw`.`sys_role`( id,`name`, `role_description`, `enable`, `create_by`, `create_time`, `update_by`, `update_time`,`type`,`tag`) VALUES (12,'用户角色', '系统默认用户角色', 'Y', NULL, now(), NULL, NULL,1,'user');
+
+insert into  sys_role_privledge (role_id,p_id) values (11,6);
+insert into  sys_role_privledge (role_id,p_id) values (12,7);
+

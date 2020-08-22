@@ -18,4 +18,16 @@
         </where>
     </select>
 
+    <select id="selectListByUserIdAndType" resultType="com.example.lixc.entity.Role">
+        select * from sys_role sr,sys_user_role sur where sr.id = sur.role_id
+        <where>
+            <if test="userId > 0">
+                and sur.user_id= #{userId}
+            </if>
+            <if test="type > 0">
+                and sr.type= #{type}
+            </if>
+        </where>
+    </select>
+
 </mapper>

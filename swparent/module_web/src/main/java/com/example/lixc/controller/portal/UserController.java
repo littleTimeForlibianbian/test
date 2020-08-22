@@ -52,9 +52,9 @@ public class UserController {
      */
     @PostMapping("/registerUser")
     @ApiOperation("用户注册")
-    public ResultJson registerUser(@RequestBody UserQuery user) {
+    public ResultJson registerUser(@RequestBody UserQuery user,HttpServletRequest request) {
         try {
-             return userPortalService.registerUser(user);
+             return userPortalService.registerUser(user,request);
         } catch (Exception e) {
             log.error("用户注册发生异常:{}", e.getMessage());
             e.printStackTrace();
@@ -191,22 +191,6 @@ public class UserController {
 //        }
 //    }
 
-    /**
-     * 选择标签
-     *
-     * @return
-     */
-    @PostMapping("/chooseTags")
-    @ApiOperation("选择标签")
-    public ResultJson chooseTags(String ids) {
-        try {
-            return userPortalService.chooseTags(ids);
-        } catch (Exception e) {
-            log.error("重置密码发生异常:{}", e.getMessage());
-            e.printStackTrace();
-            return ResultJson.buildError("重置密码发生异常");
-        }
-    }
 
     /**
      * 查询所有标签
@@ -241,5 +225,40 @@ public class UserController {
             return new Page<>();
         }
     }
+
+    /**
+     * 作品详情
+     *
+     * @param workId
+     * @return
+     */
+    @ApiOperation("作品详情")
+    @GetMapping("/workDetail")
+    public ResultJson workDetail(Integer workId) {
+        try {
+            return workService.workDetail(workId);
+        } catch (Exception e) {
+            log.error("workList exception:{}", e.getMessage());
+            return ResultJson.buildError("获取作品详情发生异常");
+        }
+    }
+
+    /**
+     * 其余作品
+     *
+     * @param query
+     * @return
+     */
+    @ApiOperation("其余作品")
+    @PostMapping("/other")
+    public ResultJson other(WorkQuery query) {
+        try {
+            return workService.other(query);
+        } catch (Exception e) {
+            log.error("workList exception:{}", e.getMessage());
+            return ResultJson.buildError("获取其余作品发生异常");
+        }
+    }
+
 
 }

@@ -52,6 +52,7 @@
 <script type="text/javascript" src="js/base.js"></script>
 <!--判断标签选择-->
 <script type="text/javascript">
+    var id = getQueryVariable("id");
     ($(function () {
         //获取标签数据
         $.ajax({
@@ -304,11 +305,17 @@
         console.log(ids)
         $("#submit").click(function () {
             $.ajax({
-                url: basePath + '/public/user/chooseTags',
-                data: {ids: ids},
+                url: basePath + '/public/index/chooseTags',
+                data: {
+                    ids: ids,
+                    userId: id
+                },
                 type: "post",
                 async: false,
                 dataType: "json",
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", localStorage.getItem("token"));
+                },
                 success: function (ret) {
                     console.log(ret);
                 }

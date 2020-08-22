@@ -87,6 +87,13 @@ public class WorkServiceImpl implements WorkService {
     @Autowired
     private FtpService ftpService;
 
+    @Autowired
+    private UserRoleMapper userRoleMapper;
+    @Autowired
+    private RoleMapper roleMapper;
+    @Autowired
+    private RolePrivledgeMapper rolePrivledgeMapper;
+
     @Value("${sw.work.url}")
     private String url;
 
@@ -755,6 +762,32 @@ public class WorkServiceImpl implements WorkService {
             work.setFailReason(workQuery.getFailReason());
         }
         workMapper.updateByPrimaryKeySelective(work);
+        //修改此人角色权限关联关系
+        //查询当前表中的画师角色的id
+        Role role = new Role();
+        role.setType(1);
+        role.setTag("painter");
+        Role role1 = roleMapper.selectOne(role);
+        if (role1 == null) {
+            log.error(">>>>>>>>>>>初始化角色失败，请检查初始化脚本是否执行");
+        } else {
+            List<Role> roles = userRoleMapper.selectListByUserIdAndType(work.getId(), 1);
+            if (CollectionUtils.isEmpty(roles)) {
+                log.error(">>>>>>>>>>>当前用户暂无前台角色");
+                //添加画师角色
+                UserRole userRole = new UserRole();
+                userRole.setUserId(work.getUserId());
+                userRole.setUserId(role1.getId());
+                userRoleMapper.insertSelective(userRole);
+            }else{
+                UserRole userRole = new UserRole();
+                userRole.setUserId(work.getUserId());
+                userRole.setUserId(role1.getId());
+                userRoleMapper.updateByPrimaryKey(userRole);
+            }
+            //更新用户前台角色
+
+        }
         try {
             String to = String.valueOf(work.getUserId());
             String subject = "审核结果通知";

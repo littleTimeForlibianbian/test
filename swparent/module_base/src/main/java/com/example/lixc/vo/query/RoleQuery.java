@@ -36,6 +36,14 @@ public class RoleQuery extends PageParam {
     private String endTime;
     @ApiModelProperty(value = "权限id集合")
     private String privilegeIds;
+    /**
+     * 角色标志 ： user前台用户角色  painter 前台画师角色，null表示后台角色
+     */
+    private String tag;
+    /**
+     * 角色类型，1：表示前台角色 2 表示后台角色，前台角色有且只能有一个
+     */
+    private Integer type;
 
     public ResultJson checkParams() {
         if (StringUtils.isEmpty(name)) {

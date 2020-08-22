@@ -61,6 +61,9 @@ public class UserPortalServiceImpl implements UserPortalService {
     private FtpService ftpService;
 
     @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
     private UserAttrMapper userAttrMapper;
 
     @Autowired
@@ -109,7 +112,7 @@ public class UserPortalServiceImpl implements UserPortalService {
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public ResultJson registerUser(UserQuery userQuery) {
+    public ResultJson registerUser(UserQuery userQuery, HttpServletRequest request) {
         log.info("registerUser>>>输入参数：" + userQuery.toString());
         ResultJson verifyParams = userQuery.checkParams();
         log.info("verifyParams:{},{}", verifyParams.getMessage(), verifyParams.toString());
@@ -127,24 +130,29 @@ public class UserPortalServiceImpl implements UserPortalService {
                 return ResultJson.buildError("邀请码错误");
             }
             if (codeFromDB.getUsedNum() >= 10) {
+                log.error("邀请码使用次数已满，请联系邀请人重新生成");
                 return ResultJson.buildError("邀请码使用次数已满，请联系邀请人重新生成");
             }
             //获取系统设置的 过期时间
             int days = sysConfigMapper.selectAll().get(0).getInvitationCodeExpire();
             if (codeFromDB.getCreateTime().before(DateUtils.addDays(new Date(), -days))) {
+                log.error("邀请码已经过期，请联系邀请人重新生成");
                 return ResultJson.buildError("邀请码已经过期，请联系邀请人重新生成");
             }
         }
         //校验手机号是否已经注册
         if (userMapper.existsWithPhone(userQuery.getPhone(), "N") > 0) {
+            log.error("手机号已经被注册");
             return ResultJson.buildError("手机号已经被注册");
         }
         //校验邮箱是否注册
         if (userMapper.existsWithEmail(userQuery.getEmail(), "N") > 0) {
+            log.error("邮箱已经被注册");
             return ResultJson.buildError("邮箱已经被注册");
         }
         //校验昵称是否注册
         if (userMapper.existsWithNickName(userQuery.getNickName(), "N") > 0) {
+            log.error("昵称已经被注册");
             return ResultJson.buildError("昵称已经被注册");
         }
         //添加用户
@@ -152,11 +160,19 @@ public class UserPortalServiceImpl implements UserPortalService {
         user.setEnable("Y");
         user.setFocusCount(0);
         userMapper.insertUseGeneratedKeys(user);
-        //添加用户角色表
-        UserRole userRole = new UserRole();
-        userRole.setUserId(user.getId());
-        userRole.setRoleId(userQuery.getRoleId() == null ? 1 : userQuery.getRoleId());
-        userRoleMapper.insertSelective(userRole);
+//        //设置默认的前台角色
+        Role role = new Role();
+        role.setType(1);
+        role.setTag("user");
+        Role role1 = roleMapper.selectOne(role);
+        if (role1 == null) {
+            log.error("请检查角色初始化脚本");
+        } else {
+            UserRole userRole = new UserRole();
+            userRole.setUserId(user.getId());
+            userRole.setRoleId(role1.getId());
+            userRoleMapper.insertSelective(userRole);
+        }
         //添加用户附加属性
         UserAttr userAttr = new UserAttr();
         userAttr.setUserId(user.getId());
@@ -169,10 +185,14 @@ public class UserPortalServiceImpl implements UserPortalService {
         code.setCode(userQuery.getInvitationCode());
         code.setUsedNum(++i);
         codeMapper.updateCount(code);
-        //根据用户的id的base64值发送邮件，增加一个邮件记录表
+        /**
+         * 根据用户的id的base64值发送邮件，增加一个邮件记录表
+         * 目前操作 注册完毕以后直接登录，不走激活的接口
+         */
 //        String params = Base64.getEncoder().encodeToString(userQuery.getNickName().getBytes());
 //        String content = "http://localhost:8080/public/user/activeRegister?param=" + params;
-        String content = "http://pzydzu.natappfree.cc/Loginpage.html";
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
+        String content = basePath + "Loginpage.html";
         Map<String, String> map = new HashMap<>();
         map.put("content", content);
         map.put("content1", content);
@@ -206,9 +226,11 @@ public class UserPortalServiceImpl implements UserPortalService {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public ResultJson logon(UserQuery userQuery, HttpServletRequest request) {
         if (StringUtils.isEmpty(userQuery.getUserName())) {
+            log.error("用户名为空");
             return ResultJson.buildError("用户名为空");
         }
         if (StringUtils.isEmpty(userQuery.getPassword())) {
+            log.error("密码为空");
             return ResultJson.buildError("密码为空");
         }
         String username = userQuery.getUserName();
@@ -221,6 +243,7 @@ public class UserPortalServiceImpl implements UserPortalService {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         final String token = tokenUtils.createToken(userDetails.getUsername());
         if (principal.getId() == null || principal.getId() <= 0) {
+            log.error("用户名或者密码错误");
             return ResultJson.buildError("用户名或者密码错误");
         } else {
             log.info("登录成功");
@@ -269,12 +292,21 @@ public class UserPortalServiceImpl implements UserPortalService {
             user.setNickName(nickName);
             User userFromDB = userMapper.select(user).get(0);
             if (userFromDB == null) {
-                log.info("根据nickName查询记录为空");
+                log.error("根据nickName查询记录为空");
                 return ResultJson.buildError("激活信息有误!");
             }
             //设置状态为已经激活  更新数据库
             userFromDB.setStatus(UserStatusEnum.USER_STATUS_ACTIVE.getCode());
             userMapper.updateByPrimaryKeySelective(userFromDB);
+            //设置默认的前台角色
+            Role role = new Role();
+            role.setType(1);
+            role.setTag("user");
+            Role role1 = roleMapper.selectOne(role);
+            UserRole userRole = new UserRole();
+            userRole.setUserId(userFromDB.getId());
+            userRole.setRoleId(role1.getId());
+            userRoleMapper.insertSelective(userRole);
         } catch (Exception e) {
             log.error("用户{}激活失败,错误信息：{}", nickName, e.getMessage());
             e.printStackTrace();
@@ -292,15 +324,18 @@ public class UserPortalServiceImpl implements UserPortalService {
     @Override
     public ResultJson forgetPassword(String email) {
         if (StringUtils.isEmpty(email)) {
+            log.error("邮箱参数为空");
             return ResultJson.buildError("邮箱参数为空");
         }
         if (!ToolsUtil.regexEmail(email)) {
+            log.error("邮箱格式错误");
             return ResultJson.buildError("邮箱格式错误");
         }
         UserQuery userQuery = new UserQuery();
         userQuery.setUserName(email);
         User userBack = userMapper.selectBaseByUserName(userQuery);
         if (userBack == null) {
+            log.error("用户不存在");
             return ResultJson.buildError("用户不存在");
         }
         //产生一个token
@@ -378,13 +413,12 @@ public class UserPortalServiceImpl implements UserPortalService {
 //    }
 
     @Override
-    public ResultJson chooseTags(String tags) {
+    public ResultJson chooseTags(String tags, Integer userId) {
         if (StringUtils.isEmpty(tags)) {
             return ResultJson.buildError("传入参数错误");
         }
         String[] split = tags.split("-");
         List<SysUserTag> list = new ArrayList<>();
-        int userId = SysConfigUtil.getLoginUserId();
         for (int i = 0; i < split.length; i++) {
             SysUserTag userTag = new SysUserTag();
             userTag.setTagId(Integer.valueOf(split[i]));

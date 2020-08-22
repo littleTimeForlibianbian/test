@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +23,7 @@ import java.util.Date;
  * @createTime 2020/6/7 15:14
  */
 @Data
+@Slf4j
 @ToString
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "用户参数类", description = "用户请求参数描述")
@@ -114,12 +116,15 @@ public class UserQuery extends PageParam {
 
     public ResultJson checkParams() {
         if (StringUtils.isEmpty(nickName)) {
+            log.error("昵称为空");
             return ResultJson.buildError("昵称为空");
         }
         if (!ToolsUtil.regexNickName(nickName)) {
+            log.error("昵称由最多8位中文、英文、下划线、数字组成");
             return ResultJson.buildError("昵称由最多8位中文、英文、下划线、数字组成");
         }
         if (StringUtils.isEmpty(password)) {
+            log.error("密码为空");
             return ResultJson.buildError("密码为空");
         }
         //由于前段传入md5数据 此处的密码校验去掉
@@ -127,24 +132,31 @@ public class UserQuery extends PageParam {
 //            return ResultJson.buildError("密码由最多8位中文、英文、下划线、数字组成");
 //        }
         if (StringUtils.isEmpty(email)) {
+            log.error("邮箱为空");
             return ResultJson.buildError("邮箱为空");
         }
         if (!ToolsUtil.regexEmail(email)) {
+            log.error("邮箱格式错误");
             return ResultJson.buildError("邮箱格式错误");
         }
         if (StringUtils.isEmpty(phone)) {
+            log.error("手机号为空");
             return ResultJson.buildError("手机号为空");
         }
         if (!ToolsUtil.regexPhone(phone)) {
+            log.error("手机号格式错误");
             return ResultJson.buildError("手机号格式错误");
         }
         if (StringUtils.isEmpty(invitationCode)) {
+            log.error("邀请码为空");
             return ResultJson.buildError("邀请码为空");
         }
         if (invitationCode.length() != 9) {
+            log.error("邀请码错误");
             return ResultJson.buildError("邀请码错误");
         }
         if (StringUtils.isEmpty(city)) {
+            log.error("城市为空");
             return ResultJson.buildError("城市为空");
         }
         return ResultJson.buildSuccess();

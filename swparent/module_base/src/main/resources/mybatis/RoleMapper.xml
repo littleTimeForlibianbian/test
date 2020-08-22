@@ -33,7 +33,7 @@
         </collection>
     </resultMap>
     <sql id="Base_Column_List">
-        sr.id, sr.`name`, `enable`, `role_description`, `create_by`, `create_time`, `update_by`, `update_time`
+        sr.id, sr.`name`, `enable`, `role_description`, `create_by`, `create_time`, `update_by`, `update_time`,type
     </sql>
     <delete id="deleteBatch">
         delete from sys_role where id in

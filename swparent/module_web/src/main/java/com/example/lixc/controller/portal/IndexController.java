@@ -3,6 +3,7 @@ package com.example.lixc.controller.portal;
 import com.example.lixc.entity.SysReport;
 import com.example.lixc.service.ReportService;
 import com.example.lixc.service.SysDictService;
+import com.example.lixc.service.UserPortalService;
 import com.example.lixc.service.WorkService;
 import com.example.lixc.util.QRCodeUtil;
 import com.example.lixc.util.ResultJson;
@@ -39,21 +40,10 @@ public class IndexController {
     @Autowired
     private SysDictService dictService;
 
-    /**
-     * 作品详情
-     * @param workId
-     * @return
-     */
-    @ApiOperation("作品详情")
-    @GetMapping("/workDetail")
-    public ResultJson workDetail(Integer workId) {
-        try {
-            return workService.workDetail(workId);
-        } catch (Exception e) {
-            log.error("workList exception:{}", e.getMessage());
-            return ResultJson.buildError("获取作品详情发生异常");
-        }
-    }
+    @Autowired
+    private UserPortalService userPortalService;
+
+
 
     /**
      * 根据作品id获取用户详情
@@ -72,26 +62,29 @@ public class IndexController {
         }
     }
 
-
     /**
-     * 其余作品
-     * @param query
+     * 选择标签
+     *
      * @return
      */
-    @ApiOperation("其余作品")
-    @PostMapping("/other")
-    public ResultJson other(WorkQuery query) {
+    @PostMapping("/chooseTags")
+    @ApiOperation("选择标签")
+    public ResultJson chooseTags(String ids, Integer userId) {
         try {
-            return workService.other(query);
+            return userPortalService.chooseTags(ids, userId);
         } catch (Exception e) {
-            log.error("workList exception:{}", e.getMessage());
-            return ResultJson.buildError("获取其余作品发生异常");
+            log.error("重置密码发生异常:{}", e.getMessage());
+            e.printStackTrace();
+            return ResultJson.buildError("重置密码发生异常");
         }
     }
 
 
+
+
     /**
      * 上传图片 file
+     *
      * @param file
      * @return
      */
@@ -266,9 +259,9 @@ public class IndexController {
     //举报
     @ApiOperation("举报")
     @PostMapping("/report")
-    public ResultJson report(String ids,Integer workId) {
+    public ResultJson report(String ids, Integer workId) {
         try {
-            return workService.report(ids,workId);
+            return workService.report(ids, workId);
         } catch (Exception e) {
             log.error("举报失败:{}", e.getMessage());
             return ResultJson.buildError("举报失败");

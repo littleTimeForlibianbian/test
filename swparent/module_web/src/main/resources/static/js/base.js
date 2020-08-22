@@ -1,7 +1,7 @@
 $(function(){
     initCityMap();
 })
-var basePath = 'http://b98udp.natappfree.cc';
+var basePath = 'http://ku3dgm.natappfree.cc';
 // var basePath = 'http://localhost';
 var cityMap = new Map();
 

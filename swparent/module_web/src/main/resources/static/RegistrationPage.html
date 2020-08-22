@@ -31,7 +31,7 @@
                     </div>
                     <label for="nickcity" class="col-sm-2 control-label">城市</label>
                     <div class="col-sm-3" id="nickcity">
-                        <select class="form-control">
+                        <select class="form-control" id="city">
                             <option value="">请选择</option>
                             <option value="1">北京市</option>
                             <option value="2">天津市</option>
@@ -134,6 +134,7 @@
             document.getElementById("tjsubmit").click();
         }
     }
+    //填充city
     //正则验证昵称格式
     document.getElementById("F_RealName").onblur = function () {
         var F_Accountregname = /^[\w\u4e00-\u9fa5]{2,8}$/;//昵称只能由汉字字母数字下划线
@@ -205,6 +206,7 @@
             },
             focusCleanup: true, //被验证的元素获得焦点时移除错误信息
         });
+        //填充city
     });
 
     function submitForm() {
@@ -240,7 +242,8 @@
                     window.location.href = "emailremainder.html"
                 } else//注册失败
                 {
-                    alert("你失败了");
+                    // alert("你失败了");
+                    alert(data.message);
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {

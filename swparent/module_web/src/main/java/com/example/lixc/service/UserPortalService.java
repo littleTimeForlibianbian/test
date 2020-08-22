@@ -27,7 +27,7 @@ public interface UserPortalService {
      * @param userQuery 用户对象
      * @return ResultJson
      */
-    ResultJson registerUser(UserQuery userQuery);
+    ResultJson registerUser(UserQuery userQuery, HttpServletRequest request);
 
     /**
      * 用户登录接口
@@ -69,10 +69,11 @@ public interface UserPortalService {
      * @param tags
      * @return
      */
-    ResultJson chooseTags(String tags);
+    ResultJson chooseTags(String tags,Integer userId);
 
     /**
      * 查询所有的用户标签
+     *
      * @return
      */
     ResultJson allTags();

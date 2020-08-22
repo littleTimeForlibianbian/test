@@ -8,7 +8,35 @@
     <link rel="stylesheet" href="css/bootstrap.css"/>
 
 <body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
 <div class="headernav">
+    <!--<div class="container">-->
+        <!--<div class="pull-left navlogo">-->
+            <!--<img src="img/ES-logo-light.png">-->
+        <!--</div>-->
+        <!--<div class="pull-left ES-mywo" id="myworldcon">-->
+            <!--<a href="myworld.html"><img src="img/homepage.png"><span class="text-center">我的世界</span></a>-->
+        <!--</div>-->
+        <!--<div class="pull-right connav">-->
+            <!--<ul>-->
+                <!--<li><a href="Authentication.html"><img src="img/upload1.png"></a></li>-->
+                <!--<li class="seachli">-->
+                    <!--<form class="bs-example bs-example-form" role="form" style="width: 240px;">-->
+                        <!--<div class="input-group input-group-lg">-->
+                            <!--<input id="worklabelmore" type="text" class="form-control" placeholder="作品标签">-->
+                            <!--<a href="#" class="input-group-addon" onclick="searchlabel()"><img-->
+                                    <!--src="img/icon-ss.png"></a>-->
+                        <!--</div>-->
+                    <!--</form>-->
+                <!--</li>-->
+
+                <!--<li><a href="adminLogin.html">注册</a>&nbsp;<span>|</span>&nbsp;<a href="Loginpage.html">登录</a></li>-->
+                <!--<li><a onclick="logout()" href="#">退出</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
 </div>
 <div class="ES-banner">
     <div class="ES-banner-image"></div>
@@ -20,14 +48,10 @@
 <div class="more text-center"><a href="" class="btn-more" onclick="show()">查看更多</a></div>
 <div class="footer"></div>
 </body>
-
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script src="js/base.js"></script>
 <script>
     //禁止点击右键
     $(document).ready(function () {
-        $("#tab img").bind("contextmenu", function (e) {
+        $("body").bind("contextmenu", function (e) {
             return false;
         });
     });
@@ -35,6 +59,7 @@
     $(".headernav").load("header.html")
     var pages = 1;//页数
     var pagesNum = 10;//每页显示的条数
+    var theme=localStorage.getItem("userId");
     $(function () {
         show();
         var urlinfourl = getQueryVariable("a");
@@ -43,30 +68,68 @@
         } else {
             $("#myworldcon").show()
         }
+        if(theme==null||theme==""){
+		$("#xxx1").show(); 
+		 $("#xxx2").hide();
+	 	}else{
+		 $("#xxx2").show();  
+		 $("#xxx1").hide();
+	 }
     })
 
     //搜索功能
     function searchlabel() {
         var worklabelmore = $("#worklabelmore").val();
-        alert(worklabelmore);
         $.ajax({
-            url: "",//接口地址
+            url:  basePath + "/public/user/workList",//接口地址
             data: {//接口里必传的参数
-                xxxxx: worklabelmore
+                queryParam: worklabelmore
             },
             type: "post",
             dataType: "json",
             success: function (data) {
-                var dataObj = data.xxxxx;//json集合的名字dataObj[i].url
+                // var dataObj = data.xxxxx;//json集合的名字dataObj[i].url
+                // imgCon = "";
+                // for (var i = 0; i < dataObj.length; i++) {
+                //     imgCon += "<li>" +
+                //         "<a href=" + dataObj[i].xxxx + ">" +
+                //         "<img class='imgpicture' src=" + dataObj[i].xxxx + ">" +
+                //         "</a>" +
+                //         "<div class='labelhome'><span>" + dataObj[i].xxxx + "</span></div>" +
+                //         "</li>";
+                // }
+                // $('#tab').append(imgCon);
+                var dataObj = data;//json集合的名字dataObj[i].url
+                console.log(dataObj)
                 imgCon = "";
-                for (var i = 0; i < dataObj.length; i++) {
-                    imgCon += "<li>" +
-                        "<a href=" + dataObj[i].xxxx + ">" +
-                        "<img class='imgpicture' src=" + dataObj[i].xxxx + ">" +
-                        "</a>" +
-                        "<div class='labelhome'><span>" + dataObj[i].xxxx + "</span></div>" +
-                        "</li>";
+                var imgCon;
+                var isLogin = localStorage.getItem("userId");
+                if (dataObj.length > 0) {
+                    for (var i = 0; i < dataObj.length; i++) {
+                        var imageList = dataObj[i].imageList;
+                        var tagList = dataObj[i].dicts;
+                        imgCon += "<li>";
+                        if (isLogin == null || isLogin == "undefined" || isLogin.length == 0) {
+                            imgCon += "<a href='nologindrawer.html?id=" + dataObj[i].id + "'>" +
+                                "<img class='imgpicture' src=" + dataObj[i].imageList[0].url + ">" +
+                                "</a>";
+                        } else {
+                            imgCon += "<a href='drawerdetails.html?id=" + dataObj[i].id + "'>" +
+                                "<img class='imgpicture' src=" + dataObj[i].imageList[0].url + ">" +
+                                "</a>";
+                        }
+
+                        imgCon += "<div class='labelhome'>";
+                        for (var j = 0; j < tagList.length; j++) {
+                            imgCon += "<span>" + tagList[j].dictValue + "</span>"
+                        }
+                        imgCon += "</div></li>";
+                    }
+                } else {
+                    console.log("接口异常")
+                    console.log(data)
                 }
+
                 $('#tab').append(imgCon);
             },
             error: function (jqXHR, textStatus, errorThrown) {

@@ -47,7 +47,8 @@
                                    class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" lay-submit="" lay-filter="sreach" type="button" onclick="initList()"><i
+                            <button class="layui-btn" lay-submit="" lay-filter="sreach" type="button"
+                                    onclick="initList()"><i
                                     class="layui-icon">&#xe615;</i></button>
 
                         </div>
@@ -145,6 +146,9 @@
             type: "post",
             dataType: "json",
             async: false,
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (data) {
                 console.log(data)
                 if (data.status == 200) {
@@ -175,12 +179,12 @@
                                 '                        </tr>'
                         }
                         $("#tbody").empty().append(content);
-                    }else {
+                    } else {
                         $("#tbody").empty();
                     }
 
                 } else {
-                  alert("未知异常")
+                    alert("未知异常")
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -199,6 +203,9 @@
                 type: "post",
                 dataType: "json",
                 async: false,
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", localStorage.getItem("token"));
+                },
                 success: function (data) {
                     if (data.status == 200) {
                         window.location.reload();

@@ -31,7 +31,7 @@
             <div class="layui-form-item examine-btn">
                 <!--<label for="L_repass" class="layui-form-label">
                 </label>-->
-                <button class="layui-btn" lay-filter="add"  type="button" lay-submit="">添加</button>
+                <button class="layui-btn" lay-filter="add" type="button" lay-submit="">添加</button>
                 <button class="layui-btn" lay-filter="cancel" lay-submit="">取消</button>
             </div>
         </form>
@@ -47,26 +47,34 @@
         form.on('submit(add)',
             function (data) {
                 console.log(data);
-                $.post(basePath + '/web/manager/report/add', {
-                    content: $("#content").val()
-                }, function (data) {
-                    console.log(data);
-                    if (data.status == 200) {
-                        //发异步，把数据提交给php
-                        layer.alert("增加成功", {
-                                icon: 6
-                            },
-                            function () {
-                                //关闭当前frame
-                                xadmin.close();
-                                // 可以对父窗口进行刷新
-                                xadmin.father_reload();
-                            });
-                        return false;
-                    } else {
-                        alert("error");
-                    }
+                $.ajax({
+                    url: basePath + '/web/manager/report/add',
+                    data: {
+                        content: $("#content").val()
+                    },
+                    dataType: 'json',
+                    beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", localStorage.getItem("token"));
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if (data.status == 200) {
+                            //发异步，把数据提交给php
+                            layer.alert("增加成功", {
+                                    icon: 6
+                                },
+                                function () {
+                                    //关闭当前frame
+                                    xadmin.close();
+                                    // 可以对父窗口进行刷新
+                                    xadmin.father_reload();
+                                });
+                            return false;
+                        } else {
+                            alert("error");
+                        }
 
+                    }
                 })
 
             });

@@ -32,8 +32,9 @@
                     <!--</form>-->
                 <!--</li>-->
 
-                <!--<li><a href="adminLogin.html">注册</a>&nbsp;<span>|</span>&nbsp;<a href="Loginpage.html">登录</a></li>-->
-                <!--<li><a onclick="logout()" href="#">退出</a></li>-->
+                <!--<li id="xxx1"><a href="RegistrationPage.html">注册</a>&nbsp;<span>|</span>&nbsp;<a href="Loginpage.html">登录</a>-->
+                <!--</li>-->
+                <!--<li id="xxx2" style="display: none;"><a onclick="logout()" href="#">退出</a></li>-->
             <!--</ul>-->
         <!--</div>-->
     <!--</div>-->
@@ -50,38 +51,25 @@
 </body>
 <script>
     //禁止点击右键
-    $(document).ready(function () {
-        $("body").bind("contextmenu", function (e) {
-            return false;
-        });
-    });
+    // $(document).ready(function () {
+    //     $("body").bind("contextmenu", function (e) {
+    //         return false;
+    //     });
+    // });
+
     $(".footer").load("footer.html")
     $(".headernav").load("header.html")
     var pages = 1;//页数
     var pagesNum = 10;//每页显示的条数
-    var theme=localStorage.getItem("userId");
     $(function () {
         show();
-        var urlinfourl = getQueryVariable("a");
-        if (urlinfourl == 1) {
-            $("#myworldcon").hide()
-        } else {
-            $("#myworldcon").show()
-        }
-        if(theme==null||theme==""){
-		$("#xxx1").show(); 
-		 $("#xxx2").hide();
-	 	}else{
-		 $("#xxx2").show();  
-		 $("#xxx1").hide();
-	 }
     })
 
     //搜索功能
     function searchlabel() {
         var worklabelmore = $("#worklabelmore").val();
         $.ajax({
-            url:  basePath + "/public/user/workList",//接口地址
+            url: basePath + "/public/user/workList",//接口地址
             data: {//接口里必传的参数
                 queryParam: worklabelmore
             },

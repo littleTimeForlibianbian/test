@@ -73,7 +73,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**/*.js")
                 .antMatchers("/**/*.png")
                 .antMatchers("/**/*.jpg")
-                .antMatchers("/**/*.jpeg");
+                .antMatchers("/**/*.jpeg")
+                //后台路径匹配
+                .antMatchers("/**/**/*.html")
+                .antMatchers("/**/**/*.css")
+                .antMatchers("/**/**/*.json")
+                .antMatchers("/**/**/*.js")
+                .antMatchers("/**/**/*.png")
+                .antMatchers("/**/**/*.jpg")
+                .antMatchers("/**/**/*.jpeg");
     }
 
     @Override
@@ -150,7 +158,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().loginPage("/Loginpage.html").permitAll()
                 .and()
-                .logout().permitAll();
+                .logout()
+                // 退出登录的url
+                .logoutUrl("/public/user/logout")
+                .logoutSuccessUrl("/Loginpage.html");
         // 禁用缓存
         http.headers().cacheControl();
     }

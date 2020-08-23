@@ -6,7 +6,7 @@
     <title>作品详情页</title>
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
-    <script src="js/base.js"></script>
+
     <!--[if lt IE 9]>
 
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -184,6 +184,7 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/comment.js"></script>
 <script type="text/javascript" src="js/jquery.flexText.js"></script>
+<script src="js/base.js"></script>
 <script>
     $(function(){
         // $(".footer").load("footer.html")
@@ -210,6 +211,9 @@
             },
             async: false,//同步  true ：异步
             dataType: "json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (result) {
                 console.log(result)
                 var commentList = result.data;
@@ -261,6 +265,9 @@
             },
             async: false,//同步  true ：异步
             dataType: "json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (result) {
                 console.log(result)
             },
@@ -332,6 +339,9 @@
             data: {"workId": workId},
             async: false,//同步  true ：异步
             dataType: "json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (result) {
                 console.log(result);
                 if (result.status == 200) {
@@ -362,12 +372,15 @@
         //查询是否关注
         $.ajax({
             type: "post",
-            url: basePath + "/portal/index/",
+            url: basePath + "/portal/index/queryFocus",
             data: {
-                "toUserId": authorId,queryFocus
+                "toUserId": authorId,
             },
             async: false,//同步  true ：异步
             dataType: "json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (result) {
                 console.log(result);
             },
@@ -379,12 +392,15 @@
         $.ajax({
             //获取作品详情
             type: "get",
-            url: basePath + "/portal/index/workDetail",
+            url: basePath + "/public/user/workDetail",
             data: {
                 "workId": workId,
             },
             async: false,//同步  true ：异步
             dataType: "json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (result) {
                 console.log(result);
                 var imageList = result.data.imageList;
@@ -419,14 +435,18 @@
         //其余作品
         $.ajax({
             type: "post",
-            url: basePath + "/portal/index/other",
+            url: basePath + "/public/user/other",
             data: {
                 "id": workId,
                 "userId": authorId,
                 "isNormal": "Y",
             },
+
             async: false,//同步  true ：异步
             dataType: "json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (result) {
                 console.log(result)
                 var workList = result.data

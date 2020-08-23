@@ -33,6 +33,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -140,7 +141,7 @@ public class WorkServiceImpl implements WorkService {
         String suffix = header.substring(header.indexOf("/") + 1, header.indexOf(";"));
         String imageData = data.split(",")[1];
         byte[] decode = Base64.getDecoder().decode(imageData);
-        String newFileName = new Date().getTime() + "_" + new Random().nextInt(10000);
+        String newFileName = System.currentTimeMillis() + "_" + new Random().nextInt(10000);
         String thumbFileName = newFileName + "_thumb";
         Date currentDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -225,12 +226,13 @@ public class WorkServiceImpl implements WorkService {
         }
 
         if ("N".equalsIgnoreCase(workQuery.getIsNormal())) {
+            workQuery.setName("审核作品");
             //身份认证校验 常用站点和创作历史
             if (StringUtils.isEmpty(workQuery.getWebSite())) {
                 log.error("常用站点为空");
                 return ResultJson.buildError("常用站点为空");
             }
-            if (StringUtils.isEmpty(workQuery.getUHistory())) {
+            if (StringUtils.isEmpty(workQuery.getHistory())) {
                 log.error("创作历史为空");
                 return ResultJson.buildError("创作历史为空");
             }
@@ -248,7 +250,7 @@ public class WorkServiceImpl implements WorkService {
         work.setRecommendNum(0);
         //作品类型
         work.setIsNormal(StringUtils.isEmpty(workQuery.getIsNormal()) ? "Y" : workQuery.getIsNormal());
-        if ("Y".equalsIgnoreCase(workQuery.getIsNormal())) {
+        if ("N".equalsIgnoreCase(workQuery.getIsNormal())) {
             //只有认证的作品才会有作品状态
             work.setStatus(WorkStatusEnum.WORK_STATUS_WAIT.getCode());
         }
@@ -283,7 +285,7 @@ public class WorkServiceImpl implements WorkService {
             userMapper.updateByPrimaryKeySelective(user);
             //更新用户创作历史和常用站点
             UserAttr userAttr = userAttrMapper.selectByUserId(user.getId());
-            userAttr.setUHistory(workQuery.getUHistory());
+            userAttr.setUHistory(workQuery.getHistory());
             userAttr.setWebsite(workQuery.getWebSite());
             userAttrMapper.updateByPrimaryKeySelective(userAttr);
             return ResultJson.buildSuccess("上传作品成功");
@@ -744,7 +746,7 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResultJson workCheck(WorkQuery workQuery) {
+    public ResultJson workCheck(WorkQuery workQuery, HttpServletRequest request) {
         if (workQuery.getId() <= 0) {
             log.error("传入参数id错误:{}", workQuery.getId());
             return ResultJson.buildError("传入参数错误");
@@ -771,34 +773,44 @@ public class WorkServiceImpl implements WorkService {
         if (role1 == null) {
             log.error(">>>>>>>>>>>初始化角色失败，请检查初始化脚本是否执行");
         } else {
-            List<Role> roles = userRoleMapper.selectListByUserIdAndType(work.getId(), 1);
+            List<Role> roles = userRoleMapper.selectListByUserIdAndType(work.getUserId(), 1);
             if (CollectionUtils.isEmpty(roles)) {
                 log.error(">>>>>>>>>>>当前用户暂无前台角色");
                 //添加画师角色
                 UserRole userRole = new UserRole();
                 userRole.setUserId(work.getUserId());
-                userRole.setUserId(role1.getId());
+                userRole.setRoleId(role1.getId());
                 userRoleMapper.insertSelective(userRole);
-            }else{
+            } else {
+                //更新用户前台角色
                 UserRole userRole = new UserRole();
                 userRole.setUserId(work.getUserId());
                 userRole.setUserId(role1.getId());
                 userRoleMapper.updateByPrimaryKey(userRole);
             }
-            //更新用户前台角色
-
         }
+        //更新用户状态
+        User user = userMapper.selectByPrimaryKey(work.getUserId());
+        if (WorkStatusEnum.WORK_STATUS_FAIL.getCode() == workQuery.getStatus()) {
+            user.setStatus(UserStatusEnum.USER_STATUS_FAIL.getCode());
+        } else if (WorkStatusEnum.WORK_STATUS_PASS.getCode() == workQuery.getStatus()) {
+            user.setStatus(UserStatusEnum.USER_STATUS_PASS.getCode());
+            user.setPainter("Y");
+        }
+        userMapper.updateByPrimaryKeySelective(user);
         try {
             String to = String.valueOf(work.getUserId());
             String subject = "审核结果通知";
             String content = "<html><p class=\"text-center\">亲爱的<span style=\"color: #0066FF;\">{nickName}</span></p><p class=\"text-center\">小蜗为原创而生</p><p class=\"text-center\">点击<a href=\"{path}\">{path}</a>进行登录，<br/>就可以重新在原创的世界里游玩啦。</p><p class=\"text-center\">期待你的精彩艺术人生！</p></html>";
             //审核通过或者失败以后 发送邮件
+            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
+            String path = basePath + "Loginpage.html";
 //            asyncService.sendHtmlEmailAsync();
             Map<String, String> map = new HashMap<>();
             map.put("nickName", InitConfig.getNickName(work.getUserId()));
-            map.put("path", "http://b98udp.natappfree.cc/Loginpage.html");
+            map.put("path", path);
             String content1 = ToolsUtil.replaceTemplate(content, map);
-            asyncService.sendHtmlEmailAsync(to, subject, content1);
+            asyncService.sendHtmlEmailAsync(user.getEmail(), subject, content1);
         } catch (Exception e) {
             //捕获发送邮件异常
             log.error("发送邮件异常:{}", e.getLocalizedMessage());

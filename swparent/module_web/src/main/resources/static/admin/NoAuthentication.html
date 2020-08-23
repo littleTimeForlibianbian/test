@@ -145,6 +145,9 @@
             type: "post",
             dataType: "json",
             async: true,
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (data) {
                 console.log(data)
                 var list = data;
@@ -170,7 +173,7 @@
                         '                                <span class="layui-btn layui-btn-normal layui-btn-mini">' + enableCH + '</span></td>\n' +
                         '                            <td class="td-manage">\n' +
                         '                                <a onclick="member_stop(this,\'' + obj.id + '\')" href="javascript:void(0);" title="' + title + '">\n' +
-                        '                                    <i class="layui-icon">'+icon+'</i>\n' +
+                        '                                    <i class="layui-icon">' + icon + '</i>\n' +
                         '                                </a>\n' +
                         '                            </td>\n' +
                         '                        </tr>'
@@ -201,6 +204,9 @@
                     type: "post",
                     dataType: "json",
                     async: true,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", localStorage.getItem("token"));
+                    },
                     success: function (data) {
                         if (data.status == 200) {
                             $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html(message);
@@ -227,6 +233,9 @@
                     type: "post",
                     dataType: "json",
                     async: true,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", localStorage.getItem("token"));
+                    },
                     success: function (data) {
                         if (data.status == 200) {
                             $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html(message);

@@ -58,35 +58,11 @@
             </div>
             <div class="labelpage-list" id="labelchecked">
                 <label class="pull-left" style="margin: 0px 10px;">画风</label>
-                <ul class="pull-right" id="workstyle">
-                    <!--<li>中国风</li>
-                    <li>水墨</li>
-                    <li>古风</li>
-                    <li>日风</li>
-                    <li>欧美风</li>
-                    <li>韩风</li>
-                    <li>写实风</li>
-                    <li>萌系</li>
-                    <li>童趣</li>
-                    <li>自由画师</li>
-                    <li>像素风</li>-->
-                </ul>
+                <ul class="pull-right" id="workstyle"></ul>
             </div>
             <div class="labelpage-list" id="labelpagechecked">
                 <label class="pull-left" style="margin: 0px 10px;">品类</label>
-                <ul class="pull-right" id="workpinlei">
-                    <!--<li>插画</li>
-                    <li>儿插</li>
-                    <li>手绘</li>
-                    <li>国画</li>
-                    <li>原画</li>
-                    <li>水粉</li>
-                    <li>彩铅</li>
-                    <li>钢笔画</li>
-                    <li>油画</li>
-                    <li>素描画</li>
-                    <li>速写</li>-->
-                </ul>
+                <ul class="pull-right" id="workpinlei"></ul>
             </div>
             <div class="intellectual usethings">
                 <div><input type="checkbox" onclick="return false;" checked="checked">禁止匿名转载，禁止商用，禁止个人使用；</div>
@@ -100,14 +76,14 @@
         <div id="second">
             <h3>过往经验及介绍</h3>
             <p>请填写过往参与过的项目/原创的作品/课题/合作的出版作品，目前的职业。帮助需求方以后更好地了解您，防止其他人员破坏社区氛围。</p>
-            <textarea class="truetextarea" placeholder="字数不得超过200字"></textarea>
+            <textarea class="truetextarea" id="truetextarea" placeholder="字数不得超过200字"></textarea>
             <div class="prefect" id="prefact" style="margin-top: 40px;">下一步</div>
         </div>
         <div id="third">
             <h3>常用网址</h3>
             <p>请复制粘贴你的个人网站链接，为了方便验证画师身份，是否有过被举报盗用他人作品的先例。</p>
-            <textarea class="truetextarea truetextareaweb" placeholder="最多可填写三个链接"></textarea>
-            <div class="prefect" id="authen" onclick="authen()" style="margin-top: 40px;">认证</div>
+            <textarea class="truetextarea truetextareaweb" id="truetextareaweb" placeholder="最多可填写三个链接"></textarea>
+            <div class="prefect" id="authen" style="margin-top: 40px;">认证</div>
         </div>
     </div>
 </div>
@@ -151,6 +127,9 @@
                             },
                             async: true,
                             type: "post",
+                            beforeSend: function (request) {
+                                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+                            },
                             success: function (data) {
                                 console.log(data);
                                 if (data.status == 400) {
@@ -165,6 +144,8 @@
                                     console.log(imageList);
                                     console.log("上传成功");
                                     imageIdList.push(imageList.id);
+                                } else if (data.status == 201) {
+                                    window.location.href = "Loginpage.html";
                                 }
                             }
                         });
@@ -182,6 +163,9 @@
                 type: "post",
                 dataType: "json",
                 async: false,
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", localStorage.getItem("token"));
+                },
                 success: function (data) {
                     // console.log(data);
                     var dataObj = data.data;//json集合的名字dataObj[i].url
@@ -201,6 +185,9 @@
                 type: "post",
                 dataType: "json",
                 async: false,
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", localStorage.getItem("token"));
+                },
                 success: function (data) {
                     // console.log(data);
                     var dataObj = data.data;//json集合的名字dataObj[i].url
@@ -283,17 +270,18 @@
                     }
                 }
             }
-            //提交画师认证资料
-            var truetextarea = $(".truetextarea").val();
-            var truetextareaweb = $(".truetextareaweb").val();
+
 
             $("#authen").click(function () {
+                //提交画师认证资料
+                var truetextarea = $("#truetextarea").val();
+                var truetextareaweb = $("#truetextareaweb").val();
                 var data = {
                     "imageIds": imageIdList,
                     "styleLabelForAdd": myContpin,
                     "categoryLabelForAdd": myCont,
-                    "name": truetextarea,
-                    "content": truetextareaweb,
+                    "history": truetextarea,
+                    "webSite": truetextareaweb,
                     "isNormal": "N"
                 }
                 $.ajax({
@@ -303,6 +291,9 @@
                     dataType: "json",
                     contentType: "application/json",
                     async: false,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", localStorage.getItem("token"));
+                    },
                     success: function (data) {
                         console.log(data);
                         $(".mask").show();

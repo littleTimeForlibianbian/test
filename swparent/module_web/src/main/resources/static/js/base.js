@@ -1,7 +1,7 @@
 $(function(){
     initCityMap();
 })
-var basePath = 'http://ku3dgm.natappfree.cc';
+var basePath = 'http://yytcj5.natappfree.cc';
 // var basePath = 'http://localhost';
 var cityMap = new Map();
 
@@ -62,4 +62,5 @@ Date.prototype.format = function (fmt) {
 function logout() {
     //请求登出的接口
     //重新跳转到登录页面
+
 }

@@ -276,6 +276,16 @@ public class UserPortalServiceImpl implements UserPortalService {
         return ResultJson.buildSuccess(map);
     }
 
+    @Override
+    public ResultJson logout(UserQuery userQuery, HttpServletRequest request) {
+        if (userQuery.getUserID() == null || userQuery.getUserID() <= 0) {
+            log.error("用户id为空");
+            return ResultJson.buildError("用户id为空");
+        }
+        User user = userMapper.selectByPrimaryKey(userQuery.getUserID());
+        return null;
+    }
+
     /**
      * 注册用户激活
      *
@@ -413,6 +423,7 @@ public class UserPortalServiceImpl implements UserPortalService {
 //    }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResultJson chooseTags(String tags, Integer userId) {
         if (StringUtils.isEmpty(tags)) {
             return ResultJson.buildError("传入参数错误");
@@ -425,7 +436,17 @@ public class UserPortalServiceImpl implements UserPortalService {
             userTag.setUserId(userId);
             list.add(userTag);
         }
+        //将原来的标签删除，然后重新插入
+        SysUserTag userTag = new SysUserTag();
+        userTag.setUserId(userId);
+        userTagMapper.delete(userTag);
+        //插入
         userTagMapper.insertList(list);
+        //修改用户状态为已选择标签
+        User user = new User();
+        user.setId(userId);
+        user.setStatus(UserStatusEnum.USER_STATUS_CHOOSE.getCode());
+        userMapper.updateByPrimaryKeySelective(user);
         return ResultJson.buildSuccess();
     }
 

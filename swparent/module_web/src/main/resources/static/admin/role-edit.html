@@ -79,6 +79,9 @@
             type: "post",
             dataType: "json",
             async: false,
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (ret) {
                 console.log(ret)
                 var obj = ret.data;
@@ -100,6 +103,9 @@
             type: "post",
             dataType: "json",
             async: false,
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (ret) {
                 console.log(ret)
                 if (ret.status == 200) {
@@ -181,6 +187,9 @@
                 type: "post",
                 dataType: "json",
                 async: true,
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", localStorage.getItem("token"));
+                },
                 success: function (data) {
                     if (data.status == 200) {
                         layer.alert("修改成功", {icon: 6}, function () {

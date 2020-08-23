@@ -47,8 +47,16 @@
     })
 
     function initData() {
-        $.post(basePath + '/web/manager/report/detail', {id: id}, function (data) {
-            $("#content").val(data.data.content)
+        $.ajax({
+            url: basePath + '/web/manager/report/detail',
+            data: {id: id},
+            dataType: 'json',
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
+            success: function (data) {
+                $("#content").val(data.data.content)
+            }
         })
     }
 
@@ -61,23 +69,34 @@
             form.on('submit(edit)',
                 function (data) {
                     console.log(data);
-                    $.post(basePath + '/web/manager/report/edit', {
-                        id: id,
-                        content: $("#content").val()
-                    }, function (data) {
-                        console.log(data)
-                    })
-                    //发异步，把数据提交给php
-                    layer.alert("修改成功", {
-                            icon: 6
+                    $.ajax({
+                        url: basePath + '/web/manager/report/edit',
+                        data: {
+                            id: id,
+                            content: $("#content").val()
                         },
-                        function () {
-                            //关闭当前frame
-                            xadmin.close();
-                            // 可以对父窗口进行刷新
-                            xadmin.father_reload();
-                        });
-                    return false;
+                        beforeSend: function (request) {
+                            request.setRequestHeader("Authorization", localStorage.getItem("token"));
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log(data)
+                            if (data.status == 200) {
+                                //发异步，把数据提交给php
+                                layer.alert("修改成功", {
+                                        icon: 6
+                                    },
+                                    function () {
+                                        //关闭当前frame
+                                        xadmin.close();
+                                        // 可以对父窗口进行刷新
+                                        xadmin.father_reload();
+                                    });
+                                return false;
+                            }
+                        }
+                    })
+
                 });
 
         });

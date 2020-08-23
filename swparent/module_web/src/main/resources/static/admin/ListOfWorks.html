@@ -143,6 +143,9 @@
             type: "post",
             dataType: "json",
             async: false,
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (data) {
                 console.log(data);
                 var list = data;
@@ -212,6 +215,9 @@
                 type: "post",
                 dataType: "json",
                 async: false,
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", localStorage.getItem("token"));
+                },
                 success: function (data) {
                     if (data.status == 200) {
                         window.location.reload();

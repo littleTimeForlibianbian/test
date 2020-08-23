@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author lixc
  * @Description
@@ -30,9 +32,9 @@ public class WorkCheckController {
 
     @ApiOperation("作品审核")
     @PostMapping("/workCheck")
-    public ResultJson workCheck(WorkQuery workQuery) {
+    public ResultJson workCheck(WorkQuery workQuery, HttpServletRequest request) {
         try {
-            return workService.workCheck(workQuery);
+            return workService.workCheck(workQuery,request);
         } catch (Exception e) {
             log.error("workList exception:{}", e.getMessage());
         }

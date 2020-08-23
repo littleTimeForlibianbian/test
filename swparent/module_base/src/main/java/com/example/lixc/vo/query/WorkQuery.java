@@ -44,7 +44,7 @@ public class WorkQuery extends PageParam {
     private String failReason;
 
     //作品认证需要的用户信息
-    private String uHistory;
+    private String history;
     private String webSite;
 
     //    //添加作品时，需要传入的标签数组
@@ -53,9 +53,9 @@ public class WorkQuery extends PageParam {
         if (imageIds.length <= 0) {
             return ResultJson.buildError("图片集合为为空");
         }
-        if (StringUtils.isEmpty(name)) {
-            return ResultJson.buildError("作品名称为空");
-        }
+//        if (StringUtils.isEmpty(name)) {
+//            return ResultJson.buildError("作品名称为空");
+//        }
         if (StringUtils.isEmpty(styleLabelForAdd)) {
             return ResultJson.buildError("画风标签为空");
         }

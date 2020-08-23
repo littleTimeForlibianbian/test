@@ -82,19 +82,6 @@ public class IndexController {
 
 
 
-    /**
-     * 上传图片 file
-     *
-     * @param file
-     * @return
-     */
-    @ApiOperation("上传图片")
-    @PostMapping("/uploadImage")
-    public ResultJson uploadImage(@RequestParam("file") MultipartFile file) {
-        MultipartFile[] files = new MultipartFile[]{file};
-        return workService.uploadImage(files);
-    }
-
     @ApiOperation("上传图片")
     @PostMapping("/uploadImageBase64")
     public ResultJson uploadImageBase64(String picString) {

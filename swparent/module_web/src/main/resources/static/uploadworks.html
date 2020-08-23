@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="uploadworks/webuploader/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="uploadworks/webuploader/demo.css">
     <link rel="stylesheet" type="text/css" href="uploadworks/webuploader/webuploader.css">
-    <script type="text/javascript" src="js/base.js"></script>
 </head>
 <body>
 <div class="PublishingWorks">
@@ -95,7 +94,7 @@
 </div>
 </body>
 <script src="js/jquery-2.1.0.min.js"></script>
-<script type="text/javascript" src="js/jq22.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="uploadworks/webuploader/extend-webuploader.js"></script>
 <script src="uploadworks/webuploader/webuploader.js" type="text/javascript"></script>
@@ -230,7 +229,7 @@
             wrapId: 'uploader', //必填
         },
         //处理客户端新文件上传时，需要调用后台处理的地址, 必填
-        uploadUrl: basePath + '/portal/index/uploadImage',
+        uploadUrl: basePath + '/public/user/uploadImage',
         //处理客户端原有文件更新时的后台处理地址，必填
         updateUrl: 'https://www.ilaims.com//WebService/WSAccounts.asmx/AddUserProblemEntity',
         //当客户端原有文件删除时的后台处理地址，必填
@@ -267,7 +266,7 @@
                 if (data.status == 200)//返回成功的值
                 {
                     //上传成功以后 需要弹框提示成功，点击确定以后再跳转到个人主页
-                    window.location.href = "drawerhomepage.html?userId=" + localStorage.getItem("userId")//成功后跳转个人主页
+                    window.location.href = "drawerhomepage.html?id=" + localStorage.getItem("userId")//成功后跳转个人主页
                 } else//返回失败的值
                 {
                     $(".mask").show();

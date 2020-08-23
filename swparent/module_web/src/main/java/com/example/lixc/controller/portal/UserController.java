@@ -104,7 +104,22 @@ public class UserController {
             return ResultJson.buildError("用户登录发生异常");
         }
     }
-
+    /**
+     * 用戶登录接口
+     *
+     * @return
+     */
+    @PostMapping("/logout")
+    @ApiOperation("退出登录")
+    public ResultJson logout() {
+        try {
+            return ResultJson.buildSuccess("退出登录成功");
+        } catch (Exception e) {
+            log.error("退出登录发生异常:{}", e.getMessage());
+            e.printStackTrace();
+            return ResultJson.buildError("退出登录发生异常");
+        }
+    }
 
     /**
      * 忘记密码接口
@@ -151,6 +166,19 @@ public class UserController {
             e.printStackTrace();
             return ResultJson.buildError("获取用户详情接口异常");
         }
+    }
+
+    /**
+     * 上传图片 file
+     *
+     * @param file
+     * @return
+     */
+    @ApiOperation("上传图片")
+    @PostMapping("/uploadImage")
+    public ResultJson uploadImage(@RequestParam("file") MultipartFile file) {
+        MultipartFile[] files = new MultipartFile[]{file};
+        return workService.uploadImage(files);
     }
 
     //设置用户名片

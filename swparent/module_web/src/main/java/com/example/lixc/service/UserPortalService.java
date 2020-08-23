@@ -105,4 +105,11 @@ public interface UserPortalService {
      */
     List<Integer> selectNormalUserIdList();
 
+    /**
+     * 用户退出系统接口
+     * @param userQuery
+     * @param request
+     * @return
+     */
+    ResultJson logout(UserQuery userQuery, HttpServletRequest request);
 }

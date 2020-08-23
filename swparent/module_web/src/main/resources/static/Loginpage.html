@@ -93,9 +93,17 @@
                         localStorage.setItem("token", ret.data.token);
                         if (typeof forwardParam == "undefined" || forwardParam == null || forwardParam.length == 0 || forwardParam == false) {
                             if (ret.data.isPainter) {
-                                window.location.href = "homepage.html?a=1";//认证成功
+                                window.location.href = "homepage.html";//认证成功
                             } else {
-                                window.location.href = "labelpage.html?id="+ret.data.user.id;//认证成功
+                                if (ret.data.user.status == 1) {
+                                    window.location.href = "labelpage.html?id=" + ret.data.user.id;//认证成功
+                                } else if (ret.data.user.status == 3) {
+                                    window.location.href = "Authentication.html?id=" + ret.data.user.id;//认证成功
+                                }
+                                else {
+                                    window.location.href = "homepage.html";//认证成功
+                                }
+
                             }
                         } else {
                             if ("workDetail" == forwardParam) {

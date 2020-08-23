@@ -288,24 +288,25 @@
                 }
             }
         }
-        var ids = "";
-        for (var i = 0; i < myContide.length; i++) {
-            ids += liscategory[i].id + "-";
-        }
-        for (var i = 0; i < myContyear.length; i++) {
-            ids += liscategory[i].id + "-";
-        }
-        for (var i = 0; i < myContstyle.length; i++) {
-            ids += liscategory[i].id + "-";
-        }
-        for (var i = 0; i < liscategory.length; i++) {
-            ids += liscategory[i].id + "-";
-        }
-        ids = ids.substring(0, ids.length - 1)
-        console.log(ids)
+
         $("#submit").click(function () {
+            var ids = "";
+            for (var i = 0; i < myContide.length; i++) {
+                ids += myContide[i] + "-";
+            }
+            for (var i = 0; i < myContyear.length; i++) {
+                ids += myContyear[i] + "-";
+            }
+            for (var i = 0; i < myContstyle.length; i++) {
+                ids += myContstyle[i] + "-";
+            }
+            for (var i = 0; i < myContcategory.length; i++) {
+                ids += myContcategory[i] + "-";
+            }
+            ids = ids.substring(0, ids.length - 1)
+            console.log(ids)
             $.ajax({
-                url: basePath + '/public/index/chooseTags',
+                url: basePath + '/portal/index/chooseTags',
                 data: {
                     ids: ids,
                     userId: id
@@ -318,6 +319,9 @@
                 },
                 success: function (ret) {
                     console.log(ret);
+                    if(ret.status == 200){
+                        window.location.href = "Authentication.html?id="+id;//认证成功
+                    }
                 }
             })
         });

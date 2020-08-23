@@ -166,6 +166,9 @@
     <select id="selectById" resultMap="WorkBackMap">
         select
         <include refid="Base_Column_List"/>,
+        sua.u_history,
+        sua.website,
+        sua.head_image,
         DATE_FORMAT(swork.create_time,'%Y-%m-%d') create_time
         from sys_work swork
         left join sys_user u on swork.user_id = u.id

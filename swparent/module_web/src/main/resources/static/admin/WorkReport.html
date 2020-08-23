@@ -46,7 +46,7 @@
                         <thead>
                         <tr>
                             <!--<th>-->
-                                <!--<input type="checkbox" name="" lay-skin="primary">-->
+                            <!--<input type="checkbox" name="" lay-skin="primary">-->
                             <!--</th>-->
                             <th>ID</th>
                             <th>举报条件</th>
@@ -54,20 +54,20 @@
                         </thead>
                         <tbody id="tbody">
                         <!--<tr>-->
-                            <!--<td>-->
-                                <!--<input type="checkbox" name="" lay-skin="primary">-->
-                            <!--</td>-->
-                            <!--<td>1</td>-->
-                            <!--<td>禁止xxxxxxxxx</td>-->
-                            <!--<td class="td-manage">-->
-                                <!--<a title="编辑" onclick="xadmin.open('编辑举报条件','WorkReport-Details.html',600,400)"-->
-                                   <!--href="javascript:;">-->
-                                    <!--<i class="layui-icon">&#xe642;</i>-->
-                                <!--</a>-->
-                                <!--<a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">-->
-                                    <!--<i class="layui-icon">&#xe640;</i>-->
-                                <!--</a>-->
-                            <!--</td>-->
+                        <!--<td>-->
+                        <!--<input type="checkbox" name="" lay-skin="primary">-->
+                        <!--</td>-->
+                        <!--<td>1</td>-->
+                        <!--<td>禁止xxxxxxxxx</td>-->
+                        <!--<td class="td-manage">-->
+                        <!--<a title="编辑" onclick="xadmin.open('编辑举报条件','WorkReport-Details.html',600,400)"-->
+                        <!--href="javascript:;">-->
+                        <!--<i class="layui-icon">&#xe642;</i>-->
+                        <!--</a>-->
+                        <!--<a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">-->
+                        <!--<i class="layui-icon">&#xe640;</i>-->
+                        <!--</a>-->
+                        <!--</td>-->
                         <!--</tr>-->
                         </tbody>
                     </table>
@@ -116,6 +116,9 @@
             type: "post",
             dataType: "json",
             async: false,
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", localStorage.getItem("token"));
+            },
             success: function (data) {
                 console.log(data)
                 if (data.status == 200) {
@@ -123,7 +126,7 @@
                     for (var i = 0; i < data.data.length; i++) {
                         var list = data.data;
                         var obj = list[i];
-                        content += '<tr>\n'+
+                        content += '<tr>\n' +
                             // ' <td>\n' +
                             // '                                <input type="checkbox" name="" lay-skin="primary">\n' +
                             // '                            </td>\n' +

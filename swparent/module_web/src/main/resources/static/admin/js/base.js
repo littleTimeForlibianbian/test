@@ -1,6 +1,5 @@
-var basePath = 'http://b98udp.natappfree.cc ';
+var basePath = 'http://yytcj5.natappfree.cc';
 // var basePath = 'http://localhost';
-var cityMap = new Map();
 
 // ($(initCityMap()))
 
@@ -14,22 +13,6 @@ function getQueryVariable(variable) {
         }
     }
     return (false);
-}
-
-function initCityMap() {
-    $.ajax({
-        type: "get",
-        url: "static/city.json",
-        async: false,//同步  true ：异步
-        dataType: "json",
-        success: function (result) {
-            var dataObj = result.provinces;
-            con = "";
-            for (var i = 0; i < dataObj.length; i++) {
-                cityMap.set(dataObj[i].code, dataObj[i].name);
-            }
-        },
-    });
 }
 
 Date.prototype.format = function(fmt) {
@@ -53,8 +36,3 @@ Date.prototype.format = function(fmt) {
     return fmt;
 }
 
-//退出功能
-function logout(){
-    //请求登出的接口
-    //重新跳转到登录页面
-}

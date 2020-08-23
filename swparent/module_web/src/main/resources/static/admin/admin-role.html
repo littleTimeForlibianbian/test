@@ -135,6 +135,7 @@
                     type: "post",
                     dataType: "json",
                     async: true,
+
                     success: function (data) {
                         if (data.status == 200) {
                             $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html(message);

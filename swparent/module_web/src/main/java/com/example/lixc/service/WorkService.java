@@ -8,6 +8,7 @@ import com.github.pagehelper.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 public interface WorkService {
 
@@ -61,4 +62,11 @@ public interface WorkService {
 
     ResultJson workDel(Integer workId);
 
+    /**
+     * 搜索作品列表
+     *
+     * @param query
+     * @return
+     */
+    List<WorkBack> searchWorkList(WorkQuery query);
 }

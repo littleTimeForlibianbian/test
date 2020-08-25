@@ -85,7 +85,6 @@ public class IndexController {
     @ApiOperation("上传图片")
     @PostMapping("/uploadImageBase64")
     public ResultJson uploadImageBase64(String picString) {
-//        return workService.uploadImageBase64(picString);
         return workService.uploadImageToServer(picString);
     }
 

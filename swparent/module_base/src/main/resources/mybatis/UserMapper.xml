@@ -317,5 +317,32 @@
         where su.nick_name = #{userName}
     </select>
 
-
+    <select id="selectIdenCheckUser" resultMap="UserBackMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user su
+        where status in (3,4)
+        <if test="painter != null and painter != ''">
+            and painter = #{painter}
+        </if>
+        <if test="phone != null and phone != '' ">
+            and phone = #{phone}
+        </if>
+        <if test="email != null and email != '' ">
+            and email = #{email}
+        </if>
+        <if test="userName != null and userName != '' ">
+            and(nick_name like concat('%',#{userName},'%') or email = #{userName} )
+        </if>
+        <if test="nickName != null and nickName != '' ">
+            and nick_name like concat('%',#{nickName},'%')
+        </if>
+        <if test="userID >0 ">
+            and id = #{userID}
+        </if>
+        <if test="enable != null and enable != ''">
+            and enable = #{enable}
+        </if>
+        order by create_time,id desc
+    </select>
 </mapper>

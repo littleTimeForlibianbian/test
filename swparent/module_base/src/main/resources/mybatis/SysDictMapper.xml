@@ -10,4 +10,7 @@
     <sql id="Base_Column_List">
         id, dict_key, dict_value, p_id
     </sql>
+    <select id="selectIdsByParam" resultType="java.lang.Integer">
+        select id from sys_dict where dict_value like concat('%',#{param},'%');
+    </select>
 </mapper>

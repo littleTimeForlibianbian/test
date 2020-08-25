@@ -1,4 +1,4 @@
-var basePath = 'http://yytcj5.natappfree.cc';
+var basePath = 'http://pmgseq.natappfree.cc';
 // var basePath = 'http://localhost';
 
 // ($(initCityMap()))

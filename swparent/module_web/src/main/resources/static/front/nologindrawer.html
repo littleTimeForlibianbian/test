@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=width-device,initial-scale=1.0">
+    <title>游客页面</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+</head>
+<body>
+<div class="headernav1">
+    <div class="container">
+        <div class="pull-left navlogo">
+            <img src="img/ES-logo-light.png">
+        </div>
+        <!--<div class="pull-left ES-mywo">
+            <a href="#"><img src="img/ homepage.png"><span class="text-center">我的世界</span></a>
+        </div>-->
+        <div class="pull-right connav">
+            <ul>
+                <!--<li><a href="Authentication.html"><img src="img/upload1.png"></a></li>-->
+                <!--<li class="seachli">
+                    <form class="bs-example bs-example-form" role="form" style="width: 240px;">
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control" placeholder="作品、昵称">
+                            <a href="#" class="input-group-addon"><img src="img/icon-ss.png"></a>
+                        </div>
+                    </form>
+                </li>-->
+                <li><a href="adminLogin.html">注册</a>&nbsp;<span>|</span>&nbsp;<a href="Loginpage.html">登录</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="ES-window container">
+    <div class="copyright">
+        <a href="" title="禁止匿名转载，禁止商用，禁止个人使用；">©</a>2019-08-18
+    </div>
+    <div class="picturearea" align="center">
+        <!--<img src="img/12.jpg">-->
+    </div>
+    <div class="otherspin" style="margin-top: 80px;">
+        <p style="font-size: 20px;">作者相关作品</p>
+    </div>
+    <div class="mw_lunbo">
+        <div class="bodyCon08">
+            <div class="students">
+
+                <div id="four_flash">
+                    <div class="flashBg">
+                        <ul class="mobile">
+                            <a href="#">
+                                <li>
+                                    <img src="img/senke_xy00.jpeg"/>
+                                </li>
+                            </a>
+                            <a href="#">
+                                <li>
+                                    <img src="img/senke_xy00.jpeg"/>
+                                </li>
+                            </a>
+                            <a href="#">
+                                <li>
+                                    <img src="img/senke_xy02.jpeg"/>
+                                </li>
+                            </a>
+                            <a href="#">
+                                <li>
+                                    <img src="img/senke_xy03.jpeg"/>
+                                </li>
+                            </a>
+                            <a href="#">
+                                <li>
+                                    <img src="img/senke_xy02.jpeg"/>
+                                </li>
+                            </a>
+                            <a href="#">
+                                <li>
+                                    <img src="img/senke_xy04.jpeg"/>
+                                </li>
+                            </a>
+
+                        </ul>
+                    </div>
+                    <div class="but_left"><img src="img/qianxleft.png"/></div>
+                    <div class="but_right"><img src="img/qianxr.png"/></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="Tourist">
+        <button type="submit" class="btn"><a href="RegistrationPage.html"> 加入慢蜗社区，与ta一起互动</a></button>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="ES-ReNu">
+        <div class="text-center container">
+            <div class="text-center clearfix">
+                <div class="ES-ReN">
+                    <span>北京慢蜗科技有限责任公司</span>
+                    <span style="margin-left: 20px;">京ICP备09013449号 京公网安备110108400014号</span>
+                </div>
+            </div>
+            <div class="ES-ReNudiv">Copyright ©2010-2013 EasySnail All rights reserved.</div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript">
+    //作品推荐
+    var _index5 = 0;
+    $("#four_flash .but_right img").click(function () {
+        _index5++;
+        var len = $(".flashBg ul.mobile li").length;
+        if (_index5 + 5 > len) {
+            $("#four_flash .flashBg ul.mobile").stop().append($("ul.mobile").html());
+        }
+        $("#four_flash .flashBg ul.mobile").stop().animate({left: -_index5 * 326}, 1000);
+    });
+
+
+    $("#four_flash .but_left img").click(function () {
+        if (_index5 == 0) {
+            $("ul.mobile").prepend($("ul.mobile").html());
+            $("ul.mobile").css("left", "-1380px");
+            _index5 = 6
+        }
+        _index5--;
+        $("#four_flash .flashBg ul.mobile").stop().animate({left: -_index5 * 326}, 1000);
+    });
+    var workId = getQueryVariable("id");
+    //作品详情
+    $.ajax({
+        //获取作品详情
+        type: "get",
+        url: basePath + "/portal/index/workDetail",
+        data: {
+            "workId": workId,
+        },
+        async: false,//同步  true ：异步
+        dataType: "json",
+        success: function (result) {
+            console.log(result);
+            var imageList = result.data.imageList;
+            var imageStr = '';
+            for (var i = 0; i < imageList.length; i++) {
+                imageStr += '<img src="' + imageList[i].url + '"/>';
+            }
+            // $("#picturearea").append('<img src="http://192.168.244.129/images/20200728/737632883241521152.jpg"/>');
+            $("#picturearea").append(imageStr);
+            // //作品名称
+            // $("#workName").html(result.data.name);
+            // //创作初心`
+            // $("#content1").html(result.data.content);
+            // //创建时间
+            // var createDate = new Date(result.data.createTime).format("yyyy-MM-dd");
+            // $("#createTime").html(createDate);
+            // //作品标签
+            // var workTagStr = "";
+            // var tagContent = "";
+            // var workTagList = result.data.dicts;
+            // for (var j = 0; j < workTagList.length; j++) {
+            //     tagContent += "<span>" + workTagList[j].dictValue + "</span>";
+            // }
+            // workTagStr += "<div class='labelhome'>" + tagContent + "</span></div>"
+            // $("#workTags").append(workTagStr);
+
+        },
+        error: function (data) {
+            alert("error")
+        }
+    })
+    //其余作品
+    $.ajax({
+        type: "post",
+        url: basePath + "/portal/index/other",
+        data: {
+            "id": workId,
+            "userId": authorId,
+            "isNormal": "Y",
+        },
+        async: false,//同步  true ：异步
+        dataType: "json",
+        success: function (result) {
+            console.log(result)
+            var workList = result.data
+            var workStr = "";
+            for (var i = 0; i < workList.length; i++) {
+                workStr += " <a href=\"#\">" +
+                    "                                <li>" +
+                    "                                    <img src=" + workList[i].imageList[0].thumbUrl + "/>" +
+                    "                                </li>" +
+                    "                            </a>"
+            }
+            $(".mobile").append(workStr)
+        },
+        error: function (data) {
+            alert("error")
+        }
+    });
+</script>
+</html>

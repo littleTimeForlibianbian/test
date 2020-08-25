@@ -185,6 +185,11 @@ public class UserPortalServiceImpl implements UserPortalService {
         code.setCode(userQuery.getInvitationCode());
         code.setUsedNum(++i);
         codeMapper.updateCount(code);
+        //更新用户缓存
+        UserQuery userQuery1 = new UserQuery();
+        userQuery1.setUserName(user.getNickName());
+        UserBack userBack1 = userMapper.selectByUserName(userQuery1);
+        InitConfig.userBasicMap.put(user.getId(), JSONObject.toJSONString(userBack1));
         /**
          * 根据用户的id的base64值发送邮件，增加一个邮件记录表
          * 目前操作 注册完毕以后直接登录，不走激活的接口
@@ -492,6 +497,12 @@ public class UserPortalServiceImpl implements UserPortalService {
     public ResultJson updateUserHeadImage(String picString, Integer userId) {
         if (StringUtils.isEmpty(picString)) {
             return ResultJson.buildError("传入图片为空");
+        }
+        if (userId == null || userId <= 0) {
+            userId = SysConfigUtil.getLoginUserId();
+            if (userId == null || userId <= 0) {
+                return ResultJson.buildError("用户id为空");
+            }
         }
         ResultJson resultJson = ftpService.uploadToServer(picString, false);
         if (ToolsUtil.verifyParams(resultJson)) {

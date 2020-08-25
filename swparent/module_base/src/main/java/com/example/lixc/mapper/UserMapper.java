@@ -121,6 +121,14 @@ public interface UserMapper extends SwBaseMapper<User> {
     List<UserBack> selectAllUser(UserQuery user);
 
     /**
+     * 查询身份审核中的用户信息，状态为 已选择标签或者已经上传作品的
+     *
+     * @param user
+     * @return
+     */
+    List<UserBack> selectIdenCheckUser(UserQuery user);
+
+    /**
      * 用户基础信息
      *
      * @param userQuery

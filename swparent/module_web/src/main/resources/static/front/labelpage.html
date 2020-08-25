@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=width-device,initial-scale=1.0"/>
+    <title>标签选择</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+</head>
+<body>
+<div class="ES-Registration">
+    <div class="ES-Registration-logo">
+        <a href=""><img src="img/ES-logo.png"></a>
+    </div>
+    <div class="label-bk">
+        <div>
+            <div class="labelpage-list" id="labelidentity">
+                <label class="pull-left">身份</label>
+                <ul class="pull-right" id="str1">
+                </ul>
+            </div>
+            <div class="labelpage-list" id="labelcheckedyear">
+                <label class="pull-left">年代</label>
+                <ul class="pull-right">
+                </ul>
+            </div>
+            <div class="labelpage-list" id="labelstyle">
+                <label class="pull-left">画风</label>
+                <ul class="pull-right">
+                </ul>
+            </div>
+            <div class="labelpage-list" id="labelcategory">
+                <label class="pull-left">品类</label>
+                <ul class="pull-right">
+                </ul>
+            </div>
+            <div class="labelpage-list">
+                <div class="pull-right labelin">
+                    <button type="submit" class="btn btn-default btn-disabled" style="margin-top: 0px;" id="submit">提交
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<!--判断标签选择-->
+<script type="text/javascript">
+    var id = getQueryVariable("id");
+    ($(function () {
+        //获取标签数据
+        $.ajax({
+            url: basePath + '/public/user/allTags',
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function (ret) {
+                var list = ret.data;
+                var str1 = '';
+                var str2 = '';
+                var str3 = '';
+                var str4 = '';
+                for (var i = 0; i < list.length; i++) {
+                    var dataObj = list[i];
+                    if (dataObj.parentId == 1) {
+                        str1 += ' <li id="' + dataObj.id + '">' + dataObj.content + '</li>';
+                    }
+                    if (dataObj.parentId == 2) {
+                        str2 += ' <li id="' + dataObj.id + '">' + dataObj.content + '</li>';
+                    }
+                    if (dataObj.parentId == 3) {
+                        str3 += ' <li id="' + dataObj.id + '">' + dataObj.content + '</li>';
+                    }
+                    if (dataObj.parentId == 4) {
+                        str4 += ' <li id="' + dataObj.id + '">' + dataObj.content + '</li>';
+                    }
+                }
+                $("#str1").append(str2)
+                $("#labelcheckedyear .pull-right").append(str1)
+                $("#labelstyle .pull-right").append(str3)
+                $("#labelcategory .pull-right").append(str4)
+            }
+        });
+        //身份标签选择
+        var myContide = [];
+        var xxide = 0;
+        var liside = document.getElementById("labelidentity").getElementsByTagName("li");
+        for (var i = 0; i < liside.length; i++) {
+
+            liside[i].onclick = function () {
+                if ($(this).hasClass("otherBrowserChecked")) {
+                    xxide = xxide - 1;
+                    $(this).removeClass("otherBrowserChecked");
+
+                    if (xxide != 1) {
+                        var contide = this.id;
+                        if (contide.indexOf("自定义") != -1) {
+                            $('.newidentity').show();
+                        }
+                        $("#labelidentity li").removeClass("forbid");
+                        $('.newidentity').show();
+                    }
+                    $(this).attr("name", "");
+                    for (var i = 0; i < liside.length; i++) {
+                        if (myContide[i] == this.id) {
+                            myContide.splice(i, 1);
+                        }
+                    }
+                } else {
+                    if (xxide == 1) {
+                        $("#labelidentity li").addClass("forbid");
+                        $('.newidentity').hide();
+                        $("li[name=actions]").removeClass("forbid");
+                        if (myContide[0].indexOf('自定义') != -1) {
+                            $('.newidentity').show();
+                        }
+                    } else {
+                        var contide = this.id;
+                        myContide.push(contide);
+                        $(this).addClass("otherBrowserChecked");
+                        $(this).attr("name", "actions");
+                        xxide++;
+
+                        if (contide.indexOf("自定义") != -1) {
+                            $('.newidentity').show();
+                            $('#myModalnewself').modal();
+
+                        } else {
+                            $('.newidentity').hide();
+                        }
+
+                    }
+                }
+            }
+        }
+
+        //年代点选
+        var myContyear = [];
+        var xxyear = 0;
+        var lisyear = document.getElementById("labelcheckedyear").getElementsByTagName("li");
+        for (var i = 0; i < lisyear.length; i++) {
+            lisyear[i].onclick = function () {
+                if ($(this).hasClass("otherBrowserChecked")) {
+                    xxyear = xxyear - 1;
+                    $(this).removeClass("otherBrowserChecked");
+                    if (xxyear != 1) {
+                        $("#labelcheckedyear li").removeClass("forbid");
+                    }
+                    $(this).attr("name", "");
+                    for (var i = 0; i < lisyear.length; i++) {
+                        if (myContyear[i] == this.id) {
+                            myContyear.splice(i, 1);
+                        }
+                    }
+                } else {
+                    if (xxyear == 1) {
+                        $("#labelcheckedyear li").addClass("forbid");
+
+                        $("li[name=actions]").removeClass("forbid");
+                    } else {
+                        var contyear = this.id;
+                        myContyear.push(contyear);
+                        $(this).addClass("otherBrowserChecked");
+                        $(this).attr("name", "actions");
+                        xxyear++;
+
+                    }
+                }
+            }
+        }
+        //画风选择
+        var myContstyle = [];
+        var xxstyle = 0;
+        var lisstyle = document.getElementById("labelstyle").getElementsByTagName("li");
+
+        for (var i = 0; i < lisstyle.length; i++) {
+
+            lisstyle[i].onclick = function () {
+                if ($(this).hasClass("otherBrowserChecked")) {
+                    xxstyle = xxstyle - 1;
+                    $(this).removeClass("otherBrowserChecked");
+
+                    if (xxstyle != 3) {
+                        $("#labelstyle li").removeClass("forbid");
+                        var contstyle = this.id;
+                        if (contstyle.indexOf("自定义") != -1) {
+                            $('.newstyle').show();
+                        }
+                        $("#labelstyle li").removeClass("forbid");
+
+                        $('.newstyle').show();
+                    }
+                    $(this).attr("name", "");
+                    for (var i = 0; i < lisstyle.length; i++) {
+                        if (myContstyle[i] == this.id) {
+                            myContstyle.splice(i, 1);
+                        }
+                    }
+                } else {
+                    if (xxstyle == 3) {
+                        $("#labelstyle li").addClass("forbid");
+                        var contstyle = this.id;
+                        if (contstyle.indexOf("自定义") != -1) {
+                            $('.newstyle').hide();
+                        }
+                        $("#labelstyle li").addClass("forbid");
+                        $('.newstyle').show();
+                        $("li[name=actions]").removeClass("forbid");
+                        if (myContstyle[0].indexOf('自定义') != -1) {
+                            $('.newstyle').show();
+                        }
+                    } else {
+                        var contstyle = this.id;
+                        myContstyle.push(contstyle);
+                        $(this).addClass("otherBrowserChecked");
+                        $(this).attr("name", "actions");
+                        xxstyle++;
+
+                        if (contstyle.indexOf("自定义") != -1) {
+                            $('.newstyle').show();
+                            $('#myModaldrawself').modal();
+
+                        }
+                    }
+                }
+            }
+        }
+        //品类选择
+        var myContcategory = [];
+        var xxcategory = 0;
+        var liscategory = document.getElementById("labelcategory").getElementsByTagName("li");
+
+        for (var i = 0; i < liscategory.length; i++) {
+
+            liscategory[i].onclick = function () {
+                if ($(this).hasClass("otherBrowserChecked")) {
+                    xxcategory = xxcategory - 1;
+                    $(this).removeClass("otherBrowserChecked");
+
+                    if (xxcategory != 3) {
+                        $("#labelcategory li").removeClass("forbid");
+                        var contcategory = this.id;
+                        if (contcategory.indexOf("自定义") != -1) {
+                            $('.newcategory').show();
+                        }
+                        $("#labelcategory li").removeClass("forbid");
+
+                        $('.newcategory').show();
+                    }
+                    $(this).attr("name", "");
+                    for (var i = 0; i < liscategory.length; i++) {
+                        if (myContcategory[i] == this.id) {
+                            myContcategory.splice(i, 1);
+                        }
+                    }
+                } else {
+                    if (xxcategory == 3) {
+                        $("#labelcategory li").addClass("forbid");
+                        var contcategory = this.id;
+                        if (contcategory.indexOf("自定义") != -1) {
+                            $('.newcategory').hide();
+                        }
+                        $("#labelcategory li").addClass("forbid");
+                        $('.newcategory').show();
+                        $("li[name=actions]").removeClass("forbid");
+                        if (myContcategory[0].indexOf('自定义') != -1) {
+                            $('.newcategory').show();
+                        }
+                    } else {
+                        var contcategory = this.id;
+                        myContcategory.push(contcategory);
+                        $(this).addClass("otherBrowserChecked");
+                        $(this).attr("name", "actions");
+                        xxcategory++;
+
+                        if (contcategory.indexOf("自定义") != -1) {
+                            $('.newcategory').show();
+                            $('#myModalcateself').modal();
+
+                        }
+                    }
+                }
+            }
+        }
+
+        $("#submit").click(function () {
+            var ids = "";
+            for (var i = 0; i < myContide.length; i++) {
+                ids += myContide[i] + "-";
+            }
+            for (var i = 0; i < myContyear.length; i++) {
+                ids += myContyear[i] + "-";
+            }
+            for (var i = 0; i < myContstyle.length; i++) {
+                ids += myContstyle[i] + "-";
+            }
+            for (var i = 0; i < myContcategory.length; i++) {
+                ids += myContcategory[i] + "-";
+            }
+            ids = ids.substring(0, ids.length - 1)
+            console.log(ids)
+            $.ajax({
+                url: basePath + '/portal/index/chooseTags',
+                data: {
+                    ids: ids,
+                    userId: id
+                },
+                type: "post",
+                async: false,
+                dataType: "json",
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", localStorage.getItem("token"));
+                },
+                success: function (ret) {
+                    console.log(ret);
+                    if(ret.status == 200){
+                        window.location.href = "Authentication.html?id="+id;//认证成功
+                    }
+                }
+            })
+        });
+    }));
+</script>
+<script>
+    //身份自定义添加
+    $("#newcreate").click(function () {
+        $("#newcreateinput").slideToggle();
+    })
+    //画风自定义添加
+    $("#newstyle").click(function () {
+        $("#newcreateinput1").slideToggle();
+    })
+    //品类自定义添加
+    $("#newcateself").click(function () {
+        $("#newcreateinput2").slideToggle();
+    })
+</script>
+</html>

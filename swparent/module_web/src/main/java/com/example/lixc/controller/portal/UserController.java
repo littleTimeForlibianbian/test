@@ -21,10 +21,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author lixc
@@ -52,9 +55,9 @@ public class UserController {
      */
     @PostMapping("/registerUser")
     @ApiOperation("用户注册")
-    public ResultJson registerUser(@RequestBody UserQuery user,HttpServletRequest request) {
+    public ResultJson registerUser(@RequestBody UserQuery user, HttpServletRequest request) {
         try {
-             return userPortalService.registerUser(user,request);
+            return userPortalService.registerUser(user, request);
         } catch (Exception e) {
             log.error("用户注册发生异常:{}", e.getMessage());
             e.printStackTrace();
@@ -104,15 +107,21 @@ public class UserController {
             return ResultJson.buildError("用户登录发生异常");
         }
     }
+
     /**
      * 用戶登录接口
      *
      * @return
      */
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     @ApiOperation("退出登录")
     public ResultJson logout() {
         try {
+            SecurityContext context = SecurityContextHolder.getContext();
+            //#2.清空当前的`SecurityContext`
+            context.setAuthentication(null);
+            SecurityContextHolder.clearContext();
+            log.info("退出登录成功");
             return ResultJson.buildSuccess("退出登录成功");
         } catch (Exception e) {
             log.error("退出登录发生异常:{}", e.getMessage());
@@ -240,6 +249,8 @@ public class UserController {
 
     /**
      * 查询作品列表  按照时间进行倒叙排序
+     * 查询的是普通上传作品 非认证作品
+     *
      * @param query
      * @return
      */
@@ -253,6 +264,24 @@ public class UserController {
             return new Page<>();
         }
     }
+
+    /**
+     * 搜搜作品列表
+     *
+     * @param query
+     * @return
+     */
+    @ApiOperation("搜索作品列表")
+    @PostMapping("/searchWorkList")
+    public ResultJson searchWorkList(WorkQuery query) {
+        try {
+            return ResultJson.buildSuccess(workService.searchWorkList(query));
+        } catch (Exception e) {
+            log.error("searchWorkList exception:{}", e.getMessage());
+            return ResultJson.buildError("搜索作品列表异常");
+        }
+    }
+
 
     /**
      * 作品详情

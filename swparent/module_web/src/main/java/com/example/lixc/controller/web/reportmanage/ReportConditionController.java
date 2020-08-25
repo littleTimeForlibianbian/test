@@ -69,8 +69,8 @@ public class ReportConditionController {
         try {
             return reportService.edit(sysReport);
         } catch (Exception e) {
-            log.error("添加异常：{}", e.getMessage());
-            return ResultJson.buildError("添加异常");
+            log.error("编辑异常：{}", e.getMessage());
+            return ResultJson.buildError("编辑异常");
         }
     }
 
@@ -81,8 +81,8 @@ public class ReportConditionController {
         try {
             return reportService.deleteById(id);
         } catch (Exception e) {
-            log.error("添加异常：{}", e.getMessage());
-            return ResultJson.buildError("添加异常");
+            log.error("单个删除异常：{}", e.getMessage());
+            return ResultJson.buildError("单个删除举报条件异常");
         }
     }
 
@@ -93,8 +93,8 @@ public class ReportConditionController {
         try {
             return reportService.deleteByBatch(ids);
         } catch (Exception e) {
-            log.error("添加异常：{}", e.getMessage());
-            return ResultJson.buildError("添加异常");
+            log.error("批量删除异常：{}", e.getMessage());
+            return ResultJson.buildError("批量删除异常");
         }
     }
 

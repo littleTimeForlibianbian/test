@@ -31,32 +31,34 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public ResultJson deleteById(String id) {
         if (StringUtils.isEmpty(id)) {
+            log.error("传入参数对象id为空");
             return ResultJson.buildError("传入参数对象id为空");
         }
         reportMapper.deleteByPrimaryKey(id);
-        return ResultJson.buildSuccess();
+        return ResultJson.buildSuccess("删除成功");
     }
 
     @Override
     public ResultJson deleteByBatch(String ids) {
         if (StringUtils.isEmpty(ids)) {
+            log.error("传入参数为空");
             return ResultJson.buildError("传入参数为空");
         }
         try {
             reportMapper.delByIds(ids.split(","));
         } catch (Exception e) {
-            log.error("deleteByBatch exception: {}", e.getMessage());
+            log.error("批量删除异常 exception: {}", e.getMessage());
             return ResultJson.buildError(e.getMessage());
         }
         return ResultJson.buildSuccess();
     }
 
-        @Override
-        public ResultJson edit(SysReport sysReport) {
-            if (sysReport.getId() < 0) {
-                return ResultJson.buildError("id为空");
-            }
-            reportMapper.updateByPrimaryKeySelective(sysReport);
+    @Override
+    public ResultJson edit(SysReport sysReport) {
+        if (sysReport.getId() < 0) {
+            return ResultJson.buildError("id为空");
+        }
+        reportMapper.updateByPrimaryKeySelective(sysReport);
         return ResultJson.buildSuccess();
     }
 

@@ -52,6 +52,7 @@
                     data: {
                         content: $("#content").val()
                     },
+                    type:'post',
                     dataType: 'json',
                     beforeSend: function (request) {
                         request.setRequestHeader("Authorization", localStorage.getItem("token"));
@@ -71,9 +72,11 @@
                                 });
                             return false;
                         } else {
-                            alert("error");
+                           alert(data.message)
                         }
 
+                    },error:function(){
+                        alert("error");
                     }
                 })
 

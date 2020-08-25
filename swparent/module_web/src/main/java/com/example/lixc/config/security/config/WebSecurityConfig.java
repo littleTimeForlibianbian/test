@@ -65,23 +65,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
 
         web.ignoring().antMatchers("/public/**")
-                .antMatchers("/*.html")
-                .antMatchers("/favicon.ico")
-                .antMatchers("/**/*.html")
-                .antMatchers("/**/*.css")
-                .antMatchers("/**/*.json")
-                .antMatchers("/**/*.js")
-                .antMatchers("/**/*.png")
-                .antMatchers("/**/*.jpg")
-                .antMatchers("/**/*.jpeg")
+//                .antMatchers("/*.html")
+//                .antMatchers("/favicon.ico")
+//                .antMatchers("/**/*.html")
+//                .antMatchers("/**/*.css")
+//                .antMatchers("/**/*.json")
+//                .antMatchers("/**/*.js")
+//                .antMatchers("/**/*.png")
+//                .antMatchers("/**/*.jpg")
+//                .antMatchers("/**/*.jpeg")
+                //
                 //后台路径匹配
-                .antMatchers("/**/**/*.html")
-                .antMatchers("/**/**/*.css")
-                .antMatchers("/**/**/*.json")
-                .antMatchers("/**/**/*.js")
-                .antMatchers("/**/**/*.png")
-                .antMatchers("/**/**/*.jpg")
-                .antMatchers("/**/**/*.jpeg");
+//                .antMatchers("/**/**/*.html")
+//                .antMatchers("/**/**/*.css")
+//                .antMatchers("/**/**/*.json")
+//                .antMatchers("/**/**/*.js")
+//                .antMatchers("/**/**/*.png")
+//                .antMatchers("/**/**/*.jpg")
+//                .antMatchers("/**/**/*.jpeg");
+                .antMatchers("/front/**.*")
+                .antMatchers("/admin/**.*");
     }
 
     @Override
@@ -134,6 +137,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //设置允许springboot加载静态资源
+//        http.headers().contentTypeOptions().disable();
         // 添加JWT filter
         http.addFilterBefore(tokenFilterBean(), UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable()
@@ -160,8 +165,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 // 退出登录的url
-                .logoutUrl("/public/user/logout")
-                .logoutSuccessUrl("/Loginpage.html");
+//                .logoutUrl("/public/user/logout")
+                .logoutSuccessUrl("/public/user/logout");
         // 禁用缓存
         http.headers().cacheControl();
     }

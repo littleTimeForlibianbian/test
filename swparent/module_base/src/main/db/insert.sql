@@ -1,12 +1,3 @@
-insert into sys_role (name, enable, create_by)
-values ('role_user', 'Y', 12);
-insert into sys_privledge(id, name, url, type, parent)
-VALUES (1, 'p_user', '/public/**', 2, 1)
-insert into sys_role_privledge(role_id, p_id)
-values (1, 1)
-
-
-
 INSERT INTO `sw`.`sys_tag`(`type`, `content`, `parent_id`)
 VALUES (1, '年代', 0);
 INSERT INTO `sw`.`sys_tag`(`type`, `content`, `parent_id`)
@@ -159,4 +150,57 @@ INSERT INTO `sw`.`sys_role`( id,`name`, `role_description`, `enable`, `create_by
 
 insert into  sys_role_privledge (role_id,p_id) values (11,6);
 insert into  sys_role_privledge (role_id,p_id) values (12,7);
+insert into  sys_role_privledge (role_id,p_id) values (12,6);
+
+
+
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S', '画风', 0);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'C', '品类', 0);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_1', '中国风', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_2', '水墨', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_3', '古风', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_4', '日系', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ('S_5', '欧美系', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_6', '韩系', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_7', '写实系', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_8', '萌系', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_9', '童趣', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_10', '像素风', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_11', '科幻风', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_12', '简约风', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_13', '唯美风', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_14', '水彩', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_15', '白描', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_16', '厚涂', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_17', '平涂', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_18', '少女漫画', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_19', '美式卡通', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_20', '硬派', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_21', '野兽派', 1);
+INSERT INTO `sw`.`sys_dict`( `dict_key`, `dict_value`, `p_id`) VALUES ( 'S_22', '未来风', 1);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ( 'C_1', '角色设计', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ( 'C_2', '立绘', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_3', '3D', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_4', '场景', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_5', '条漫', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_6','动漫', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_7', '特效', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_8', '分镜', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_9', '插画', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_10', '游戏原画', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_11', '二次元原创', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_12','国画', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_13', '版画', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_14', '木刻', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_15', '壁画', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_16', '手绘', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_17', '简笔画', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_18', '儿童插画', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_19', '水粉', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_20', '彩铅', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ( 'C_21','钢笔画', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_22', '油画', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_23', '速写', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_24', '像素画', 2);
+INSERT INTO sys_dict( `dict_key`, `dict_value`, `p_id`) VALUES ('C_25', '素描', 2);
 

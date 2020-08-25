@@ -104,8 +104,12 @@ public class WorkServiceImpl implements WorkService {
     @Override
     @Transactional
     public ResultJson uploadImage(MultipartFile[] files) {
-        if (files.length <= 0) return ResultJson.buildError("请选择需要上传的文件！");
-        if (files.length > 4) return ResultJson.buildError("文件数量过多！");
+        if (files.length <= 0) {
+            return ResultJson.buildError("请选择需要上传的文件！");
+        }
+        if (files.length > 4) {
+            return ResultJson.buildError("文件数量过多！");
+        }
         String result = checkFileParams(files);
         if (!StringUtils.isEmpty(result)) {
             log.error(result);
@@ -192,7 +196,7 @@ public class WorkServiceImpl implements WorkService {
 
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ResultJson uploadWork(WorkQuery workQuery) {
         int loginUserId = SysConfigUtil.getLoginUserId();
         User user = userMapper.selectByPrimaryKey(loginUserId);
@@ -799,18 +803,29 @@ public class WorkServiceImpl implements WorkService {
         }
         userMapper.updateByPrimaryKeySelective(user);
         try {
-            String to = String.valueOf(work.getUserId());
             String subject = "审核结果通知";
-            String content = "<html><p class=\"text-center\">亲爱的<span style=\"color: #0066FF;\">{nickName}</span></p><p class=\"text-center\">小蜗为原创而生</p><p class=\"text-center\">点击<a href=\"{path}\">{path}</a>进行登录，<br/>就可以重新在原创的世界里游玩啦。</p><p class=\"text-center\">期待你的精彩艺术人生！</p></html>";
-            //审核通过或者失败以后 发送邮件
+            String content = "";
             String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
             String path = basePath + "Loginpage.html";
-//            asyncService.sendHtmlEmailAsync();
-            Map<String, String> map = new HashMap<>();
-            map.put("nickName", InitConfig.getNickName(work.getUserId()));
-            map.put("path", path);
-            String content1 = ToolsUtil.replaceTemplate(content, map);
-            asyncService.sendHtmlEmailAsync(user.getEmail(), subject, content1);
+
+            if (WorkStatusEnum.WORK_STATUS_PASS.getCode() == workQuery.getStatus()) {
+                content = "<html><p class=\"text-center\">亲爱的<span style=\"color: #0066FF;\">{nickName}</span></p><p class=\"text-center\">您已经通过认证审核</p><p class=\"text-center\">点击<a href=\"{path}\">{path}</a>进行登录，<br/>慢蜗，为原创而生!</p></html>";
+                Map<String, String> map = new HashMap<>();
+                map.put("nickName", InitConfig.getNickName(work.getUserId()));
+                map.put("path", path);
+                String content1 = ToolsUtil.replaceTemplate(content, map);
+                asyncService.sendHtmlEmailAsync(user.getEmail(), subject, content1);
+            } else {
+                content = "<html><p class=\"text-center\">亲爱的<span style=\"color: #0066FF;\">{nickName}</span></p><p class=\"text-center\">抱歉，你没有通过此次审核。</br>原因如下：{reason}</p><p class=\"text-center\">点击<a href=\"{path}\">{path}</a>进行登录，<br/>完善信息，我们将再次审核。</p></html>";
+                Map<String, String> map = new HashMap<>();
+                map.put("nickName", InitConfig.getNickName(work.getUserId()));
+                map.put("path", path);
+                map.put("reason", workQuery.getFailReason());
+                String content1 = ToolsUtil.replaceTemplate(content, map);
+                asyncService.sendHtmlEmailAsync(user.getEmail(), subject, content1);
+            }
+
+//
         } catch (Exception e) {
             //捕获发送邮件异常
             log.error("发送邮件异常:{}", e.getLocalizedMessage());
@@ -929,5 +944,43 @@ public class WorkServiceImpl implements WorkService {
         imageMapper.deletByIds(ids);
         //删除服务器上图片
         return ResultJson.buildSuccess();
+    }
+
+    /**
+     * 首页搜索作品,
+     *
+     * @param query
+     * @return
+     */
+    @Override
+    public List<WorkBack> searchWorkList(WorkQuery query) {
+        List<WorkBack> result = new ArrayList<>();
+        if (StringUtils.isEmpty(query.getQueryParam())) {
+            //如果为空 查询所有的作品列表
+            List<WorkBack> sysWorks = workMapper.selectForList(query);
+            for (WorkBack back : sysWorks) {
+                //从缓存中取出用户信息
+                back.setUser(JSONObject.parseObject(InitConfig.userBasicMap.get(back.getUserId()), UserBack.class));
+            }
+            log.info("查询作品列表成功，当前集合中元素个数：{}", sysWorks.size());
+            return sysWorks;
+        } else {
+            String param = query.getQueryParam();
+            //去模糊匹配标签
+            List<SysWorkDict> sysWorkDictList = new ArrayList<>();
+            List<Integer> list = dictMapper.selectIdsByParam(param);
+            for (Integer id : list) {
+                //根据id去查询作品id
+                SysWorkDict workDict = new SysWorkDict();
+                workDict.setDictId(id);
+                sysWorkDictList.addAll(workDictMapper.select(workDict));
+            }
+            for (SysWorkDict workDict : sysWorkDictList) {
+                WorkBack workBack = workMapper.selectById(workDict.getWorkId());
+                workBack.setUser(JSONObject.parseObject(InitConfig.userBasicMap.get(workBack.getUserId()), UserBack.class));
+                result.add(workBack);
+            }
+        }
+        return result;
     }
 }

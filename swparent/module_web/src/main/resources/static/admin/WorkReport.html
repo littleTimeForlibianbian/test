@@ -134,10 +134,10 @@
                             '                            <td>' + obj.content + '</td>\n' +
                             '                            <td class="td-manage">\n' +
                             '                                <a title="编辑" onclick="xadmin.open(\'编辑举报条件\',\'WorkReport-Details.html?id=' + obj.id + '\',600,400)"\n' +
-                            '                                   href="javascript:;">\n' +
+                            '                                   href="javascript:void(0);">\n' +
                             '                                    <i class="layui-icon">&#xe642;</i>\n' +
                             '                                </a>\n' +
-                            '                                <a title="删除" onclick="member_del(this,\'' + obj.id + '\')" href="javascript:;">\n' +
+                            '                                <a title="删除" onclick="member_del(this,\'' + obj.id + '\')" href="javascript:void(0);">\n' +
                             '                                    <i class="layui-icon">&#xe640;</i>\n' +
                             '                                </a>\n' +
                             '                            </td>';
@@ -190,6 +190,9 @@
                 type: "post",
                 dataType: "json",
                 async: false,
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", localStorage.getItem("token"));
+                },
                 success: function (data) {
                     console.log(data)
                     if (data.status == 200) {

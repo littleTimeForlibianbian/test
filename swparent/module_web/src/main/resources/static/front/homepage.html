@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=width-device,initial-scale=1.0">
+    <title>首页</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+
+<body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<div class="headernav">
+    <!--<div class="container">-->
+        <!--<div class="pull-left navlogo">-->
+            <!--<img src="img/ES-logo-light.png">-->
+        <!--</div>-->
+        <!--<div class="pull-left ES-mywo" id="myworldcon">-->
+            <!--<a href="myworld.html"><img src="img/homepage.png"><span class="text-center">我的世界</span></a>-->
+        <!--</div>-->
+        <!--<div class="pull-right connav">-->
+            <!--<ul>-->
+                <!--<li><a href="Authentication.html"><img src="img/upload1.png"></a></li>-->
+                <!--<li class="seachli">-->
+                    <!--<form class="bs-example bs-example-form" role="form" style="width: 240px;">-->
+                        <!--<div class="input-group input-group-lg">-->
+                            <!--<input id="worklabelmore" type="text" class="form-control" placeholder="作品标签">-->
+                            <!--<a href="#" class="input-group-addon" onclick="searchlabel()"><img-->
+                                    <!--src="img/icon-ss.png"></a>-->
+                        <!--</div>-->
+                    <!--</form>-->
+                <!--</li>-->
+
+                <!--<li id="xxx1"><a href="RegistrationPage.html">注册</a>&nbsp;<span>|</span>&nbsp;<a href="Loginpage.html">登录</a>-->
+                <!--</li>-->
+                <!--<li id="xxx2" style="display: none;"><a onclick="logout()" href="#">退出</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+</div>
+<div class="ES-banner">
+    <div class="ES-banner-image"></div>
+</div>
+<div class="container contentpage">
+    <ul id="tab">
+    </ul>
+</div>
+<div class="more text-center"><a href="" class="btn-more" onclick="show()">查看更多</a></div>
+<div class="footer"></div>
+</body>
+<script>
+    //禁止点击右键
+    // $(document).ready(function () {
+    //     $("body").bind("contextmenu", function (e) {
+    //         return false;
+    //     });
+    // });
+
+    $(".footer").load("footer.html")
+    $(".headernav").load("header.html")
+    var pages = 1;//页数
+    var pagesNum = 10;//每页显示的条数
+    $(function () {
+        show();
+    })
+
+
+    //图片展示
+    function show() {
+        $.ajax({
+                url: basePath + "/public/user/workList",//接口地址
+                data: {//接口里必传的参数
+                    "pageNo": pages,
+                    "pageSize": pagesNum,
+                    isNormal:'Y'
+                },
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    var dataObj = data;//json集合的名字dataObj[i].url
+                    console.log(dataObj)
+                    imgCon = "";
+                    var imgCon;
+                    var isLogin = localStorage.getItem("userId");
+                    if (dataObj.length > 0) {
+                        for (var i = 0; i < dataObj.length; i++) {
+                            var imageList = dataObj[i].imageList;
+                            var tagList = dataObj[i].dicts;
+                            imgCon += "<li>";
+                            if (isLogin == null || isLogin == "undefined" || isLogin.length == 0) {
+                                imgCon += "<a href='nologindrawer.html?id=" + dataObj[i].id + "'>" +
+                                    "<img class='imgpicture' src=" + dataObj[i].imageList[0].url + ">" +
+                                    "</a>";
+                            } else {
+                                imgCon += "<a href='drawerdetails.html?id=" + dataObj[i].id + "'>" +
+                                    "<img class='imgpicture' src=" + dataObj[i].imageList[0].url + ">" +
+                                    "</a>";
+                            }
+
+                            imgCon += "<div class='labelhome'>";
+                            for (var j = 0; j < tagList.length; j++) {
+                                imgCon += "<span>" + tagList[j].dictValue + "</span>"
+                            }
+                            imgCon += "</div></li>";
+                        }
+                    } else {
+                        console.log("接口异常")
+                        console.log(data)
+                    }
+
+                    $('#tab').append(imgCon);
+
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                }
+            }
+        )
+        ;
+    }
+</script>
+</html>
